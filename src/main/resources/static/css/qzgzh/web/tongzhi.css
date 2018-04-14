@@ -1,0 +1,128 @@
+
+.name{
+	font-size: 0.6rem;
+	color:#999;
+}
+
+#title{
+	width: 100%;
+	height: 2.0rem;
+}
+
+h1{
+	font-size: 0.7rem;
+	width: 5rem;
+
+	display: block;
+	text-align: center;
+	margin:0 auto;
+	padding-top:0.5rem; 
+}
+
+#info span{
+	font-size: 0.65rem;
+	color: #5e5e5e;
+	line-height: 1.2rem;
+
+	display: block;
+	text-align: center;
+	float: right;
+	margin-right: 0.6rem;
+}
+
+#footer{
+	width: 100%;
+	margin:0.5rem 0;
+	position: absolute;
+	bottom: 0;
+}
+
+#info1 span{
+	font-size: 0.65rem;
+	color: #5e5e5e;
+	line-height: 1.2rem;
+
+	display: block;
+	float: left;
+	margin-left: 0.6rem;
+}
+
+#member{
+	font-size: 0.65rem;
+	color: #5e5e5e;
+	line-height: 1.2rem;
+
+	margin-left: 0.6rem;
+}
+
+.xinchou{
+	color: red;
+	font-size: 0.7rem;
+	font-weight: bold;
+
+	float: right;
+}
+
+.weui-panel{
+	margin:0 0.5rem;
+}
+
+#info2 span{
+	font-size: 0.65rem;
+	color: #5e5e5e;
+
+	margin:0 auto;
+}
+
+#info2{
+	text-align: center;
+}
+
+.price{
+	font-size: 0.6rem;
+	font-weight: bold;
+	color:rgb(222,105,57);
+}
+
+.dianzan{
+	width: 0.6rem;
+	height: 0.6rem;
+
+	display: block;
+	margin-right: 0.5rem;
+	z-index: 1;
+}
+
+#list{
+	margin: 0 0.5rem;
+}
+
+#shaixuan{
+	width: 100%;
+	height: 2.0rem;
+}
+#shaixuan li{
+	list-style-type: none;
+	text-align: center;
+	box-sizing: border-box;
+	border:0.05rem solid #ececec;
+	font-size: 0.7rem;
+	line-height: 1.9rem;
+
+	float: left;
+	width: 100%;
+}
+
+.change{
+	background-color: #ececec;
+}
+
+.tableStyle{
+	width: 90%;
+	margin: 0 auto;
+	padding-top: 1.0rem;
+}
+
+.btn{
+	width: 100%;
+}
