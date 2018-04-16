@@ -25,7 +25,9 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/view/index/login.html", "anon");
         filterChainDefinitionMap.put("/logout", " logout");
-        filterChainDefinitionMap.put("/**", "authc");
+//        filterChainDefinitionMap.put("/**", "authc");
+        //测试开发都不拦截
+        filterChainDefinitionMap.put("/**", "anon");
         //使用自定义拦截器：authFilter主要用于拦截未登录请求，主动返回规范JSON;
 //        filterChainDefinitionMap.put("/**", "authFilter,user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
