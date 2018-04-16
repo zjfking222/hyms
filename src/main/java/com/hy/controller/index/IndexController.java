@@ -1,7 +1,9 @@
 package com.hy.controller.index;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.hy.common.ResultObj;
 import com.hy.dto.UserDto;
+import com.hy.enums.ResultCode;
 import com.hy.service.oa.HrmResourceService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,12 +13,10 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.transform.Result;
 //import org.json.JSONObject;
 
 @RestController
@@ -28,7 +28,8 @@ public class IndexController {
 
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
+    public ResultObj login(String ud, Integer i) {
+
 //        if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
 //            request.setAttribute("msg", "用户名或密码不能为空！");
 //            return "login";
@@ -42,12 +43,12 @@ public class IndexController {
             subject.login(token);
         } catch (UnknownAccountException lae) {
             token.clear();
-            return "用户不存在，请与管理员联系！";
+            return ResultObj.error(ResultCode.ERROR_FUNCTION_NO_ACCESS);
         } catch (AuthenticationException e) {
             token.clear();
-            return "用户或密码不正确！";
+            return ResultObj.error(ResultCode.ERROR_FUNCTION_NO_ACCESS);
         }
-        return "login";
+        return ResultObj.success();
     }
 }
 
