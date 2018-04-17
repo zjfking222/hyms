@@ -27,7 +27,7 @@ public class IndexController {
     private HrmResourceService hrmResourceService;
 
     @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public ResultObj login(String ud, Integer i) {
 
 //        if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
