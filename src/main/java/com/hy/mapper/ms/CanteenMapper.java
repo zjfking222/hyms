@@ -1,6 +1,6 @@
 package com.hy.mapper.ms;
 
-import com.hy.model.Canteen;
+import com.hy.dto.CanteenDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CanteenMapper {
-    List<Canteen> selectCanteen(@Param("state") int state);
+    List<CanteenDto> selectCanteen(@Param("state") int state);
 }
