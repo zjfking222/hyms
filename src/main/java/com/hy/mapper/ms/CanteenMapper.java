@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface CanteenMapper {
-    List<CanteenDto> selectCanteen(@Param("state") int state);
+    List<CanteenDto> selectCanteen(@Param("state") int state,
+                                   @Param("startRow") int startRow,
+                                   @Param("number") int number);
+    Integer selectCountOfCanteen(@Param("state") int state);
 }

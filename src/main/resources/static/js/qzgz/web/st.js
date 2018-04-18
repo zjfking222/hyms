@@ -1,9 +1,21 @@
 $(document).ready(function () {
 
-    var inputData = {"username" : "admin", "userpass" : "admin"};
-    var dataSource = FetchData(inputData ,'GET','/login',false);
-
-    console.log(dataSource.code);
+    var input = {'page' : 1,'number' : 7};
+    var dataSource = FetchData(input,'POST','/getCanteen',false);
+    if(dataSource.code === 0){
+        for (var i = 0; i < dataSource.data.canteens.length; i++)
+        {
+            var list_item0 = list_item
+                .replace("#caiming#",dataSource.data.canteens[i].name);
+            var list_item1 = list_item0
+                .replace("#jiage#",dataSource.data.canteens[i].price);
+            $("#list").append(list_item1);
+        }
+    }
+    else
+    {
+        alert(dataSource.msg);
+    }
 });
 
 var FetchData = function (data, method, param, async) {
@@ -14,11 +26,8 @@ var FetchData = function (data, method, param, async) {
         type: method,
         dataType: 'json',
         data: data,
-        success: function (data) {
-            return data;
-        },
-        error:function (e) {
-
+        success: function (dataSource) {
+            return dataSource;
         }});
     return response.responseJSON;
 };
