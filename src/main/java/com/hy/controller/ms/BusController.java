@@ -2,7 +2,6 @@ package com.hy.controller.ms;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.BusDto;
-import com.hy.enums.ResultCode;
 import com.hy.service.ms.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
