@@ -4,9 +4,11 @@ import com.hy.dto.CanteenDto;
 import com.hy.dto.CanteenWithTotalPageDto;
 import com.hy.mapper.ms.CanteenMapper;
 import com.hy.service.ms.CanteenService;
+import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +25,8 @@ public class CanteenServiceImpl implements CanteenService{
 
         //用户输入的页数转化为startRow
         int startRow = (page - 1) * number;
-        List<CanteenDto> canteenDtos = canteenMapper.selectCanteen(GROUNDING, startRow, number);
+        List<CanteenDto> canteenDtos = DTOUtil.populateList(canteenMapper.selectCanteen(GROUNDING, startRow, number),
+                new ArrayList<CanteenDto>(),CanteenDto.class);
         if(canteenDtos == null)
         {
             return null;
