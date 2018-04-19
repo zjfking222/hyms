@@ -3,7 +3,7 @@
 <mapper namespace="com.hy.mapper.ms.CanteenMapper">
 
     <select id="selectCanteen" resultType="com.hy.model.Canteen">
-      SELECT id,name,price
+      SELECT *
       FROM qzgz_canteen
       WHERE state = #{state}
       LIMIT #{startRow},#{number}
