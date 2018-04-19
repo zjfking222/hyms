@@ -19,12 +19,9 @@ public class CanteenController {
     {
         CanteenWithTotalPageDto canteenWithTotalPageDto =
                 canteenService.getCanteen(page,number);
-        if (canteenWithTotalPageDto == null)
-        {
-            return ResultObj.error(ResultCode.ERROR_NO_RESOURCE);
-        }
-        else {
-            return ResultObj.success(canteenWithTotalPageDto);
-        }
+
+        return canteenWithTotalPageDto == null ?
+                ResultObj.error(ResultCode.ERROR_NO_RESOURCE):
+                ResultObj.success(canteenWithTotalPageDto);
     }
 }

@@ -7,11 +7,27 @@ public class Opinion {
     private String name;
     private String department;
     private String contact;
+    private String opinion;
     private int creater;
     private Date created;
     private int modifier;
     private Date modified;
     private int state;
+
+    public Opinion(String name, String department, String contact, String opinion) {
+        this.name = name;
+        this.department = department;
+        this.contact = contact;
+        this.opinion = opinion;
+    }
+
+    public String getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(String opinion) {
+        this.opinion = opinion;
+    }
 
     public int getId() {
         return id;
