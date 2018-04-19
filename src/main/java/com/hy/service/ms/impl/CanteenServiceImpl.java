@@ -27,14 +27,9 @@ public class CanteenServiceImpl implements CanteenService{
         int startRow = (page - 1) * number;
         List<CanteenDto> canteenDtos = DTOUtil.populateList(canteenMapper.selectCanteen(GROUNDING, startRow, number),
                 new ArrayList<CanteenDto>(),CanteenDto.class);
-        if(canteenDtos == null)
-        {
-            return null;
-        }
-        else
-        {
-            return new CanteenWithTotalPageDto(canteenDtos, getTotalPageOfCanteen(number));
-        }
+
+        return canteenDtos == null ?
+                null: new CanteenWithTotalPageDto(canteenDtos, getTotalPageOfCanteen(number));
     }
 
     @Override
