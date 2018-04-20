@@ -6,6 +6,7 @@ public class QzgzSuggestion {
     private Integer creater;
     private String created;
     private Integer modifier;
+
     private String modified;
     private Integer state;
 
