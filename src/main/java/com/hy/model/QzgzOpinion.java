@@ -2,7 +2,7 @@ package com.hy.model;
 
 import java.sql.Date;
 
-public class Opinion {
+public class QzgzOpinion {
     private int id;
     private String name;
     private String department;
@@ -14,7 +14,7 @@ public class Opinion {
     private Date modified;
     private int state;
 
-    public Opinion(String name, String department, String contact, String opinion) {
+    public QzgzOpinion(String name, String department, String contact, String opinion) {
         this.name = name;
         this.department = department;
         this.contact = contact;

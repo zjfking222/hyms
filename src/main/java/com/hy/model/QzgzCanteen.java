@@ -1,19 +1,21 @@
 package com.hy.model;
 
-public class Suggestion {
+public class QzgzCanteen {
+
     private Integer id;
-    private String title;
+    private String name;
+    private Double price;
     private Integer creater;
     private String created;
     private Integer modifier;
     private String modified;
-    private Integer state;
+    private int state;
 
-    public Integer getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(int state) {
         this.state = state;
     }
 
@@ -25,12 +27,20 @@ public class Suggestion {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Integer getCreater() {

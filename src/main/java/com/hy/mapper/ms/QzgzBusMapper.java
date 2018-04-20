@@ -1,11 +1,11 @@
 package com.hy.mapper.ms;
 
-import com.hy.model.Bus;
+import com.hy.model.QzgzBus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface BusMapper {
-    List<Bus> selectBus();
+public interface QzgzBusMapper {
+    List<QzgzBus> selectBus();
 }

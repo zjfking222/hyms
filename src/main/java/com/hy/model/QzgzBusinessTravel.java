@@ -2,12 +2,11 @@ package com.hy.model;
 
 import java.sql.Date;
 
-public class Admin {
+public class QzgzBusinessTravel {
     private int id;
-    private String username;
-    private String userpass;
-    private String token;
-    private int auth;
+    private String title;
+    private String content;
+    private String img;
     private int creater;
     private Date created;
     private int modifier;
@@ -21,36 +20,28 @@ public class Admin {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getTitle() {
+        return title;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getUserpass() {
-        return userpass;
+    public String getContent() {
+        return content;
     }
 
-    public void setUserpass(String userpass) {
-        this.userpass = userpass;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getToken() {
-        return token;
+    public String getImg() {
+        return img;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public int getAuth() {
-        return auth;
-    }
-
-    public void setAuth(int auth) {
-        this.auth = auth;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public int getCreater() {

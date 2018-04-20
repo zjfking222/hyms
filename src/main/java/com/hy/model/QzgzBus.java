@@ -1,6 +1,6 @@
 package com.hy.model;
 
-public class Bus {
+public class QzgzBus {
     private int id;
     private String number;
     private String start;
