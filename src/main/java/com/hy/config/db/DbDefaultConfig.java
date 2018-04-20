@@ -28,7 +28,7 @@ public class DbDefaultConfig {
     public SqlSessionFactory sqlSessionFactoryDefault(@Qualifier("defaultDS") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapping/*.xml"));
+        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapping/**/*.xml"));
         return factoryBean.getObject();
     }
 //

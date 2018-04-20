@@ -5,6 +5,7 @@ public enum ResultCode {
     ERROR_INVALID_PARAMETER(2002, "方法参数错误"),
     ERROR_FUNCTION_NO_ACCESS(2003, "对此方法无访问权限"),
     ERROR_NO_RESOURCE(2004, "未找到任何资源"),
+    ERROR_UNMATCH(2005, "帐号密码不匹配"),
     ;
 
     private String msg;
