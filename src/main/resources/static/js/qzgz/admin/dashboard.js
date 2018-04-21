@@ -11,7 +11,7 @@ $(function() {
 
 
 
-    var dataSource = FetchData({page:1,number:15},'POST','/getAllCanteen',false);
+    var dataSource = FetchData({page:1,number:15},'POST','/getCanteen',false).data;
 
     new Vue({
         el:'#app',
@@ -22,8 +22,8 @@ $(function() {
             }
         }
     });
-
 });
+
 var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({

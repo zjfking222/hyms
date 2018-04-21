@@ -22,4 +22,10 @@ public interface CanteenService {
      */
     Integer getTotalPageOfCanteen(int number, String state);
 
+    boolean addCanteen(String name, double price);
+
+    boolean updateCanteen(String name, double price, int id);
+
+    boolean updateCanteenState(String state, int id);
+
 }

@@ -1,10 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+
 </head>
+
 <body>
 
-</body>
-</html>
+<div class="container-fluid">
+    <div class="row">
+        <!--食堂菜单页面 START-->
+        <div id="app">
+
+            <h1 class="page-header">食堂菜单</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th >ID</th>
+                        <th>菜名</th>
+                        <th>价格</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="canteen in data1.canteens">
+                        <th>{{ canteen.id }}</th>
+                        <td>{{ canteen.name }}</td>
+                        <td>{{ canteen.price }}</td>
+                        <td>
+                            <button class="btn btn-success btn-sm">加入今日菜单</button>
+                            <button class="btn btn-warning btn-sm">修改</button>
+                            <button @click="oneditstate(1,canteen.id)" v-if="canteen.state === '0'" class="btn btn-danger btn-sm">已下架</button>
+                            <button @click="oneditstate(0,canteen.id)" v-else class="btn btn-success btn-sm">已上架</button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                    <tr class="tr-add" id="tr-add">
+                        <th>新增</th>
+                        <td><input type="text" v-model="data2.name"></td>
+                        <td><input type="text" v-model="data2.price"></td>
+                        <td>
+                            <button class="btn btn-success btn-sm btn-addCommit" @click="onaddsubmit()">添加</button>
+                            <button class="btn btn-warning btn-sm btn-addCancel">取消</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button class="btn btn-warning btn-showState1" @click="onshowpart()">只显示已上架的菜单</button>
+            <button class="btn btn-success btn-showStateAll" @click="onshowall()">显示全部菜单</button>
+            <button class="btn btn-success btn-addNew">添加新菜</button>
+
+            <div>
+                <img class="-btn-menu" src="/img/qzgz/menu.png">
+                <div class="-btn-menu-number">0</div>
+            </div>
+        </div>
+        <!--食堂菜单页面 END-->
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/st.js"></script>
+
+</body></html>

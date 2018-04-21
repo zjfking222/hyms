@@ -38,4 +38,29 @@ public class CanteenServiceImpl implements CanteenService{
         return (int)Math.ceil(totalPageD);
     }
 
+    @Override
+    public boolean addCanteen(String name, double price) {
+        QzgzCanteen qzgzCanteen = new QzgzCanteen();
+        qzgzCanteen.setName(name);
+        qzgzCanteen.setPrice(price);
+        return canteenMapper.insertCanteen(qzgzCanteen) == 1;
+    }
+
+    @Override
+    public boolean updateCanteen(String name, double price, int id) {
+        QzgzCanteen qzgzCanteen = new QzgzCanteen();
+        qzgzCanteen.setId(id);
+        qzgzCanteen.setPrice(price);
+        qzgzCanteen.setName(name);
+        return canteenMapper.updateCanteenById(qzgzCanteen) == 1;
+    }
+
+    @Override
+    public boolean updateCanteenState(String state, int id) {
+        QzgzCanteen qzgzCanteen = new QzgzCanteen();
+        qzgzCanteen.setId(id);
+        qzgzCanteen.setState(state);
+        return canteenMapper.updateCanteenState(qzgzCanteen) == 1;
+    }
+
 }

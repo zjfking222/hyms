@@ -20,6 +20,24 @@
             AND  state = #{state}
         </if>
     </select>
+    
+    <insert id="insertCanteen" parameterType="com.hy.model.QzgzCanteen">
+        INSERT INTO qzgz_canteen (name, price)
+        VALUES (#{name},#{price})
+    </insert>
+    
+    <update id="updateCanteenById" parameterType="com.hy.model.QzgzCanteen">
+        UPDATE qzgz_canteen SET
+        name = #{name},
+        price = #{price}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateCanteenState" parameterType="com.hy.model.QzgzCanteen">
+       UPDATE qzgz_canteen SET
+       state = #{state}
+       WHERE id = #{id}
+    </update>
 
 
 </mapper>
