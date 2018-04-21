@@ -125,31 +125,19 @@
                         <th>ID</th>
                         <th>菜名</th>
                         <th>价格</th>
-                        <th>状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody class="table-hover">
-                    <tr id="app">
-                        <th>{{ id }}</th>
-                        <td>{{ name }}</td>
-                        <td>{{ price }}</td>
-                        <td>dolor</td>
+                    <tbody class="table-hover" id="app">
+                    <tr v-for="canteen in data">
+                        <th>{{ canteen.id }}</th>
+                        <td>{{ canteen.name }}</td>
+                        <td>{{ canteen.price }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm">修改</button>
-                            <button class="btn btn-danger btn-sm">下架</button>
                             <button class="btn btn-success btn-sm">加入今日菜单</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>2</th>
-                        <td>amet</td>
-                        <td>consectetur</td>
-                        <td>adipiscing</td>
-                        <td>
                             <button class="btn btn-warning btn-sm">修改</button>
-                            <button class="btn btn-danger btn-sm">下架</button>
-                            <button class="btn btn-success btn-sm">加入今日菜单</button>
+                            <button @click="onclick(canteen.id)" v-if="canteen.state === 0" class="btn btn-success btn-sm">上架</button>
+                            <button @click="onclick(canteen.id)" v-else class="btn btn-danger btn-sm">下架</button>
                         </td>
                     </tr>
                     </tbody>

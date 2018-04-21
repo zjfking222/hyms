@@ -11,13 +11,18 @@ $(function() {
 
 
 
-    var dataSource = FetchData({page:1,number:1},'POST','/getCanteen',false);
-    var data = dataSource.data.canteens[0];
-    console.log(data);
+    var dataSource = FetchData({page:1,number:15},'POST','/getAllCanteen',false);
+
     new Vue({
         el:'#app',
-        data: data
-    })
+        data: dataSource,
+        methods: {
+            onclick:function (id) {
+                console.log(id);
+            }
+        }
+    });
+
 });
 var FetchData = function (data, method, param, async) {
     var response =

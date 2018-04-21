@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var input = {'page' : 1,'number' : 7};
+    var input = {'page' : 1,'number' : 8, 'state' : 1};
     var dataSource = FetchData(input,'POST','/getCanteen',false);
     if(dataSource.code === 0){
         for (var i = 0; i < dataSource.data.canteens.length; i++)
