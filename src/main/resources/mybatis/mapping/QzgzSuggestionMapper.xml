@@ -3,6 +3,6 @@
 <mapper namespace="com.hy.mapper.ms.QzgzSuggestionMapper">
     <insert id="insertSuggestion" parameterType="com.hy.model.QzgzSuggestion">
         INSERT INTO qzgz_suggestion(contactInfo,department,creater,content)
-        VALUES(#{contactInfo},#{department},#{creater},#{content})
+        VALUES (#{contactInfo},#{department},#{creater},#{content})
     </insert>
 </mapper>

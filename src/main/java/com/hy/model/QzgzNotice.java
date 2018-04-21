@@ -1,6 +1,6 @@
 package com.hy.model;
 
-public class Notice {
+public class QzgzNotice {
     private Integer id;
     private String title;
     private String content;
@@ -11,7 +11,7 @@ public class Notice {
     private String modified;
     private Integer state;
 
-    public Notice(String title, Integer creater, String created,String content,String nodifiedPerson) {
+    public QzgzNotice(String title, Integer creater, String created, String content, String nodifiedPerson) {
         this.title = title;
         this.creater = creater;
         this.created = created;
