@@ -1,11 +1,12 @@
 package com.hy.mapper.ms;
 
-import com.hy.dto.SuggestionDto;
+
+import com.hy.model.QzgzSuggestion;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface QzgzSuggestionMapper {
-    List<SuggestionDto> selectSuggestion(int state);
+    int insertSuggestion(QzgzSuggestion suggestion);
 }
