@@ -38,8 +38,4 @@ public class CanteenServiceImpl implements CanteenService{
         return (int)Math.ceil(totalPageD);
     }
 
-    @Override
-    public List<QzgzCanteen> getAllCanteen() {
-        return canteenMapper.selectAllCanteen();
-    }
 }

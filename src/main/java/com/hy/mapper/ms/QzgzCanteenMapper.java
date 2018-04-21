@@ -12,5 +12,4 @@ public interface QzgzCanteenMapper {
                                     @Param("startRow") int startRow,
                                     @Param("number") int number);
     Integer selectCountOfCanteen(@Param("state") String state);
-    List<QzgzCanteen> selectAllCanteen();
 }

@@ -20,10 +20,6 @@
             AND  state = #{state}
         </if>
     </select>
-    
-    <select id="selectAllCanteen" resultType="com.hy.model.QzgzCanteen">
-        SELECT *
-        FROM qzgz_canteen
-    </select>
+
 
 </mapper>

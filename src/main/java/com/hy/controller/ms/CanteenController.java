@@ -25,9 +25,4 @@ public class CanteenController {
                 ResultObj.error(ResultCode.ERROR_NO_RESOURCE):
                 ResultObj.success(canteenWithTotalPageDto);
     }
-    @PostMapping("/getAllCanteen")
-    public ResultObj getAllCanteen()
-    {
-        return ResultObj.success(canteenService.getAllCanteen());
-    }
 }

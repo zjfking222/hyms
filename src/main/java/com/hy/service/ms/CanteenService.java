@@ -22,8 +22,4 @@ public interface CanteenService {
      */
     Integer getTotalPageOfCanteen(int number, String state);
 
-    /**
-     * 后台管理调试接口
-     */
-    List<QzgzCanteen> getAllCanteen();
 }
