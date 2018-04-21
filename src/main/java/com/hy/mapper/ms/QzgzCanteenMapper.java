@@ -8,8 +8,9 @@ import java.util.List;
 
 @Repository
 public interface QzgzCanteenMapper {
-    List<QzgzCanteen> selectCanteen(@Param("state") int state,
+    List<QzgzCanteen> selectCanteen(@Param("state") String state,
                                     @Param("startRow") int startRow,
                                     @Param("number") int number);
-    Integer selectCountOfCanteen(@Param("state") int state);
+    Integer selectCountOfCanteen(@Param("state") String state);
+    List<QzgzCanteen> selectAllCanteen();
 }

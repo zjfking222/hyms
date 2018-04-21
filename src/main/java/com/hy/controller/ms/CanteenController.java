@@ -6,6 +6,7 @@ import com.hy.enums.ResultCode;
 import com.hy.service.ms.CanteenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +16,18 @@ public class CanteenController {
     private CanteenService canteenService;
 
     @PostMapping("/getCanteen")
-    public ResultObj getCanteen(int page, int number)
+    public ResultObj getCanteen(int page, int number, @RequestParam(required = false) String state)
     {
         CanteenWithTotalPageDto canteenWithTotalPageDto =
-                canteenService.getCanteen(page,number);
+                canteenService.getCanteen(page, number, state);
 
         return canteenWithTotalPageDto == null ?
                 ResultObj.error(ResultCode.ERROR_NO_RESOURCE):
                 ResultObj.success(canteenWithTotalPageDto);
+    }
+    @PostMapping("/getAllCanteen")
+    public ResultObj getAllCanteen()
+    {
+        return ResultObj.success(canteenService.getAllCanteen());
     }
 }
