@@ -5,6 +5,7 @@ import com.hy.common.ResultObj;
 import com.hy.dto.UserDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.oa.HrmResourceService;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -17,36 +18,29 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Result;
+import java.util.Map;
 //import org.json.JSONObject;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/index")
 public class IndexController {
 
     @Autowired
     private HrmResourceService hrmResourceService;
 
-    @ResponseBody
-    @GetMapping("/login")
-    public ResultObj login(String ud, Integer i) {
-
-//        if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
-//            request.setAttribute("msg", "用户名或密码不能为空！");
-//            return "login";
-//        }
-        UserDto user = new UserDto();
-        user.setUserid("zhanjf");
-        user.setPassword("a0462110ce6cfcacc706b775d1ef159e---");
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResultObj login(@RequestBody Map<String, String> logininfo) {
+//        return ResultObj.success(logininfo);
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getUserid(), user.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(logininfo.get("loginid"), logininfo.get("password"));
         try {
             subject.login(token);
         } catch (UnknownAccountException lae) {
             token.clear();
-            return ResultObj.error(ResultCode.ERROR_FUNCTION_NO_ACCESS);
+            return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
         } catch (AuthenticationException e) {
             token.clear();
-            return ResultObj.error(ResultCode.ERROR_FUNCTION_NO_ACCESS);
+            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, logininfo.get("password"));
         }
         return ResultObj.success();
     }

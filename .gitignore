@@ -23,3 +23,14 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+out
+gen
+/pom.xml
+/src/main/resources/application-dev.properties
+/src/main/resources/application.properties
+/src/main/resources/application-prod.properties
+/src/main/java/com/hy/config/
