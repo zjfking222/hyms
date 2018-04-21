@@ -1,25 +1,36 @@
 package com.hy.dto;
 
+import java.sql.Blob;
+
 public class SuggestionDto {
-    private Integer id;
-    private String title;
+    private String contactInfo;
+    private String department;
+    private Blob content;
     private Integer creater;
     private String created;
 
-    public Integer getId() {
-        return id;
+    public String getContactInfo() {
+        return contactInfo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public Blob getContent() {
+        return content;
+    }
+
+    public void setContent(Blob content) {
+        this.content = content;
     }
 
     public Integer getCreater() {
@@ -38,3 +49,5 @@ public class SuggestionDto {
         this.created = created;
     }
 }
+
+
