@@ -63,4 +63,10 @@ public class CanteenServiceImpl implements CanteenService{
         return canteenMapper.updateCanteenState(qzgzCanteen) == 1;
     }
 
+    @Override
+    public List<CanteenDto> getCanteenBySearchName(String name) {
+        return DTOUtil.populateList(canteenMapper.selectCanteenByName(name),
+                new ArrayList<CanteenDto>(),CanteenDto.class);
+    }
+
 }

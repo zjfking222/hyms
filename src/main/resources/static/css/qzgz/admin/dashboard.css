@@ -107,29 +107,6 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
-/*菜单-S-*/
-.-btn-menu
-{
-  position: fixed;
-  z-index: 500;
-  right: 100px;
-  bottom: 100px;
-  width: 50px;
-  height: 50px;
-  border: 1px solid #8a8a8a;
+.table-responsive{
+  margin-top: 2rem;
 }
-.-btn-menu-number
-{
-  border-radius: 999px;
-  background: red;
-  color: white;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  position: fixed;
-  right: 95px;
-  bottom: 135px;
-  z-index: 999;
-
-}
-/*菜单-E-*/

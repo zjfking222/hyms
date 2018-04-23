@@ -1,14 +1,13 @@
 $(document).ready(function () {
 
-    var input = {'page' : 1,'number' : 8, 'state' : 1};
-    var dataSource = FetchData(input,'POST','/getCanteen',false);
+    var dataSource = FetchData({},'POST','/getTodaysCanteen',false);
     if(dataSource.code === 0){
-        for (var i = 0; i < dataSource.data.canteens.length; i++)
+        for (var i = 0; i < dataSource.data.length; i++)
         {
             var list_item0 = list_item
-                .replace("#caiming#",dataSource.data.canteens[i].name);
+                .replace("#caiming#",dataSource.data[i].name);
             var list_item1 = list_item0
-                .replace("#jiage#",dataSource.data.canteens[i].price);
+                .replace("#jiage#",dataSource.data[i].price);
             $("#list").append(list_item1);
         }
     }

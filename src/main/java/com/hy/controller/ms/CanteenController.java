@@ -5,6 +5,7 @@ import com.hy.dto.CanteenWithTotalPageDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.ms.CanteenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +46,10 @@ public class CanteenController {
         return canteenService.updateCanteenState(state, id) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/getCanteenByName")
+    public ResultObj getCanteenByName(String name)
+    {
+        return ResultObj.success(canteenService.getCanteenBySearchName(name));
     }
 }

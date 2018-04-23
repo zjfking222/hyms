@@ -38,6 +38,10 @@
        state = #{state}
        WHERE id = #{id}
     </update>
-
+    <select id="selectCanteenByName" parameterType="java.lang.String" resultType="com.hy.model.QzgzCanteen">
+      SELECT * FROM
+      qzgz_canteen
+      WHERE name like concat('%',#{name},'%')
+    </select>
 
 </mapper>
