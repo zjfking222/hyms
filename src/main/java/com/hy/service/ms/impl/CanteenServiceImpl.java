@@ -39,7 +39,34 @@ public class CanteenServiceImpl implements CanteenService{
     }
 
     @Override
-    public List<QzgzCanteen> getAllCanteen() {
-        return canteenMapper.selectAllCanteen();
+    public boolean addCanteen(String name, double price) {
+        QzgzCanteen qzgzCanteen = new QzgzCanteen();
+        qzgzCanteen.setName(name);
+        qzgzCanteen.setPrice(price);
+        return canteenMapper.insertCanteen(qzgzCanteen) == 1;
     }
+
+    @Override
+    public boolean updateCanteen(String name, double price, int id) {
+        QzgzCanteen qzgzCanteen = new QzgzCanteen();
+        qzgzCanteen.setId(id);
+        qzgzCanteen.setPrice(price);
+        qzgzCanteen.setName(name);
+        return canteenMapper.updateCanteenById(qzgzCanteen) == 1;
+    }
+
+    @Override
+    public boolean updateCanteenState(String state, int id) {
+        QzgzCanteen qzgzCanteen = new QzgzCanteen();
+        qzgzCanteen.setId(id);
+        qzgzCanteen.setState(state);
+        return canteenMapper.updateCanteenState(qzgzCanteen) == 1;
+    }
+
+    @Override
+    public List<CanteenDto> getCanteenBySearchName(String name) {
+        return DTOUtil.populateList(canteenMapper.selectCanteenByName(name),
+                new ArrayList<CanteenDto>(),CanteenDto.class);
+    }
+
 }

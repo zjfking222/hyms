@@ -1,5 +1,6 @@
 package com.hy.service.ms;
 
+import com.hy.dto.CanteenDto;
 import com.hy.dto.CanteenWithTotalPageDto;
 import com.hy.model.QzgzCanteen;
 
@@ -23,7 +24,34 @@ public interface CanteenService {
     Integer getTotalPageOfCanteen(int number, String state);
 
     /**
-     * 后台管理调试接口
+     * 添加菜单
+     * @param name 菜名
+     * @param price 价格
+     * @return boolean
      */
-    List<QzgzCanteen> getAllCanteen();
+    boolean addCanteen(String name, double price);
+
+    /**
+     * 通过id修改菜单
+     * @param name 菜名
+     * @param price 价格
+     * @param id 菜id
+     * @return boolean
+     */
+    boolean updateCanteen(String name, double price, int id);
+
+    /**
+     * 更新菜状态 是否上架
+     * @param state 状态
+     * @param id 菜id
+     * @return boolean
+     */
+    boolean updateCanteenState(String state, int id);
+
+    /**
+     * 通过菜名模糊查询符合的菜
+     * @param name 关键词
+     * @return List<CanteenDto>
+     */
+    List<CanteenDto> getCanteenBySearchName(String name);
 }

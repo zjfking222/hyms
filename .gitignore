@@ -24,9 +24,9 @@
 /nbdist/
 /.nb-gradle/
 /pom.xml
+/src/test/
 /src/main/java/com/hy/config/
 /src/main/resources/generator/
-/src/test/
 /src/main/resources/application-dev.properties
 /src/main/resources/application.properties
 /src/main/resources/application-prod.properties

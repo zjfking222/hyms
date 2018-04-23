@@ -5,6 +5,7 @@ import com.hy.dto.CanteenWithTotalPageDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.ms.CanteenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,9 +26,30 @@ public class CanteenController {
                 ResultObj.error(ResultCode.ERROR_NO_RESOURCE):
                 ResultObj.success(canteenWithTotalPageDto);
     }
-    @PostMapping("/getAllCanteen")
-    public ResultObj getAllCanteen()
+    @PostMapping("/addCanteen")
+    public ResultObj addCanteen(String name, double price)
     {
-        return ResultObj.success(canteenService.getAllCanteen());
+        return canteenService.addCanteen(name, price) ?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/updateCanteen")
+    public ResultObj updateCanteen(String name, double price, int id)
+    {
+        return canteenService.updateCanteen(name, price, id) ?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/updateCanteenState")
+    public ResultObj updateCanteenState(String state, int id)
+    {
+        return canteenService.updateCanteenState(state, id) ?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/getCanteenByName")
+    public ResultObj getCanteenByName(String name)
+    {
+        return ResultObj.success(canteenService.getCanteenBySearchName(name));
     }
 }

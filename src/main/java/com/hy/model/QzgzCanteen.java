@@ -9,13 +9,13 @@ public class QzgzCanteen {
     private String created;
     private Integer modifier;
     private String modified;
-    private int state;
+    private String state;
 
-    public int getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 
