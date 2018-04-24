@@ -21,4 +21,31 @@ public class BusServiceImpl implements BusService{
         List<QzgzBus> buses= busMapper.selectBus();
         return DTOUtil.populateList(buses, new ArrayList<BusDto>(), BusDto.class);
     }
+
+    @Override
+    public boolean setBusInfo(BusDto busDto) {
+        QzgzBus bus = new QzgzBus();
+        bus.setId(busDto.getId());
+        bus.setNumber(busDto.getNumber());
+        bus.setStart(busDto.getStart());
+        bus.setEnd(busDto.getEnd());
+        return busMapper.updateBus(bus) == 1;
+    }
+
+    @Override
+    public boolean addBusInfo(BusDto busDto) {
+        QzgzBus bus = new QzgzBus();
+        bus.setId(busDto.getId());
+        bus.setNumber(busDto.getNumber());
+        bus.setStart(busDto.getStart());
+        bus.setEnd(busDto.getEnd());
+        return busMapper.insertBus(bus) == 1;
+    }
+
+    @Override
+    public boolean delBusInfo(int id) {
+        QzgzBus bus = new QzgzBus();
+        bus.setId(id);
+        return busMapper.deleteBus(bus) == 1;
+    }
 }

@@ -2,6 +2,7 @@ package com.hy.controller.ms;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.BusDto;
+import com.hy.enums.ResultCode;
 import com.hy.service.ms.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,5 +21,26 @@ public class BusController {
     {
         List<BusDto> buses = busService.getBusInfo();
         return ResultObj.success(buses);
+    }
+    @PostMapping("/setBus")
+    public ResultObj setBus(BusDto busDto)
+    {
+        return busService.setBusInfo(busDto)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/addBus")
+    public ResultObj addBus(BusDto busDto)
+    {
+        return busService.addBusInfo(busDto)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/delBus")
+    public ResultObj delBus(int id)
+    {
+        return busService.delBusInfo(id)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
 }
