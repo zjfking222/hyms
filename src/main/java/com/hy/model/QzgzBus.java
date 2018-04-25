@@ -3,6 +3,7 @@ package com.hy.model;
 public class QzgzBus {
     private int id;
     private String number;
+    private String line;
     private String start;
     private String end;
     private int creater;
@@ -24,6 +25,14 @@ public class QzgzBus {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getLine() {
+        return line;
+    }
+
+    public void setLine(String line) {
+        this.line = line;
     }
 
     public String getStart() {

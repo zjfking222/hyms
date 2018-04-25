@@ -26,6 +26,7 @@ public class BusServiceImpl implements BusService{
     public boolean setBusInfo(BusDto busDto) {
         QzgzBus bus = new QzgzBus();
         bus.setId(busDto.getId());
+        bus.setLine(busDto.getLine());
         bus.setNumber(busDto.getNumber());
         bus.setStart(busDto.getStart());
         bus.setEnd(busDto.getEnd());
@@ -36,6 +37,7 @@ public class BusServiceImpl implements BusService{
     public boolean addBusInfo(BusDto busDto) {
         QzgzBus bus = new QzgzBus();
         bus.setId(busDto.getId());
+        bus.setLine(busDto.getLine());
         bus.setNumber(busDto.getNumber());
         bus.setStart(busDto.getStart());
         bus.setEnd(busDto.getEnd());

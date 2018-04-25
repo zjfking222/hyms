@@ -8,20 +8,23 @@ $(function () {
             data1:dataSource(),
             data2: {
                 number:'',
+                line:'',
                 start:'',
                 end:''
             },
             data3: {
                 id: 0,
                 number:'',
+                line:'',
                 start:'',
                 end:''
             }
         },
         methods: {
-            onedit:function (id,number,start,end) {
+            onedit:function (id,number,line,start,end) {
                 this.$data.data3.id = id;
                 this.$data.data3.number = number;
+                this.$data.data3.line = line;
                 this.$data.data3.end = end;
                 this.$data.data3.start = start;
             },
@@ -32,6 +35,7 @@ $(function () {
             onaddsubmit:function () {
                 FetchData({
                     number:this.$data.data2.number,
+                    line:this.$data.data2.line,
                     start:this.$data.data2.start,
                     end:this.$data.data2.end},
                     'POST','/addBus',false)
@@ -41,6 +45,7 @@ $(function () {
                 FetchData({
                     id:this.$data.data3.id,
                     number:this.$data.data3.number,
+                    line:this.$data.data3.line,
                     start:this.$data.data3.start,
                     end:this.$data.data3.end},
                     'POST','/setBus',false);

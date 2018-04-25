@@ -29,6 +29,7 @@
                     <tr>
                         <th>ID</th>
                         <th>班次</th>
+                        <th>路线</th>
                         <th>首班车时间</th>
                         <th>末班车时间</th>
                         <th>操作</th>
@@ -38,18 +39,20 @@
                     <tr v-for="bus in data1">
                         <th>{{ bus.id }}</th>
                         <td>{{ bus.number }}</td>
+                        <td>{{ bus.line }}</td>
                         <td>{{ bus.start }}</td>
                         <td>{{ bus.end }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm btn-edit" @click="onedit(bus.id,bus.number,bus.start,bus.end)">修改</button>
+                            <button class="btn btn-warning btn-sm btn-edit" @click="onedit(bus.id,bus.number,bus.line,bus.start,bus.end)">修改</button>
                             <button class="btn btn-danger btn-sm" @click="ondelete(bus.id)">删除</button>
                         </td>
                     </tr>
                     <tr class="tr-add" id="tr-add">
                         <th>新增</th>
-                        <td><input type="text" v-model="data2.number"></td>
-                        <td><input type="text" v-model="data2.start" id="adds"></td>
-                        <td><input type="text" v-model="data2.end" id="adde"></td>
+                        <td><input class="form-control" type="text" v-model="data2.number"></td>
+                        <td><textarea class="form-control bus-ta" v-model="data2.line"></textarea></td>
+                        <td><input class="form-control" type="text" v-model="data2.start" id="adds"></td>
+                        <td><input class="form-control" type="text" v-model="data2.end" id="adde"></td>
                         <td>
                             <button class="btn btn-success btn-sm btn-addCommit" @click="onaddsubmit()">添加</button>
                             <button class="btn btn-warning btn-sm btn-addCancel">取消</button>
@@ -57,9 +60,10 @@
                     </tr>
                     <tr class="tr-edit" id="tr-edit">
                         <th>修改 {{ data3.id }}</th>
-                        <td><input type="text" v-model="data3.number"></td>
-                        <td><input type="text" v-model="data3.start" id="edits"></td>
-                        <td><input type="text" v-model="data3.end" id="edite"></td>
+                        <td><input class="form-control" type="text" v-model="data3.number"></td>
+                        <td><textarea class="form-control bus-ta" v-model="data3.line"></textarea></td>
+                        <td><input class="form-control" type="text" v-model="data3.start" id="edits"></td>
+                        <td><input class="form-control" type="text" v-model="data3.end" id="edite"></td>
                         <td>
                             <button class="btn btn-success btn-sm btn-editCommit" @click="oneditsubmit()">修改</button>
                             <button class="btn btn-warning btn-sm btn-editCancel">取消</button>

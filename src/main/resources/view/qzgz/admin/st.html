@@ -13,7 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
-
+    <link href="/css/qzgz/admin/st.css" rel="stylesheet">
 </head>
 
 <body>
@@ -24,8 +24,8 @@
         <div id="app">
 
             <h1 class="page-header">食堂菜单</h1>
-            <input type="text" placeholder="输入菜名关键词..." v-model="data2.search">
-            <button class="btn btn-info" @click="onsearch(data2.search)">搜索</button>
+            <input id="search-input" type="text" class="form-control" placeholder="输入菜名关键词..." v-model="data2.search">
+            <button id="search-btn" class="btn btn-info" @click="onsearch(data2.search)">搜索</button>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -39,8 +39,8 @@
                     <tbody class="table-hover" >
                     <tr v-for="canteen in data1.canteens">
                         <th>{{ canteen.id }}</th>
-                        <td><input type="text" v-model="canteen.name"></td>
-                        <td><input type="text" v-model="canteen.price"></td>
+                        <td><input class="form-control" type="text" v-model="canteen.name"></td>
+                        <td><input class="form-control" type="text" v-model="canteen.price"></td>
                         <td>
                             <button @click="oneditstate(1,canteen.id)" v-if="canteen.state === '0'" class="btn btn-danger btn-sm">已下架</button>
                             <button @click="oneditstate(0,canteen.id)" v-else class="btn btn-success btn-sm">已上架</button>
@@ -51,8 +51,8 @@
                     </tr>
                     <tr class="tr-add" id="tr-add">
                         <th>新增</th>
-                        <td><input type="text" v-model="data2.name"></td>
-                        <td><input type="text" v-model="data2.price"></td>
+                        <td><input class="form-control" type="text" v-model="data2.name"></td>
+                        <td><input class="form-control" type="text" v-model="data2.price"></td>
                         <td>
                             <button class="btn btn-success btn-sm btn-addCommit" @click="onaddsubmit()">添加</button>
                             <button class="btn btn-warning btn-sm btn-addCancel">取消</button>

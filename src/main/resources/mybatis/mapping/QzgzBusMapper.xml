@@ -8,14 +8,15 @@
     <update id="updateBus" parameterType="com.hy.model.QzgzBus">
         UPDATE qzgz_bus SET
             number = #{number},
+            line = #{line},
             start = #{start},
             end = #{end}
         WHERE id = #{id}
     </update>
     <insert id="insertBus" parameterType="com.hy.model.QzgzBus">
         INSERT INTO qzgz_bus
-        (number,start,end) VALUES
-        (#{number},#{start},#{end})
+        (number,line,start,end) VALUES
+        (#{number},#{line},#{start},#{end})
     </insert>
     <delete id="deleteBus" parameterType="com.hy.model.QzgzBus">
         DELETE FROM qzgz_bus

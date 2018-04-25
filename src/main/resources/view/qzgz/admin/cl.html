@@ -1,121 +1,67 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<html lang="zh-CN"><head>
     <meta charset="utf-8">
-    <title></title>
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
-    <style>
-        .page-bar{
-            margin:40px;
-        }
-        ul,li{
-            margin: 0px;
-            padding: 0px;
-        }
-        li{
-            list-style: none
-        }
-        .page-bar li:first-child>a {
-            margin-left: 0px
-        }
-        .page-bar a{
-            border: 1px solid #ddd;
-            text-decoration: none;
-            position: relative;
-            float: left;
-            padding: 6px 12px;
-            margin-left: -1px;
-            line-height: 1.42857143;
-            color: #337ab7;
-            cursor: pointer
-        }
-        .page-bar a:hover{
-            background-color: #eee;
-        }
-        .page-bar a.banclick{
-            cursor:not-allowed;
-        }
-        .page-bar .active a{
-            color: #fff;
-            cursor: default;
-            background-color: #337ab7;
-            border-color: #337ab7;
-        }
-        .page-bar i{
-            font-style:normal;
-            color: #d44950;
-            margin: 0px 4px;
-            font-size: 12px;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+
+
 </head>
+
 <body>
-<div class="page-bar">
-    <ul>
-        <li v-if="cur>1"><a v-on:click="cur--,pageClick()">上一页</a></li>
-        <li v-if="cur==1"><a class="banclick">上一页</a></li>
-        <li v-for="index in indexs" v-bind:class="{ 'active': cur == index}">
-            <a v-on:click="btnClick(index)">{{ index }}</a>
-        </li>
-        <li v-if="cur!=all"><a v-on:click="cur++,pageClick()">下一页</a></li>
-        <li v-if="cur == all"><a class="banclick">下一页</a></li>
-        <li><a>共<i>{{all}}</i>页</a></li>
-    </ul>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--差旅信息 START-->
+        <div id="app">
+            <h1 class="page-header">差旅信息管理</h1>
+            <a id="add" class="btn btn-success">添加差旅信息</a>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>标题</th>
+                        <th>图片</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="bt in data1">
+                        <th>{{ bt.id }}</th>
+                        <td>{{ bt.title }}</td>
+                        <td><img :src=bt.img width="30%"></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!--差旅信息 END-->
+    </div>
 </div>
-<script type="text/javascript">
-    var pageBar = new Vue({
-        el: '.page-bar',
-        data: {
-            all: 8, //总页数
-            cur: 1//当前页码
-        },
-        watch: {
-            cur: function(oldValue , newValue){
-                console.log(arguments);
-            }
-        },
-        methods: {
-            btnClick: function(data){//页码点击事件
-                if(data != this.cur){
-                    this.cur = data
-                }
-            },
-            pageClick: function(){
 
-            }
-        },
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/cl.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
 
-        computed: {
-            indexs: function(){
-                var left = 1;
-                var right = this.all;
-                var ar = [];
-                if(this.all>= 5){
-                    if(this.cur > 3 && this.cur < this.all-2){
-                        left = this.cur - 2
-                        right = this.cur + 2
-                    }else{
-                        if(this.cur<=3){
-                            left = 1
-                            right = 5
-                        }else{
-                            right = this.all
-                            left = this.all -4
-                        }
-                    }
-                }
-                while (left <= right){
-                    ar.push(left)
-                    left ++
-                }
-                return ar
-            }
-
-        }
-    })
-</script>
-</body>
-</html>
+</body></html>
