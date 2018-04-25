@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--员工意见 START-->
+        <div id="app">
+            <h1 class="page-header">员工意见查看</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>内容</th>
+                        <th>部门/姓名</th>
+                        <th>联系方式</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="opinion in data.opinions">
+                        <th>{{ opinion.id }}</th>
+                        <td>{{ opinion.opinion }}</td>
+                        <td>{{ opinion.department }}/{{ opinion.name }}</td>
+                        <td>{{ opinion.contact }}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+
+        </div>
+        <div id="page-bar">
+            <ul>
+                <li v-if="cur>1"><a v-on:click="cur--,pageClick()">上一页</a></li>
+                <li v-if="cur==1"><a class="banclick">上一页</a></li>
+                <li v-for="index in indexs" v-bind:class="{ 'active': cur == index}">
+                    <a v-on:click="btnClick(index)">{{ index }}</a>
+                </li>
+                <li v-if="cur!=all"><a v-on:click="cur++,pageClick()">下一页</a></li>
+                <li v-if="cur == all"><a class="banclick">下一页</a></li>
+                <li><a>共<i>{{all}}</i>页</a></li>
+            </ul>
+        </div>
+        <!--员工意见 END-->
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/yj.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
+
+</body></html>

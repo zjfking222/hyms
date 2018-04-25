@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--差旅信息 START-->
+        <div id="app">
+            <h1 class="page-header">差旅信息管理</h1>
+            <a id="add" class="btn btn-success">添加差旅信息</a>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>标题</th>
+                        <th>图片</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="bt in data1">
+                        <th>{{ bt.id }}</th>
+                        <td>{{ bt.title }}</td>
+                        <td><img :src=bt.img width="30%"></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!--差旅信息 END-->
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/cl.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+
+</body></html>

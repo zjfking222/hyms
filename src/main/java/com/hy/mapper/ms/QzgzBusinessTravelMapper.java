@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface QzgzBusinessTravelMapper {
     List<QzgzBusinessTravel> selectBusinessTravel();
+    Integer insertBusinessTravel(QzgzBusinessTravel qzgzBusinessTravel);
+    Integer deleteBusinessTravel(int id);
 }

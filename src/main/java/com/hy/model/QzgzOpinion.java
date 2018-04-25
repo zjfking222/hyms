@@ -12,13 +12,17 @@ public class QzgzOpinion {
     private Date created;
     private int modifier;
     private Date modified;
-    private int state;
+    private String state;
 
     public QzgzOpinion(String name, String department, String contact, String opinion) {
         this.name = name;
         this.department = department;
         this.contact = contact;
         this.opinion = opinion;
+    }
+    public QzgzOpinion()
+    {
+
     }
 
     public String getOpinion() {
@@ -93,11 +97,11 @@ public class QzgzOpinion {
         this.modified = modified;
     }
 
-    public int getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 }

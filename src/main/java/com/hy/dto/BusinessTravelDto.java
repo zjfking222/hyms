@@ -1,9 +1,18 @@
 package com.hy.dto;
 
 public class BusinessTravelDto {
+    private int id;
     private String title;
     private String content;
     private String img;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
