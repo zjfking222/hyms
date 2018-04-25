@@ -27,18 +27,22 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>创建时间</th>
                         <th>内容</th>
                         <th>部门/姓名</th>
                         <th>联系方式</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
                     <tr v-for="opinion in data.opinions">
-                        <th>{{ opinion.id }}</th>
+                        <th>{{ opinion.created }}</th>
                         <td>{{ opinion.opinion }}</td>
                         <td>{{ opinion.department }}/{{ opinion.name }}</td>
                         <td>{{ opinion.contact }}</td>
+                        <td>
+                            <button class="btn btn-info btn-sm btn-read" v-if="opinion.state === '1'" @click="onread(opinion.id)">未读</button>
+                        </td>
                     </tr>
                     </tbody>
 

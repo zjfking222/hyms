@@ -9,6 +9,15 @@ public class OpinionForAdminDto {
     private String contact;
     private String opinion;
     private String state;
+    private String created;
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 
     public int getId() {
         return id;
