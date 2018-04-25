@@ -1,8 +1,7 @@
-package com.hy.controller.ms;
+package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
-import com.hy.dto.NoticeDto;
-import com.hy.service.ms.NoticeService;
+import com.hy.service.qzgz.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

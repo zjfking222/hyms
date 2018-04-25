@@ -1,4 +1,4 @@
-package com.hy.service.ms;
+package com.hy.service.qzgz;
 
 import com.hy.dto.CanteenDto;
 import com.hy.dto.CanteenWithTotalPageDto;

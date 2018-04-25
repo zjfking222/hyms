@@ -1,9 +1,9 @@
-package com.hy.service.ms.impl;
+package com.hy.service.qzgz.impl;
 
 import com.hy.dto.BusinessTravelDto;
 import com.hy.mapper.ms.QzgzBusinessTravelMapper;
 import com.hy.model.QzgzBusinessTravel;
-import com.hy.service.ms.BusinessTravelService;
+import com.hy.service.qzgz.BusinessTravelService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

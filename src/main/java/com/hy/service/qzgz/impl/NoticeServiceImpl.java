@@ -1,10 +1,10 @@
-package com.hy.service.ms.impl;
+package com.hy.service.qzgz.impl;
 
 import com.hy.dto.NoticeDto;
 import com.hy.dto.NoticeInfoDto;
 import com.hy.mapper.ms.NoticeMapper;
 import com.hy.model.Notice;
-import com.hy.service.ms.NoticeService;
+import com.hy.service.qzgz.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

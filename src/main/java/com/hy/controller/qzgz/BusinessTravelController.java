@@ -1,8 +1,8 @@
-package com.hy.controller.ms;
+package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
 import com.hy.enums.ResultCode;
-import com.hy.service.ms.BusinessTravelService;
+import com.hy.service.qzgz.BusinessTravelService;
 import com.hy.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 
 @RestController

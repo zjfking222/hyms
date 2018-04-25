@@ -1,10 +1,10 @@
-package com.hy.controller.ms;
+package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.OpinionDto;
 import com.hy.dto.OpinionForAdminWithPageDto;
 import com.hy.enums.ResultCode;
-import com.hy.service.ms.OpinionService;
+import com.hy.service.qzgz.OpinionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

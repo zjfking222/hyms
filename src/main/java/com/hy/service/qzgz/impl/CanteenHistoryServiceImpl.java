@@ -1,11 +1,9 @@
-package com.hy.service.ms.impl;
+package com.hy.service.qzgz.impl;
 
 import com.hy.dto.CanteenDto;
 import com.hy.mapper.ms.QzgzCanteenHistoryMapper;
-import com.hy.model.QzgzCanteen;
 import com.hy.model.QzgzCanteenHistory;
-import com.hy.service.ms.CanteenHistoryService;
-import com.hy.service.ms.CanteenService;
+import com.hy.service.qzgz.CanteenHistoryService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

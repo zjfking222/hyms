@@ -1,8 +1,8 @@
-package com.hy.service.ms.impl;
+package com.hy.service.qzgz.impl;
 
 import com.hy.mapper.ms.QzgzAdminMapper;
 import com.hy.model.QzgzAdmin;
-import com.hy.service.ms.AdminService;
+import com.hy.service.qzgz.AdminService;
 import com.hy.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

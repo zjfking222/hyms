@@ -1,11 +1,11 @@
-package com.hy.service.ms.impl;
+package com.hy.service.qzgz.impl;
 
 import com.hy.dto.OpinionDto;
 import com.hy.dto.OpinionForAdminDto;
 import com.hy.dto.OpinionForAdminWithPageDto;
 import com.hy.mapper.ms.QzgzOpinionMapper;
 import com.hy.model.QzgzOpinion;
-import com.hy.service.ms.OpinionService;
+import com.hy.service.qzgz.OpinionService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

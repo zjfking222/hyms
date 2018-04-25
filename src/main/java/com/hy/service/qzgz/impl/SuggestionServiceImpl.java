@@ -1,8 +1,6 @@
-package com.hy.service.ms.impl;
+package com.hy.service.qzgz.impl;
 
-import com.hy.service.ms.SuggestionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.hy.service.qzgz.SuggestionService;
 import org.springframework.stereotype.Service;
 
 @Service(value = "Suggestion")

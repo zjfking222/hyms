@@ -1,4 +1,4 @@
-package com.hy.service.ms;
+package com.hy.service.qzgz;
 
 public interface AdminService {
     String login(String username, String userpass);

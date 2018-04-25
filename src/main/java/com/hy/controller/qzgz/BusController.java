@@ -1,9 +1,9 @@
-package com.hy.controller.ms;
+package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.BusDto;
 import com.hy.enums.ResultCode;
-import com.hy.service.ms.BusService;
+import com.hy.service.qzgz.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
