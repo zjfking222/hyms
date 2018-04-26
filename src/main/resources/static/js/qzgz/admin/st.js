@@ -18,8 +18,6 @@ $(function () {
     }
     //按钮是否只显示已上架的菜
     var isDataSourcePointAll = false;
-    //按钮是否只显示今日菜单
-    var isTodaysCanteen = false;
 
     var vm =
     new Vue({
@@ -59,10 +57,8 @@ $(function () {
             onaddsubmit:function () {
                 FetchData({name:this.$data.data2.name,price:this.$data.data2.price},
                     'POST','/addCanteen',false);
-                isTodaysCanteen ?
-                    this.$data.data1 = dataSourceTodaysPack() :
-                    (isDataSourcePointAll ?
-                        this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1());
+                    isDataSourcePointAll ?
+                        this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 this.$data.data2.name='';
                 this.$data.data2.price='';
             },
@@ -73,26 +69,20 @@ $(function () {
                 FetchData({id:id,state:1},
                         'POST','/updateCanteenState',false);
 
-                isTodaysCanteen ?
-                    this.$data.data1 = dataSourceTodaysPack() :
-                    (isDataSourcePointAll ?
-                        this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1());
+                isDataSourcePointAll ?
+                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             ondeletetoday:function (id) {
                 FetchData({id:id},'POST','/removeTodaysCanteen',false);
 
-                isTodaysCanteen ?
-                    this.$data.data1 = dataSourceTodaysPack() :
-                (isDataSourcePointAll ?
-                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1());
+                isDataSourcePointAll ?
+                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             oninserttoday:function (id) {
                 FetchData({id:id},'POST','/addTodaysCanteen',false);
 
-                isTodaysCanteen ?
-                    this.$data.data1 = dataSourceTodaysPack() :
-                    (isDataSourcePointAll ?
-                        this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1());
+                isDataSourcePointAll ?
+                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             oneditinfo:function (name,price,id) {
                 if (FetchData({name:name,price:price,id:id},'POST','/updateCanteen',false).code===0)
@@ -110,20 +100,9 @@ $(function () {
                     });
                 }
 
-                isTodaysCanteen ?
-                    this.$data.data1 = dataSourceTodaysPack() :
-                    (isDataSourcePointAll ?
-                        this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1());
-
-            },
-            onshowtodays:function () {
-                this.$data.data1 = dataSourceTodaysPack();
-                isTodaysCanteen = true;
-            },
-            onunshowtodays:function () {
-                isTodaysCanteen = false;
                 isDataSourcePointAll ?
-                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1()
+                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+
             },
             onsearch:function (name) {
                 this.$data.data1 = dataSourceSearch(name)
@@ -151,17 +130,18 @@ $(function () {
         $('.btn-showStateAll').fadeIn(500);
     });
     $('.btn-showTodays').click(function () {
-       $(this).fadeOut(0);
-       $('.btn-unshowTodays').fadeIn(500);
-       layer.open({
-            title: '提示'
-            ,content: '当前显示今日的菜单，如需查看其他类型菜单请先点击［关闭查看今日菜单］！'
+        layer.open({
+            title:'今日食堂',
+            type: 2,
+            area: ['700px', '450px'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: '/qzgz/admin/st_today.html',
+            end: function () {
+                location.reload();
+            }
         });
     });
-    $('.btn-unshowTodays').fadeOut(0).click(function () {
-        $(this).fadeOut(0);
-        $('.btn-showTodays').fadeIn(500);
-    })
     
 });
 

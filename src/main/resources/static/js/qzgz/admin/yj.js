@@ -10,7 +10,10 @@ $(function () {
             data:dataSource(1)
         },
         methods: {
-
+            onread:function (id) {
+                FetchData({id:id,state:'0'},'POST',"/setStateOfOpinion",false);
+                this.$data.data = dataSource(pageBar.$data.cur);
+            }
         }
     });
     //页码控制
