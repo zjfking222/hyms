@@ -10,4 +10,5 @@ public interface QzgzBusinessTravelMapper {
     List<QzgzBusinessTravel> selectBusinessTravel();
     Integer insertBusinessTravel(QzgzBusinessTravel qzgzBusinessTravel);
     Integer deleteBusinessTravel(int id);
+    Integer updateBusinessTravel(QzgzBusinessTravel qzgzBusinessTravel);
 }

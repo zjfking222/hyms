@@ -33,4 +33,13 @@ public class BusinessTravelServiceImpl implements BusinessTravelService{
     public boolean delBusinessTravel(int id) {
         return businessTravelMapper.deleteBusinessTravel(id) == 1;
     }
+
+    @Override
+    public boolean setBusinessTravel(BusinessTravelDto businessTravelDto) {
+        QzgzBusinessTravel businessTravel = new QzgzBusinessTravel();
+        businessTravel.setTitle(businessTravelDto.getTitle());
+        businessTravel.setImg(businessTravelDto.getImg());
+        businessTravel.setId(businessTravelDto.getId());
+        return businessTravelMapper.updateBusinessTravel(businessTravel) == 1;
+    }
 }

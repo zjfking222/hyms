@@ -30,7 +30,7 @@ public class IndexController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultObj login(@RequestBody Map<String, String> logininfo) {
-//        return ResultObj.success(logininfo);
+//      return ResultObj.success(logininfo);
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(logininfo.get("loginid"), logininfo.get("password"));
         try {

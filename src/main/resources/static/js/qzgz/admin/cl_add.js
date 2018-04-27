@@ -1,5 +1,8 @@
 $(function () {
     var index = parent.layer.getFrameIndex(window.name);
+    //初始化
+    $('#img').val(parent.pushimg);
+    $('#title').val(parent.pushtitle);
 
     $("#input-b1").fileinput({
         language: 'zh',
@@ -15,8 +18,11 @@ $(function () {
         $('#img').attr('value',data.response.data);
     });
 
+
+
     $('#submit').on('click', function () {
-        if(FetchData({title:$('#title').val(), img:$('#img').val()},'POST','/addBusinessTravel',false).code===0)
+        //title必须使用push过来的title 否则会提交篡改后html元素
+        if(FetchData({id:parent.pushid, title:parent.pushtitle, img:$('#img').val()},'POST','/setBusinessTravel',false).code===0)
         {
             // parent.layer.msg('提交成功');
             // parent.layer.close(index);

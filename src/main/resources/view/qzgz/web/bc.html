@@ -11,37 +11,30 @@
  <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
  <script type="text/javascript" src="/js/qzgz/web/mainjs.js"></script>
  <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
  <script type="text/javascript" src="/js/qzgz/web/bc.js"></script>
 <body ontouchstart>
 	<!-- 列表 -->
-    <div class="tableStyle">
-    <table class="table table-hover">
-      <h5>时间表</h5>
-      <thead>
-        <tr>
-          <th>车次</th>
-          <th>首发时间</th>
-          <th>末班时间</th>
-        </tr>
-      </thead>
-      <tbody class="table-container">
+    <div class="tableStyle" id="app">
+        <table class="table table-hover" >
+          <thead>
+            <tr>
+              <th>车次</th>
+              <th>首班</th>
+              <th>末班</th>
+              <th>路线</th>
+            </tr>
+          </thead>
+          <tbody class="table-container">
+              <tr v-for="bus in data1">
+                  <th>{{ bus.number }}</th>
+                  <th>{{ bus.start }}</th>
+                  <th>{{ bus.end }}</th>
+                  <th>{{ bus.line }}</th>
+              </tr>
+          </tbody>
+        </table>
+    </div>
 
-      </tbody>
-    </table>
-    </div>
-	<div id="list1">
-        
-    </div>
-
-    <!-- 底部说明 -->
-    <div id="footer">
-        <div class="weui-footer">
-            <p class="weui-footer__links">
-                <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-                <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-            </p>
-            <p class="weui-footer__text">Copyright © 2008-2016 huayou</p>
-        </div>
-    </div>
 </body>
 </html>
