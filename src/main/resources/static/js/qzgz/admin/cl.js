@@ -18,7 +18,7 @@ $(function () {
                 layer.open({
                     title:'添加差旅信息',
                     type: 2,
-                    area: ['700px', '450px'],
+                    area: ['700px', '550px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/qzgz/admin/cl_add.html'

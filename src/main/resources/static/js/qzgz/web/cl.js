@@ -34,10 +34,10 @@ var FetchData = function (data, method, param, async) {
 };
 
 var list_item = "<section>" +
-    "<h1 class='title'>#title#</h1>" +
+    "<h1 style='text-align: center!important; width: 100%'><b class='title'>#title#</b></h1>" +
     "<section>" +
     "<p>" +
-    "<img src='#img#' alt=''>" +
+    "<img src='#img#' style='margin: 0 auto; display: block' alt=''>" +
     "</p>" +
     "</section>" +
     "</section>";

@@ -1,4 +1,15 @@
-td
+.t1
 {
-    width: 33%!important;
+    width: 75px!important;
+}
+.t3
+{
+    width: 60px!important;
+}
+img
+{
+    width: 35%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

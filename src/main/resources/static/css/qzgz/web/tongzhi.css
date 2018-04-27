@@ -1,4 +1,7 @@
-
+body
+{
+	font-size: 0.8rem;
+}
 .name{
 	font-size: 0.6rem;
 	color:#999;
@@ -120,7 +123,11 @@ h1{
 .tableStyle{
 	width: 90%;
 	margin: 0 auto;
-	padding-top: 1.0rem;
+	padding-top: 1rem;
+}
+.tableStyle th{
+	text-align: center!important;
+	font-weight: normal!important;
 }
 
 .btn{

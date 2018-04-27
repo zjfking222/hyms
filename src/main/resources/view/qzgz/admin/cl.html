@@ -30,15 +30,15 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>标题</th>
-                        <th>图片</th>
-                        <th>操作</th>
+                        <th class="t1">标题</th>
+                        <th class="t2">图片</th>
+                        <th class="t3">操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
                     <tr v-for="bt in data1">
                         <td>{{ bt.title }}</td>
-                        <td><a @click="onbrowse(bt.img)"><img :src=bt.img width="30%"></a></td>
+                        <td><a @click="onbrowse(bt.img)"><img :src=bt.img></a></td>
                         <td>
                             <button v-if="bt.img === ''" class="btn btn-success btn-sm" @click="onedit(bt.id,bt.title,bt.img)">添加</button>
                             <button v-else class="btn btn-warning btn-sm" @click="onedit(bt.id,bt.title,bt.img)">更新</button>
