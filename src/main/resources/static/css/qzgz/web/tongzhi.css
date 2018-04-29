@@ -126,3 +126,48 @@ h1{
 .btn{
 	width: 100%;
 }
+
+#add1{
+	width: 300px;
+	height: 300px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -125px;
+	background:#cfcfcf;
+	padding: 10px;
+	display: none;
+	border-radius: 2px;
+}
+#add1 input{
+	margin:5px 0;
+	width: 250px;
+}
+#words{
+	width: 97%;
+	margin-left: 20px;
+	table-layout:fixed;
+}
+#words tr button{
+	margin-left: 5px;
+	width:50px;
+}
+#words tr td{
+	width: 14%;
+}
+#tableHead{
+	background-color: #cfcfcf;
+}
+#add{
+	width: 48px;
+}
+#select{
+	width: 48px;
+	margin:20px 0 20px 22.4%;
+}
+#selectNotice{
+	width: 20%;
+	margin:20px 0 20px 20px;
+	position: absolute;
+}

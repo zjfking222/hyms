@@ -3,11 +3,23 @@ package com.hy.model;
 public class QzgzSuggestion {
     private Integer id;
     private String title;
+    private String contact;
+    private String department;
+    private String content;
     private Integer creater;
     private String created;
     private Integer modifier;
     private String modified;
     private Integer state;
+
+    public QzgzSuggestion(String title,String contact,String department,String content,Integer creater){
+        this.title=title;
+        this.contact=contact;
+        this.department=department;
+        this.content=content;
+        this.creater=creater;
+    }
+    public QzgzSuggestion(){}
 
     public Integer getState() {
         return state;
@@ -23,14 +35,6 @@ public class QzgzSuggestion {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Integer getCreater() {
@@ -63,5 +67,37 @@ public class QzgzSuggestion {
 
     public void setModified(String modified) {
         this.modified = modified;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

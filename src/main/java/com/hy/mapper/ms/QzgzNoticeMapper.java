@@ -11,6 +11,7 @@ import java.util.List;
 public interface QzgzNoticeMapper {
     List<NoticeDto> selectNotice(@Param("state") Integer state);
     Integer insertNotice(QzgzNotice qzgzNotice);
-    void deleteNotice(int id);
-    void updateNotice(QzgzNotice qzgzNotice);
+    boolean deleteNotice(@Param("id") int id);
+    boolean updateNotice(QzgzNotice qzgzNotice);
+    List<NoticeDto> selectByCreater(@Param("creater") int creater);
 }

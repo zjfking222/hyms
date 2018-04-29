@@ -170,6 +170,28 @@
         <!--合理建议页面 START-->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 suggestion subpage">
             <h1 class="page-header">合理建议</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>标题</th>
+                        <th>建议人</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" id="app">
+                    <tr v-for="suggestion">
+                        <th>{{ suggestion.id }}</th>
+                        <td>{{ suggestion.title }}</td>
+                        <td>{{ suggestion.creater }}</td>
+                        <td>
+                            <button @click="onclick(suggestion.id)" v-else class="btn btn-danger btn-sm">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <!--合理建议页面 END-->
 

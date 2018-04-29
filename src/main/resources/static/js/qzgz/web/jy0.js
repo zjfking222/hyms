@@ -1,13 +1,13 @@
 $(function () {
     var vm = new Vue({
-        el: '#list',
+        el: '#jy0',
         data: {
             dataSource:"",
         },
         methods:{
             recommend:function () {
                 $.ajax({
-                    url:"/getNotice",
+                    url:"/getSuggestion",
                     type:"post",
                     success:function (data){
                         vm.dataSource=data;

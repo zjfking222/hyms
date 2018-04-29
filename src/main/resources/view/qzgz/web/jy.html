@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>合理建议</title>
+</head>
+<link rel="stylesheet" href="/plugins/weixin/weui.min.css">
+<link rel="stylesheet" type="text/css" href="/css/qzgz/web/tongzhi.css">
+<script type="text/javascript" src="/js/qzgz/web/rem.js"></script>
+<script src="/plugins/weixin/jweixin-1.2.0.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/web/jy.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+
+<body ontouchstart>
+<!-- 列表 -->
+<div id="list" class="weui-cells">
+    <a class="weui-cell weui-cell_access" v-for="data in dataSource.data" href="jy0.html">
+        <div class="weui-cell__bd">
+            <p>{{data.title}}</p><span class="name">{{data.creater}}</span>
+        </div>
+        <div class="weui-cell__ft">{{data.created}}</div>
+    </a>
+</div>
+<div id="list1">
+
+</div>
+
+<!-- 底部说明 -->
+<!--<div id="footer">-->
+    <!--<div class="weui-footer">-->
+        <!--<p class="weui-footer__links">-->
+            <!--<a href="javascript:void(0);" class="weui-footer__link">底部链接</a>-->
+            <!--<a href="javascript:void(0);" class="weui-footer__link">底部链接</a>-->
+        <!--</p>-->
+        <!--<p class="weui-footer__text">Copyright © 2008-2016 weui.io</p>-->
+    <!--</div>-->
+<!--</div>-->
+</body>
+</html>

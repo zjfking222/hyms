@@ -1,20 +1,39 @@
 package com.hy.dto;
 
-import java.sql.Blob;
-
 public class SuggestionDto {
-    private String contactInfo;
+    private Integer id;
+    private String title;
+    private String contact;
     private String department;
-    private Blob content;
+    private String content;
     private Integer creater;
     private String created;
+    private String modifier;
+    private String modified;
+    private Integer state;
 
-    public String getContactInfo() {
-        return contactInfo;
+    public Integer getId() {
+        return id;
     }
 
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public String getDepartment() {
@@ -25,11 +44,11 @@ public class SuggestionDto {
         this.department = department;
     }
 
-    public Blob getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(Blob content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
@@ -47,6 +66,30 @@ public class SuggestionDto {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public String getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }
 
