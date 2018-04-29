@@ -13,3 +13,4 @@ public interface NoticeService {
     boolean updateNotice(NoticeInfoDto noticeInfoDto);
     List<NoticeDto> selectByCreater(@Param("creater") int creater);
 }
+

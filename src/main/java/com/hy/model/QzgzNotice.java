@@ -94,3 +94,4 @@ public class QzgzNotice {
         this.state = state;
     }
 }
+

@@ -15,3 +15,4 @@ public interface QzgzNoticeMapper {
     boolean updateNotice(QzgzNotice qzgzNotice);
     List<NoticeDto> selectByCreater(@Param("creater") int creater);
 }
+

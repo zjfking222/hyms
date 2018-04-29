@@ -74,3 +74,4 @@ public class NoticeInfoDto {
         this.modified = modified;
     }
 }
+

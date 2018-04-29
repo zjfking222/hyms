@@ -15,3 +15,4 @@ public interface QzgzSuggestionMapper {
     boolean deleteSuggestion(@Param("id") int id);
     boolean updateSuggestion(QzgzSuggestion suggestion);
 }
+

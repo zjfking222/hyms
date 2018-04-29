@@ -101,3 +101,4 @@ public class QzgzSuggestion {
         this.title = title;
     }
 }
+
