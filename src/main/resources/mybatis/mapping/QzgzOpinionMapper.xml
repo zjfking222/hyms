@@ -7,4 +7,26 @@
         VALUES
         (#{name},#{department},#{contact},#{opinion})
     </insert>
+    <select id="selectOpinion" resultType="com.hy.model.QzgzOpinion">
+        SELECT * FROM qzgz_opinion
+        WHERE 1=1
+        <if test="state != null and '' != state">
+            AND state = #{state}
+        </if>
+        ORDER BY state DESC,created DESC
+        LIMIT #{startRow},#{number}
+    </select>
+    <select id="selectCountOfOpinion" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM qzgz_opinion
+        WHERE 1=1
+        <if test="state != null and '' != state">
+            AND state = #{state}
+        </if>
+    </select>
+    <update id="updateStateOfOpinion" parameterType="com.hy.model.QzgzOpinion">
+        UPDATE qzgz_opinion SET
+            state = #{state}
+        WHERE id = #{id}
+    </update>
 </mapper>

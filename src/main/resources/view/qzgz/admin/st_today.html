@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+    <link href="/css/qzgz/admin/st_today.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--食堂菜单页面 START-->
+        <div id="app">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th >ID</th>
+                        <th>菜名</th>
+                        <th>价格</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="canteen in data1.canteens">
+                        <th>{{ canteen.id }}</th>
+                        <td><input class="form-control" type="text" v-model="canteen.name"></td>
+                        <td><input class="form-control" type="text" v-model="canteen.price"></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" @click="oneditinfo(canteen.name,canteen.price,canteen.id)">修改</button>
+                            <button class="btn btn-danger btn-sm" @click="ondeletetoday(canteen.id)" v-if="show(canteen.id)">移出今日菜单</button>
+                            <button class="btn btn-info btn-sm" @click="oninserttoday(canteen.id)" v-else>加入今日菜单</button>
+                        </td>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!--食堂菜单页面 END-->
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/st_today.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+
+</body></html>

@@ -4,4 +4,18 @@
     <select id="selectBusinessTravel" resultType="com.hy.model.QzgzBusinessTravel">
         SELECT * FROM qzgz_business_travel
     </select>
+    <insert id="insertBusinessTravel" parameterType="com.hy.model.QzgzBusinessTravel">
+        INSERT INTO qzgz_business_travel
+        (title,content,img) VALUES
+        (#{title},#{content},#{img})
+    </insert>
+    <delete id="deleteBusinessTravel" parameterType="java.lang.Integer">
+        DELETE FROM qzgz_business_travel
+        WHERE id = #{id}
+    </delete>
+    <update id="updateBusinessTravel" parameterType="com.hy.model.QzgzBusinessTravel">
+        UPDATE qzgz_business_travel
+        SET title=#{title}, img=#{img}
+        WHERE id=#{id}
+    </update>
 </mapper>

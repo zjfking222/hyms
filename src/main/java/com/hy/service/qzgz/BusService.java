@@ -10,4 +10,7 @@ public interface BusService {
      * @return List<BusDto>
      */
     List<BusDto> getBusInfo();
+    boolean setBusInfo(BusDto busDto);
+    boolean addBusInfo(BusDto busDto);
+    boolean delBusInfo(int id);
 }

@@ -8,4 +8,7 @@ import java.util.List;
 @Repository
 public interface QzgzBusMapper {
     List<QzgzBus> selectBus();
+    int updateBus(QzgzBus qzgzBus);
+    int insertBus(QzgzBus qzgzBus);
+    int deleteBus(QzgzBus qzgzBus);
 }

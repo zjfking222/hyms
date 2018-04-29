@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--班车信息页面 START-->
+        <div id="app">
+            <h1 class="page-header">班车信息</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>班次</th>
+                        <th>路线</th>
+                        <th>首班车时间</th>
+                        <th>末班车时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="bus in data1">
+                        <th>{{ bus.id }}</th>
+                        <td>{{ bus.number }}</td>
+                        <td>{{ bus.line }}</td>
+                        <td>{{ bus.start }}</td>
+                        <td>{{ bus.end }}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm btn-edit" @click="onedit(bus.id,bus.number,bus.line,bus.start,bus.end)">修改</button>
+                            <button class="btn btn-danger btn-sm" @click="ondelete(bus.id)">删除</button>
+                        </td>
+                    </tr>
+                    <tr class="tr-add" id="tr-add">
+                        <th>新增</th>
+                        <td><input class="form-control" type="text" v-model="data2.number"></td>
+                        <td><textarea class="form-control bus-ta" v-model="data2.line"></textarea></td>
+                        <td><input class="form-control" type="text" v-model="data2.start" id="adds"></td>
+                        <td><input class="form-control" type="text" v-model="data2.end" id="adde"></td>
+                        <td>
+                            <button class="btn btn-success btn-sm btn-addCommit" @click="onaddsubmit()">添加</button>
+                            <button class="btn btn-warning btn-sm btn-addCancel">取消</button>
+                        </td>
+                    </tr>
+                    <tr class="tr-edit" id="tr-edit">
+                        <th>修改 {{ data3.id }}</th>
+                        <td><input class="form-control" type="text" v-model="data3.number"></td>
+                        <td><textarea class="form-control bus-ta" v-model="data3.line"></textarea></td>
+                        <td><input class="form-control" type="text" v-model="data3.start" id="edits"></td>
+                        <td><input class="form-control" type="text" v-model="data3.end" id="edite"></td>
+                        <td>
+                            <button class="btn btn-success btn-sm btn-editCommit" @click="oneditsubmit()">修改</button>
+                            <button class="btn btn-warning btn-sm btn-editCancel">取消</button>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <button class="btn btn-success btn-add">添加班车</button>
+            </div>
+        <!--班车信息页面 END-->
+    </div>
+</div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/bc.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
+
+</body>
+</html>

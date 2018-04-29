@@ -9,16 +9,20 @@ public class QzgzOpinion {
     private String contact;
     private String opinion;
     private int creater;
-    private Date created;
+    private String created;
     private int modifier;
-    private Date modified;
-    private int state;
+    private String modified;
+    private String state;
 
     public QzgzOpinion(String name, String department, String contact, String opinion) {
         this.name = name;
         this.department = department;
         this.contact = contact;
         this.opinion = opinion;
+    }
+    public QzgzOpinion()
+    {
+
     }
 
     public String getOpinion() {
@@ -69,11 +73,11 @@ public class QzgzOpinion {
         this.creater = creater;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
@@ -85,19 +89,19 @@ public class QzgzOpinion {
         this.modifier = modifier;
     }
 
-    public Date getModified() {
+    public String getModified() {
         return modified;
     }
 
-    public void setModified(Date modified) {
+    public void setModified(String modified) {
         this.modified = modified;
     }
 
-    public int getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 }
