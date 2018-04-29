@@ -6,6 +6,11 @@ public class RecruitWithTotalPageDto {
     private List<RecruitDto> recruits;
     private int totalPage;
 
+    public RecruitWithTotalPageDto(List<RecruitDto> recruits, int totalPage) {
+        this.recruits = recruits;
+        this.totalPage = totalPage;
+    }
+
     public List<RecruitDto> getRecruits() {
         return recruits;
     }

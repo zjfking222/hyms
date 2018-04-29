@@ -4,5 +4,5 @@ import com.hy.dto.RecruitWithTotalPageDto;
 
 public interface RecruitService {
     RecruitWithTotalPageDto getRecruit(int page, int number);
-    Integer getCountOfRecruit();
+    Integer getTotalPageOfRecruit(int number);
 }
