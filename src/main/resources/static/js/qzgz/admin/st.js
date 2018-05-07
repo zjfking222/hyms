@@ -1,20 +1,20 @@
 $(function () {
 
     function dataSource() {
-        return FetchData({page:1,number:15},'POST','/getCanteen',false).data;
+        return FetchData({page:1,number:100},'POST','/web/getCanteen',false).data;
     }
     function dataSourceState1() {
-        return FetchData({page:1,number:15,state:1},'POST','/getCanteen',false).data;
+        return FetchData({page:1,number:100,state:1},'POST','/web/getCanteen',false).data;
     }
     function dataSourceTodays() {
-        return FetchData({},'POST','/getTodaysCanteen',false).data;
+        return FetchData({},'POST','/web/getTodaysCanteen',false).data;
     }
     //对dataSourceTodays进行包装，用于data1访问
     function dataSourceTodaysPack() {
         return {canteens:dataSourceTodays()}
     }
     function dataSourceSearch(name) {
-        return {canteens:FetchData({name:name},'POST','/getCanteenByName',false).data}
+        return {canteens:FetchData({name:name},'POST','/admin/getCanteenByName',false).data}
     }
     //按钮是否只显示已上架的菜
     var isDataSourcePointAll = false;
@@ -56,7 +56,7 @@ $(function () {
             },
             onaddsubmit:function () {
                 FetchData({name:this.$data.data2.name,price:this.$data.data2.price},
-                    'POST','/addCanteen',false);
+                    'POST','/admin/addCanteen',false);
                     isDataSourcePointAll ?
                         this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 this.$data.data2.name='';
@@ -65,27 +65,27 @@ $(function () {
             oneditstate:function (isGounding, id) {
                 isGounding === 0?
                 FetchData({id:id,state:0},
-                        'POST','/updateCanteenState',false):
+                        'POST','/admin/updateCanteenState',false):
                 FetchData({id:id,state:1},
-                        'POST','/updateCanteenState',false);
+                        'POST','/admin/updateCanteenState',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             ondeletetoday:function (id) {
-                FetchData({id:id},'POST','/removeTodaysCanteen',false);
+                FetchData({id:id},'POST','/admin/removeTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             oninserttoday:function (id) {
-                FetchData({id:id},'POST','/addTodaysCanteen',false);
+                FetchData({id:id},'POST','/admin/addTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             oneditinfo:function (name,price,id) {
-                if (FetchData({name:name,price:price,id:id},'POST','/updateCanteen',false).code===0)
+                if (FetchData({name:name,price:price,id:id},'POST','/admin/updateCanteen',false).code===0)
                 {
                     layer.open({
                         title: '成功'
@@ -149,7 +149,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,

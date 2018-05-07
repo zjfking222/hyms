@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var dataSource = FetchData({},'POST','/getTodaysCanteen',false);
+    var dataSource = FetchData({},'POST','/web/getTodaysCanteen',false);
     if(dataSource.code === 0){
         for (var i = 0; i < dataSource.data.length; i++)
         {
@@ -21,7 +21,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
         async: async,
-        url: param,
+        url: "/qzgz"+param,
         type: method,
         dataType: 'json',
         data: data,
