@@ -1,59 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.SMMenuMapper" >
-  <resultMap id="BaseResultMap" type="com.hy.model.SMMenu" >
+<mapper namespace="com.hy.mapper.ms.SysRolesMapper" >
+  <resultMap id="BaseResultMap" type="com.hy.model.SysRoles" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="sort" property="sort" jdbcType="TINYINT" />
-    <result column="parid" property="parid" jdbcType="INTEGER" />
     <result column="enable" property="enable" jdbcType="BIT" />
     <result column="creater" property="creater" jdbcType="INTEGER" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modifier" property="modifier" jdbcType="INTEGER" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
-    <result column="icon" property="icon" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, url, sort, parid, enable, creater, created, modifier, modified, icon
+    id, name, enable, creater, created, modifier, modified
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from sm_menus
+    from sys_roles
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from sm_menus
+    delete from sys_roles
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hy.model.SMMenu" >
-    insert into sm_menus (id, name, url, 
-      sort, parid, enable, creater, 
-      created, modifier, modified, 
-      icon)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=TINYINT}, #{parid,jdbcType=INTEGER}, #{enable,jdbcType=BIT}, #{creater,jdbcType=INTEGER}, 
-      #{created,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, #{modified,jdbcType=TIMESTAMP}, 
-      #{icon,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.hy.model.SysRoles" >
+    insert into sys_roles (id, name, enable, 
+      creater, created, modifier, 
+      modified)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
+      #{creater,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, 
+      #{modified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hy.model.SMMenu" >
-    insert into sm_menus
+  <insert id="insertSelective" parameterType="com.hy.model.SysRoles" >
+    insert into sys_roles
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
       <if test="name != null" >
         name,
-      </if>
-      <if test="url != null" >
-        url,
-      </if>
-      <if test="sort != null" >
-        sort,
-      </if>
-      <if test="parid != null" >
-        parid,
       </if>
       <if test="enable != null" >
         enable,
@@ -70,9 +55,6 @@
       <if test="modified != null" >
         modified,
       </if>
-      <if test="icon != null" >
-        icon,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -80,15 +62,6 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        #{sort,jdbcType=TINYINT},
-      </if>
-      <if test="parid != null" >
-        #{parid,jdbcType=INTEGER},
       </if>
       <if test="enable != null" >
         #{enable,jdbcType=BIT},
@@ -105,25 +78,13 @@
       <if test="modified != null" >
         #{modified,jdbcType=TIMESTAMP},
       </if>
-      <if test="icon != null" >
-        #{icon,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.SMMenu" >
-    update sm_menus
+  <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.SysRoles" >
+    update sys_roles
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        sort = #{sort,jdbcType=TINYINT},
-      </if>
-      <if test="parid != null" >
-        parid = #{parid,jdbcType=INTEGER},
       </if>
       <if test="enable != null" >
         enable = #{enable,jdbcType=BIT},
@@ -140,24 +101,17 @@
       <if test="modified != null" >
         modified = #{modified,jdbcType=TIMESTAMP},
       </if>
-      <if test="icon != null" >
-        icon = #{icon,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hy.model.SMMenu" >
-    update sm_menus
+  <update id="updateByPrimaryKey" parameterType="com.hy.model.SysRoles" >
+    update sys_roles
     set name = #{name,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=TINYINT},
-      parid = #{parid,jdbcType=INTEGER},
       enable = #{enable,jdbcType=BIT},
       creater = #{creater,jdbcType=INTEGER},
       created = #{created,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=INTEGER},
-      modified = #{modified,jdbcType=TIMESTAMP},
-      icon = #{icon,jdbcType=VARCHAR}
+      modified = #{modified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

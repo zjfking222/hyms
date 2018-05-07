@@ -2,7 +2,7 @@ package com.hy.model;
 
 import java.util.Date;
 
-public class SMMenu {
+public class SysPermission {
     private Integer id;
 
     private String name;
@@ -11,7 +11,7 @@ public class SMMenu {
 
     private Byte sort;
 
-    private Integer parid;
+    private Integer parentid;
 
     private Boolean enable;
 
@@ -24,6 +24,10 @@ public class SMMenu {
     private Date modified;
 
     private String icon;
+
+    private Boolean type;
+
+    private String permission;
 
     public Integer getId() {
         return id;
@@ -57,12 +61,12 @@ public class SMMenu {
         this.sort = sort;
     }
 
-    public Integer getParid() {
-        return parid;
+    public Integer getParentid() {
+        return parentid;
     }
 
-    public void setParid(Integer parid) {
-        this.parid = parid;
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
     }
 
     public Boolean getEnable() {
@@ -111,5 +115,21 @@ public class SMMenu {
 
     public void setIcon(String icon) {
         this.icon = icon == null ? null : icon.trim();
+    }
+
+    public Boolean getType() {
+        return type;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission == null ? null : permission.trim();
     }
 }
