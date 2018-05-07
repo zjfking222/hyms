@@ -6,16 +6,18 @@ import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.CanteenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/qzgz")
 public class CanteenController {
 
     @Autowired
     private CanteenService canteenService;
 
-    @PostMapping("/getCanteen")
+    @PostMapping("/web/getCanteen")
     public ResultObj getCanteen(int page, int number, @RequestParam(required = false) String state)
     {
         CanteenWithTotalPageDto canteenWithTotalPageDto =
@@ -25,28 +27,28 @@ public class CanteenController {
                 ResultObj.error(ResultCode.ERROR_NO_RESOURCE):
                 ResultObj.success(canteenWithTotalPageDto);
     }
-    @PostMapping("/addCanteen")
+    @PostMapping("/admin/addCanteen")
     public ResultObj addCanteen(String name, double price)
     {
         return canteenService.addCanteen(name, price) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
-    @PostMapping("/updateCanteen")
+    @PostMapping("/admin/updateCanteen")
     public ResultObj updateCanteen(String name, double price, int id)
     {
         return canteenService.updateCanteen(name, price, id) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
-    @PostMapping("/updateCanteenState")
+    @PostMapping("/admin/updateCanteenState")
     public ResultObj updateCanteenState(String state, int id)
     {
         return canteenService.updateCanteenState(state, id) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
-    @PostMapping("/getCanteenByName")
+    @PostMapping("/admin/getCanteenByName")
     public ResultObj getCanteenByName(String name)
     {
         return ResultObj.success(canteenService.getCanteenBySearchName(name));

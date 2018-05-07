@@ -13,7 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
-    <link href="/css/qzgz/admin/yj.css" rel="stylesheet">
+    <link href="/css/qzgz/admin/zp.css" rel="stylesheet">
 
 </head>
 
@@ -21,17 +21,18 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!--员工意见 START-->
         <div id="app">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th class="t1">创建时间</th>
-                        <th class="t2">内容</th>
-                        <th class="t3">部门/姓名</th>
-                        <th class="t4">联系方式</th>
-                        <th class="t5">操作</th>
+                        <th>岗位名称</th>
+                        <th>学历要求</th>
+                        <th>工作地点</th>
+                        <th>职位描述</th>
+                        <th>年龄要求</th>
+                        <th>薪资</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
@@ -40,6 +41,8 @@
                         <td>{{ opinion.opinion }}</td>
                         <td>{{ opinion.department }}/{{ opinion.name }}</td>
                         <td>{{ opinion.contact }}</td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <button class="btn btn-info btn-sm btn-read" v-if="opinion.state === '1'" @click="onread(opinion.id)">未读</button>
                         </td>
@@ -63,7 +66,6 @@
                 <li><a>共<i>{{all}}</i>页</a></li>
             </ul>
         </div>
-        <!--员工意见 END-->
     </div>
 </div>
 
@@ -73,7 +75,7 @@
 <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
-<script type="text/javascript" src="/js/qzgz/admin/yj.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/zp.js"></script>
 <script type="text/javascript" src="/plugins/layer/layer.js"></script>
 <script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
 

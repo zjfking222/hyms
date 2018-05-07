@@ -18,7 +18,7 @@ $(document).ready(function () {
                     contact:$('#contact').val(),
                     opinion:$("#opinion").val()
                 };
-            var dataSourse = FetchData(data,'POST','/handInOpinion',false);
+            var dataSourse = FetchData(data,'POST','/web/handInOpinion',false);
             dataSourse.code === 0 ? $('#alert-text').html('提交成功'):
                 $('#alert-text').html(dataSourse.code);
         }
@@ -30,7 +30,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,
