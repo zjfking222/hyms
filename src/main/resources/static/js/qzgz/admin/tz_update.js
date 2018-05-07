@@ -15,11 +15,11 @@ $(function () {
                 DataSource.creater=parent.udata.creater;
                 DataSource.modifier=operator;
                 console.log(DataSource);
-                ajaxChange("/updateNotice",DataSource);
+                ajaxChange("/admin/updateNotice",DataSource);
             }else {
                 DataSource.creater=operator;
                 console.log(DataSource);
-                ajaxChange("/insertNotice",DataSource)
+                ajaxChange("/admin/insertNotice",DataSource)
             }
 
         } else {
@@ -33,8 +33,8 @@ $(function () {
             dataType : 'json',
             data : dataSource,
             success : function() {
-                // parent.layer.close(index);
-                // parent.location.reload();
+                parent.layer.close(index);
+                parent.location.reload();
             }
         });
     }

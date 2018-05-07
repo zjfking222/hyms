@@ -23,4 +23,12 @@
         SELECT * from qzgz_notice
         WHERE creater like concat('%',#{creater},'%')
     </select>
+    <select id="countPage" resultType="com.hy.dto.NoticeInfoDto">
+        SELECT *  FROM qzgz_notice
+        WHERE id>=(#{pageNum}*10)
+        LIMIT 10
+    </select>
+    <select id="totalPage" resultType="com.hy.dto.NoticeInfoDto">
+        SELECT count(*) FROM qzgz_notice
+    </select>
 </mapper>

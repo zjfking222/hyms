@@ -7,7 +7,7 @@ $(function () {
         methods:{
             recommend:function () {
                 $.ajax({
-                    url:"/getSuggestion",
+                    url:"/web/getSuggestion",
                     type:"post",
                     success:function (data){
                         vm.dataSource=data;

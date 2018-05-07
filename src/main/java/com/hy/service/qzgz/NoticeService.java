@@ -12,5 +12,6 @@ public interface NoticeService {
     boolean deleteNotice(@Param("id") int id);
     boolean updateNotice(NoticeInfoDto noticeInfoDto);
     List<NoticeDto> selectByCreater(@Param("creater") int creater);
+    List<NoticeDto> totalPage();
 }
 

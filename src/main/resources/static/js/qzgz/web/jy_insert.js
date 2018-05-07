@@ -15,7 +15,7 @@ $(function(){
             console.log(DataSource);
             $.ajax({
                 method : "POST",
-                url : "/insertSuggestion",
+                url : "/web/insertSuggestion",
                 dataType : 'json',
                 data : DataSource,
                 success : function() {

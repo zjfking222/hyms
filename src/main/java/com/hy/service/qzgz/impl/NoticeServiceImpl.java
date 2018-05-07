@@ -56,5 +56,8 @@ public class NoticeServiceImpl implements NoticeService {
 
         return noticeMapper.selectByCreater(creater);
     }
+    public List<NoticeDto> totalPage(){
+        return noticeMapper.totalPage();
+    }
 }
 
