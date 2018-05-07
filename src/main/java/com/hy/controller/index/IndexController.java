@@ -1,36 +1,33 @@
 package com.hy.controller.index;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import com.hy.common.ResultObj;
-import com.hy.dto.UserDto;
+
+import com.hy.common.SecurityHelp;
+import com.hy.dto.PermissionDto;
 import com.hy.enums.ResultCode;
-import com.hy.service.oa.HrmResourceService;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
+import com.hy.service.system.PermissionService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.Result;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-//import org.json.JSONObject;
 
 @RestController
-@RequestMapping("/index")
 public class IndexController {
 
     @Autowired
-    private HrmResourceService hrmResourceService;
+    private PermissionService permissionService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/index/login", method = RequestMethod.POST)
     public ResultObj login(@RequestBody Map<String, String> logininfo) {
-//        return ResultObj.success(logininfo);
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(logininfo.get("loginid"), logininfo.get("password"));
         try {
@@ -43,6 +40,29 @@ public class IndexController {
             return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, logininfo.get("password"));
         }
         return ResultObj.success();
+    }
+
+//    @RequestMapping(value = "/index/logout")
+//    public void logout(HttpServletResponse response) throws Exception {
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.logout();
+//        response.sendRedirect("/index/login.html");
+//    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public void index(HttpServletResponse response) throws Exception {
+        response.sendRedirect("/index/login.html");
+    }
+
+
+    @RequestMapping(value = "/index/config", method = RequestMethod.POST)
+    public ResultObj getMenus() {
+        Subject subject = SecurityUtils.getSubject();
+        List<PermissionDto> list = permissionService.getUserMenus(SecurityHelp.getUserId());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("username", SecurityHelp.getUserName());
+        map.put("menus", list);
+        return ResultObj.success(map);
     }
 }
 
