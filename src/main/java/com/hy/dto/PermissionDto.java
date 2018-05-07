@@ -25,7 +25,6 @@ public class PermissionDto {
     private String permission;
 
     private List<PermissionDto> PermissionDtoList;
-
     public List<PermissionDto> getPermissionDtoList() {
         return PermissionDtoList;
     }
