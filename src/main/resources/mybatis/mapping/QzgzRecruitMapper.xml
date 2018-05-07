@@ -8,4 +8,10 @@
     <select id="selectCountOfRecruit" resultType="java.lang.Integer">
         SELECT count(*) FROM qzgz_recruit
     </select>
+    <insert id="insertRecruit" parameterType="com.hy.model.QzgzRecruit">
+        INSERT INTO qzgz_recruit
+        (name, educate, work_place, description, salary, age)
+        VALUES
+        (#{name},#{educate},#{work_place},#{description},#{salary},#{age})
+    </insert>
 </mapper>
