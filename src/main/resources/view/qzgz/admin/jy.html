@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>合理建议</title>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/qzgz/web/tongzhi.css" rel="stylesheet">
+
+</head>
+<body>
+<table id="words" class="table table-bordered table-hover">
+    <tr id="tableHead">
+        <td>ID</td>
+        <td>建议标题</td>
+        <td>建议人</td>
+        <td>联系方式</td>
+        <td>部门</td>
+        <td>建议内容</td>
+        <td>时间</td>
+        <td>修改人</td>
+        <td>修改时间</td>
+        <td>状态</td>
+    </tr>
+    <tr id="tabList" v-for="data in dataSource.data">
+        <td>{{data.id}}</td>
+        <td>{{data.title}}</td>
+        <td>{{data.creater}}</td>
+        <td>{{data.contact}}</td>
+        <td>{{data.department}}</td>
+        <td>{{data.content}}</td>
+        <td>{{data.created}}</td>
+        <td>{{data.modifier}}</td>
+        <td>{{data.modified}}</td>
+        <td>{{data.state}}</td>
+    </tr>
+</table>
+
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/jy.js"></script>
+</body>
+<script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>

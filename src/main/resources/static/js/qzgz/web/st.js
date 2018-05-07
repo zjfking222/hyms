@@ -34,7 +34,7 @@ var FetchData = function (data, method, param, async) {
 var list_item =
     "<a class='weui-cell weui-cell_access' href='javascript:;'>" +
     "<div class='weui-cell__bd'>" +
-    "<span>#caiming#</span>&nbsp<span class='price'>￥<span>#jiage#</span></span>" +
+    "<span>#caiming#</span></span>" +
     "</div>" +
-    "<span><img data-id='0' class='dianzan' src='/img/qzgz/dianzan.png'></span>" +
+    "<span><span class='price'>￥<span>#jiage#</span></span>" +
     "</a>";

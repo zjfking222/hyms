@@ -2,10 +2,15 @@ package com.hy.service.qzgz;
 
 import com.hy.dto.SuggestionDto;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Blob;
 import java.util.List;
 
+@Repository
 public interface SuggestionService {
-    Integer insertSuggestion(String contactInfo, String department, String content, String creater);
+    boolean insertSuggestion(SuggestionDto suggestionDto);
+    List<SuggestionDto> getSuggestion();
+    boolean deleteSuggestion(@Param("id") int state);
+    boolean updateSuggestion(SuggestionDto suggestionDto);
 }
+

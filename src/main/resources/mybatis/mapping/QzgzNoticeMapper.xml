@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hy.mapper.ms.QzgzNoticeMapper">
+    <select id="selectNotice" resultType="com.hy.dto.NoticeInfoDto">
+        SELECT id,title,nodifiedPerson,content,creater,date_format(created,'%Y-%m-%d') as created,modifier,date_format(modified,'%Y-%m-%d')as modified
+        FROM qzgz_notice
+        WHERE state=#{state}
+    </select>
+    <insert id="insertNotice" parameterType="com.hy.model.QzgzNotice">
+        INSERT INTO qzgz_notice(title,content,nodifiedPerson,creater)
+        VALUES(#{title},#{content},#{nodifiedPerson},#{creater})
+    </insert>
+    <delete id="deleteNotice"  parameterType="java.lang.Integer">
+        DELETE FROM qzgz_notice
+        WHERE id=#{id}
+    </delete>
+    <update id="updateNotice" parameterType="com.hy.model.QzgzNotice">
+        UPDATE qzgz_notice
+        SET title=#{title},creater=#{creater},content=#{content},nodifiedPerson=#{nodifiedPerson},modifier=#{modifier}
+        WHERE id=#{id}
+    </update>
+    <select id="selectByCreater" resultType="com.hy.dto.NoticeInfoDto">
+        SELECT * from qzgz_notice
+        WHERE creater like concat('%',#{creater},'%')
+    </select>
+</mapper>

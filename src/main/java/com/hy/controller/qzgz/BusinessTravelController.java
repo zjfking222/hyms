@@ -1,6 +1,7 @@
 package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
+import com.hy.dto.BusinessTravelDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.BusinessTravelService;
 import com.hy.utils.FileUtil;
@@ -39,6 +40,10 @@ public class BusinessTravelController {
         }
         return ResultObj.success(UPLOAD_URL+fileName);
     }
+
+    /**
+     * 未使用
+     */
     @PostMapping("/addBusinessTravel")
     public ResultObj addBusinessTravel(String title,String img)
     {
@@ -46,10 +51,20 @@ public class BusinessTravelController {
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
+    /**
+     * 未使用
+     */
     @PostMapping("/delBusinessTravel")
     public ResultObj delBusinessTravel(int id)
     {
         return businessTravelService.delBusinessTravel(id)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/setBusinessTravel")
+    public ResultObj setBusinessTravel(BusinessTravelDto businessTravelDto)
+    {
+        return businessTravelService.setBusinessTravel(businessTravelDto)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }

@@ -8,4 +8,5 @@ public interface BusinessTravelService {
     List<BusinessTravelDto> getBusinessTravel();
     boolean addBusinessTravel(String title, String img);
     boolean delBusinessTravel(int id);
+    boolean setBusinessTravel(BusinessTravelDto businessTravelDto);
 }

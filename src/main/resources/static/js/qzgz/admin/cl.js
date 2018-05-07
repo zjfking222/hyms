@@ -1,5 +1,7 @@
+var pushid;
+var pushtitle='';
+var pushimg='';
 $(function () {
-
     function dataSource() {
         return FetchData({},'POST','/getBusinessTravel',false).data;
     }
@@ -9,22 +11,30 @@ $(function () {
             data1 : dataSource()
         },
         methods: {
-            ondelete:function (id) {
-                FetchData({id:id},'POST','/delBusinessTravel',false);
-                this.$data = dataSource();
+            onedit:function (id,title,img) {
+                pushid = id;
+                pushtitle = title;
+                pushimg = img;
+                layer.open({
+                    title:'添加差旅信息',
+                    type: 2,
+                    area: ['700px', '550px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/qzgz/admin/cl_add.html'
+                });
+            },
+            onbrowse:function (img) {
+                layer.open({
+                    title:'浏览',
+                    type: 2,
+                    area: ['700px', '450px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: img
+                });
             }
         }
-    });
-
-    $('#add').click(function () {
-        layer.open({
-            title:'添加差旅信息',
-            type: 2,
-            area: ['700px', '450px'],
-            fixed: false, //不固定
-            maxmin: true,
-            content: '/qzgz/admin/cl_add.html',
-        });
     });
 
 });

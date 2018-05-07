@@ -7,10 +7,8 @@ $(document).ready(function () {
             var list_item0 = list_item
                 .replace("#title#",dataSource.data[i].title);
             var list_item1 = list_item0
-                .replace("#content#",dataSource.data[i].content);
-            var list_item2 = list_item1
                 .replace('#img#',dataSource.data[i].img);
-            $("#zoom").append(list_item2);
+            $("#zoom").append(list_item1);
         }
     }
     else
@@ -36,11 +34,10 @@ var FetchData = function (data, method, param, async) {
 };
 
 var list_item = "<section>" +
-    "<h2 class='title'>#title#</h2>" +
+    "<h1 style='text-align: center!important; width: 100%'><b class='title'>#title#</b></h1>" +
     "<section>" +
-    "<p>#content#</p>" +
     "<p>" +
-    "<img src='#img#' alt=''>" +
+    "<img src='#img#' style='margin: 0 auto; display: block' alt=''>" +
     "</p>" +
     "</section>" +
     "</section>";

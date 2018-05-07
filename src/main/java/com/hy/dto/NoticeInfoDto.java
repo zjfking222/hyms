@@ -3,10 +3,12 @@ package com.hy.dto;
 public class NoticeInfoDto {
     private Integer id;
     private String title;
-    private String notifiedPerson;
+    private String nodifiedPerson;
     private String  content;
     private Integer creater;
     private String created;
+    private Integer modifier;
+    private String modified;
 
     public Integer getId() {
         return id;
@@ -24,12 +26,12 @@ public class NoticeInfoDto {
         this.title = title;
     }
 
-    public String getNotifiedPerson() {
-        return notifiedPerson;
+    public String getNodifiedPerson() {
+        return nodifiedPerson;
     }
 
-    public void setNotifiedPerson(String notifiedPerson) {
-        this.notifiedPerson = notifiedPerson;
+    public void setNodifiedPerson(String notifiedPerson) {
+        this.nodifiedPerson = notifiedPerson;
     }
 
     public String getContent() {
@@ -55,4 +57,21 @@ public class NoticeInfoDto {
     public void setCreated(String created) {
         this.created = created;
     }
+
+    public Integer getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(Integer modifier) {
+        this.modifier = modifier;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
 }
+

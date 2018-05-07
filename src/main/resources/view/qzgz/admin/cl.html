@@ -11,9 +11,10 @@
     <!-- Bootstrap core CSS -->
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all">
-
+    <link href="/css/qzgz/admin/cl.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+
 
 
 </head>
@@ -25,24 +26,22 @@
         <!--差旅信息 START-->
         <div id="app">
             <h1 class="page-header">差旅信息管理</h1>
-            <a id="add" class="btn btn-success">添加差旅信息</a>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>标题</th>
-                        <th>图片</th>
-                        <th>操作</th>
+                        <th class="t1">标题</th>
+                        <th class="t2">图片</th>
+                        <th class="t3">操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
                     <tr v-for="bt in data1">
-                        <th>{{ bt.id }}</th>
                         <td>{{ bt.title }}</td>
-                        <td><img :src=bt.img width="30%"></td>
+                        <td><a @click="onbrowse(bt.img)"><img :src=bt.img></a></td>
                         <td>
-                            <button class="btn btn-danger btn-sm">删除</button>
+                            <button v-if="bt.img === ''" class="btn btn-success btn-sm" @click="onedit(bt.id,bt.title,bt.img)">添加</button>
+                            <button v-else class="btn btn-warning btn-sm" @click="onedit(bt.id,bt.title,bt.img)">更新</button>
                         </td>
                     </tr>
                     </tbody>

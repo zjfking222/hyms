@@ -13,4 +13,9 @@
         DELETE FROM qzgz_business_travel
         WHERE id = #{id}
     </delete>
+    <update id="updateBusinessTravel" parameterType="com.hy.model.QzgzBusinessTravel">
+        UPDATE qzgz_business_travel
+        SET title=#{title}, img=#{img}
+        WHERE id=#{id}
+    </update>
 </mapper>
