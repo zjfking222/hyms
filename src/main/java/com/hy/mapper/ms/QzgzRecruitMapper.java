@@ -11,4 +11,6 @@ public interface QzgzRecruitMapper {
     List<QzgzRecruit> selectRecruit(@Param("startRow")int startRow,
                                     @Param("number")int number);
     Integer selectCountOfRecruit();
+
+    Integer insertRecruit(QzgzRecruit qzgzRecruit);
 }

@@ -3,6 +3,7 @@ package com.hy.service.qzgz.impl;
 import com.hy.dto.RecruitDto;
 import com.hy.dto.RecruitWithTotalPageDto;
 import com.hy.mapper.ms.QzgzRecruitMapper;
+import com.hy.model.QzgzRecruit;
 import com.hy.service.qzgz.RecruitService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,11 @@ public class RecruitServiceImpl implements RecruitService{
         int countOfRecruit = recruitMapper.selectCountOfRecruit();
         double totalPageD = (double) countOfRecruit / (double) number;
         return (int)Math.ceil(totalPageD);
+    }
+
+    @Override
+    public boolean addRecruit(RecruitDto recruitDto) {
+        QzgzRecruit recruit = DTOUtil.populate(recruitDto,QzgzRecruit.class);
+        return recruitMapper.insertRecruit(recruit) == 1;
     }
 }
