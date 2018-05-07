@@ -29,8 +29,16 @@ $(function () {
                 this.$data.data3.start = start;
             },
             ondelete:function (id) {
-                FetchData({id:id},'POST','/admin/delBus',false);
-                this.$data.data1 = dataSource();
+                layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
+                    function () {
+                        FetchData({id:id},'POST','/admin/delBus',false);
+                        layer.msg('删除成功!');
+                        vm.data1 = dataSource();
+                    },
+                    function () {
+                    });
+
+
             },
             onaddsubmit:function () {
                 FetchData({

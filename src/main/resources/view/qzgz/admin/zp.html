@@ -22,29 +22,31 @@
 <div class="container-fluid">
     <div class="row">
         <div id="app">
+            <button class="btn btn-success btn-read btn-add" @click="onadd">添加岗位</button>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th>岗位名称</th>
-                        <th>学历要求</th>
-                        <th>工作地点</th>
-                        <th>职位描述</th>
-                        <th>年龄要求</th>
-                        <th>薪资</th>
-                        <th>操作</th>
+                        <th class="th1">岗位名称</th>
+                        <th class="th2">学历要求</th>
+                        <th class="th3">工作地点</th>
+                        <th class="th4">职位描述</th>
+                        <th class="th5">年龄要求</th>
+                        <th class="th6">薪资</th>
+                        <th class="th7">操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
-                    <tr v-for="opinion in data.opinions">
-                        <th>{{ opinion.created }}</th>
-                        <td>{{ opinion.opinion }}</td>
-                        <td>{{ opinion.department }}/{{ opinion.name }}</td>
-                        <td>{{ opinion.contact }}</td>
-                        <td></td>
-                        <td></td>
+                    <tr v-for="recruit in data1.recruits">
+                        <th>{{ recruit.name }}</th>
+                        <td>{{ recruit.educate }}</td>
+                        <td>{{ recruit.work_place }}</td>
+                        <td>{{ recruit.description }}</td>
+                        <td>{{ recruit.age }}</td>
+                        <td>{{ recruit.salary }}</td>
                         <td>
-                            <button class="btn btn-info btn-sm btn-read" v-if="opinion.state === '1'" @click="onread(opinion.id)">未读</button>
+                            <button class="btn btn-warning btn-sm btn-read btn-edit" @click="onedit(recruit.name,recruit.educate,recruit.work_place,recruit.description,recruit.age,recruit.salary,recruit.id)">修改</button>
+                            <button class="btn btn-danger btn-sm btn-read btn-remove" @click="ondelete(recruit.id)">移除</button>
                         </td>
                     </tr>
                     </tbody>
