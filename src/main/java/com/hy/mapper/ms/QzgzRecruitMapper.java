@@ -17,4 +17,6 @@ public interface QzgzRecruitMapper {
     Integer updateRecruit(QzgzRecruit qzgzRecruit);
 
     Integer deleteRecruit(int id);
+
+    QzgzRecruit selectRecruitById(@Param("id") int id);
 }
