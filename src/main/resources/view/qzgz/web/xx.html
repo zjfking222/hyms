@@ -1,51 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>学习园地</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>学习园地</title>
+    <link rel="stylesheet" href="/plugins/weixin/weui.min.css">
+    <style>
+        #list {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .time {
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
 </head>
-<link rel="stylesheet" href="/plugins/weixin/weui.min.css">
-<link rel="stylesheet" type="text/css" href="/css/qzgz/web/tongzhi.css">
-<script type="text/javascript" src="/js/qzgz/web/rem.js"></script>
-<script type="text/javascript" src="/plugins/weixin/jweixin-1.2.0.js"></script>
-<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/js/qzgz/web/mainjs.js"></script>
 <body>
-	<!-- 列表 -->
+<div id="content">
+    <!-- 列表 -->
     <div id="list" class="weui-cells">
-        <a class="weui-cell weui-cell_access" href="xx0.html">
+        <a class="weui-cell weui-cell_access" :href="'xxinfo.html?id='+itme.id" v-for="itme in list">
             <div class="weui-cell__bd">
-                <p>学习标题</p><span class="name">通知人</span>
+                <p>{{itme.title}}</p>
+                <div class="weui-cell__ft time">{{itme.created}}</div>
             </div>
-            <div class="weui-cell__ft">发布时间</div>
         </a>
-        <a class="weui-cell weui-cell_access" href="xx0.html">
-            <div class="weui-cell__bd">
-                <p>学习标题</p><span class="name">通知人</span>
-            </div>
-            <div class="weui-cell__ft">发布时间</div>
-        </a>
-    </div>
-    <div id="list1">
-        
     </div>
     <!-- 加载更多 -->
     <div class="page__bd">
-        <div class="weui-loadmore">
+        <div class="weui-loadmore" id="loading" style="display: none">
             <i class="weui-loading"></i>
             <span class="weui-loadmore__tips">正在加载</span>
         </div>
-    </div>
-    <!-- 底部说明 -->
-    <div id="footer">
-        <div class="weui-footer">
-            <p class="weui-footer__links">
-                <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-                <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-            </p>
-            <p class="weui-footer__text">Copyright © 2008-2016 weui.io</p>
+        <div class="weui-loadmore weui-loadmore_line" id="loadmore" style="display: block" @click="getList()">
+            <span class="weui-loadmore__tips">点击加载更多</span>
         </div>
     </div>
+</div>
+<script src="/js/common/axios.min.js"></script>
+<script src="/plugins/vue/vue.min.js"></script>
+<script src="/js/qzgz/web/xxyd.js"></script>
 </body>
 </html>

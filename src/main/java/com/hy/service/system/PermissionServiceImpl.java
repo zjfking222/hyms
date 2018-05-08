@@ -66,7 +66,7 @@ public class PermissionServiceImpl implements PermissionService {
         sysPermission.setCreater(SecurityHelp.getUserId());
         sysPermission.setModifier(SecurityHelp.getUserId());
         int id = sysPermissionMapper.insertSelective(sysPermission);
-        sysPermission = sysPermissionMapper.selectByPrimaryKey(id);
+        sysPermission = sysPermissionMapper.selectByPrimaryKey(sysPermission.getId());
         return DTOUtil.populate(sysPermission, PermissionDto.class);
     }
 
