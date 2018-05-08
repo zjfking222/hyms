@@ -7,11 +7,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface NoticeService {
-    List<NoticeDto> getNotice(@Param("state") int state);
+    List<NoticeDto> getNotice(@Param("state") int state,@Param("pageNum") int pageNum);
     Integer insertNotice(NoticeInfoDto noticeInfoDto);
     boolean deleteNotice(@Param("id") int id);
     boolean updateNotice(NoticeInfoDto noticeInfoDto);
     List<NoticeDto> selectByCreater(@Param("creater") int creater);
-    List<NoticeDto> totalPage();
+    int totalPage();
 }
 

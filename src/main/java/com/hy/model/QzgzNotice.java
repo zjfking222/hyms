@@ -10,6 +10,7 @@ public class QzgzNotice {
     private Integer modifier;
     private String modified;
     private Integer state;
+    private Integer countPage;
 
     public QzgzNotice(Integer id ,String title, Integer creater, String created, String content, String nodifiedPerson,Integer modifier) {
         this.id=id;
@@ -92,6 +93,14 @@ public class QzgzNotice {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getCountPage() {
+        return countPage;
+    }
+
+    public void setCountPage(Integer countPage) {
+        this.countPage = countPage;
     }
 }
 

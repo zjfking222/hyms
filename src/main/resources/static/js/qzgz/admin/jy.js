@@ -9,7 +9,7 @@ var vm = new Vue({
         methods: {
             recommend: function () {
                 $.ajax({
-                    url: "/web/getSuggestion",
+                    url: "/qzgz/web/getSuggestion",
                     type: "post",
                     success: function (data) {
                         vm.dataSource = data;

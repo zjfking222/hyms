@@ -9,12 +9,12 @@ import java.util.List;
 
 @Repository
 public interface QzgzNoticeMapper {
-    List<NoticeDto> selectNotice(@Param("state") Integer state);
+    List<NoticeDto> selectNotice(@Param("state") Integer state,@Param("pageNum") int pageNum);
     Integer insertNotice(QzgzNotice qzgzNotice);
     boolean deleteNotice(@Param("id") int id);
     boolean updateNotice(QzgzNotice qzgzNotice);
     List<NoticeDto> selectByCreater(@Param("creater") int creater);
     List<NoticeDto> page(@Param("pageNum")int pageNum);
-    List<NoticeDto> totalPage();
+    int totalPage();
 }
 

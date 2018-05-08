@@ -9,6 +9,7 @@ public class NoticeInfoDto {
     private String created;
     private Integer modifier;
     private String modified;
+    private Integer countNotice;
 
     public Integer getId() {
         return id;
@@ -72,6 +73,14 @@ public class NoticeInfoDto {
 
     public void setModified(String modified) {
         this.modified = modified;
+    }
+
+    public Integer getCountNotice() {
+        return countNotice;
+    }
+
+    public void setCountNotice(Integer countNotice) {
+        this.countNotice = countNotice;
     }
 }
 

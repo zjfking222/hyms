@@ -4,7 +4,8 @@
     <select id="selectNotice" resultType="com.hy.dto.NoticeInfoDto">
         SELECT id,title,nodifiedPerson,content,creater,date_format(created,'%Y-%m-%d') as created,modifier,date_format(modified,'%Y-%m-%d')as modified
         FROM qzgz_notice
-        WHERE state=#{state}
+        WHERE state=#{state} AND  id>=(#{pageNum}*10)
+        LIMIT 10
     </select>
     <insert id="insertNotice" parameterType="com.hy.model.QzgzNotice">
         INSERT INTO qzgz_notice(title,content,nodifiedPerson,creater)
@@ -23,12 +24,7 @@
         SELECT * from qzgz_notice
         WHERE creater like concat('%',#{creater},'%')
     </select>
-    <select id="countPage" resultType="com.hy.dto.NoticeInfoDto">
-        SELECT *  FROM qzgz_notice
-        WHERE id>=(#{pageNum}*10)
-        LIMIT 10
-    </select>
-    <select id="totalPage" resultType="com.hy.dto.NoticeInfoDto">
-        SELECT count(*) FROM qzgz_notice
+    <select id="totalPage" resultType="java.lang.Integer">
+        SELECT count(*) As totalPage FROM qzgz_notice
     </select>
 </mapper>
