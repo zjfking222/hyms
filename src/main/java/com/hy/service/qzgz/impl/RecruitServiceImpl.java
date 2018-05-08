@@ -38,4 +38,15 @@ public class RecruitServiceImpl implements RecruitService{
         QzgzRecruit recruit = DTOUtil.populate(recruitDto,QzgzRecruit.class);
         return recruitMapper.insertRecruit(recruit) == 1;
     }
+
+    @Override
+    public boolean setRecruit(RecruitDto recruitDto) {
+        QzgzRecruit recruit = DTOUtil.populate(recruitDto,QzgzRecruit.class);
+        return recruitMapper.updateRecruit(recruit) == 1;
+    }
+
+    @Override
+    public boolean delRecruit(int id) {
+        return recruitMapper.deleteRecruit(id) == 1;
+    }
 }

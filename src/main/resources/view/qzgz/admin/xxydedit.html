@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学习园地编辑</title>
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
+</head>
+<body style="font-size: 12px;">
+<div id="item" hidden style="margin: 20px auto;">
+    <input hidden id="id" name="id" type="text" readonly>
+    <div class="k-edit-label" style="width: 15%;"><label for="title">标题：</label></div>
+    <div data-container-for="title" class="k-edit-field" style="width: 78%;">
+        <input class="k-input k-textbox" style="width: 100%;" id="title" name="title" type="text">
+    </div>
+    <div class="k-edit-label" style="width: 15%;"><label for="content">内容：</label></div>
+    <div id="editor" data-container-for="content" class="k-edit-field" style="width: 78%;">
+                <textarea id="content" name="content" rows="20" cols="30" style="height:340px" aria-label="editor">
+                </textarea>
+    </div>
+</div>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script>
+    $(function () {
+        $("#content").kendoEditor({
+            resizable: {
+                content: true,
+                toolbar: true
+            },
+        });
+        $("#item").show();
+    });
+
+    function setValue(model) {
+        $("#id").val(model.id);
+        $("#title").val(model.title);
+        var editor = $("#content").data("kendoEditor");
+        editor.value(model.content);
+    }
+
+    function getValue() {
+        var model = {};
+        model.id = $("#id").val();
+        model.title = $("#title").val();
+        if (model.title == "")
+            return null;
+        var editor = $("#content").data("kendoEditor");
+        model.content = editor.value();
+        return model;
+    }
+</script>
+</body>
+</html>

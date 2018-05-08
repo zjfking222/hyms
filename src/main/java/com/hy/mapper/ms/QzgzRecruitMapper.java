@@ -13,4 +13,8 @@ public interface QzgzRecruitMapper {
     Integer selectCountOfRecruit();
 
     Integer insertRecruit(QzgzRecruit qzgzRecruit);
+
+    Integer updateRecruit(QzgzRecruit qzgzRecruit);
+
+    Integer deleteRecruit(int id);
 }

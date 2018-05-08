@@ -7,4 +7,6 @@ public interface RecruitService {
     RecruitWithTotalPageDto getRecruit(int page, int number);
     Integer getTotalPageOfRecruit(int number);
     boolean addRecruit(RecruitDto recruitDto);
+    boolean setRecruit(RecruitDto recruitDto);
+    boolean delRecruit(int id);
 }
