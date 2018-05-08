@@ -18,9 +18,9 @@ public class NoticeController {
     private final int GROUNDING=1;
 
     @PostMapping("/web/getNotice")
-    public ResultObj getNotice(){
+    public ResultObj getNotice(int pageNum){
 
-        return  ResultObj.success(noticeService.getNotice(GROUNDING));
+        return  ResultObj.success(noticeService.getNotice(GROUNDING,pageNum));
     }
     @PostMapping("/admin/insertNotice")
     public ResultObj insertNotice(NoticeInfoDto noticeInfoDto){
@@ -39,7 +39,7 @@ public class NoticeController {
     public ResultObj selectByCreater(int creater){
         return ResultObj.success(noticeService.selectByCreater(creater));
     }
-    @PostMapping("/admin/totalPage")
+    @PostMapping("/web/totalPage")
     public ResultObj totalPage(){
         return ResultObj.success(noticeService.totalPage());
     }

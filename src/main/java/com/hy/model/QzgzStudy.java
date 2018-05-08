@@ -1,15 +1,25 @@
-package com.hy.dto;
+package com.hy.model;
 
-public class NoticeInfoDto {
+import org.springframework.stereotype.Repository;
+
+import java.util.Date;
+
+public class QzgzStudy {
     private Integer id;
+
     private String title;
-    private String nodifiedPerson;
-    private String  content;
+
+    private String content;
+
     private Integer creater;
-    private String created;
+
+    private String creatername;
+
+    private Date created;
+
     private Integer modifier;
-    private String modified;
-    private Integer countNotice;
+
+    private Date modified;
 
     public Integer getId() {
         return id;
@@ -24,15 +34,7 @@ public class NoticeInfoDto {
     }
 
     public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getNodifiedPerson() {
-        return nodifiedPerson;
-    }
-
-    public void setNodifiedPerson(String notifiedPerson) {
-        this.nodifiedPerson = notifiedPerson;
+        this.title = title == null ? null : title.trim();
     }
 
     public String getContent() {
@@ -40,7 +42,7 @@ public class NoticeInfoDto {
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = content == null ? null : content.trim();
     }
 
     public Integer getCreater() {
@@ -51,11 +53,18 @@ public class NoticeInfoDto {
         this.creater = creater;
     }
 
-    public String getCreated() {
+    public String getCreatername() {
+        return creatername;
+    }
+
+    public void setCreatername(String name) {
+        this.creatername = name;
+    }
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -67,20 +76,11 @@ public class NoticeInfoDto {
         this.modifier = modifier;
     }
 
-    public String getModified() {
+    public Date getModified() {
         return modified;
     }
 
-    public void setModified(String modified) {
+    public void setModified(Date modified) {
         this.modified = modified;
     }
-
-    public Integer getCountNotice() {
-        return countNotice;
-    }
-
-    public void setCountNotice(Integer countNotice) {
-        this.countNotice = countNotice;
-    }
 }
-

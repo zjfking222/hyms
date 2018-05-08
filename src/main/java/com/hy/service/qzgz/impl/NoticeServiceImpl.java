@@ -5,6 +5,7 @@ import com.hy.dto.NoticeInfoDto;
 import com.hy.mapper.ms.QzgzNoticeMapper;
 import com.hy.model.QzgzNotice;
 import com.hy.service.qzgz.NoticeService;
+import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,9 @@ public class NoticeServiceImpl implements NoticeService {
     private final int GROUNDING=1;
 
     @Override
-    public List<NoticeDto> getNotice(int state){
+    public List<NoticeDto> getNotice(int state,int pageNum){
 
-        return noticeMapper.selectNotice(GROUNDING);
+        return noticeMapper.selectNotice(GROUNDING , pageNum);
     }
     public Integer insertNotice(NoticeInfoDto noticeInfoDto){
         QzgzNotice qzgzNoticeInfo =new QzgzNotice(
@@ -31,7 +32,6 @@ public class NoticeServiceImpl implements NoticeService {
                 noticeInfoDto.getNodifiedPerson(),
                 noticeInfoDto.getModifier()
         );
-
         return noticeMapper.insertNotice(qzgzNoticeInfo);
     }
     @Override
@@ -56,7 +56,8 @@ public class NoticeServiceImpl implements NoticeService {
 
         return noticeMapper.selectByCreater(creater);
     }
-    public List<NoticeDto> totalPage(){
+    public int totalPage(){
+
         return noticeMapper.totalPage();
     }
 }

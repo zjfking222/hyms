@@ -1,21 +1,26 @@
-var udata,uid;
+var udata,uid,upage=0;
 var vm = new Vue({
     el: '#words',
+    created: function () {
+        this.getNotice(upage);
+    },
     data: {
         dataSource: "",
         tableData:""
     },
-    created: function () {
-        this.recommend();
-    },
     methods: {
-        recommend: function () {
+        getNotice:function(page){
             $.ajax({
-                url: "/web/getNotice",
+                url: "/qzgz/web/getNotice",
                 type: "post",
+                dataType:"json",
+                data:{pageNum:page},
                 success: function (data) {
-                    vm.dataSource = data;
-                    // console.log(vm.dataSource.data);
+                    vm.dataSource=data;
+                },
+                error:function (jqXHR)
+                {
+                    console.log(jqXHR)
                 }
             })
         },
@@ -33,7 +38,7 @@ var vm = new Vue({
         },
         deleteNotice:function (id) {
             $.ajax({
-                url:"/admin/deleteNotice",
+                url:"/qzgz/admin/deleteNotice",
                 type:"post",
                 data:{id:id},
                 success:function () {
@@ -58,7 +63,7 @@ $(function () {
     });
     $("#select").on("click",function () {
         $.ajax({
-            url: "/admin/selectByCreater",
+            url: "/qzgz/admin/selectByCreater",
             type: "post",
             dataType:"json",
             data:{creater:$("#selectNotice").val()},
@@ -73,35 +78,26 @@ $(function () {
         })
     });
 });
-var newlist = new Vue({
+var newlist = new Vue({//分页
         el: '#app',
+        created: function () {
+            this.getPage();
+        },
         data: {
             current_page: 1, //当前页
-            pages: {
-                function () {
-                    $.ajax({
-                        url: "/admin/totalPage",
-                        type: "post",
-                        success: function (data) {
-                            newlist.pages = data;
-                            console.log(newlist.pages);
-                        }
-                    })
-                }
-            }, //总页数
+            pages: '', //总页数
             changePage:'',//跳转页
             nowIndex:0
         },
         computed:{
             show:function(){
-                return this.pages && this.pages !=1
+                return this.pages && this.pages !==1
             },
             efont: function() {
                 if (this.pages <= 7) return false;
                 return this.current_page > 5
             },
             indexs: function() {
-
                 var left = 1,
                     right = this.pages,
                     ar = [];
@@ -115,7 +111,6 @@ var newlist = new Vue({
                             right = 7;
                         } else {
                             right = this.pages;
-
                             left = this.pages - 6;
                         }
                     }
@@ -125,11 +120,23 @@ var newlist = new Vue({
                     left++;
                 }
                 return ar;
+                console.log(ar)
             },
         },
         methods: {
             jumpPage: function(id) {
                 this.current_page = id;
+                upage=this.current_page-1;
+                vm.getNotice(upage);
             },
+            getPage:function () {
+                $.ajax({
+                    url: "/qzgz/web/totalPage",
+                    type: "post",
+                    success: function (data) {
+                        newlist.pages =Math.ceil(data.data/10)+1 ;
+                    }
+                })
+            }
         },
     })

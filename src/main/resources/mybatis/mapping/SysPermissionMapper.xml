@@ -64,6 +64,9 @@
       #{permission,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysPermission" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sys_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
