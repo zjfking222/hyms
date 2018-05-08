@@ -47,13 +47,13 @@
     <div>
         <div class="page"  v-show="show">
             <div class="pagelist">
-                <span class="jump"v-show="current_page>0" @click="{current_page--}">上一页</span>
+                <span class="jump"v-show="current_page>0" @click="jumpPage(--current_page)">上一页</span>
                 <span v-show="current_page>5" class="jump" @click="jumpPage(1)">1</span>
                 <span class="ellipsis"  v-show="efont">...</span>
                 <span class="jump" v-for="num in indexs" :class="{bgprimary:current_page==num}" @click="jumpPage(num)">{{num}}</span>
                 <span class="ellipsis"  v-show="efont&&current_page<pages-4">...</span>
 
-                <span class="jump" @click="{current_page++}">下一页</span>
+                <span class="jump" @click="jumpPage(++current_page)">下一页</span>
                 <span v-show="current_page<pages-1" class="jump" class="jump" @click="jumpPage(pages)">{{pages}}</span>
 
                 <span class="jumppoint">跳转到：</span>

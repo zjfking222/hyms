@@ -18,8 +18,8 @@ public class SuggestionController {
     private SuggestionService suggestionService;
 
     @PostMapping("/web/getSuggestion")
-    public ResultObj getSuggestion(){
-        return  ResultObj.success(suggestionService.getSuggestion());
+    public ResultObj getSuggestion(int pageNum){
+        return  ResultObj.success(suggestionService.getSuggestion(pageNum));
 
     }
     @PostMapping("/web/insertSuggestion")
@@ -40,6 +40,10 @@ public class SuggestionController {
         return suggestionService.updateSuggestion(suggestionDto)
                 ?ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+    }
+    @PostMapping("/web/totalPageS")
+    public ResultObj totalPageS(){
+        return ResultObj.success(suggestionService.totalPageS());
     }
 
 };

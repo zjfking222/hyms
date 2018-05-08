@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface SuggestionService {
     boolean insertSuggestion(SuggestionDto suggestionDto);
-    List<SuggestionDto> getSuggestion();
+    List<SuggestionDto> getSuggestion(@Param("pageNum") int pageNum);
     boolean deleteSuggestion(@Param("id") int state);
     boolean updateSuggestion(SuggestionDto suggestionDto);
+    int totalPageS();
 }
 

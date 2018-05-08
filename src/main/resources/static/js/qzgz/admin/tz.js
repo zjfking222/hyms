@@ -120,7 +120,6 @@ var newlist = new Vue({//分页
                     left++;
                 }
                 return ar;
-                console.log(ar)
             },
         },
         methods: {

@@ -13,7 +13,6 @@ import java.util.List;
 public class SuggestionServiceImpl implements SuggestionService {
     @Autowired
     private QzgzSuggestionMapper suggestionMapper;
-    private final int GROUNDING=1;
 
     @Override
     public boolean insertSuggestion(SuggestionDto suggestionDto) {
@@ -28,8 +27,9 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public List<SuggestionDto> getSuggestion() {
-        return suggestionMapper.getSuggestion();
+    public List<SuggestionDto> getSuggestion(int pageNum) {
+
+        return suggestionMapper.getSuggestion(pageNum);
     }
 
     @Override
@@ -48,6 +48,10 @@ public class SuggestionServiceImpl implements SuggestionService {
                 suggestionDto.getCreater()
         );
         return suggestionMapper.updateSuggestion(suggestion);
+    }
+    public int totalPageS(){
+
+        return suggestionMapper.totalPageS();
     }
 }
 
