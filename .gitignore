@@ -31,3 +31,5 @@
 /src/main/resources/application.properties
 /src/main/resources/application-prod.properties
 /src/main/resources/generator/generatorConfig.xml
+/logs/
+/logs/springboot.log
