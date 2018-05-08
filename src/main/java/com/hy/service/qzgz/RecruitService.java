@@ -9,4 +9,5 @@ public interface RecruitService {
     boolean addRecruit(RecruitDto recruitDto);
     boolean setRecruit(RecruitDto recruitDto);
     boolean delRecruit(int id);
+    RecruitDto getRecruit(int id);
 }

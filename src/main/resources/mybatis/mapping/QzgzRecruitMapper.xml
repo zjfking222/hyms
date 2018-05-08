@@ -28,4 +28,9 @@
         DELETE FROM qzgz_recruit
         WHERE id = #{id}
     </delete>
+    <select id="selectRecruitById" resultType="com.hy.model.QzgzRecruit">
+        SELECT *
+        FROM qzgz_recruit
+        WHERE id = #{id}
+    </select>
 </mapper>

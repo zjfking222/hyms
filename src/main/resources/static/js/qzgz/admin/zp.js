@@ -54,8 +54,10 @@ $(function () {
                 layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
                     function () {
                         FetchData({id:id},"POST","/admin/delRecruit");
-                        layer.msg('删除成功!');
-                        vm.data1 = dataSource(current_page);
+                        layer.msg('删除成功！',{
+                            end:function () {
+                                vm.data1 = dataSource(current_page);
+                        }});
                     },
                     function () {
                     });

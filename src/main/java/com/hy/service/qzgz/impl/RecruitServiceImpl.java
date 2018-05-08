@@ -49,4 +49,10 @@ public class RecruitServiceImpl implements RecruitService{
     public boolean delRecruit(int id) {
         return recruitMapper.deleteRecruit(id) == 1;
     }
+
+    @Override
+    public RecruitDto getRecruit(int id) {
+        return DTOUtil.populate(recruitMapper.selectRecruitById(id),
+                RecruitDto.class);
+    }
 }

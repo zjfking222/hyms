@@ -6,6 +6,7 @@ import com.hy.dto.RecruitWithTotalPageDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,15 @@ public class RecruitController {
         return recruitWithTotalPageDto == null?
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER):
                 ResultObj.success(recruitWithTotalPageDto);
+    }
+
+    @PostMapping("/web/getRecruit/{id}")
+    public ResultObj getRecruit(@PathVariable("id") int id)
+    {
+        RecruitDto recruit = recruitService.getRecruit(id);
+        return recruit==null?
+                ResultObj.error(ResultCode.ERROR_NO_RESOURCE):
+                ResultObj.success(recruit);
     }
 
     @PostMapping("/admin/addRecruit")
