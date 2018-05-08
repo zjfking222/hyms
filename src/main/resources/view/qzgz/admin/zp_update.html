@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>更新岗位</title>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80% ;margin: 10px auto">
+<form>
+    <div class="form-group">
+        <label for="name">岗位名称</label>
+        <input class="form-control" id="name" placeholder="输入岗位名称">
+    </div>
+    <div class="form-group">
+        <label for="educate">学历要求</label>
+        <input class="form-control" id="educate" placeholder="输入学历要求">
+    </div>
+    <div class="form-group">
+        <label for="workPlace">工作地点</label>
+        <select class="form-control" id="workPlace">
+            <option value="衢州">衢州</option>
+            <option value="桐乡">桐乡</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="description">职位描述</label>
+        <textarea class="form-control" id="description"  style="resize:none" placeholder="输入职位描述"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="age">年龄要求</label>
+        <input class="form-control" id="age" placeholder="输入年龄要求">
+    </div>
+    <div class="form-group">
+        <label for="salary">薪资</label>
+        <input class="form-control" id="salary" placeholder="薪资范围，或输入面议">
+    </div>
+    <button id="submit"  class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</button>
+</form>
+</body>
+
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/zp_update.js"></script>
+</html>

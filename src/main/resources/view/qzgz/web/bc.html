@@ -7,61 +7,40 @@
 </head>
  <link rel="stylesheet" href="/plugins/weixin/weui.min.css">
  <link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap.min.css">
+ <link rel="stylesheet" type="text/css" href="/css/qzgz/web/tongzhi.css">
  <script type="text/javascript" src="/js/qzgz/web/rem.js"></script>
  <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
  <script type="text/javascript" src="/js/qzgz/web/mainjs.js"></script>
  <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-
+ <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+ <script type="text/javascript" src="/js/qzgz/web/bc.js"></script>
 <body ontouchstart>
+<div id="shaixuan">
+    <ul>
+        <li id="filterPrice">班车信息</li>
+    </ul>
+</div>
 	<!-- 列表 -->
-    <div class="tableStyle">
-    <table class="table table-hover">
-      <caption>班车往返时间表</caption>
-      <thead>
-        <tr>
-          <th>车次</th>
-          <th>首发时间</th>
-          <th>末班时间</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Tanmay</td>
-          <td>Bangalore</td>
-          <td>560001</td>
-        </tr>
-        <tr>
-          <td>Sachin</td>
-          <td>Mumbai</td>
-          <td>400003</td>
-        </tr>
-        <tr>
-          <td>Uma</td>
-          <td>Pune</td>
-          <td>411027</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="tableStyle" id="app">
+        <table class="table table-hover" >
+          <thead>
+            <tr>
+              <th>车次</th>
+              <th>首班</th>
+              <th>末班</th>
+              <th>路线</th>
+            </tr>
+          </thead>
+          <tbody class="table-container">
+              <tr v-for="bus in data1">
+                  <th>{{ bus.number }}</th>
+                  <th>{{ bus.start }}</th>
+                  <th>{{ bus.end }}</th>
+                  <th>{{ bus.line }}</th>
+              </tr>
+          </tbody>
+        </table>
     </div>
-	<div id="list1">
-        
-    </div>
-    <!-- 加载更多 -->
-    <div class="page__bd">
-        <div class="weui-loadmore">
-            <i class="weui-loading"></i>
-            <span class="weui-loadmore__tips">正在加载</span>
-        </div>
-    </div>
-    <!-- 底部说明 -->
-    <div id="footer">
-        <div class="weui-footer">
-            <p class="weui-footer__links">
-                <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-                <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-            </p>
-            <p class="weui-footer__text">Copyright © 2008-2016 weui.io</p>
-        </div>
-    </div>
+
 </body>
 </html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all">
+    <link href="/css/qzgz/admin/cl.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--差旅信息 START-->
+        <div id="app">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th class="t1">标题</th>
+                        <th class="t2">图片</th>
+                        <th class="t3">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="bt in data1">
+                        <td>{{ bt.title }}</td>
+                        <td><a @click="onbrowse(bt.img)"><img :src=bt.img></a></td>
+                        <td>
+                            <button v-if="bt.img === ''" class="btn btn-success btn-sm" @click="onedit(bt.id,bt.title,bt.img)">添加</button>
+                            <button v-else class="btn btn-warning btn-sm" @click="onedit(bt.id,bt.title,bt.img)">更新</button>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!--差旅信息 END-->
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/cl.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+
+</body></html>

@@ -13,6 +13,13 @@ public class HrmResourceServiceImpl implements HrmResourceService {
 
     @Override
     public HrmResource findByLoginId(String loginid) {
+//        测试
+//        HrmResource hrmResource = new HrmResource();
+//        hrmResource.setId(1000);
+//        hrmResource.setLastname("詹继锋");
+//        hrmResource.setLoginid("zhanjf");
+//        hrmResource.setPassword("a0462110ce6cfcacc706b775d1ef159e".toUpperCase());
+//        return hrmResource;
         return hrmResourceMapper.findByLoginId(loginid);
     }
 }

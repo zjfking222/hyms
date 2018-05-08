@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.QzgzRecruitMapper">
+    <select id="selectRecruit" resultType="com.hy.model.QzgzRecruit">
+        SELECT * FROM qzgz_recruit
+        LIMIT #{startRow},#{number}
+    </select>
+    <select id="selectCountOfRecruit" resultType="java.lang.Integer">
+        SELECT count(*) FROM qzgz_recruit
+    </select>
+    <insert id="insertRecruit" parameterType="com.hy.model.QzgzRecruit">
+        INSERT INTO qzgz_recruit
+        (name, educate, work_place, description, salary, age)
+        VALUES
+        (#{name},#{educate},#{work_place},#{description},#{salary},#{age})
+    </insert>
+    <update id="updateRecruit" parameterType="com.hy.model.QzgzRecruit">
+        UPDATE qzgz_recruit SET
+            name = #{name},
+            educate = #{educate},
+            work_place = #{work_place},
+            description = #{description},
+            salary = #{salary},
+            age = #{age}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteRecruit" parameterType="java.lang.Integer">
+        DELETE FROM qzgz_recruit
+        WHERE id = #{id}
+    </delete>
+    <select id="selectRecruitById" resultType="com.hy.model.QzgzRecruit">
+        SELECT *
+        FROM qzgz_recruit
+        WHERE id = #{id}
+    </select>
+</mapper>

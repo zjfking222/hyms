@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.QzgzBusMapper">
+    <select id="selectBus" resultType="com.hy.model.QzgzBus">
+        SELECT *
+        FROM qzgz_bus
+    </select>
+    <update id="updateBus" parameterType="com.hy.model.QzgzBus">
+        UPDATE qzgz_bus SET
+            number = #{number},
+            line = #{line},
+            start = #{start},
+            end = #{end}
+        WHERE id = #{id}
+    </update>
+    <insert id="insertBus" parameterType="com.hy.model.QzgzBus">
+        INSERT INTO qzgz_bus
+        (number,line,start,end) VALUES
+        (#{number},#{line},#{start},#{end})
+    </insert>
+    <delete id="deleteBus" parameterType="com.hy.model.QzgzBus">
+        DELETE FROM qzgz_bus
+        WHERE id = #{id}
+    </delete>
+</mapper>

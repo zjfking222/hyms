@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.QzgzCanteenMapper">
+
+    <select id="selectCanteen" resultType="com.hy.model.QzgzCanteen">
+      SELECT *
+      FROM qzgz_canteen
+      WHERE 1=1
+      <if test="state != null and '' != state">
+          AND state = #{state}
+      </if>
+      LIMIT #{startRow},#{number}
+    </select>
+
+    <select id="selectCountOfCanteen" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM qzgz_canteen
+        WHERE 1=1
+        <if test="state != null and '' != state">
+            AND  state = #{state}
+        </if>
+    </select>
+    
+    <insert id="insertCanteen" parameterType="com.hy.model.QzgzCanteen">
+        INSERT INTO qzgz_canteen (name, price)
+        VALUES (#{name},#{price})
+    </insert>
+    
+    <update id="updateCanteenById" parameterType="com.hy.model.QzgzCanteen">
+        UPDATE qzgz_canteen SET
+        name = #{name},
+        price = #{price}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateCanteenState" parameterType="com.hy.model.QzgzCanteen">
+       UPDATE qzgz_canteen SET
+       state = #{state}
+       WHERE id = #{id}
+    </update>
+    <select id="selectCanteenByName" parameterType="java.lang.String" resultType="com.hy.model.QzgzCanteen">
+      SELECT * FROM
+      qzgz_canteen
+      WHERE name like concat('%',#{name},'%')
+    </select>
+
+</mapper>

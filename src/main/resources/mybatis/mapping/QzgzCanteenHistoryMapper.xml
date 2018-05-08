@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.QzgzCanteenHistoryMapper">
+    <insert id="insertCanteenHistory" parameterType="com.hy.model.QzgzCanteenHistory">
+        INSERT qzgz_canteen_history
+        (date,canteen_id)
+        VALUES (from_days(to_days(now())),#{canteen_id})
+    </insert>
+    <select id="selectCanteenHistory" resultType="com.hy.model.QzgzCanteen">
+        SELECT c.*
+        FROM qzgz_canteen_history ch
+        LEFT JOIN qzgz_canteen c
+        ON c.id=ch.canteen_id
+        WHERE to_days(ch.date) = to_days(now())
+        ORDER BY c.id
+    </select>
+    <delete id="deleteCanteenHistory" parameterType="java.lang.Integer">
+        DELETE FROM qzgz_canteen_history
+        WHERE canteen_id = #{canteen_id}
+        AND to_days(date) = to_days(now())
+    </delete>
+</mapper>

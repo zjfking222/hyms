@@ -1,0 +1,13 @@
+label
+{
+    margin-top: 1rem;
+}
+body
+{
+    width: 80%;
+    margin: 0 auto;
+}
+#submit{
+    display: block;
+    margin: 2rem auto;
+}
