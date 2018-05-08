@@ -1,7 +1,7 @@
 $(function () {
 
     function dataSource(page) {
-        return FetchData({page:page,number:8},'POST','/getOpinion',false).data;
+        return FetchData({page:page,number:8},'POST','/admin/getOpinion',false).data;
     }
 
     var vm = new Vue({
@@ -11,7 +11,7 @@ $(function () {
         },
         methods: {
             onread:function (id) {
-                FetchData({id:id,state:'0'},'POST',"/setStateOfOpinion",false);
+                FetchData({id:id,state:'0'},'POST',"/admin/setStateOfOpinion",false);
                 this.$data.data = dataSource(pageBar.$data.cur);
             }
         }
@@ -78,7 +78,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,

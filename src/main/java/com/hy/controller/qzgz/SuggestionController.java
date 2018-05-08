@@ -6,28 +6,30 @@ import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/qzgz")
 public class SuggestionController {
 
     @Autowired
     private SuggestionService suggestionService;
 
-    @PostMapping("/getSuggestion")
+    @PostMapping("/web/getSuggestion")
     public ResultObj getSuggestion(){
         return  ResultObj.success(suggestionService.getSuggestion());
 
     }
-    @PostMapping("/insertSuggestion")
+    @PostMapping("/web/insertSuggestion")
     public ResultObj insertSuggestion(SuggestionDto suggestionDto){
         return suggestionService.insertSuggestion(suggestionDto)
                 ? ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
 
     }
-    @PostMapping("/deleteSuggestion")
+    @PostMapping("/admin/deleteSuggestion")
     public ResultObj deleteSuggestion(@RequestParam(required = true) int id){
         return suggestionService.deleteSuggestion(id)
                 ?ResultObj.success():

@@ -8,3 +8,9 @@
 {
     display: inline-block;
 }
+body
+{
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}

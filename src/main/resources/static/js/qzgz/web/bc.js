@@ -21,7 +21,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,
@@ -34,7 +34,7 @@ $(function () {
     var vm = new Vue({
         el:'#app',
         data: {
-            data1 : FetchData(null, 'POST','/getBus',false).data
+            data1 : FetchData(null, 'POST','/web/getBus',false).data
         },
         methods: {
 

@@ -1,6 +1,6 @@
 $(function () {
     function dataSource() {
-        return FetchData({},'POST','/getBus',false).data;
+        return FetchData({},'POST','/web/getBus',false).data;
     }
     var vm = new Vue({
         el:'#app',
@@ -29,8 +29,16 @@ $(function () {
                 this.$data.data3.start = start;
             },
             ondelete:function (id) {
-                FetchData({id:id},'POST','/delBus',false);
-                this.$data.data1 = dataSource();
+                layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
+                    function () {
+                        FetchData({id:id},'POST','/admin/delBus',false);
+                        layer.msg('删除成功!');
+                        vm.data1 = dataSource();
+                    },
+                    function () {
+                    });
+
+
             },
             onaddsubmit:function () {
                 FetchData({
@@ -38,7 +46,7 @@ $(function () {
                     line:this.$data.data2.line,
                     start:this.$data.data2.start,
                     end:this.$data.data2.end},
-                    'POST','/addBus',false)
+                    'POST','/admin/addBus',false)
                 this.$data.data1 = dataSource();
             },
             oneditsubmit:function () {
@@ -48,7 +56,7 @@ $(function () {
                     line:this.$data.data3.line,
                     start:this.$data.data3.start,
                     end:this.$data.data3.end},
-                    'POST','/setBus',false);
+                    'POST','/admin/setBus',false);
                 this.$data.data1 = dataSource();
             }
 
@@ -115,7 +123,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,

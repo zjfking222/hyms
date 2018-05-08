@@ -7,23 +7,25 @@ import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.OpinionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/qzgz")
 public class OpinionController {
 
     @Autowired
     private OpinionService opinionService;
 
-    @PostMapping("/handInOpinion")
+    @PostMapping("/web/handInOpinion")
     public ResultObj handInOpinion(OpinionDto opinionDto)
     {
         return opinionService.insertOpinion(opinionDto) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
-    @PostMapping("/getOpinion")
+    @PostMapping("/admin/getOpinion")
     public ResultObj getOpinion(int page, int number,
                                 @RequestParam(required = false) String state)
     {
@@ -32,7 +34,7 @@ public class OpinionController {
                 ResultObj.success(opinion):
                 ResultObj.error(ResultCode.ERROR_NO_RESOURCE);
     }
-    @PostMapping("/setStateOfOpinion")
+    @PostMapping("/admin/setStateOfOpinion")
     public ResultObj setStateOfOpinion(int id, String state)
     {
         return opinionService.setStateOfOpinion(id,state)?

@@ -23,14 +23,14 @@
         <!--食堂菜单页面 START-->
         <div id="app">
 
-            <h1 class="page-header">食堂菜单</h1>
+            <!--<h1 class="page-header">食堂菜单</h1>-->
             <input id="search-input" type="text" class="form-control" placeholder="输入菜名关键词..." v-model="data2.search">
             <button id="search-btn" class="btn btn-info" @click="onsearch(data2.search)">搜索</button>
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover">
                     <thead>
-                    <tr>
-                        <th >ID</th>
+                    <tr class="active">
+                        <th>ID</th>
                         <th>菜名</th>
                         <th>价格</th>
                         <th>操作</th>

@@ -6,7 +6,7 @@ $(function () {
 
     $("#input-b1").fileinput({
         language: 'zh',
-        uploadUrl: '/setImg',
+        uploadUrl: '/qzgz/admin/setImg',
         allowedFileExtensions : ['jpg', 'png','gif'],
         maxFileCount: 1,
         allowedFileTypes: ['image'],
@@ -22,7 +22,7 @@ $(function () {
 
     $('#submit').on('click', function () {
         //title必须使用push过来的title 否则会提交篡改后html元素
-        if(FetchData({id:parent.pushid, title:parent.pushtitle, img:$('#img').val()},'POST','/setBusinessTravel',false).code===0)
+        if(FetchData({id:parent.pushid, title:parent.pushtitle, img:$('#img').val()},'POST','/admin/setBusinessTravel',false).code===0)
         {
             // parent.layer.msg('提交成功');
             // parent.layer.close(index);
@@ -40,7 +40,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,

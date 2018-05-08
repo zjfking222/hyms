@@ -1,0 +1,14 @@
+body {
+    padding-top: 50px;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+.th1,.th2,.th3,.th5,.th6
+{
+    width: 80px!important;
+}
+.th7
+{
+    width: 140px!important;
+}

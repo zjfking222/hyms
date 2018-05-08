@@ -3,7 +3,7 @@ var pushtitle='';
 var pushimg='';
 $(function () {
     function dataSource() {
-        return FetchData({},'POST','/getBusinessTravel',false).data;
+        return FetchData({},'POST','/web/getBusinessTravel',false).data;
     }
     var vm = new Vue({
         el:'#app',
@@ -42,7 +42,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,

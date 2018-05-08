@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var dataSource = FetchData(null,'POST','/getBusinessTravel',false);
+    var dataSource = FetchData(null,'POST','/web/getBusinessTravel',false);
     if(dataSource.code === 0){
         for (var i = 0; i < dataSource.data.length; i++)
         {
@@ -23,7 +23,7 @@ var FetchData = function (data, method, param, async) {
     var response =
         $.ajax({
             async: async,
-            url: param,
+            url: "/qzgz"+param,
             type: method,
             dataType: 'json',
             data: data,

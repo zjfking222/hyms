@@ -14,5 +14,7 @@ public interface QzgzNoticeMapper {
     boolean deleteNotice(@Param("id") int id);
     boolean updateNotice(QzgzNotice qzgzNotice);
     List<NoticeDto> selectByCreater(@Param("creater") int creater);
+    List<NoticeDto> page(@Param("pageNum")int pageNum);
+    List<NoticeDto> totalPage();
 }
 
