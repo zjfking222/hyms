@@ -27,4 +27,5 @@
     <select id="totalPage" resultType="java.lang.Integer">
         SELECT count(*) As totalPage FROM qzgz_notice
     </select>
+
 </mapper>
