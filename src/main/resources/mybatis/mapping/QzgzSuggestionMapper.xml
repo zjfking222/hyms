@@ -23,4 +23,5 @@
     <select id="totalPageS" resultType="java.lang.Integer">
         SELECT count(*) As totalPage FROM qzgz_suggestion
     </select>
+
 </mapper>
