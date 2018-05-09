@@ -16,10 +16,10 @@ public class SuggestionController {
 
     @Autowired
     private SuggestionService suggestionService;
-
+    private final int GROUNDING=1;
     @PostMapping("/web/getSuggestion")
     public ResultObj getSuggestion(int pageNum){
-        return  ResultObj.success(suggestionService.getSuggestion(pageNum));
+        return  ResultObj.success(suggestionService.getSuggestion(GROUNDING,pageNum));
 
     }
     @PostMapping("/web/insertSuggestion")
@@ -43,6 +43,7 @@ public class SuggestionController {
     }
     @PostMapping("/web/totalPageS")
     public ResultObj totalPageS(){
+
         return ResultObj.success(suggestionService.totalPageS());
     }
 

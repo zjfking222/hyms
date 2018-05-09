@@ -11,8 +11,10 @@ public class QzgzNotice {
     private String modified;
     private Integer state;
     private Integer countPage;
+    private String creatorname;
+    private String modifiorname;
 
-    public QzgzNotice(Integer id ,String title, Integer creater, String created, String content, String nodifiedPerson,Integer modifier) {
+    public QzgzNotice(Integer id ,String title, Integer creater, String created, String content, String nodifiedPerson,Integer modifier,String modifiorname,String creatorname) {
         this.id=id;
         this.title = title;
         this.creater = creater;
@@ -20,6 +22,8 @@ public class QzgzNotice {
         this.content = content;
         this.nodifiedPerson=nodifiedPerson;
         this.modifier=modifier;
+        this.modifiorname=modifiorname;
+        this.creatorname=creatorname;
     }
     public QzgzNotice(){}
 
@@ -101,6 +105,22 @@ public class QzgzNotice {
 
     public void setCountPage(Integer countPage) {
         this.countPage = countPage;
+    }
+
+    public String getCreatorname() {
+        return creatorname;
+    }
+
+    public void setCreatorname(String creatorname) {
+        this.creatorname = creatorname;
+    }
+
+    public String getModifiorname() {
+        return modifiorname;
+    }
+
+    public void setModifiorname(String modifiorname) {
+        this.modifiorname = modifiorname;
     }
 }
 

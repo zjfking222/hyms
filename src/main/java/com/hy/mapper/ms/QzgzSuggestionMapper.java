@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface QzgzSuggestionMapper {
     boolean insertSuggestion(QzgzSuggestion suggestion);
-    List<SuggestionDto> getSuggestion(@Param("pageNum") int pageNum);
+    List<SuggestionDto> getSuggestion(@Param("state") Integer state,@Param("pageNum") int pageNum);
     boolean deleteSuggestion(@Param("id") int id);
     boolean updateSuggestion(QzgzSuggestion suggestion);
     int totalPageS();

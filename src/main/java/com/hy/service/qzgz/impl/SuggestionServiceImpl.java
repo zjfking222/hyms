@@ -13,7 +13,7 @@ import java.util.List;
 public class SuggestionServiceImpl implements SuggestionService {
     @Autowired
     private QzgzSuggestionMapper suggestionMapper;
-
+    private final int GROUNDING=1;
     @Override
     public boolean insertSuggestion(SuggestionDto suggestionDto) {
         QzgzSuggestion suggestion = new QzgzSuggestion(
@@ -27,9 +27,9 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public List<SuggestionDto> getSuggestion(int pageNum) {
+    public List<SuggestionDto> getSuggestion(int state,int pageNum) {
 
-        return suggestionMapper.getSuggestion(pageNum);
+        return suggestionMapper.getSuggestion(GROUNDING ,pageNum);
     }
 
     @Override

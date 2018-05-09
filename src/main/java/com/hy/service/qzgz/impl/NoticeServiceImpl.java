@@ -1,5 +1,6 @@
 package com.hy.service.qzgz.impl;
 
+import com.hy.common.SecurityHelp;
 import com.hy.dto.NoticeDto;
 import com.hy.dto.NoticeInfoDto;
 import com.hy.mapper.ms.QzgzNoticeMapper;
@@ -30,8 +31,12 @@ public class NoticeServiceImpl implements NoticeService {
                 noticeInfoDto.getCreated(),
                 noticeInfoDto.getContent(),
                 noticeInfoDto.getNodifiedPerson(),
-                noticeInfoDto.getModifier()
+                noticeInfoDto.getModifier(),
+                noticeInfoDto.getModifiorname(),
+                noticeInfoDto.getCreator()
         );
+        qzgzNoticeInfo.setCreatorname(SecurityHelp.getUserName());
+        qzgzNoticeInfo.setModifiorname(SecurityHelp.getUserName());
         return noticeMapper.insertNotice(qzgzNoticeInfo);
     }
     @Override
@@ -47,8 +52,11 @@ public class NoticeServiceImpl implements NoticeService {
                 noticeInfoDto.getCreated(),
                 noticeInfoDto.getContent(),
                 noticeInfoDto.getNodifiedPerson(),
-                noticeInfoDto.getModifier()
+                noticeInfoDto.getModifier(),
+                noticeInfoDto.getModifiorname(),
+                noticeInfoDto.getCreator()
         );
+        qzgzNoticeInfo.setModifiorname(SecurityHelp.getUserName());
         return noticeMapper.updateNotice(qzgzNoticeInfo);
     }
     @Override
