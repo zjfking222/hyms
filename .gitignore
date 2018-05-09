@@ -23,8 +23,8 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-/pom.xml
 /src/test/
+/pom.xml
 /src/main/java/com/hy/config/
 /src/main/resources/generator/
 /src/main/resources/application-dev.properties

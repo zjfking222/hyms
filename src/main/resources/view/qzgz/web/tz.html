@@ -1,39 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>通知公告</title>
-</head>
-<link rel="stylesheet" href="/plugins/weixin/weui.min.css">
-<link rel="stylesheet" type="text/css" href="/css/qzgz/web/tongzhi.css">
-<script type="text/javascript" src="/js/qzgz/web/rem.js"></script>
-<script type="text/javascript" src="/plugins/weixin/jweixin-1.2.0.js"></script>
-<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/js/qzgz/web/mainjs.js"></script>
-<script type="text/javascript" src="/js/qzgz/web/tz.js"></script>
-<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>通知公告</title>
+    <link rel="stylesheet" href="/plugins/weixin/weui.min.css">
+    <style>
+        #list {
+            margin: 0;
+            font-size: 14px;
+        }
 
-<body ontouchstart>
-	<!-- 列表 -->
-	<div id="list" class="weui-cells">
-        <a class='weui-cell weui-cell_access' v-for="data in dataSource.data" href='tzx0.html'>
-        <div class='weui-cell__bd'>
-            <p>{{data.title}}</p><span class='name'>{{data.creater}}</span>
+        .name,.time {
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <!-- 列表 -->
+    <div id="list" class="weui-cells">
+        <a class="weui-cell " :href="'tzinfo.html?id='+itme.id" v-for="itme in list">
+            <div class="weui-cell__bd">
+                <p style="color: #333333;">{{itme.title}}</p>
+                <div style="display: flex;">
+                    <div class="weui-cell__bd">
+                        <p class='name'>发布人：{{itme.creatername}}</p>
+                    </div>
+                    <div class="weui-cell__ft time">{{itme.modified}}</div>
+                </div>
             </div>
-        <div class='weui-cell__ft'>{{data.created}}</div>
         </a>
     </div>
-
-    <!-- 底部说明 -->
-    <!--<div id="footer">-->
-        <!--<div class="weui-footer">-->
-            <!--<p class="weui-footer__links">-->
-                <!--<a href="javascript:void(0);" class="weui-footer__link">底部链接</a>-->
-                <!--<a href="javascript:void(0);" class="weui-footer__link">底部链接</a>-->
-            <!--</p>-->
-            <!--<p class="weui-footer__text">Copyright © 2008-2016 weui.io</p>-->
-        <!--</div>-->
-    <!--</div>-->
+    <!-- 加载更多 -->
+    <div class="page__bd">
+        <div class="weui-loadmore" id="loading" style="display: none">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line" id="loadmore" style="display: block" @click="getList()">
+            <span class="weui-loadmore__tips">点击加载更多</span>
+        </div>
+    </div>
+</div>
+<script src="/js/common/axios.min.js"></script>
+<script src="/plugins/vue/vue.min.js"></script>
+<script src="/js/qzgz/web/tz.js"></script>
 </body>
 </html>
