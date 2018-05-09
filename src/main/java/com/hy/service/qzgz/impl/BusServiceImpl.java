@@ -1,8 +1,10 @@
 package com.hy.service.qzgz.impl;
 
+import com.hy.common.SecurityHelp;
 import com.hy.dto.BusDto;
 import com.hy.mapper.ms.QzgzBusMapper;
 import com.hy.model.QzgzBus;
+import com.hy.model.QzgzRecruit;
 import com.hy.service.qzgz.BusService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +26,16 @@ public class BusServiceImpl implements BusService{
 
     @Override
     public boolean setBusInfo(BusDto busDto) {
-        QzgzBus bus = new QzgzBus();
-        bus.setId(busDto.getId());
-        bus.setLine(busDto.getLine());
-        bus.setNumber(busDto.getNumber());
-        bus.setStart(busDto.getStart());
-        bus.setEnd(busDto.getEnd());
+        QzgzBus bus = DTOUtil.populate(busDto,QzgzBus.class);
+        bus.setModifier(SecurityHelp.getUserId());
         return busMapper.updateBus(bus) == 1;
     }
 
     @Override
     public boolean addBusInfo(BusDto busDto) {
-        QzgzBus bus = new QzgzBus();
-        bus.setId(busDto.getId());
-        bus.setLine(busDto.getLine());
-        bus.setNumber(busDto.getNumber());
-        bus.setStart(busDto.getStart());
-        bus.setEnd(busDto.getEnd());
+        QzgzBus bus = DTOUtil.populate(busDto,QzgzBus.class);
+        bus.setCreater(SecurityHelp.getUserId());
+        bus.setModifier(SecurityHelp.getUserId());
         return busMapper.insertBus(bus) == 1;
     }
 

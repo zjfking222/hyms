@@ -6,8 +6,8 @@
     </select>
     <insert id="insertBusinessTravel" parameterType="com.hy.model.QzgzBusinessTravel">
         INSERT INTO qzgz_business_travel
-        (title,content,img) VALUES
-        (#{title},#{content},#{img})
+        (title,content,img,creater,modifier) VALUES
+        (#{title},#{content},#{img},#{creater},#{modifier})
     </insert>
     <delete id="deleteBusinessTravel" parameterType="java.lang.Integer">
         DELETE FROM qzgz_business_travel
@@ -15,7 +15,8 @@
     </delete>
     <update id="updateBusinessTravel" parameterType="com.hy.model.QzgzBusinessTravel">
         UPDATE qzgz_business_travel
-        SET title=#{title}, img=#{img}
+        SET title=#{title}, img=#{img},
+            modifier=#{modifier}
         WHERE id=#{id}
     </update>
 </mapper>

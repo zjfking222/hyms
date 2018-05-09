@@ -10,13 +10,14 @@
             number = #{number},
             line = #{line},
             start = #{start},
-            end = #{end}
+            end = #{end},
+            modifier = #{modifier}
         WHERE id = #{id}
     </update>
     <insert id="insertBus" parameterType="com.hy.model.QzgzBus">
         INSERT INTO qzgz_bus
-        (number,line,start,end) VALUES
-        (#{number},#{line},#{start},#{end})
+        (number,line,start,end,creater,modifier) VALUES
+        (#{number},#{line},#{start},#{end},#{creater},#{modifier})
     </insert>
     <delete id="deleteBus" parameterType="com.hy.model.QzgzBus">
         DELETE FROM qzgz_bus
