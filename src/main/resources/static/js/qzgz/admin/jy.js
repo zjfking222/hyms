@@ -1,83 +1,89 @@
-var upage=0;
-var vm = new Vue({
-        el: '#words',
+$(function () {
+
+    function dataSource(page) {
+        return FetchData({page:page,number:8},'POST','/admin/getSuggestion',false).data;
+    }
+
+    var vm = new Vue({
+        el: '#app',
         data: {
-            dataSource: ""
-        },
-        created: function () {
-            this.recommend(upage);
+            data:dataSource(1)
         },
         methods: {
-            recommend: function (page) {
-                $.ajax({
-                    url: "/qzgz/web/getSuggestion",
-                    type: "post",
-                    data:{pageNum:page},
-                    success: function (data) {
-                        vm.dataSource = data;
-                    }
-                })
-            },
+            onread:function (id) {
+                FetchData({id:id,state:'0'},'POST',"/admin/setStateOfSuggestion",false);
+                this.$data.data = dataSource(pageBar.$data.cur);
+            }
         }
     });
-var newlist = new Vue({//分页
-    el: '#app',
-    created: function () {
-        this.getPage();
-    },
-    data: {
-        current_page: 1, //当前页
-        pages: '', //总页数
-        changePage:'',//跳转页
-        nowIndex:0
-    },
-    computed:{
-        show:function(){
-            return this.pages && this.pages !==1
+    //页码控制
+    var pageBar = new Vue({
+        el: '#page-bar',
+        data: {
+            cur: 1,//当前页码
+            all: dataSource(1).totalPage //总页数
         },
-        efont: function() {
-            if (this.pages <= 7) return false;
-            return this.current_page > 5
+        watch: {
+            cur: function(oldValue , newValue){
+                /*
+                **
+                ** 页码切换
+                **
+                 */
+                vm.$data.data = dataSource(arguments[0]);
+            }
         },
-        indexs: function() {
-            var left = 1,
-                right = this.pages,
-                ar = [];
-            if (this.pages >= 7) {
-                if (this.current_page > 5 && this.current_page < this.pages - 4) {
-                    left = Number(this.current_page) - 3;
-                    right = Number(this.current_page) + 3;
-                } else {
-                    if (this.current_page <= 5) {
-                        left = 1;
-                        right = 7;
-                    } else {
-                        right = this.pages;
-                        left = this.pages - 6;
+        methods: {
+            btnClick: function(data){//页码点击事件
+                if(data !== this.cur){
+                    this.cur = data
+                }
+            },
+            pageClick: function(){
+
+            }
+        },
+
+        computed: {
+            indexs: function(){
+                var left = 1;
+                var right = this.all;
+                var ar = [];
+                if(this.all>= 5){
+                    if(this.cur > 3 && this.cur < this.all-2){
+                        left = this.cur - 2
+                        right = this.cur + 2
+                    }else{
+                        if(this.cur<=3){
+                            left = 1
+                            right = 5
+                        }else{
+                            right = this.all
+                            left = this.all -4
+                        }
                     }
                 }
-            }
-            while (left <= right) {
-                ar.push(left);
-                left++;
-            }
-            return ar;
-        },
-    },
-    methods: {
-        jumpPage: function(id) {
-            this.current_page = id;
-            upage=this.current_page-1;
-            vm.recommend(upage);
-        },
-        getPage:function () {
-            $.ajax({
-                url: "/qzgz/web/totalPageS",
-                type: "post",
-                success: function (data) {
-                    newlist.pages =Math.ceil(data.data/10);
+                while (left <= right){
+                    ar.push(left)
+                    left ++
                 }
-            })
+                return ar
+            }
+
         }
-    },
-})
+    })
+});
+
+var FetchData = function (data, method, param, async) {
+    var response =
+        $.ajax({
+            async: async,
+            url: "/qzgz"+param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource;
+            }});
+    return response.responseJSON;
+};

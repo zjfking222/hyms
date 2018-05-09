@@ -21,7 +21,7 @@ public class OpinionController {
     @PostMapping("/web/handInOpinion")
     public ResultObj handInOpinion(OpinionDto opinionDto)
     {
-        return opinionService.insertOpinion(opinionDto) ?
+        return opinionService.addOpinion(opinionDto) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }

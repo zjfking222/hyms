@@ -20,7 +20,7 @@ public class OpinionServiceImpl implements OpinionService{
     private QzgzOpinionMapper opinionMapper;
 
     @Override
-    public boolean insertOpinion(OpinionDto opinionDto) {
+    public boolean addOpinion(OpinionDto opinionDto) {
 
         QzgzOpinion opinion = DTOUtil.populate(opinionDto,QzgzOpinion.class);
         opinion.setCreater(-1);

@@ -1,65 +1,80 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="zh-CN"><head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>合理建议后台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>衢州公众后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/qzgz/web/tongzhi.css" rel="stylesheet">
-    <link href="/css/qzgz/web/paging.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+    <link href="/css/qzgz/admin/jy.css" rel="stylesheet">
 
 </head>
+
 <body>
-<table id="words" class="table table-bordered table-hover">
-    <tr id="tableHead">
-        <td>ID</td>
-        <td>建议标题</td>
-        <td>建议人</td>
-        <td>联系方式</td>
-        <td>部门</td>
-        <td>建议内容</td>
-        <td>时间</td>
-        <td>修改人</td>
-        <td>修改时间</td>
-        <td>状态</td>
-    </tr>
-    <tr id="tabList" v-for="data in dataSource.data">
-        <td>{{data.id}}</td>
-        <td>{{data.title}}</td>
-        <td>{{data.creater}}</td>
-        <td>{{data.contact}}</td>
-        <td>{{data.department}}</td>
-        <td>{{data.content}}</td>
-        <td>{{data.created}}</td>
-        <td>{{data.modifier}}</td>
-        <td>{{data.modified}}</td>
-        <td>{{data.state}}</td>
-    </tr>
-</table>
-<div id="app">
-    <div>
-        <div class="page"  v-show="show">
-            <div class="pagelist">
-                <span class="jump"v-show="current_page>0" @click="jumpPage(--current_page)">上一页</span>
-                <span v-show="current_page>5" class="jump" @click="jumpPage(1)">1</span>
-                <span class="ellipsis"  v-show="efont">...</span>
-                <span class="jump" v-for="num in indexs" :class="{bgprimary:current_page==num}" @click="jumpPage(num)">{{num}}</span>
-                <span class="ellipsis"  v-show="efont&&current_page<pages-4">...</span>
 
-                <span class="jump" @click="jumpPage(++current_page)">下一页</span>
-                <span v-show="current_page<pages-1" class="jump" class="jump" @click="jumpPage(pages)">{{pages}}</span>
+<div class="container-fluid">
+    <div class="row">
+        <!--合理意见 START-->
+        <div id="app">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th class="t1">创建时间</th>
+                        <th class="t2">内容</th>
+                        <th class="t3">部门/姓名</th>
+                        <th class="t4">联系方式</th>
+                        <th class="t5">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover" >
+                    <tr v-for="suggestions in data.suggestions">
+                        <th>{{ suggestions.created }}</th>
+                        <td>{{ suggestions.suggestion }}</td>
+                        <td>{{ suggestions.department }}/{{ suggestions.name }}</td>
+                        <td>{{ suggestions.contact }}</td>
+                        <td>
+                            <button class="btn btn-info btn-sm btn-read" v-if="suggestions.state === '1'" @click="onread(suggestions.id)">未读</button>
+                        </td>
+                    </tr>
+                    </tbody>
 
-                <span class="jumppoint">跳转到：</span>
-                <span class="jumpinp"><input type="text" v-model="changePage"></span>
-                <span class="jump gobtn" @click="jumpPage(changePage)">GO</span>
+                </table>
             </div>
+
+
         </div>
+        <div id="page-bar">
+            <ul>
+                <li v-if="cur>1"><a v-on:click="cur--,pageClick()">上一页</a></li>
+                <li v-if="cur==1"><a class="banclick">上一页</a></li>
+                <li v-for="index in indexs" v-bind:class="{ 'active': cur == index}">
+                    <a v-on:click="btnClick(index)">{{ index }}</a>
+                </li>
+                <li v-if="cur!=all"><a v-on:click="cur++,pageClick()">下一页</a></li>
+                <li v-if="cur == all"><a class="banclick">下一页</a></li>
+                <li><a>共<i>{{all}}</i>页</a></li>
+            </ul>
+        </div>
+        <!--合理意见 END-->
     </div>
 </div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/js/qzgz/admin/jy.js"></script>
-</body>
-<script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
+
+</body></html>

@@ -1,0 +1,23 @@
+
+.t1
+{
+    width: 150px!important;
+}
+.t3
+{
+    width: 170px!important;
+}
+.t4
+{
+    width: 140px!important;
+}
+.t5
+{
+    width: 100px!important;
+}
+body
+{
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}

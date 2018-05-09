@@ -1,16 +1,12 @@
 package com.hy.service.qzgz;
 
 import com.hy.dto.SuggestionDto;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import com.hy.dto.SuggestionWithTotalPageDto;
 
 public interface SuggestionService {
-    boolean insertSuggestion(SuggestionDto suggestionDto);
-    List<SuggestionDto> getSuggestion(@Param("state") int state,@Param("pageNum") int pageNum);
-    boolean deleteSuggestion(@Param("id") int state);
-    boolean updateSuggestion(SuggestionDto suggestionDto);
-    int totalPageS();
+    boolean addSuggestion(SuggestionDto suggestionDto);
+    SuggestionWithTotalPageDto getSuggestion(int page, int number, String state);
+    int getTotalPageOfSuggestion(int number, String state);
+    boolean setStateOfSuggestion(int id, String state);
 }
 

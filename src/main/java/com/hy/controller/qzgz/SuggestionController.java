@@ -2,6 +2,7 @@ package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.SuggestionDto;
+import com.hy.dto.SuggestionWithTotalPageDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,36 +17,29 @@ public class SuggestionController {
 
     @Autowired
     private SuggestionService suggestionService;
-    private final int GROUNDING=1;
-    @PostMapping("/web/getSuggestion")
-    public ResultObj getSuggestion(int pageNum){
-        return  ResultObj.success(suggestionService.getSuggestion(GROUNDING,pageNum));
 
-    }
-    @PostMapping("/web/insertSuggestion")
-    public ResultObj insertSuggestion(SuggestionDto suggestionDto){
-        return suggestionService.insertSuggestion(suggestionDto)
-                ? ResultObj.success():
+    @PostMapping("/web/handInSuggestion")
+    public ResultObj handInSuggestion(SuggestionDto suggestionDto)
+    {
+        return suggestionService.addSuggestion(suggestionDto)?
+                ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
-
     }
-    @PostMapping("/admin/deleteSuggestion")
-    public ResultObj deleteSuggestion(@RequestParam(required = true) int id){
-        return suggestionService.deleteSuggestion(id)
-                ?ResultObj.success():
+    @PostMapping("/admin/getSuggestion")
+    public ResultObj getSuggestion(int page, int number,
+                                   @RequestParam(required = false) String state)
+    {
+        SuggestionWithTotalPageDto suggestionWithTotalPageDto = suggestionService.getSuggestion(page,number,state);
+        return suggestionWithTotalPageDto != null ?
+                ResultObj.success(suggestionWithTotalPageDto):
                 ResultObj.error(ResultCode.ERROR_NO_RESOURCE);
     }
-    @PostMapping("/updateSuggestion")
-    public ResultObj updateSuggestion(SuggestionDto suggestionDto){
-        return suggestionService.updateSuggestion(suggestionDto)
-                ?ResultObj.success():
+    @PostMapping("/admin/setStateOfSuggestion")
+    public ResultObj setStateOfSuggestion(int id, String state)
+    {
+        return suggestionService.setStateOfSuggestion(id,state)?
+                ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
-    @PostMapping("/web/totalPageS")
-    public ResultObj totalPageS(){
-
-        return ResultObj.success(suggestionService.totalPageS());
-    }
-
-};
+}
 

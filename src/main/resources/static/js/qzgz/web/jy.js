@@ -1,21 +1,41 @@
 $(function () {
-    var vm = new Vue({
-        el: '#list',
-        data: {
-            dataSource:"",
-        },
-        methods:{
-            recommend:function () {
-                $.ajax({
-                    url:"/web/getSuggestion",
-                    type:"post",
-                    success:function (data){
-                        vm.dataSource=data;
-                        console.log(vm.dataSource);
-                    }
-                })
-            }
-        }
+    //init
+    $('#iosDialog1').fadeOut(0);
+    $('.btn-close').click(function () {
+        $('#iosDialog1').fadeOut(500);
     });
-    vm.recommend();
+    $('#submit').click(function () {
+        if($('#name').val()===""||$('#department').val()===""
+            ||$('#contact').val()===""||$("#suggestion").val()==="")
+        {
+            $('#alert-text').html('提交信息不能为空！')
+        }
+        else
+        {
+            var data = {
+                name: $('#name').val(),
+                department:$('#department').val(),
+                contact:$('#contact').val(),
+                suggestion:$("#suggestion").val()
+            };
+            var dataSourse = FetchData(data,'POST','/web/handInSuggestion',false);
+            dataSourse.code === 0 ? $('#alert-text').html('提交成功'):
+                $('#alert-text').html(dataSourse.code);
+        }
+        $('#iosDialog1').fadeIn(100);
+    })
 });
+
+var FetchData = function (data, method, param, async) {
+    var response =
+        $.ajax({
+            async: async,
+            url: "/qzgz"+param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource;
+            }});
+    return response.responseJSON;
+};
