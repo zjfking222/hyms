@@ -1,47 +1,133 @@
 package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
-import com.hy.dto.NoticeInfoDto;
+import com.hy.dto.QzgzNoticeDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.NoticeService;
-import com.sun.org.apache.xml.internal.security.signature.reference.ReferenceSubTreeData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/qzgz")
 public class NoticeController {
     @Autowired
     private NoticeService noticeService;
-    private final int GROUNDING=1;
 
-    @PostMapping("/web/getNotice")
-    public ResultObj getNotice(int pageNum){
+    //region 通知公告admin后台
 
-        return  ResultObj.success(noticeService.getNotice(GROUNDING,pageNum));
+    /**
+     * 获取通知公告列表
+     *
+     * @param map 查询参数
+     * @return
+     */
+    @RequestMapping(value = "/admin/notice/get", method = RequestMethod.POST)
+    public ResultObj getAdminnoticeList(@RequestBody Map<String, Object> map) {
+        if (!map.containsKey("page") || !map.containsKey("pageSize"))
+            return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("total", noticeService.getTotal());
+        resultMap.put("data", noticeService.getList((int) map.get("page"), (int) map.get("pageSize")));
+        return ResultObj.success(resultMap);
     }
-    @PostMapping("/admin/insertNotice")
-    public ResultObj insertNotice(NoticeInfoDto noticeInfoDto){
-        return ResultObj.success(noticeService.insertNotice(noticeInfoDto));
+
+    /**
+     * 添加通知公告信息
+     *
+     * @param QzgzNoticeDto 菜单对象
+     * @return
+     */
+    @RequestMapping(value = "/admin/notice/add", method = RequestMethod.POST)
+    public ResultObj addAdminnotice(@RequestBody QzgzNoticeDto QzgzNoticeDto) {
+        try {
+            if (QzgzNoticeDto.getTitle() == null || "".equals(QzgzNoticeDto.getTitle()))
+                return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+            QzgzNoticeDto = noticeService.add(QzgzNoticeDto);
+        } catch (Exception e) {
+            return ResultObj.error(ResultCode.ERROR_ADD_FAILED, e.getMessage());
+        }
+        return ResultObj.success(QzgzNoticeDto);
     }
-    @PostMapping("/admin/deleteNotice")
-    public ResultObj deleteNotice(int id){
-        return ResultObj.success(noticeService.deleteNotice(id));
+
+    /**
+     * 更新通知公告
+     *
+     * @param QzgzNoticeDto 通知公告对象
+     * @return
+     */
+    @RequestMapping(value = "/admin/notice/update", method = RequestMethod.POST)
+    public ResultObj updateAdminnotice(@RequestBody QzgzNoticeDto qzgzNoticeDto) {
+        try {
+            if (qzgzNoticeDto.getId() == null || qzgzNoticeDto.getTitle() == null || "".equals(qzgzNoticeDto.getTitle()))
+                return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+            int count = noticeService.update(qzgzNoticeDto);
+            if (count == 0)
+                return ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
+            else
+                qzgzNoticeDto = noticeService.getNotice(qzgzNoticeDto.getId());
+        } catch (Exception e) {
+            return ResultObj.error(ResultCode.ERROR_UPDATE_FAILED, e.getMessage());
+        }
+        return ResultObj.success(qzgzNoticeDto);
     }
-    @PostMapping("/admin/updateNotice")
-    public ResultObj updateNotice(NoticeInfoDto noticeInfoDto){
-        return noticeService.updateNotice(noticeInfoDto)?ResultObj.success()
-                :ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+
+    /**
+     * 删除通知公告
+     *
+     * @param QzgzNoticeDto
+     * @return
+     */
+    @RequestMapping(value = "/admin/notice/delete", method = RequestMethod.POST)
+    public ResultObj deleteAdminnotice(@RequestBody QzgzNoticeDto QzgzNoticeDto) {
+        try {
+            if (QzgzNoticeDto.getId() == null)
+                return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+            noticeService.deleteById(QzgzNoticeDto.getId());
+        } catch (Exception e) {
+            return ResultObj.error(ResultCode.ERROR_DELETE_FAILED, e.getMessage());
+        }
+        return ResultObj.success(QzgzNoticeDto);
     }
-    @PostMapping("/admin/selectByCreater")
-    public ResultObj selectByCreater(int creater){
-        return ResultObj.success(noticeService.selectByCreater(creater));
+    //endregion
+
+    /**
+     * 获取生效的通知公告
+     *
+     * @param map 查询参数
+     * @return
+     */
+    @RequestMapping(value = "/web/notice/get", method = RequestMethod.POST)
+    public ResultObj getWebnoticeList(@RequestBody Map<String, Object> map) {
+        if (!map.containsKey("page") || !map.containsKey("pageSize"))
+            return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("total", noticeService.getTotal());
+        List<QzgzNoticeDto> list = noticeService.getEffecttList((int) map.get("page"), (int) map.get("pageSize"));
+        for (QzgzNoticeDto dto : list) {
+            dto.setContent(null);
+            dto.setCreated(null);
+            dto.setModifiername(null);
+        }
+        resultMap.put("data", list);
+        return ResultObj.success(resultMap);
     }
-    @PostMapping("/web/totalPage")
-    public ResultObj totalPage(){
-        return ResultObj.success(noticeService.totalPage());
+
+    /**
+     * 获取通知公告
+     *
+     * @param id 查询主键
+     * @return
+     */
+    @RequestMapping(value = "/web/notice/get", method = RequestMethod.GET)
+    public ResultObj getWebnotice(@RequestParam("id") int id) {
+        QzgzNoticeDto dto = noticeService.getNotice(id);
+        dto.setCreated(null);
+        dto.setModifiername(null);
+        return ResultObj.success(dto);
     }
 }
 

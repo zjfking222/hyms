@@ -24,28 +24,28 @@ public interface StudyService {
     QzgzStudyDto getStudy(int id );
 
     /**
-     * 获取菜单数量
-     * @return 菜单列表
+     * 获取学习通知数量
+     * @return 学习通知列表
      */
     int getTotal();
 
     /**
-     * 添加菜单
+     * 添加学习通知
      * @param dto
      * @return
      */
     QzgzStudyDto add(QzgzStudyDto dto);
 
     /**
-     * 更新菜单
+     * 更新学习通知
      * @param dto
      * @return
      */
     int update(QzgzStudyDto dto);
 
     /**
-     * 删除菜单
-     * @param id 需要删除菜单的id
+     * 删除学习
+     * @param id 需要删除学习通知的id
      * @return 删除数量
      */
     int  deleteById(int id);
