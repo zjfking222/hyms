@@ -22,20 +22,22 @@
     </select>
     
     <insert id="insertCanteen" parameterType="com.hy.model.QzgzCanteen">
-        INSERT INTO qzgz_canteen (name, price)
-        VALUES (#{name},#{price})
+        INSERT INTO qzgz_canteen (name, price,creater,modifier)
+        VALUES (#{name},#{price},#{creater},#{modifier})
     </insert>
     
     <update id="updateCanteenById" parameterType="com.hy.model.QzgzCanteen">
         UPDATE qzgz_canteen SET
-        name = #{name},
-        price = #{price}
+            name = #{name},
+            price = #{price},
+            modifier = #{modifier}
         WHERE id = #{id}
     </update>
 
     <update id="updateCanteenState" parameterType="com.hy.model.QzgzCanteen">
        UPDATE qzgz_canteen SET
-       state = #{state}
+           state = #{state},
+           modifier = #{modifier}
        WHERE id = #{id}
     </update>
     <select id="selectCanteenByName" parameterType="java.lang.String" resultType="com.hy.model.QzgzCanteen">
