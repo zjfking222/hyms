@@ -5,7 +5,6 @@ import com.hy.dto.BusDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
