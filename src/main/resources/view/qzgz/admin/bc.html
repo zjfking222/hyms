@@ -26,23 +26,17 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr class="active">
-                        <th>ID</th>
-                        <th>班次</th>
+                        <th style="width: 180px!important;">班次</th>
                         <th>路线</th>
-                        <th>首班车时间</th>
-                        <th>末班车时间</th>
-                        <th>操作</th>
+                        <th style="width: 200px!important;">操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
                     <tr v-for="bus in data1">
-                        <th>{{ bus.id }}</th>
                         <td>{{ bus.number }}</td>
                         <td>{{ bus.line }}</td>
-                        <td>{{ bus.start }}</td>
-                        <td>{{ bus.end }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm btn-edit" @click="onedit(bus.id,bus.number,bus.line,bus.start,bus.end)">修改</button>
+                            <button class="btn btn-warning btn-sm btn-edit" @click="onedit(bus.id,bus.number,bus.line)">修改</button>
                             <button class="btn btn-danger btn-sm" @click="ondelete(bus.id)">删除</button>
                         </td>
                     </tr>

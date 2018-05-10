@@ -4,8 +4,6 @@ public class BusDto {
     private int id;
     private String number;
     private String line;
-    private String start;
-    private String end;
 
     public String getLine() {
         return line;
@@ -31,19 +29,4 @@ public class BusDto {
         this.number = number;
     }
 
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public void setEnd(String end) {
-        this.end = end;
-    }
 }

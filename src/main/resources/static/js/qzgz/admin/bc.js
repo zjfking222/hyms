@@ -5,28 +5,11 @@ $(function () {
     var vm = new Vue({
         el:'#app',
         data: {
-            data1:dataSource(),
-            data2: {
-                number:'',
-                line:'',
-                start:'',
-                end:''
-            },
-            data3: {
-                id: 0,
-                number:'',
-                line:'',
-                start:'',
-                end:''
-            }
+            data1:dataSource()
         },
         methods: {
             onedit:function (id,number,line,start,end) {
-                this.$data.data3.id = id;
-                this.$data.data3.number = number;
-                this.$data.data3.line = line;
-                this.$data.data3.end = end;
-                this.$data.data3.start = start;
+
             },
             ondelete:function (id) {
                 layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
