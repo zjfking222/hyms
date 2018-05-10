@@ -1,5 +1,6 @@
 package com.hy.service.qzgz.impl;
 
+import com.hy.common.SecurityHelp;
 import com.hy.dto.OpinionDto;
 import com.hy.dto.OpinionForAdminDto;
 import com.hy.dto.OpinionForAdminWithPageDto;
@@ -19,11 +20,11 @@ public class OpinionServiceImpl implements OpinionService{
     private QzgzOpinionMapper opinionMapper;
 
     @Override
-    public boolean insertOpinion(OpinionDto opinionDto) {
-        //dto=>model暂时性做法
-        QzgzOpinion opinion = new QzgzOpinion(opinionDto.getName(),
-                opinionDto.getDepartment(),opinionDto.getContact(),
-                opinionDto.getOpinion());
+    public boolean addOpinion(OpinionDto opinionDto) {
+
+        QzgzOpinion opinion = DTOUtil.populate(opinionDto,QzgzOpinion.class);
+        opinion.setCreater(-1);
+        opinion.setModifier(-1);
         return opinionMapper.insertOpinion(opinion) == 1;
     }
 
@@ -51,6 +52,7 @@ public class OpinionServiceImpl implements OpinionService{
         QzgzOpinion opinion = new QzgzOpinion();
         opinion.setId(id);
         opinion.setState(state);
+        opinion.setModifier(SecurityHelp.getUserId());
         return opinionMapper.updateStateOfOpinion(opinion) == 1;
     }
 

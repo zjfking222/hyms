@@ -10,9 +10,9 @@
     </select>
     <insert id="insertRecruit" parameterType="com.hy.model.QzgzRecruit">
         INSERT INTO qzgz_recruit
-        (name, educate, work_place, description, salary, age)
+        (name, educate, work_place, description, salary, age, creater, modifier)
         VALUES
-        (#{name},#{educate},#{work_place},#{description},#{salary},#{age})
+        (#{name},#{educate},#{work_place},#{description},#{salary},#{age},#{creater},#{modifier})
     </insert>
     <update id="updateRecruit" parameterType="com.hy.model.QzgzRecruit">
         UPDATE qzgz_recruit SET
@@ -21,7 +21,8 @@
             work_place = #{work_place},
             description = #{description},
             salary = #{salary},
-            age = #{age}
+            age = #{age},
+            modifier = #{modifier}
         WHERE id = #{id}
     </update>
     <delete id="deleteRecruit" parameterType="java.lang.Integer">

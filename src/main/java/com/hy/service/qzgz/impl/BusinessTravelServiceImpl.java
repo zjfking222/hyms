@@ -1,5 +1,6 @@
 package com.hy.service.qzgz.impl;
 
+import com.hy.common.SecurityHelp;
 import com.hy.dto.BusinessTravelDto;
 import com.hy.mapper.ms.QzgzBusinessTravelMapper;
 import com.hy.model.QzgzBusinessTravel;
@@ -26,6 +27,8 @@ public class BusinessTravelServiceImpl implements BusinessTravelService{
         QzgzBusinessTravel businessTravel = new QzgzBusinessTravel();
         businessTravel.setTitle(title);
         businessTravel.setImg(img);
+        businessTravel.setCreater(SecurityHelp.getUserId());
+        businessTravel.setModifier(SecurityHelp.getUserId());
         return businessTravelMapper.insertBusinessTravel(businessTravel) == 1;
     }
 
@@ -40,6 +43,7 @@ public class BusinessTravelServiceImpl implements BusinessTravelService{
         businessTravel.setTitle(businessTravelDto.getTitle());
         businessTravel.setImg(businessTravelDto.getImg());
         businessTravel.setId(businessTravelDto.getId());
+        businessTravel.setModifier(SecurityHelp.getUserId());
         return businessTravelMapper.updateBusinessTravel(businessTravel) == 1;
     }
 }

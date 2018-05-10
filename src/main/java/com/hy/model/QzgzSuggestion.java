@@ -2,32 +2,15 @@ package com.hy.model;
 
 public class QzgzSuggestion {
     private Integer id;
-    private String title;
-    private String contact;
+    private String name;
     private String department;
-    private String content;
+    private String contact;
+    private String suggestion;
     private Integer creater;
     private String created;
     private Integer modifier;
     private String modified;
-    private Integer state;
-
-    public QzgzSuggestion(String title,String contact,String department,String content,Integer creater){
-        this.title=title;
-        this.contact=contact;
-        this.department=department;
-        this.content=content;
-        this.creater=creater;
-    }
-    public QzgzSuggestion(){}
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
+    private String state;
 
     public Integer getId() {
         return id;
@@ -35,6 +18,38 @@ public class QzgzSuggestion {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getSuggestion() {
+        return suggestion;
+    }
+
+    public void setSuggestion(String suggestion) {
+        this.suggestion = suggestion;
     }
 
     public Integer getCreater() {
@@ -69,36 +84,12 @@ public class QzgzSuggestion {
         this.modified = modified;
     }
 
-    public String getContact() {
-        return contact;
+    public String getState() {
+        return state;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setState(String state) {
+        this.state = state;
     }
 }
 

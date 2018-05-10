@@ -1,7 +1,8 @@
 package com.hy.service.qzgz.impl;
 
-import com.hy.dto.NoticeDto;
-import com.hy.dto.NoticeInfoDto;
+import com.github.pagehelper.PageHelper;
+import com.hy.common.SecurityHelp;
+import com.hy.dto.QzgzNoticeDto;
 import com.hy.mapper.ms.QzgzNoticeMapper;
 import com.hy.model.QzgzNotice;
 import com.hy.service.qzgz.NoticeService;
@@ -11,54 +12,62 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service (value = "Notice")
+@Service(value = "Notice")
 public class NoticeServiceImpl implements NoticeService {
+
     @Autowired
-    private QzgzNoticeMapper noticeMapper;
-    private final int GROUNDING=1;
+    private QzgzNoticeMapper qzgzNoticeMapper;
 
     @Override
-    public List<NoticeDto> getNotice(int state,int pageNum){
+    public List<QzgzNoticeDto> getList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<QzgzNotice> list = qzgzNoticeMapper.selectNotices();
+        return DTOUtil.populateList(list, QzgzNoticeDto.class);
+    }
 
-        return noticeMapper.selectNotice(GROUNDING , pageNum);
-    }
-    public Integer insertNotice(NoticeInfoDto noticeInfoDto){
-        QzgzNotice qzgzNoticeInfo =new QzgzNotice(
-                noticeInfoDto.getId(),
-                noticeInfoDto.getTitle(),
-                noticeInfoDto.getCreater(),
-                noticeInfoDto.getCreated(),
-                noticeInfoDto.getContent(),
-                noticeInfoDto.getNodifiedPerson(),
-                noticeInfoDto.getModifier()
-        );
-        return noticeMapper.insertNotice(qzgzNoticeInfo);
-    }
     @Override
-    public boolean deleteNotice(int id){
-        return noticeMapper.deleteNotice(id);
+    public List<QzgzNoticeDto> getEffecttList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<QzgzNotice> list = qzgzNoticeMapper.selectEffectNotices();
+        return DTOUtil.populateList(list, QzgzNoticeDto.class);
     }
-    @Override
-    public boolean updateNotice(NoticeInfoDto noticeInfoDto){
-        QzgzNotice qzgzNoticeInfo =new QzgzNotice(
-                noticeInfoDto.getId(),
-                noticeInfoDto.getTitle(),
-                noticeInfoDto.getCreater(),
-                noticeInfoDto.getCreated(),
-                noticeInfoDto.getContent(),
-                noticeInfoDto.getNodifiedPerson(),
-                noticeInfoDto.getModifier()
-        );
-        return noticeMapper.updateNotice(qzgzNoticeInfo);
-    }
-    @Override
-    public List<NoticeDto> selectByCreater(int creater){
 
-        return noticeMapper.selectByCreater(creater);
+    @Override
+    public QzgzNoticeDto getNotice(int id) {
+        QzgzNotice qzgzNotice = qzgzNoticeMapper.selectByPrimaryKey(id);
+        QzgzNoticeDto dto = new QzgzNoticeDto();
+        if (qzgzNotice == null)
+            return dto;
+        return DTOUtil.populate(qzgzNotice, dto);
     }
-    public int totalPage(){
 
-        return noticeMapper.totalPage();
+    @Override
+    public int getTotal() {
+        return qzgzNoticeMapper.selectNoticesTotal();
+    }
+
+    @Override
+    public QzgzNoticeDto add(QzgzNoticeDto dto) {
+        QzgzNotice qzgzNotice = DTOUtil.populate(dto, QzgzNotice.class);
+        qzgzNotice.setCreater(SecurityHelp.getUserId());
+        qzgzNotice.setCreatername(SecurityHelp.getUserName());
+        qzgzNotice.setModifier(SecurityHelp.getUserId());
+        qzgzNotice.setModifiername(SecurityHelp.getUserName());
+        int id = qzgzNoticeMapper.insertSelective(qzgzNotice);
+        return this.getNotice(qzgzNotice.getId());
+    }
+
+    @Override
+    public int update(QzgzNoticeDto dto) {
+        QzgzNotice qzgzNotice = DTOUtil.populate(dto, QzgzNotice.class);
+        qzgzNotice.setModifier(SecurityHelp.getUserId());
+        qzgzNotice.setModifiername(SecurityHelp.getUserName());
+        return qzgzNoticeMapper.updateByPrimaryKeySelective(qzgzNotice);
+    }
+
+    @Override
+    public int deleteById(int id) {
+        return qzgzNoticeMapper.deleteByPrimaryKey(id);
     }
 }
 

@@ -2,22 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.QzgzSuggestionMapper">
     <insert id="insertSuggestion" parameterType="com.hy.model.QzgzSuggestion">
-        INSERT INTO qzgz_suggestion(title,contact,department,creater,content)
-        VALUES (#{title},#{contact},#{department},#{creater},#{content})
+        INSERT INTO qzgz_suggestion
+        (name,department,contact,suggestion,creater,modifier)
+        VALUES
+        (#{name},#{department},#{contact},#{suggestion},#{creater},#{modifier})
     </insert>
-    <select id="getSuggestion" resultType="com.hy.dto.SuggestionDto">
-        SELECT id,title,contact,department,content,creater,date_format(created ,'%Y-%m-%d' ) as created,modifier,date_format(modified,'%Y-%m-%d') as modified,state
-        FROM qzgz_suggestion
-        ORDER BY state
-        LIMIT 10
+    <select id="selectSuggestion" resultType="com.hy.model.QzgzSuggestion">
+        SELECT * FROM qzgz_suggestion
+        WHERE 1=1
+        <if test="state != null and '' != state">
+            AND state = #{state}
+        </if>
+        ORDER BY state DESC,created DESC
+        LIMIT #{startRow},#{number}
     </select>
-    <delete id="deleteSuggestion" parameterType="com.hy.model.QzgzSuggestion">
-        DELETE FROM qzgz_suggestion
-        WHERE id=#{id}
-    </delete>
-    <update id="update" parameterType="com.hy.model.QzgzSuggestion">
-        UPDATE qzgz_suggestion
-        SET title=#{title},contact=#{contact},department=#{department},creater=#{creater},content=#{content}
-        WHERE id=#{id}
+    <select id="selectCountOfSuggestion" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM qzgz_suggestion
+        WHERE 1=1
+        <if test="state != null and '' != state">
+            AND state = #{state}
+        </if>
+    </select>
+    <update id="updateStateOfSuggestion" parameterType="com.hy.model.QzgzSuggestion">
+        UPDATE qzgz_suggestion SET
+        state = #{state},
+        modifier = #{modifier}
+        WHERE id = #{id}
     </update>
 </mapper>

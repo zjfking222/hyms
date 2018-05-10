@@ -3,8 +3,8 @@
 <mapper namespace="com.hy.mapper.ms.QzgzCanteenHistoryMapper">
     <insert id="insertCanteenHistory" parameterType="com.hy.model.QzgzCanteenHistory">
         INSERT qzgz_canteen_history
-        (date,canteen_id)
-        VALUES (from_days(to_days(now())),#{canteen_id})
+        (date,canteen_id,creater,modifier)
+        VALUES (from_days(to_days(now())),#{canteen_id},#{creater},#{modifier})
     </insert>
     <select id="selectCanteenHistory" resultType="com.hy.model.QzgzCanteen">
         SELECT c.*

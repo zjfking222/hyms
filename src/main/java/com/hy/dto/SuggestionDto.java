@@ -2,15 +2,12 @@ package com.hy.dto;
 
 public class SuggestionDto {
     private Integer id;
-    private String title;
-    private String contact;
+    private String name;
     private String department;
-    private String content;
-    private Integer creater;
+    private String contact;
+    private String suggestion;
     private String created;
-    private String modifier;
-    private String modified;
-    private Integer state;
+    private String state;
 
     public Integer getId() {
         return id;
@@ -20,20 +17,12 @@ public class SuggestionDto {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDepartment() {
@@ -44,20 +33,20 @@ public class SuggestionDto {
         this.department = department;
     }
 
-    public String getContent() {
-        return content;
+    public String getContact() {
+        return contact;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
-    public Integer getCreater() {
-        return creater;
+    public String getSuggestion() {
+        return suggestion;
     }
 
-    public void setCreater(Integer creater) {
-        this.creater = creater;
+    public void setSuggestion(String suggestion) {
+        this.suggestion = suggestion;
     }
 
     public String getCreated() {
@@ -68,27 +57,11 @@ public class SuggestionDto {
         this.created = created;
     }
 
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
-
-    public String getModified() {
-        return modified;
-    }
-
-    public void setModified(String modified) {
-        this.modified = modified;
-    }
-
-    public Integer getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 }

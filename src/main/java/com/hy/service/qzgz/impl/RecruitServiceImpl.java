@@ -1,5 +1,6 @@
 package com.hy.service.qzgz.impl;
 
+import com.hy.common.SecurityHelp;
 import com.hy.dto.RecruitDto;
 import com.hy.dto.RecruitWithTotalPageDto;
 import com.hy.mapper.ms.QzgzRecruitMapper;
@@ -36,12 +37,15 @@ public class RecruitServiceImpl implements RecruitService{
     @Override
     public boolean addRecruit(RecruitDto recruitDto) {
         QzgzRecruit recruit = DTOUtil.populate(recruitDto,QzgzRecruit.class);
+        recruit.setCreater(SecurityHelp.getUserId());
+        recruit.setModifier(SecurityHelp.getUserId());
         return recruitMapper.insertRecruit(recruit) == 1;
     }
 
     @Override
     public boolean setRecruit(RecruitDto recruitDto) {
         QzgzRecruit recruit = DTOUtil.populate(recruitDto,QzgzRecruit.class);
+        recruit.setModifier(SecurityHelp.getUserId());
         return recruitMapper.updateRecruit(recruit) == 1;
     }
 

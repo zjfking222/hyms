@@ -3,9 +3,9 @@
 <mapper namespace="com.hy.mapper.ms.QzgzOpinionMapper">
     <insert id="insertOpinion" parameterType="com.hy.model.QzgzOpinion">
         INSERT INTO qzgz_opinion
-        (name,department,contact,opinion)
+        (name,department,contact,opinion,creater,modifier)
         VALUES
-        (#{name},#{department},#{contact},#{opinion})
+        (#{name},#{department},#{contact},#{opinion},#{creater},#{modifier})
     </insert>
     <select id="selectOpinion" resultType="com.hy.model.QzgzOpinion">
         SELECT * FROM qzgz_opinion
@@ -26,7 +26,8 @@
     </select>
     <update id="updateStateOfOpinion" parameterType="com.hy.model.QzgzOpinion">
         UPDATE qzgz_opinion SET
-            state = #{state}
+            state = #{state},
+            modifier = #{modifier}
         WHERE id = #{id}
     </update>
 </mapper>

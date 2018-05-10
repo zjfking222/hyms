@@ -1,72 +1,28 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="zh">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>通知后台</title>
-    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/qzgz/web/tongzhi.css" rel="stylesheet">
-    <link href="/css/qzgz/web/paging.css" rel="stylesheet">
+    <title>学习园地</title>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
+    <link rel="stylesheet" href="/plugins/layer/theme/default/layer.css">
 
 </head>
+
 <body>
-<div class="form-group">
-    <input class="form-control" id="selectNotice" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="根据发布人查询">
+<div id="content">
+    <div id="grid"></div>
 </div>
-<button id="select" class="btn btn-info">查询</button>
-<button id="add" class="btn btn-info">添加</button>
-<table id="words" class="table table-bordered table-hover ">
-    <tr id="tableHead">
-        <td>ID</td>
-        <td>通知标题</td>
-        <td>发布人</td>
-        <td>发布时间</td>
-        <td>内容</td>
-        <td>被通知人</td>
-        <td>修改人</td>
-        <td>修改时间</td>
-        <td>操作</td>
-    </tr>
-    <tr id="tabList" v-for="data in dataSource.data" v-model="tableData">
-        <td>{{data.id}}</td>
-        <td>{{data.title}}</td>
-        <td>{{data.creater}}</td>
-        <td>{{data.created}}</td>
-        <td>{{data.content}}</td>
-        <td>{{data.nodifiedPerson}}</td>
-        <td>{{data.modifier}}</td>
-        <td>{{data.modified}}</td>
-        <td>
-            <button type="button" class="btn btn-warning" @click="updateNotice(data.id,data)">修改</button>
-            <button type="button" class="btn btn-danger" @click="deleteNotice(data.id)">删除</button>
-        </td>
-    </tr>
-</table>
-<div id="app">
-    <div>
-        <div class="page"  v-show="show">
-            <div class="pagelist">
-                <span class="jump"v-show="current_page>0" @click="{current_page--}">上一页</span>
-                <span v-show="current_page>5" class="jump" @click="jumpPage(1)">1</span>
-                <span class="ellipsis"  v-show="efont">...</span>
-                <span class="jump" v-for="num in indexs" :class="{bgprimary:current_page==num}" @click="jumpPage(num)">{{num}}</span>
-                <span class="ellipsis"  v-show="efont&&current_page<pages-4">...</span>
-
-                <span class="jump" @click="{current_page++}">下一页</span>
-                <span v-show="current_page<pages-1" class="jump" class="jump" @click="jumpPage(pages)">{{pages}}</span>
-
-                <span class="jumppoint">跳转到：</span>
-                <span class="jumpinp"><input type="text" v-model="changePage"></span>
-                <span class="jump gobtn" @click="jumpPage(changePage)">GO</span>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
-<script type="text/javascript" src="/js/qzgz/admin/tz.js"></script>
-<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/js/common/jquery.expand.js"></script>
+<script src="/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script src="/plugins/vue/vue.min.js"></script>
+<script src="/plugins/layer/layer.js"></script>
+<script src="/js/qzgz/admin/tz.js"></script>
 </body>
-<script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+
+</html>

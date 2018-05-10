@@ -1,19 +1,16 @@
-package com.hy.model;
+package com.hy.dto;
+
 
 import java.util.Date;
 
-public class QzgzNotice {
+public class QzgzNoticeDto {
     private Integer id;
 
     private String title;
 
     private String content;
 
-    private Integer creater;
-
     private Date created;
-
-    private Integer modifier;
 
     private Date modified;
 
@@ -47,28 +44,12 @@ public class QzgzNotice {
         this.content = content == null ? null : content.trim();
     }
 
-    public Integer getCreater() {
-        return creater;
-    }
-
-    public void setCreater(Integer creater) {
-        this.creater = creater;
-    }
-
     public Date getCreated() {
         return created;
     }
 
     public void setCreated(Date created) {
         this.created = created;
-    }
-
-    public Integer getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(Integer modifier) {
-        this.modifier = modifier;
     }
 
     public Date getModified() {
@@ -102,4 +83,6 @@ public class QzgzNotice {
     public void setModifiername(String modifiername) {
         this.modifiername = modifiername == null ? null : modifiername.trim();
     }
+
 }
+

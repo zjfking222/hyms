@@ -7,36 +7,52 @@
 </head>
 <link rel="stylesheet" href="/plugins/weixin/weui.min.css">
 <link rel="stylesheet" type="text/css" href="/css/qzgz/web/tongzhi.css">
+<link rel="stylesheet" type="text/css" href="/plugins/bootstrap/css/bootstrap.min.css">
 <script type="text/javascript" src="/js/qzgz/web/rem.js"></script>
-<script src="/plugins/weixin/jweixin-1.2.0.js"></script>
-<script src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/weixin/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/web/mainjs.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/qzgz/web/jy.js"></script>
-<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
-
 <body ontouchstart>
 <!-- 列表 -->
-<div id="list" class="weui-cells">
-    <a class="weui-cell weui-cell_access" v-for="data in dataSource.data" href="jy0.html">
-        <div class="weui-cell__bd">
-            <p>{{data.title}}</p><span class="name">{{data.creater}}</span>
+<div class="tableStyle">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">姓名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control weui-input" id="name" placeholder="请输入姓名">
+            </div>
         </div>
-        <div class="weui-cell__ft">{{data.created}}</div>
-    </a>
+        <div class="form-group">
+            <label for="department" class="col-sm-2 control-label">部门车间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control weui-input" id="department" placeholder="请输入部门车间">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="contact" class="col-sm-2 control-label">联系方式</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control weui-input" id="contact" placeholder="请输入联系方式">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="suggestion" class="col-sm-2 control-label">合理建议</label>
+            <div class="col-sm-10">
+                <textarea class="form-control textStyle weui-textarea" id="suggestion" rows="3"></textarea>
+            </div>
+        </div>
+        <a href="javascript:;" id="submit" class="weui-btn weui-btn_primary">提交</a>
+    </form>
 </div>
-<div id="list1">
-
+<div class="js_dialog" id="iosDialog1">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd" id="alert-text"></div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary btn-close">知道了</a>
+        </div>
+    </div>
 </div>
-
-
-<!-- 底部说明 -->
-<!--<div id="footer">-->
-    <!--<div class="weui-footer">-->
-        <!--<p class="weui-footer__links">-->
-            <!--<a href="javascript:void(0);" class="weui-footer__link">底部链接</a>-->
-            <!--<a href="javascript:void(0);" class="weui-footer__link">底部链接</a>-->
-        <!--</p>-->
-        <!--<p class="weui-footer__text">Copyright © 2008-2016 weui.io</p>-->
-    <!--</div>-->
-<!--</div>-->
 </body>
 </html>
