@@ -6,6 +6,7 @@ import com.hy.enums.ResultCode;
 import com.hy.service.qzgz.BusinessTravelService;
 import com.hy.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,9 @@ public class BusinessTravelController {
 
     @Autowired
     private BusinessTravelService businessTravelService;
-    private final String UPLOAD_URL="/files/qzgz/upload/images/";
+    @Value("${upload.location}")
+    private String location;
+    private final String UPLOAD_URL="/qzgz/upload/images/";
 
     @PostMapping("/web/getBusinessTravel")
     public ResultObj getBusinessTravel()
@@ -33,14 +36,14 @@ public class BusinessTravelController {
     public ResultObj setImg(@RequestParam("file")MultipartFile[] file){
         String fileName = file[0].getOriginalFilename();
         try {
-            File path = new File(ResourceUtils.getURL("classpath:").getPath()
-                    + "/static" + UPLOAD_URL);
+            File path = new File(ResourceUtils.getURL("file:").getPath()
+                    + location + UPLOAD_URL);
             String filePath = path.getAbsolutePath();
             FileUtil.uploadFile(file[0].getBytes(), filePath, fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ResultObj.success(UPLOAD_URL+fileName);
+        return ResultObj.success( UPLOAD_URL + fileName);
     }
 
     /**

@@ -47,6 +47,13 @@
     where type=0 and enable=1
     order by sort desc
   </select>
+  <select id="selectRoleMenus" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from sys_permission
+    where type=0 and enable=1
+    order by sort desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_permission
     where id = #{id,jdbcType=INTEGER}
