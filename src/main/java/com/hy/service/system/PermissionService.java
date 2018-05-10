@@ -14,6 +14,12 @@ public interface PermissionService {
     List<PermissionDto> getUserMenus(int userId);
 
     /**
+     * 获取
+     * @param userId
+     * @return
+     */
+    List<PermissionDto> getRoleMenus(int userId);
+    /**
      * 分页获取菜单信息
      *
      * @param pageNum  当前页

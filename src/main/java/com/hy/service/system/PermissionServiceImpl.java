@@ -42,6 +42,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<PermissionDto> getRoleMenus(int userId) {
+        return null;
+    }
+
+    @Override
     public List<PermissionDto> getMenus(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<SysPermission> list = sysPermissionMapper.selectMenus(false);
