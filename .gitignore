@@ -33,3 +33,4 @@
 /src/main/resources/generator/generatorConfig.xml
 /logs/
 /logs/springboot.log
+/files/
