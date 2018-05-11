@@ -29,6 +29,7 @@
                     <tr class="active">
                         <th class="th1">岗位名称</th>
                         <th class="th2">学历要求</th>
+                        <th class="th8">人数</th>
                         <th class="th3">工作地点</th>
                         <th class="th4">职位描述</th>
                         <th class="th5">年龄要求</th>
@@ -40,12 +41,13 @@
                     <tr v-for="recruit in data1.recruits">
                         <th>{{ recruit.name }}</th>
                         <td>{{ recruit.educate }}</td>
+                        <td>{{ recruit.number }}</td>
                         <td>{{ recruit.work_place }}</td>
                         <td>{{ recruit.description }}</td>
                         <td>{{ recruit.age }}</td>
                         <td>{{ recruit.salary }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm btn-read btn-edit" @click="onedit(recruit.name,recruit.educate,recruit.work_place,recruit.description,recruit.age,recruit.salary,recruit.id)">修改</button>
+                            <button class="btn btn-warning btn-sm btn-read btn-edit" @click="onedit(recruit.name,recruit.educate,recruit.work_place,recruit.description,recruit.age,recruit.salary,recruit.id,recruit.number)">修改</button>
                             <button class="btn btn-danger btn-sm btn-read btn-remove" @click="ondelete(recruit.id)">移除</button>
                         </td>
                     </tr>

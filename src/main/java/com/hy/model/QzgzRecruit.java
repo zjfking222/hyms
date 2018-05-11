@@ -15,6 +15,7 @@ public class QzgzRecruit {
     private Date created;
     private int modifier;
     private Date modified;
+    private int number;
 
     public int getId() {
         return id;
@@ -102,5 +103,13 @@ public class QzgzRecruit {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

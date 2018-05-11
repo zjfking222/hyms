@@ -8,6 +8,7 @@ $(function () {
     {
         $('#name').val(parent.pushData.name);
         $('#educate').val(parent.pushData.edu);
+        $('#number').val(parent.pushData.number),
         $('#workPlace').val(parent.pushData.place);
         $('#description').val(parent.pushData.descr);
         $('#salary').val(parent.pushData.sala);
@@ -19,6 +20,7 @@ $(function () {
        FetchData({
            name:$('#name').val(),
            educate:$('#educate').val(),
+           number:$('#number').val(),
            work_place:$('#workPlace').val(),
            description:$('#description').val(),
            salary:$('#salary').val(),
@@ -32,6 +34,7 @@ $(function () {
            FetchData({
                name:$('#name').val(),
                educate:$('#educate').val(),
+               number:$('#number').val(),
                work_place:$('#workPlace').val(),
                description:$('#description').val(),
                salary:$('#salary').val(),
