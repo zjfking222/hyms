@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
+<html lang="zh-CN">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +16,6 @@
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
 
 </head>
-
 <body>
 
 <div class="container-fluid">
@@ -26,50 +26,30 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr class="active">
-                        <th style="width: 180px!important;">班次</th>
+                        <th style="width: 180px!important;">班车车牌</th>
                         <th>路线</th>
                         <th style="width: 200px!important;">操作</th>
                     </tr>
                     </thead>
-                    <tbody class="table-hover" >
+                    <tbody class="table-hover">
                     <tr v-for="bus in data1">
                         <td>{{ bus.number }}</td>
                         <td>{{ bus.line }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm btn-edit" @click="onedit(bus.id,bus.number,bus.line)">修改</button>
+                            <button class="btn btn-warning btn-sm btn-edit" @click="onedit(bus.id,bus.number,bus.line)">
+                                修改
+                            </button>
                             <button class="btn btn-danger btn-sm" @click="ondelete(bus.id)">删除</button>
-                        </td>
-                    </tr>
-                    <tr class="tr-add" id="tr-add">
-                        <th>新增</th>
-                        <td><input class="form-control" type="text" v-model="data2.number"></td>
-                        <td><textarea class="form-control bus-ta" v-model="data2.line"></textarea></td>
-                        <td><input class="form-control" type="text" v-model="data2.start" id="adds"></td>
-                        <td><input class="form-control" type="text" v-model="data2.end" id="adde"></td>
-                        <td>
-                            <button class="btn btn-success btn-sm btn-addCommit" @click="onaddsubmit()">添加</button>
-                            <button class="btn btn-warning btn-sm btn-addCancel">取消</button>
-                        </td>
-                    </tr>
-                    <tr class="tr-edit" id="tr-edit">
-                        <th>修改 {{ data3.id }}</th>
-                        <td><input class="form-control" type="text" v-model="data3.number"></td>
-                        <td><textarea class="form-control bus-ta" v-model="data3.line"></textarea></td>
-                        <td><input class="form-control" type="text" v-model="data3.start" id="edits"></td>
-                        <td><input class="form-control" type="text" v-model="data3.end" id="edite"></td>
-                        <td>
-                            <button class="btn btn-success btn-sm btn-editCommit" @click="oneditsubmit()">修改</button>
-                            <button class="btn btn-warning btn-sm btn-editCancel">取消</button>
                         </td>
                     </tr>
                     </tbody>
 
                 </table>
-                <button class="btn btn-success btn-add">添加班车</button>
+                <button class="btn btn-success btn-add" @click="onadd">添加班车</button>
             </div>
-        <!--班车信息页面 END-->
+            <!--班车信息页面 END-->
+        </div>
     </div>
-</div>
 </div>
 
 <!-- Bootstrap core JavaScript
