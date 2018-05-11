@@ -9,7 +9,7 @@ var vm = new Vue({
     methods: {
         gestudy: function () {
             axios.get("/qzgz/web/study/get" + window.location.search).then(function (response) {
-                if (response.data.code == 0) {
+                if (response.data.code === 0) {
                     vm.study = response.data.data;
                     document.getElementById("content").innerHTML = vm.study.content;
                 }

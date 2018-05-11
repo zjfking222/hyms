@@ -1,3 +1,4 @@
+var pushData = {id:'new'}
 $(function () {
     function dataSource() {
         return FetchData({},'POST','/web/getBus',false).data;
@@ -8,7 +9,39 @@ $(function () {
             data1:dataSource()
         },
         methods: {
-            onedit:function (id,number,line,start,end) {
+            onadd:function () {
+                pushData = {
+                    id:'new'
+                };
+                layer.open({
+                    title:'添加班车',
+                    type: 2,
+                    area: ['700px', '600px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/qzgz/admin/bc_update.html',
+                    end: function () {
+                        vm.data1 = dataSource()
+                    }
+                });
+            },
+            onedit:function (id,number,line) {
+                pushData = {
+                    number:number,
+                    line:line,
+                    id:id
+                };
+                layer.open({
+                    title:'更新班车信息',
+                    type: 2,
+                    area: ['700px', '600px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/qzgz/admin/bc_update.html',
+                    end: function () {
+                        vm.data1 = dataSource()
+                    }
+                });
 
             },
             ondelete:function (id) {
@@ -20,86 +53,12 @@ $(function () {
                     },
                     function () {
                     });
-
-
-            },
-            onaddsubmit:function () {
-                FetchData({
-                    number:this.$data.data2.number,
-                    line:this.$data.data2.line,
-                    start:this.$data.data2.start,
-                    end:this.$data.data2.end},
-                    'POST','/admin/addBus',false)
-                this.$data.data1 = dataSource();
-            },
-            oneditsubmit:function () {
-                FetchData({
-                    id:this.$data.data3.id,
-                    number:this.$data.data3.number,
-                    line:this.$data.data3.line,
-                    start:this.$data.data3.start,
-                    end:this.$data.data3.end},
-                    'POST','/admin/setBus',false);
-                this.$data.data1 = dataSource();
             }
-
-        }
-    });
-    
-    layui.laydate.render({
-        elem: '#adds',
-        type: 'time',
-        format: 'HH:mm',
-        done: function(value){
-            vm.$data.data2.start = value;
-        }
-    });
-    layui.laydate.render({
-        elem: '#adde',
-        type: 'time',
-        format: 'HH:mm',
-        done: function(value){
-            vm.$data.data2.end = value;
-        }
-    });
-    layui.laydate.render({
-        elem: '#edits',
-        type: 'time',
-        format: 'HH:mm',
-        done: function(value){
-            vm.$data.data3.start = value;
-        }
-    });
-    layui.laydate.render({
-        elem: '#edite',
-        type: 'time',
-        format: 'HH:mm',
-        done: function(value){
-            vm.$data.data3.end = value;
         }
     });
 
-    $('.tr-add,.tr-edit').fadeOut(0);
-    $('.btn-edit').click(function () {
-        $('.tr-add').fadeOut(0);
-        $('.tr-edit').fadeIn(500);
-    });
-    $('.btn-editCancel').click(function () {
-        $('.tr-edit').fadeOut(0);
-    });
-    $('.btn-addCancel').click(function () {
-        $('.tr-add').fadeOut(0);
-    });
-    $('.btn-add').click(function () {
-        $('.tr-edit').fadeOut(0);
-        $('.tr-add').fadeIn(500);
-    });
-    $('.btn-addCommit').click(function () {
-        $('.tr-add').fadeOut(0);
-    });
-    $('.btn-editCommit').click(function () {
-        $('.tr-edit').fadeOut(0);
-    })
+
+
 
 });
 var FetchData = function (data, method, param, async) {
