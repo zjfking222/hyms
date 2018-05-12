@@ -40,20 +40,20 @@ public class CanteenServiceImpl implements CanteenService{
     }
 
     @Override
-    public boolean addCanteen(String name, double price) {
+    public boolean addCanteen(String name, String type) {
         QzgzCanteen qzgzCanteen = new QzgzCanteen();
         qzgzCanteen.setName(name);
-        qzgzCanteen.setPrice(price);
+        qzgzCanteen.setType(type);
         qzgzCanteen.setModifier(SecurityHelp.getUserId());
         qzgzCanteen.setCreater(SecurityHelp.getUserId());
         return canteenMapper.insertCanteen(qzgzCanteen) == 1;
     }
 
     @Override
-    public boolean updateCanteen(String name, double price, int id) {
+    public boolean updateCanteen(String name, String type, int id) {
         QzgzCanteen qzgzCanteen = new QzgzCanteen();
         qzgzCanteen.setId(id);
-        qzgzCanteen.setPrice(price);
+        qzgzCanteen.setType(type);
         qzgzCanteen.setName(name);
         qzgzCanteen.setModifier(SecurityHelp.getUserId());
         return canteenMapper.updateCanteenById(qzgzCanteen) == 1;
@@ -72,6 +72,11 @@ public class CanteenServiceImpl implements CanteenService{
     public List<CanteenDto> getCanteenBySearchName(String name) {
         return DTOUtil.populateList(canteenMapper.selectCanteenByName(name),
                 new ArrayList<CanteenDto>(),CanteenDto.class);
+    }
+
+    @Override
+    public CanteenDto getCanteenById(int id) {
+        return DTOUtil.populate(canteenMapper.selectCanteenById(id),CanteenDto.class);
     }
 
 }

@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var dataSource = FetchData({},'POST','/web/getTodaysCanteen',false);
+    var dataSource = FetchData({plusDay:0},'POST','/web/getCanteenHistoryByDay',false);
     if(dataSource.code === 0){
         for (var i = 0; i < dataSource.data.length; i++)
         {

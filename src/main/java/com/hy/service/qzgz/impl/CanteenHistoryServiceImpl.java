@@ -2,41 +2,66 @@ package com.hy.service.qzgz.impl;
 
 import com.hy.common.SecurityHelp;
 import com.hy.dto.CanteenDto;
+import com.hy.dto.CanteenHistoryDto;
 import com.hy.mapper.ms.QzgzCanteenHistoryMapper;
 import com.hy.model.QzgzCanteenHistory;
+import com.hy.model.QzgzCanteenHistoryListItem;
+import com.hy.model.QzgzCanteenView;
 import com.hy.service.qzgz.CanteenHistoryService;
+import com.hy.service.qzgz.CanteenService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class CanteenHistoryServiceImpl implements CanteenHistoryService{
     @Autowired
     private QzgzCanteenHistoryMapper qzgzCanteenHistoryMapper;
+    @Autowired
+    private CanteenService canteenService;
 
     @Override
-    public boolean addTodaysCanteen(int canteenId) {
+    public boolean addTodaysCanteen(int canteenId ,int meal) {
         QzgzCanteenHistory canteenHistory = new QzgzCanteenHistory();
         canteenHistory.setCanteen_id(canteenId);
         canteenHistory.setCreater(SecurityHelp.getUserId());
         canteenHistory.setModifier(SecurityHelp.getUserId());
+        canteenHistory.setMeal(meal);
         return qzgzCanteenHistoryMapper
                 .insertCanteenHistory(canteenHistory) == 1;
     }
 
     @Override
-    public List<CanteenDto> getTodaysCanteen() {
-        return  DTOUtil.populateList(qzgzCanteenHistoryMapper.selectCanteenHistory(),
-                        new ArrayList<CanteenDto>(),CanteenDto.class);
+    public List<CanteenHistoryDto> getTodaysCanteen() {
+
+        List<CanteenHistoryDto> canteenHistoryDtos = DTOUtil
+                .populateList(qzgzCanteenHistoryMapper.selectCanteenHistory(),
+                        CanteenHistoryDto.class);
+        for (CanteenHistoryDto ch : canteenHistoryDtos)
+        {
+            ch.setCanteen(canteenService.getCanteenById(ch.getCanteen_id()));
+        }
+        return canteenHistoryDtos;
     }
 
     @Override
-    public boolean removeTodaysCanteen(int canteenId) {
+    public boolean removeTodaysCanteen(int canteenId, int meal) {
         return qzgzCanteenHistoryMapper
-                .deleteCanteenHistory(canteenId) == 1;
+                .deleteCanteenHistory(canteenId, meal) == 1;
+    }
+
+    @Override
+    public List<QzgzCanteenView> getTodaysCanteenView() {
+        return qzgzCanteenHistoryMapper.selectViewOfHistory();
+    }
+
+    @Override
+    public List<QzgzCanteenHistoryListItem> getCanteenHistoryByDay(int plusDay) {
+        return qzgzCanteenHistoryMapper.selectCanteenHistoryByDay(plusDay);
     }
 
 }

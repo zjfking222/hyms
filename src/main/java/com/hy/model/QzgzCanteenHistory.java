@@ -7,6 +7,7 @@ public class QzgzCanteenHistory {
     private int id;
     private Date date;
     private int canteen_id;
+    private int meal;
     private int creater;
     private Date created;
     private int modifier;
@@ -34,6 +35,14 @@ public class QzgzCanteenHistory {
 
     public void setCanteen_id(int canteen_id) {
         this.canteen_id = canteen_id;
+    }
+
+    public int getMeal() {
+        return meal;
+    }
+
+    public void setMeal(int meal) {
+        this.meal = meal;
     }
 
     public int getCreater() {

@@ -3,7 +3,7 @@ package com.hy.dto;
 public class CanteenDto {
     private Integer id;
     private String name;
-    private Double price;
+    private String type;
     private String state;
 
     public String getState() {
@@ -29,11 +29,11 @@ public class CanteenDto {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getType() {
+        return type;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setType(String type) {
+        this.type = type;
     }
 }

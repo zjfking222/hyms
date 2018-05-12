@@ -26,24 +26,24 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr class="active">
-                        <th >ID</th>
+                        <th>餐别</th>
                         <th>菜名</th>
-                        <th>价格</th>
+                        <th>类型</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
-                    <tr v-for="canteen in data1.canteens">
-                        <th>{{ canteen.id }}</th>
-                        <td><input class="form-control" type="text" v-model="canteen.name"></td>
-                        <td><input class="form-control" type="text" v-model="canteen.price"></td>
+                    <tr v-for="canteen in data1">
+                        <td class="success" v-if="canteen.meal === 1">早餐</td>
+                        <td class="info" v-else-if="canteen.meal === 2">中餐</td>
+                        <td class="warning" v-else-if="canteen.meal === 3">晚餐</td>
+                        <td class="danger" v-else>夜宵</td>
+                        <td>{{canteen.name}}</td>
+                        <td>{{canteen.type}}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" @click="oneditinfo(canteen.name,canteen.price,canteen.id)">修改</button>
-                            <button class="btn btn-danger btn-sm" @click="ondeletetoday(canteen.id)" v-if="show(canteen.id)">移出今日菜单</button>
-                            <button class="btn btn-info btn-sm" @click="oninserttoday(canteen.id)" v-else>加入今日菜单</button>
+                            <button class="btn btn-danger btn-sm" @click="ondeletetoday(canteen.id,canteen.meal)">移除</button>
                         </td>
                     </tbody>
-
                 </table>
             </div>
         </div>
