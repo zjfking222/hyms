@@ -9,8 +9,20 @@
     <script type="text/javascript" src="/js/qzgz/web/rem.js"></script>
     <script type="text/javascript" src="/plugins/weixin/jweixin-1.2.0.js"></script>
     <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
     <script type="text/javascript" src="/js/qzgz/web/st.js"></script>
 </head>
+<style>
+    th{
+        width: 25%;
+    }
+    table{
+        border-bottom: 0.01rem solid #ddd;
+        width: 90%!important;
+        margin: 0 auto;
+    }
+
+</style>
 <body ontouchstart>
     <div id="shaixuan">
         <ul>
@@ -18,8 +30,47 @@
         </ul>
     </div>
 	<!-- 列表 -->
-	<div id="list" class="weui-cells">
-
+    <div id="app" style="text-align: center">
+        <table style="width: 100%" >
+            <tr>
+                <th>早餐</th>
+            </tr>
+            <tbody>
+                <tr v-for="canteen in data1">
+                    <td v-if="canteen.meal === 1">{{ canteen.name }}({{canteen.type}})</td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%" >
+            <tr>
+                <th>午餐</th>
+            </tr>
+            <tbody>
+            <tr v-for="canteen in data1">
+                <td v-if="canteen.meal === 2">{{ canteen.name }}({{canteen.type}})</td>
+            </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%" >
+            <tr>
+                <th>晚餐</th>
+            </tr>
+            <tbody>
+            <tr v-for="canteen in data1">
+                <td v-if="canteen.meal === 3">{{ canteen.name }}({{canteen.type}})</td>
+            </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%" >
+            <tr>
+                <th>夜宵</th>
+            </tr>
+            <tbody>
+            <tr v-for="canteen in data1">
+                <td v-if="canteen.meal === 4">{{ canteen.name }}({{canteen.type}})</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

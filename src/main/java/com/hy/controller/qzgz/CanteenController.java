@@ -28,16 +28,16 @@ public class CanteenController {
                 ResultObj.success(canteenWithTotalPageDto);
     }
     @PostMapping("/admin/addCanteen")
-    public ResultObj addCanteen(String name, double price)
+    public ResultObj addCanteen(String name, String type)
     {
-        return canteenService.addCanteen(name, price) ?
+        return canteenService.addCanteen(name, type) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
     @PostMapping("/admin/updateCanteen")
-    public ResultObj updateCanteen(String name, double price, int id)
+    public ResultObj updateCanteen(String name, String type, int id)
     {
-        return canteenService.updateCanteen(name, price, id) ?
+        return canteenService.updateCanteen(name, type, id) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }

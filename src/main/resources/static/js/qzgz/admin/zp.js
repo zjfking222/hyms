@@ -18,7 +18,7 @@ $(function () {
                 layer.open({
                     title:'添加岗位',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['700px', '650px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/qzgz/admin/zp_update.html',
@@ -27,7 +27,7 @@ $(function () {
                     }
                 });
             },
-            onedit:function (name,edu,place,descr,age,sala,id) {
+            onedit:function (name,edu,place,descr,age,sala,id,number) {
                 pushData = {
                     name:name,
                     edu:edu,
@@ -35,12 +35,13 @@ $(function () {
                     descr:descr,
                     age:age,
                     sala:sala,
-                    id:id
+                    id:id,
+                    number:number
                 };
                 layer.open({
                     title:'更新岗位',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['700px', '650px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/qzgz/admin/zp_update.html',

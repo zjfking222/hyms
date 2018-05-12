@@ -114,4 +114,8 @@
       modified = #{modified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectRoles" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_roles
+  </select>
 </mapper>

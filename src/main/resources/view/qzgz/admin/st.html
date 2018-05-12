@@ -30,29 +30,50 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr class="active">
-                        <th>ID</th>
                         <th>菜名</th>
-                        <th>价格</th>
+                        <th>类型</th>
+                        <th>加入明日菜单</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody class="table-hover" >
                     <tr v-for="canteen in data1.canteens">
-                        <th>{{ canteen.id }}</th>
                         <td><input class="form-control" type="text" v-model="canteen.name"></td>
-                        <td><input class="form-control" type="text" v-model="canteen.price"></td>
+                        <td>
+                            <select class="form-control" v-model="canteen.type">
+                                <option value="素菜">素菜</option>
+                                <option value="荤菜">荤菜</option>
+                                <option value="汤">汤</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button @click="oninserttoday(canteen.id,1)" v-if="show(canteen.id,1)" class="btn btn-default btn-sm">早餐</button>
+                            <button @click="ondeletetoday(canteen.id,1)" v-else class="btn btn-success btn-sm">早餐</button>
+                            <button @click="oninserttoday(canteen.id,2)" v-if="show(canteen.id,2)" class="btn btn-default btn-sm">午餐</button>
+                            <button @click="ondeletetoday(canteen.id,2)" v-else class="btn btn-success btn-sm">午餐</button>
+                            <button @click="oninserttoday(canteen.id,3)" v-if="show(canteen.id,3)" class="btn btn-default btn-sm">晚餐</button>
+                            <button @click="ondeletetoday(canteen.id,3)" v-else class="btn btn-success btn-sm">晚餐</button>
+                            <button @click="oninserttoday(canteen.id,4)" v-if="show(canteen.id,4)" class="btn btn-default btn-sm">夜宵</button>
+                            <button @click="ondeletetoday(canteen.id,4)" v-else class="btn btn-success btn-sm">夜宵</button>
+                        </td>
                         <td>
                             <button @click="oneditstate(1,canteen.id)" v-if="canteen.state === '0'" class="btn btn-danger btn-sm">已下架</button>
                             <button @click="oneditstate(0,canteen.id)" v-else class="btn btn-success btn-sm">已上架</button>
-                            <button class="btn btn-warning btn-sm" @click="oneditinfo(canteen.name,canteen.price,canteen.id)">修改</button>
-                            <button class="btn btn-danger btn-sm" @click="ondeletetoday(canteen.id)" v-if="show(canteen.id)">移出今日菜单</button>
-                            <button class="btn btn-info btn-sm" @click="oninserttoday(canteen.id)" v-else>加入今日菜单</button>
+                            <button class="btn btn-warning btn-sm" @click="oneditinfo(canteen.name,canteen.type,canteen.id)">修改</button>
                         </td>
                     </tr>
                     <tr class="tr-add" id="tr-add">
-                        <th>新增</th>
-                        <td><input class="form-control" type="text" v-model="data2.name"></td>
-                        <td><input class="form-control" type="text" v-model="data2.price"></td>
+                        <th><input class="form-control" type="text" v-model="data2.name"></th>
+                        <th>
+                            <select class="form-control" v-model="data2.type">
+                                <option value="素菜">素菜</option>
+                                <option value="荤菜">荤菜</option>
+                                <option value="汤">汤</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </th>
+                        <td>添加新菜</td>
                         <td>
                             <button class="btn btn-success btn-sm btn-addCommit" @click="onaddsubmit()">添加</button>
                             <button class="btn btn-warning btn-sm btn-addCancel">取消</button>
@@ -65,7 +86,7 @@
             <button class="btn btn-warning btn-showState1" @click="onshowpart()">只显示已上架的菜单</button>
             <button class="btn btn-success btn-showStateAll" @click="onshowall()">显示全部菜单</button>
             <button class="btn btn-success btn-addNew">添加新菜</button>
-            <button class="btn btn-info btn-showTodays">查看今日菜单</button>
+            <button class="btn btn-info btn-showTodays">查看明日菜单</button>
         </div>
         <!--食堂菜单页面 END-->
     </div>

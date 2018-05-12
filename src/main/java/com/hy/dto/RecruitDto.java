@@ -8,6 +8,7 @@ public class RecruitDto {
     private String description;
     private String salary;
     private String age;
+    private int number;
 
     public int getId() {
         return id;
@@ -63,5 +64,13 @@ public class RecruitDto {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>更新班车</title>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80% ;margin: 10px auto">
+<form>
+    <div class="form-group">
+        <label for="number">班车车牌</label>
+        <input class="form-control" id="number" placeholder="输入班车的车牌号">
+    </div>
+    <div class="form-group">
+        <label for="line">路线</label>
+        <textarea class="form-control" id="line"  style="resize:none;" rows="15" placeholder="输入班车的路线"></textarea>
+        <div style="margin-top: 1em">
+            <a class="btn btn-sm btn-default btn-dba" href="javascript:void(0);">⇋</a>
+            <a class="btn btn-sm btn-default btn-left" href="javascript:void(0);">→</a>
+        </div>
+    </div>
+    <button id="submit"  class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</button>
+</form>
+</body>
+
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/qzgz/admin/bc_update.js"></script>
+</html>

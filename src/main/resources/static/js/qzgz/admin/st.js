@@ -1,17 +1,13 @@
 $(function () {
 
     function dataSource() {
-        return FetchData({page:1,number:100},'POST','/web/getCanteen',false).data;
+        return FetchData({page:1,number:1000},'POST','/web/getCanteen',false).data;
     }
     function dataSourceState1() {
-        return FetchData({page:1,number:100,state:1},'POST','/web/getCanteen',false).data;
+        return FetchData({page:1,number:1000,state:1},'POST','/web/getCanteen',false).data;
     }
     function dataSourceTodays() {
         return FetchData({},'POST','/web/getTodaysCanteen',false).data;
-    }
-    //对dataSourceTodays进行包装，用于data1访问
-    function dataSourceTodaysPack() {
-        return {canteens:dataSourceTodays()}
     }
     function dataSourceSearch(name) {
         return {canteens:FetchData({name:name},'POST','/admin/getCanteenByName',false).data}
@@ -27,19 +23,19 @@ $(function () {
             data2:
                 {
                     name:'',
-                    price:'',
-                    search:''
+                    type:'',
+                    search:'',
+                    dataTodays: dataSourceTodays()
                 },
-            show:function (id) {
-                var dataTodays = dataSourceTodays();
-                for(var i = 0 ; i < dataTodays.length ; i++)
+            show:function (id, meal) {
+                for(var i = 0 ; i < this.data2.dataTodays.length ; i++)
                 {
-                    if(id === dataTodays[i].id)
+                    if(id === this.data2.dataTodays[i].canteen_id && meal === this.data2.dataTodays[i].meal)
                     {
-                        return true;
+                        return false;
                     }
                 }
-                return false;
+                return true;
             }
         },
         methods: {
@@ -55,12 +51,12 @@ $(function () {
                 isDataSourcePointAll = true;
             },
             onaddsubmit:function () {
-                FetchData({name:this.$data.data2.name,price:this.$data.data2.price},
+                FetchData({name:this.$data.data2.name,type:this.$data.data2.type},
                     'POST','/admin/addCanteen',false);
                     isDataSourcePointAll ?
                         this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 this.$data.data2.name='';
-                this.$data.data2.price='';
+                this.$data.data2.type='';
             },
             oneditstate:function (isGounding, id) {
                 isGounding === 0?
@@ -72,20 +68,22 @@ $(function () {
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
-            ondeletetoday:function (id) {
-                FetchData({id:id},'POST','/admin/removeTodaysCanteen',false);
+            ondeletetoday:function (id,meal) {
+                FetchData({id:id,meal:meal},'POST','/admin/removeTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                vm.data2.dataTodays = dataSourceTodays();
             },
-            oninserttoday:function (id) {
-                FetchData({id:id},'POST','/admin/addTodaysCanteen',false);
+            oninserttoday:function (id,meal) {
+                FetchData({id:id,meal:meal},'POST','/admin/addTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                vm.data2.dataTodays = dataSourceTodays();
             },
-            oneditinfo:function (name,price,id) {
-                if (FetchData({name:name,price:price,id:id},'POST','/admin/updateCanteen',false).code===0)
+            oneditinfo:function (name,type,id) {
+                if (FetchData({name:name,type:type,id:id},'POST','/admin/updateCanteen',false).code===0)
                 {
                     layer.open({
                         title: '成功'
@@ -96,13 +94,12 @@ $(function () {
                 {
                     layer.open({
                         title: '失败'
-                        ,content: '注意：价格必须输入数字（如：11.5）'
+                        ,content: '验证失效，请重新登陆！'
                     });
                 }
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-
             },
             onsearch:function (name) {
                 this.$data.data1 = dataSourceSearch(name)
@@ -131,9 +128,9 @@ $(function () {
     });
     $('.btn-showTodays').click(function () {
         layer.open({
-            title:'今日食堂',
+            title:'明日食堂',
             type: 2,
-            area: ['700px', '450px'],
+            area: ['700px', '600px'],
             fixed: false, //不固定
             maxmin: true,
             content: '/qzgz/admin/st_today.html',

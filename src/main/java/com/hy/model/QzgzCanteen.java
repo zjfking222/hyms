@@ -4,7 +4,7 @@ public class QzgzCanteen {
 
     private Integer id;
     private String name;
-    private Double price;
+    private String type;
     private Integer creater;
     private String created;
     private Integer modifier;
@@ -35,12 +35,12 @@ public class QzgzCanteen {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getType() {
+        return type;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Integer getCreater() {

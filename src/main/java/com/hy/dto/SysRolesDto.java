@@ -1,18 +1,13 @@
 package com.hy.dto;
 
-public class CanteenDto {
+public class SysRolesDto {
+
     private Integer id;
+
     private String name;
-    private String type;
-    private String state;
 
-    public String getState() {
-        return state;
-    }
+    private Boolean enable;
 
-    public void setState(String state) {
-        this.state = state;
-    }
     public Integer getId() {
         return id;
     }
@@ -29,11 +24,11 @@ public class CanteenDto {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public Boolean getEnable() {
+        return enable;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 }

@@ -26,19 +26,19 @@ public interface CanteenService {
     /**
      * 添加菜单
      * @param name 菜名
-     * @param price 价格
+     * @param type 菜类型
      * @return boolean
      */
-    boolean addCanteen(String name, double price);
+    boolean addCanteen(String name, String type);
 
     /**
      * 通过id修改菜单
      * @param name 菜名
-     * @param price 价格
+     * @param type 菜类型
      * @param id 菜id
      * @return boolean
      */
-    boolean updateCanteen(String name, double price, int id);
+    boolean updateCanteen(String name, String type, int id);
 
     /**
      * 更新菜状态 是否上架
@@ -54,4 +54,6 @@ public interface CanteenService {
      * @return List<CanteenDto>
      */
     List<CanteenDto> getCanteenBySearchName(String name);
+
+    CanteenDto getCanteenById(int id);
 }

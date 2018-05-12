@@ -1,5 +1,6 @@
 $(document).ready(function () {
     //init
+    $('#submitted').fadeOut(0);
     $('#iosDialog1').fadeOut(0);
     $('.btn-close').click(function () {
         $('#iosDialog1').fadeOut(500);
@@ -19,8 +20,15 @@ $(document).ready(function () {
                     opinion:$("#opinion").val()
                 };
             var dataSourse = FetchData(data,'POST','/web/handInOpinion',false);
-            dataSourse.code === 0 ? $('#alert-text').html('提交成功'):
+            if(dataSourse.code === 0 )
+            {
+                $('#alert-text').html('提交成功');
+                $('#submit').fadeOut(0);
+                $('#submitted').fadeIn(0);
+            }
+            else {
                 $('#alert-text').html(dataSourse.code);
+            }
         }
         $('#iosDialog1').fadeIn(100);
    })

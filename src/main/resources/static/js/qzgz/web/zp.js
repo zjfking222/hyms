@@ -9,12 +9,12 @@ $(function(){
                         .replace('#id#',dataSource.recruits[i].id)
                         .replace('#name#',dataSource.recruits[i].name)
                         .replace('#edu#',dataSource.recruits[i].educate)
+                        .replace("#number#",dataSource.recruits[i].number)
                         .replace('#place#',dataSource.recruits[i].work_place)
                         .replace('#salary#',dataSource.recruits[i].salary);
         $('#list').append(list_item0);
     }
     index ++;
-
 
     $(window).scroll(function() {
         var scrollTop = $(this).scrollTop();
@@ -33,6 +33,7 @@ $(function(){
                             .replace('#id#',dataSource.recruits[i].id)
                             .replace('#name#',dataSource.recruits[i].name)
                             .replace('#edu#',dataSource.recruits[i].educate)
+                            .replace("#number#",dataSource.recruits[i].number)
                             .replace('#place#',dataSource.recruits[i].work_place)
                             .replace('#salary#',dataSource.recruits[i].salary);
                     $('#list').append(list_item0);
@@ -49,7 +50,7 @@ $(function(){
 });
 var list_item = "<a class='weui-cell weui-cell_access' href='zp0.html?id=#id#'>"+
                 "<div class='weui-cell__bd'>"+
-                "<p>#name#</p>" +
+                "<p>#name#</p>" +"<p class='name'>人数：#number#</p>"+
                 "<span class='name'>#edu#&nbsp;#place#</span>"+
                 "</div>"+
                 "<div class='weui-cell__ft' style='color: #cc2222'>#salary#</div>"+

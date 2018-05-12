@@ -16,4 +16,5 @@ public interface QzgzCanteenMapper {
     Integer updateCanteenById(QzgzCanteen canteen);
     Integer updateCanteenState(QzgzCanteen canteen);
     List<QzgzCanteen> selectCanteenByName(String name);
+    QzgzCanteen selectCanteenById(int id);
 }

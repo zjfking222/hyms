@@ -22,14 +22,14 @@
     </select>
     
     <insert id="insertCanteen" parameterType="com.hy.model.QzgzCanteen">
-        INSERT INTO qzgz_canteen (name, price,creater,modifier)
-        VALUES (#{name},#{price},#{creater},#{modifier})
+        INSERT INTO qzgz_canteen (name, type, creater, modifier)
+        VALUES (#{name},#{type},#{creater},#{modifier})
     </insert>
     
     <update id="updateCanteenById" parameterType="com.hy.model.QzgzCanteen">
         UPDATE qzgz_canteen SET
             name = #{name},
-            price = #{price},
+            type = #{type},
             modifier = #{modifier}
         WHERE id = #{id}
     </update>
@@ -44,6 +44,10 @@
       SELECT * FROM
       qzgz_canteen
       WHERE name like concat('%',#{name},'%')
+    </select>
+    <select id="selectCanteenById" resultType="com.hy.model.QzgzCanteen">
+        SELECT * FROM qzgz_canteen
+        WHERE id = #{id}
     </select>
 
 </mapper>
