@@ -32,6 +32,9 @@
       #{modified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysRoles" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sys_roles
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

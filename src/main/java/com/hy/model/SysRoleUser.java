@@ -21,6 +21,18 @@ public class SysRoleUser {
 
     private String lastname;
 
+    public SysRoleUser() {
+    }
+
+    public SysRoleUser(Integer creater, Integer modifier, Integer rid, Integer uid, String loginid, String lastname) {
+        this.creater = creater;
+        this.modifier = modifier;
+        this.rid = rid;
+        this.uid = uid;
+        this.loginid = loginid;
+        this.lastname = lastname;
+    }
+
     public Integer getId() {
         return id;
     }
