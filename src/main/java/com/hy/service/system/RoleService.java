@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RoleService {
     List<SysRolesDto> getRoles();
+    boolean delRole(int id);
+    boolean setRole(String name, Integer[] uid);
 }

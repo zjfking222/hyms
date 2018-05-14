@@ -32,7 +32,6 @@
                         <th class="th8">人数</th>
                         <th class="th3">工作地点</th>
                         <th class="th4">职位描述</th>
-                        <th class="th5">年龄要求</th>
                         <th class="th6">薪资</th>
                         <th class="th7">操作</th>
                     </tr>
@@ -44,10 +43,10 @@
                         <td>{{ recruit.number }}</td>
                         <td>{{ recruit.work_place }}</td>
                         <td>{{ recruit.description }}</td>
-                        <td>{{ recruit.age }}</td>
                         <td>{{ recruit.salary }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm btn-read btn-edit" @click="onedit(recruit.name,recruit.educate,recruit.work_place,recruit.description,recruit.age,recruit.salary,recruit.id,recruit.number)">修改</button>
+                            <button class="btn btn-warning btn-sm btn-read btn-edit" @click="onedit(recruit.name,recruit.educate,recruit.work_place,recruit.description,
+                            recruit.salary,recruit.id,recruit.number)">修改</button>
                             <button class="btn btn-danger btn-sm btn-read btn-remove" @click="ondelete(recruit.id)">移除</button>
                         </td>
                     </tr>

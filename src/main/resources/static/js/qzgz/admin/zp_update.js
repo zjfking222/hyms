@@ -12,7 +12,6 @@ $(function () {
         $('#workPlace').val(parent.pushData.place);
         $('#description').val(parent.pushData.descr);
         $('#salary').val(parent.pushData.sala);
-        $('#age').val(parent.pushData.age);
     }
 
    $('#submit').on('click',function () {
@@ -23,8 +22,8 @@ $(function () {
            number:$('#number').val(),
            work_place:$('#workPlace').val(),
            description:$('#description').val(),
-           salary:$('#salary').val(),
-           age:$('#age').val()
+           salary:$('#salary').val()
+
        },'POST','/admin/addRecruit',false).code === 0?
            parent.layer.msg('添加成功'):
            parent.layer.msg('添加失败')
@@ -38,7 +37,6 @@ $(function () {
                work_place:$('#workPlace').val(),
                description:$('#description').val(),
                salary:$('#salary').val(),
-               age:$('#age').val(),
                id:parent.pushData.id
            },'POST','/admin/setRecruit',false).code === 0?
                parent.layer.msg('修改成功'):

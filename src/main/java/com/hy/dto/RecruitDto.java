@@ -7,7 +7,6 @@ public class RecruitDto {
     private String work_place;
     private String description;
     private String salary;
-    private String age;
     private int number;
 
     public int getId() {
@@ -56,14 +55,6 @@ public class RecruitDto {
 
     public void setSalary(String salary) {
         this.salary = salary;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
     }
 
     public int getNumber() {

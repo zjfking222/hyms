@@ -18,4 +18,14 @@ public class RoleServiceImpl implements RoleService{
     public List<SysRolesDto> getRoles() {
         return DTOUtil.populateList(rolesMapper.selectRoles(),SysRolesDto.class);
     }
+
+    @Override
+    public boolean delRole(int id) {
+        return false;
+    }
+
+    @Override
+    public boolean setRole(String name,Integer[] uid) {
+        return false;
+    }
 }
