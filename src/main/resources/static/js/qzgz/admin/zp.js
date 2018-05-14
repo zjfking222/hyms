@@ -18,7 +18,7 @@ $(function () {
                 layer.open({
                     title:'添加岗位',
                     type: 2,
-                    area: ['700px', '650px'],
+                    area: ['700px', '600px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/qzgz/admin/zp_update.html',
@@ -27,13 +27,12 @@ $(function () {
                     }
                 });
             },
-            onedit:function (name,edu,place,descr,age,sala,id,number) {
+            onedit:function (name,edu,place,descr,sala,id,number) {
                 pushData = {
                     name:name,
                     edu:edu,
                     place:place,
                     descr:descr,
-                    age:age,
                     sala:sala,
                     id:id,
                     number:number
@@ -41,7 +40,7 @@ $(function () {
                 layer.open({
                     title:'更新岗位',
                     type: 2,
-                    area: ['700px', '650px'],
+                    area: ['700px', '600px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/qzgz/admin/zp_update.html',
@@ -55,7 +54,7 @@ $(function () {
                 layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
                     function () {
                         FetchData({id:id},"POST","/admin/delRecruit");
-                        layer.msg('删除成功！',{
+                        layer.msg('删除成功！',{time:500,
                             end:function () {
                                 vm.data1 = dataSource(current_page);
                         }});
