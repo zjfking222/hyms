@@ -9,12 +9,19 @@
         <result column="departmentid" property="departmentid" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, loginid,password, lastname, departmentid
+    id,loginid,password, lastname, departmentid
   </sql>
     <select id="findByLoginId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from HrmResource
         where ISNULL(enddate,'') ='' and loginid = #{loginid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectHrByLike" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from HrmResource
+        where ISNULL(enddate,'') ='' and (loginid like '%'+#{loginid,jdbcType=VARCHAR}+'%'
+        or lastname like '%'+#{lastname,jdbcType=VARCHAR}+'%')
     </select>
 </mapper>
