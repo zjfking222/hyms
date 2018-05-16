@@ -138,4 +138,14 @@
       lastname = #{lastname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByRid" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from sys_role_user
+    where rid = #{rid}
+  </select>
+  <delete id="deleteByRidnUid" parameterType="com.hy.model.SysRoleUser">
+    DELETE FROM sys_role_user
+    WHERE uid=#{uid} AND rid=#{rid}
+  </delete>
 </mapper>

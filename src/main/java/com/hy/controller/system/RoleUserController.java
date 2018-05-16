@@ -6,6 +6,7 @@ import com.hy.enums.ResultCode;
 import com.hy.service.system.RoleUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class RoleUserController {
     private RoleUserService roleUserService;
 
     @PostMapping("/roleUser/set")
-    public ResultObj setRoleUser(SysRolesUserDto sysRolesUserDto){
+    public ResultObj setRoleUser(@RequestBody SysRolesUserDto sysRolesUserDto){
 
         try{
             roleUserService.setRoleUser(sysRolesUserDto);
@@ -27,7 +28,7 @@ public class RoleUserController {
         }
     }
     @PostMapping("/roleUser/add")
-    public ResultObj addRoleUser(SysRolesUserDto sysRolesUserDto){
+    public ResultObj addRoleUser(@RequestBody SysRolesUserDto sysRolesUserDto){
 
         try{
             roleUserService.addRoleUser(sysRolesUserDto);
@@ -35,5 +36,9 @@ public class RoleUserController {
         }catch (Exception e){
             return ResultObj.error(ResultCode.ERROR_ADD_FAILED);
         }
+    }
+    @PostMapping("/roleUser/getUser")
+    public ResultObj getUser(int rid){
+        return ResultObj.success(roleUserService.getUserByRid(rid));
     }
 }

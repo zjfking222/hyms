@@ -29,4 +29,9 @@ public class RoleServiceImpl implements RoleService{
         return rolesMapper.deleteByPrimaryKey(id) == 1;
     }
 
+    @Override
+    public List<SysRolesDto> searchRoles(String name) {
+        return DTOUtil.populateList(rolesMapper.selectRolesByLike(name),SysRolesDto.class);
+    }
+
 }

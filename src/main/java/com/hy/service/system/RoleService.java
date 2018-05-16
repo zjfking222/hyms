@@ -11,5 +11,5 @@ public interface RoleService {
 
     boolean delRole(int id);
 
-
+    List<SysRolesDto> searchRoles(String name);
 }

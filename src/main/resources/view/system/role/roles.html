@@ -41,14 +41,14 @@
                     <button class="btn btn-info btn-sm">搜索</button>
                 </td>
                 <td>
-                    <button class="btn btn-success btn-sm">新增</button>
+                    <button class="btn btn-success btn-sm" @click="onAdd">新增</button>
                 </td>
             </tr>
             <tr v-for="role in data1" v-if="role.enable === true">
                 <td style="display: none">{{role.id}}</td>
                 <td><a>{{role.name}}</a></td>
                 <td>
-                    <button class="btn btn-warning btn-sm">修改</button>
+                    <button class="btn btn-warning btn-sm" @click="onEdit(role.id,role.name)">修改</button>
                     <button class="btn btn-danger btn-sm">删除</button>
                 </td>
             </tr>

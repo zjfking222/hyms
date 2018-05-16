@@ -111,8 +111,6 @@
     update sys_roles
     set name = #{name,jdbcType=VARCHAR},
       enable = #{enable,jdbcType=BIT},
-      creater = #{creater,jdbcType=INTEGER},
-      created = #{created,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=INTEGER},
       modified = #{modified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -120,5 +118,9 @@
   <select id="selectRoles" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
     FROM sys_roles
+  </select>
+  <select id="selectRolesByLike" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_roles WHERE name like concat('%',#{name,jdbcType=VARCHAR},'%')
   </select>
 </mapper>

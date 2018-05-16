@@ -19,4 +19,9 @@ public class RoleController {
     {
         return ResultObj.success(roleService.getRoles());
     }
+
+    @PostMapping("/roles/search")
+    public ResultObj searchRoles(String name){
+        return ResultObj.success(roleService.searchRoles(name));
+    }
 }

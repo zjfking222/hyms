@@ -6,19 +6,19 @@ package com.hy.dto;
  */
 public class SysRolesUserDto {
 
-    private int id;
+//    private int id;
     private int rid;
     private String name;
     private HrmResourceDto[] nHrmResources;
-    private int[] rHrmResources;
+    private SysRolesUserDelDto[] rHrmResources;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public int getRid() {
         return rid;
@@ -44,11 +44,11 @@ public class SysRolesUserDto {
         this.nHrmResources = nHrmResources;
     }
 
-    public int[] getrHrmResources() {
+    public SysRolesUserDelDto[] getrHrmResources() {
         return rHrmResources;
     }
 
-    public void setrHrmResources(int[] rHrmResources) {
+    public void setrHrmResources(SysRolesUserDelDto[] rHrmResources) {
         this.rHrmResources = rHrmResources;
     }
 }
