@@ -7,6 +7,9 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <link rel="stylesheet" href="/plugins/layer/theme/default/layer.css">
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
+    <link rel="stylesheet" href="/plugins/layer/theme/default/layer.css">
 </head>
 
 <body>
@@ -37,8 +40,8 @@
         <table class="table-left table table-bordered table-hover">
             <tr>
                 <td>
-                    <input class="form-control" style="width: 75%!important;display: inline-block!important;" placeholder="搜索">
-                    <button class="btn btn-info btn-sm">搜索</button>
+                    <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
+                    <!--<button @click="onSearch" class="btn btn-info btn-sm" id="btn-search">搜索</button>-->
                 </td>
                 <td>
                     <button class="btn btn-success btn-sm" @click="onAdd">新增</button>
@@ -49,21 +52,23 @@
                 <td><a>{{role.name}}</a></td>
                 <td>
                     <button class="btn btn-warning btn-sm" @click="onEdit(role.id,role.name)">修改</button>
-                    <button class="btn btn-danger btn-sm">删除</button>
+                    <button class="btn btn-danger btn-sm" @click="onDel(role.id)">删除</button>
                 </td>
             </tr>
             <tr style="display: none;" v-else>
             </tr>
         </table>
     </div>
-    <div id="right">
+    <div id="treeview">
 
     </div>
 </div>
 
 <script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="/js/common/jquery.expand.js"></script>
 <script src="/plugins/vue/vue.min.js"></script>
 <script src="/plugins/layer/layer.js"></script>
 <script src="/js/system/role/roles.js"></script>

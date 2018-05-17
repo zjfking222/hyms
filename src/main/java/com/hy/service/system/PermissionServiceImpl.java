@@ -3,6 +3,7 @@ package com.hy.service.system;
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
 import com.hy.dto.PermissionDto;
+import com.hy.dto.SysPermissionDto;
 import com.hy.mapper.ms.SysPermissionMapper;
 import com.hy.model.SysPermission;
 import com.hy.utils.DTOUtil;
@@ -42,8 +43,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDto> getRoleMenus(int userId) {
-        return null;
+    public List<SysPermissionDto> getRoleMenus() {
+        return DTOUtil.populateList(sysPermissionMapper.selectRoleMenus(),SysPermissionDto.class);
     }
 
     @Override

@@ -121,6 +121,9 @@
   </select>
   <select id="selectRolesByLike" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
-    FROM sys_roles WHERE name like concat('%',#{name,jdbcType=VARCHAR},'%')
+    FROM sys_roles
+    <if test="name != null">
+    WHERE name like concat('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
   </select>
 </mapper>

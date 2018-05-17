@@ -125,4 +125,8 @@
       type = #{type,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectRolePermissionByRid" resultType="com.hy.model.SysRolePermission">
+    SELECT * FROM sys_role_permission
+    WHERE rid = #{rid}
+  </select>
 </mapper>

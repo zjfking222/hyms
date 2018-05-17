@@ -11,5 +11,6 @@ public interface SysPermissionMapper extends BaseMapper<Integer,SysPermission> {
     List<SysPermission>selectMenus(boolean parents);
     int  selectMenusTotal();
 
+    //用于权限控制树形结构
     List<SysPermission> selectRoleMenus();
 }
