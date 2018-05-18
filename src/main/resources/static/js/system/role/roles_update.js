@@ -41,10 +41,6 @@ $(function () {
                 if(!isExist){
                     add.push(add_item);
                     vm.result.push(add_item)
-                    console.log(1111111)
-                    console.log(del);
-                    console.log(add);
-                    console.log(vm.result);
                 }
             },
             onDel: function (uid) {
@@ -69,10 +65,6 @@ $(function () {
                         break;
                     }
                 }
-                console.log(22222222)
-                console.log(del);
-                console.log(add);
-                console.log(vm.result);
             },
             onSubmit:function () {
                 if(parent.pushData.rid === -1)

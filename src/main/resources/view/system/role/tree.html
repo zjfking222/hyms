@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>角色管理</title>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
+</head>
+<body>
+<div id="treeview">
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script>
+    var ListData;
+
+    function dataSourceList(rid) {
+        return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
+    }
+
+    $(function () {
+        function checkedNodeIds(nodes, checkedNodes) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].checked) {
+                    checkedNodes.push(nodes[i].id);
+                }
+
+                if (nodes[i].hasChildren) {
+                    checkedNodeIds(nodes[i].children.view(), checkedNodes);
+                }
+            }
+        }
+        function onCheck() {
+            var checkedNodes = [], treeView = $("#treeview").data("kendoTreeView");
+
+            checkedNodeIds(treeView.dataSource.view(), checkedNodes);
+            var objList = [];
+            for (var i = 0 ; i < checkedNodes.length ; i++){
+                var obj = {
+                    mid:checkedNodes[i],
+                    rid:parent.pushRid,
+                    type:false,
+                }
+                objList.push(obj)
+            }
+            var postData = {
+                rolePermission:objList,
+                rid:parent.pushRid
+            }
+            FetchData(JSON.stringify(postData),'POST','/rolesPm/set',false,true)
+        }
+
+        ListData =  new kendo.data.HierarchicalDataSource({
+            data: dataSourceList(parent.pushRid)
+        });
+
+        $("#treeview").kendoTreeView({
+            checkboxes: {
+                checkChildren: true
+            },
+            dataSource: ListData,
+            check: onCheck
+        });
+    });
+    var FetchData = function (data, method, param, async,contentType) {
+        var response =
+            $.ajax({
+                async: async,
+                url: "/system"+param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                contentType:contentType? "application/json;charset=utf-8":
+                    "application/x-www-form-urlencoded;charset=UTF-8",
+                success: function (dataSource) {
+                    return dataSource;
+                }});
+        return response.responseJSON;
+    };
+</script>
+</body>
+</html>

@@ -129,4 +129,8 @@
     SELECT * FROM sys_role_permission
     WHERE rid = #{rid}
   </select>
+  <delete id="deleteRolePermissionByRid" parameterType="java.lang.Integer">
+    DELETE FROM sys_role_permission
+    WHERE rid = #{rid}
+  </delete>
 </mapper>

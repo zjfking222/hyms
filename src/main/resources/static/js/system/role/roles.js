@@ -1,23 +1,15 @@
 var pushData;
-var ListData;
+var pushRid;
 $(function () {
-    ListData = [
-        { id: 1, text: "系统管理",checked:false, items: [
-                { id: 2, text: "Tables & Chairs" ,checked:true},
-                { id: 3, text: "Sofas" ,checked:true},
-                { id: 4, text: "Occasional Furniture" ,checked:true}
-            ] },
-        { id: 5, text: "衢州公众", items: [
-                { id: 6, text: "Bed Linen" },
-                { id: 7, text: "Curtains & Blinds" },
-                { id: 8, text: "Carpets" }
-            ] },
-    ];
+
     function dataSource() {
         return FetchData({},'POST','/roles/getAll',false).data;
     }
     function dataSourceSearch(name) {
         return FetchData({name: name},'POST','/roles/search',false).data;
+    }
+    function dataSourceList(rid) {
+        return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
     }
 
 
@@ -77,40 +69,15 @@ $(function () {
                     },
                     function () {
                     });
+            },
+            onChoose:function (rid) {
+                $('#treeview').attr('src','tree.html?id'+rid);
+                pushRid = rid;
             }
-            // onSearch:function () {
-            //     console.log(this.data0);
-            //     this.data1 = dataSourceSearch(this.data0);
-            // }
         }
     });
-    function checkedNodeIds(nodes, checkedNodes) {
-        for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].checked) {
 
-                checkedNodes.push(nodes[i].id);
-            }
 
-            if (nodes[i].hasChildren) {
-                checkedNodeIds(nodes[i].children.view(), checkedNodes);
-            }
-        }
-    }
-    function onCheck() {
-        var checkedNodes = [],
-            treeView = $("#treeview").data("kendoTreeView");
-
-        checkedNodeIds(treeView.dataSource.view(), checkedNodes);
-        console.log(checkedNodes)
-    }
-
-    $("#treeview").kendoTreeView({
-        checkboxes: {
-            checkChildren: true
-        },
-        dataSource: ListData,
-        check: onCheck
-    })
 
 });
 var FetchData = function (data, method, param, async) {

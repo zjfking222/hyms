@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RolePermissionService {
     List<SysRolePermissionTreeDto> getRolePermission(Integer rid);
-    boolean setRolePermission(List<SysRolePermissionDto> sysRolePermissionDtos);
+    boolean setRolePermission(Integer[] mid, Integer rid);
 }

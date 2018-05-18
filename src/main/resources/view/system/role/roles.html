@@ -7,8 +7,6 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <link rel="stylesheet" href="/plugins/layer/theme/default/layer.css">
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
-    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
     <link rel="stylesheet" href="/plugins/layer/theme/default/layer.css">
 </head>
 
@@ -19,13 +17,9 @@
     }
     #left{
         display: inline-block;
-        width: 39.5%;
+        width: 30%;
         background: white;
-    }
-    #right{
-        display: inline-block;
-        width: 59.5%;
-        background: white;
+        float: left;
     }
     #menus{
         width: 80%;
@@ -33,6 +27,11 @@
     }
     td{
         text-align: center;
+    }
+    iframe{
+        border: 0;
+        float: left;
+        margin-left: 3rem;
     }
 </style>
 <div id="menus">
@@ -49,7 +48,7 @@
             </tr>
             <tr v-for="role in data1" v-if="role.enable === true">
                 <td style="display: none">{{role.id}}</td>
-                <td><a>{{role.name}}</a></td>
+                <td><a @click="onChoose(role.id)">{{role.name}}</a></td>
                 <td>
                     <button class="btn btn-warning btn-sm" @click="onEdit(role.id,role.name)">修改</button>
                     <button class="btn btn-danger btn-sm" @click="onDel(role.id)">删除</button>
@@ -59,15 +58,11 @@
             </tr>
         </table>
     </div>
-    <div id="treeview">
-
-    </div>
+    <iframe id="treeview" width="40%" height="500px">
+</iframe>
 </div>
 
 <script src="/plugins/jquery/jquery.min.js"></script>
-<script src="/plugins/kendo/js/kendo.all.min.js"></script>
-<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
-<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="/plugins/vue/vue.min.js"></script>
 <script src="/plugins/layer/layer.js"></script>

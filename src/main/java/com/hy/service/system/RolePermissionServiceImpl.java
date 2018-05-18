@@ -40,7 +40,7 @@ public class RolePermissionServiceImpl implements RolePermissionService{
             for (SysPermissionDto pd: permissions) {
                 if(pd.getParentid() == 0 ) {
                     trees.add(new SysRolePermissionTreeDto(pd.getId(), pd.getName(),
-                            false, new LinkedList<SysRolePermissionDto>()));
+                            false,0,true, new LinkedList<>()));
                 }
             }
             //因为是二层结构 归出叶子节点 并赋值是否勾选状态
@@ -53,11 +53,11 @@ public class RolePermissionServiceImpl implements RolePermissionService{
                         if(pd.getParentid() != 0){
                             if(rp.getMid() == pd.getId()){
                                 leaf = new SysRolePermissionTreeDto(pd.getId(), pd.getName(),
-                                        true, new LinkedList<>());
+                                        true, pd.getParentid(),true, new LinkedList<>());
                             }
                             else {
                                 leaf =  new SysRolePermissionTreeDto(pd.getId(), pd.getName(),
-                                        false, new LinkedList<>());
+                                        false, pd.getParentid(),true, new LinkedList<>());
                             }
                             for(int i = 0 ; i < branches.size() ; i++){
                                 if (branches.get(i).getId() == leaf.getId()){
@@ -81,20 +81,39 @@ public class RolePermissionServiceImpl implements RolePermissionService{
                 else {
                     if(pd.getParentid() != 0){
                         branches.add(new SysRolePermissionTreeDto(pd.getId(), pd.getName(),
-                                false, new LinkedList<>()));
+                                false, pd.getParentid(),true, new LinkedList<>()));
                     }
                 }
             }
+            //将叶子节点归入根节点
+            for (SysRolePermissionTreeDto t: trees){
+                for (SysRolePermissionTreeDto b: branches){
+                    if(b.getPid() == t.getId()){
+                        t.getItems().add(b);
+                    }
+                }
+            }
+            return trees;
 
-
-            return branches;
         }catch (Exception e){
             throw e;
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean setRolePermission(List<SysRolePermissionDto> sysRolePermissionDtos) {
+    public boolean setRolePermission(Integer[] mid, Integer rid) {
+        //先做删除所有操作
+        rolePermissionMapper.deleteRolePermissionByRid(rid);
+        //添加
+        List<SysRolePermission> sysRolePermissions;
+        for (Integer mid_i: mid){
+            System.out.println(mid_i);
+        }
+
+//        rolePermissionMapper.insertSelective()
         return false;
     }
+
+
 }
