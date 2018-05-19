@@ -28,9 +28,8 @@ public class RolePermissionController {
     @PostMapping("/rolesPm/set")
     public ResultObj getRolesPm(@RequestBody SysRolePermissionWithRidDto sysRolePermissionWithRidDto){
 
-        return ResultObj.success(sysRolePermissionWithRidDto);
-//        return rolePermissionService.setRolePermission(mid,rid)?
-//                ResultObj.success():
-//                ResultObj.error(ResultCode.ERROR_UNKNOWN);
+        return rolePermissionService.setRolePermission(sysRolePermissionWithRidDto)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_UNKNOWN);
     }
 }

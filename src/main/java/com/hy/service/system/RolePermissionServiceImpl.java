@@ -1,10 +1,7 @@
 package com.hy.service.system;
 
-import com.hy.dto.PermissionDto;
-import com.hy.dto.SysPermissionDto;
-import com.hy.dto.SysRolePermissionDto;
-import com.hy.dto.SysRolePermissionTreeDto;
-import com.hy.mapper.ms.SysPermissionMapper;
+import com.hy.common.SecurityHelp;
+import com.hy.dto.*;
 import com.hy.mapper.ms.SysRolePermissionMapper;
 import com.hy.model.SysRolePermission;
 import com.hy.utils.DTOUtil;
@@ -13,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -102,17 +101,26 @@ public class RolePermissionServiceImpl implements RolePermissionService{
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean setRolePermission(Integer[] mid, Integer rid) {
-        //先做删除所有操作
-        rolePermissionMapper.deleteRolePermissionByRid(rid);
-        //添加
-        List<SysRolePermission> sysRolePermissions;
-        for (Integer mid_i: mid){
-            System.out.println(mid_i);
-        }
+    public boolean setRolePermission(SysRolePermissionWithRidDto sysRolePermissionWithRidDto) {
 
-//        rolePermissionMapper.insertSelective()
-        return false;
+        try{
+            //先做删除所有操作
+            rolePermissionMapper.deleteRolePermissionByRid(sysRolePermissionWithRidDto.getRid());
+            //筛选
+            List<SysRolePermissionDto> sysRolePermissionDtos = Arrays.asList(sysRolePermissionWithRidDto.getRolePermission());
+//            List<SysRolePermissionDto> sysRolePermissionFilter = sysRolePermissions.stream().filter(sysRolePermissionDto
+//                    -> sysRolePermissionDto.getMid() ).collect(Collectors.toList());
+
+            List<SysRolePermission> sysRolePermissions = DTOUtil.populateList(sysRolePermissionDtos,SysRolePermission.class);
+            for (SysRolePermission s: sysRolePermissions){
+                s.setCreater(SecurityHelp.getUserId());
+                s.setModifier(SecurityHelp.getUserId());
+                rolePermissionMapper.insertSelective(s);
+            }
+            return true;
+        }catch (Exception e){
+            throw e;
+        }
     }
 
 

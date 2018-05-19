@@ -17,7 +17,7 @@
 <script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script>
     var ListData;
-
+    var parentNodes = [];
     function dataSourceList(rid) {
         return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
     }
@@ -27,6 +27,13 @@
             for (var i = 0; i < nodes.length; i++) {
                 if (nodes[i].checked) {
                     checkedNodes.push(nodes[i].id);
+
+                    if(nodes[i].parentNode() === undefined){}
+                    else {
+                        if($.inArray(nodes[i].parentNode().id, parentNodes) === -1){
+                            parentNodes.push(nodes[i].parentNode().id)
+                        }
+                    }
                 }
 
                 if (nodes[i].hasChildren) {
@@ -36,22 +43,30 @@
         }
         function onCheck() {
             var checkedNodes = [], treeView = $("#treeview").data("kendoTreeView");
+            parentNodes = [];
 
             checkedNodeIds(treeView.dataSource.view(), checkedNodes);
             var objList = [];
-            for (var i = 0 ; i < checkedNodes.length ; i++){
-                var obj = {
-                    mid:checkedNodes[i],
-                    rid:parent.pushRid,
-                    type:false,
+            var resultNodes = [].concat(checkedNodes);
+            for(var i = 0 ; i < parentNodes.length ; i++){
+                if($.inArray(parentNodes[i],resultNodes ) === -1){
+                    resultNodes.push(parentNodes[i]);
                 }
-                objList.push(obj)
+            }
+            for(var j = 0 ; j < resultNodes.length ; j++){
+                var obj0 = {
+                    mid:resultNodes[j],
+                    rid:parent.pushRid,
+                    type:false
+                };
+                objList.push(obj0)
             }
             var postData = {
                 rolePermission:objList,
                 rid:parent.pushRid
             }
             FetchData(JSON.stringify(postData),'POST','/rolesPm/set',false,true)
+            console.log(resultNodes);
         }
 
         ListData =  new kendo.data.HierarchicalDataSource({
