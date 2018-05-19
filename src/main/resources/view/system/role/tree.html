@@ -65,8 +65,13 @@
                 rolePermission:objList,
                 rid:parent.pushRid
             }
-            FetchData(JSON.stringify(postData),'POST','/rolesPm/set',false,true)
-            console.log(resultNodes);
+            if(FetchData(JSON.stringify(postData),'POST','/rolesPm/set',false,true).code !== 0)
+            {
+                parent.layer.msg('登陆失效，请重新登陆！',{time:1000,
+                    end:function () {
+                        parent.$('#treeview').attr('src','tree.html?id'+parent.pushRid);
+                    }});
+            }
         }
 
         ListData =  new kendo.data.HierarchicalDataSource({
