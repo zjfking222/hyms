@@ -106,7 +106,7 @@ public class RolePermissionServiceImpl implements RolePermissionService{
         try{
             //先做删除所有操作
             rolePermissionMapper.deleteRolePermissionByRid(sysRolePermissionWithRidDto.getRid());
-            //筛选
+
             List<SysRolePermissionDto> sysRolePermissionDtos = Arrays.asList(sysRolePermissionWithRidDto.getRolePermission());
 //            List<SysRolePermissionDto> sysRolePermissionFilter = sysRolePermissions.stream().filter(sysRolePermissionDto
 //                    -> sysRolePermissionDto.getMid() ).collect(Collectors.toList());
