@@ -39,6 +39,7 @@ public class CanteenHistoryController {
     {
         return ResultObj.success(canteenHistoryService.getTodaysCanteenView());
     }
+
     @PostMapping("/web/getCanteenHistoryByDay")
     public ResultObj getCanteenHistoryByDay(int plusDay)
     {
