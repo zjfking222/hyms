@@ -1,4 +1,4 @@
-var plusDay = 0;
+var pushPlusDay;
 $(function () {
 
     function dataSource() {
@@ -7,7 +7,7 @@ $(function () {
     function dataSourceState1() {
         return FetchData({page:1,number:1000,state:1},'POST','/web/getCanteen',false).data;
     }
-    function dataSourceTodays() {
+    function dataSourceTodays(plusDay) {
         return FetchData({plusDay:plusDay},'POST','/web/getTodaysCanteen',false).data;
     }
     function dataSourceSearch(name) {
@@ -21,12 +21,13 @@ $(function () {
         el:'#app',
         data: {
             data1:dataSourceState1(),
+            day: 0,
             data2:
                 {
                     name:'',
                     type:'',
                     search:'',
-                    dataTodays: dataSourceTodays()
+                    dataTodays: dataSourceTodays(0)
                 },
             show:function (id, meal) {
                 for(var i = 0 ; i < this.data2.dataTodays.length ; i++)
@@ -40,8 +41,10 @@ $(function () {
             }
         },
         methods: {
-            onclick:function (id) {
-                console.log(id);
+            onclick:function (val) {
+                this.$data.day = val;
+                vm.$data.data1 = dataSourceState1();
+                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
             },
             onshowpart:function () {
                 this.$data.data1 = dataSourceState1();
@@ -70,18 +73,18 @@ $(function () {
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             ondeletetoday:function (id,meal) {
-                FetchData({id:id,meal:meal,plusDay:plusDay},'POST','/admin/removeTodaysCanteen',false);
+                FetchData({id:id,meal:meal,plusDay:this.$data.day},'POST','/admin/removeTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-                vm.data2.dataTodays = dataSourceTodays();
+                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
             },
             oninserttoday:function (id,meal) {
-                FetchData({id:id,meal:meal,plusDay:plusDay},'POST','/admin/addTodaysCanteen',false);
+                FetchData({id:id,meal:meal,plusDay:this.$data.day},'POST','/admin/addTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-                vm.data2.dataTodays = dataSourceTodays();
+                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
             },
             oneditinfo:function (name,type,id) {
                 if (FetchData({name:name,type:type,id:id},'POST','/admin/updateCanteen',false).code===0)
@@ -128,6 +131,7 @@ $(function () {
         $('.btn-showStateAll').fadeIn(500);
     });
     $('.btn-showTodays').click(function () {
+        pushPlusDay = vm.$data.day;
         layer.open({
             title:'明日食堂',
             type: 2,
@@ -136,9 +140,29 @@ $(function () {
             maxmin: true,
             content: '/qzgz/admin/st_today.html',
             end: function () {
-                location.reload();
+                isDataSourcePointAll ?
+                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
             }
         });
+    });
+
+    $("[name='checkbox']").bootstrapSwitch({
+        onText:"今日",
+        offText:"明日",
+        onColor:"info",
+        offColor:"warning"
+    }).on('switchChange.bootstrapSwitch', function(event, state) {
+        if(state){
+            vm.$data.day = 0;
+            vm.$data.data1 = dataSourceState1();
+            vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
+        }
+        else {
+            vm.$data.day = 1;
+            vm.$data.data1 = dataSourceState1();
+            vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
+        }
     });
     
 });

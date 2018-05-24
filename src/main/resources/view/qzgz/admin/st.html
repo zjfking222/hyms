@@ -14,6 +14,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
     <link href="/css/qzgz/admin/st.css" rel="stylesheet">
+    <link href="/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,17 +27,16 @@
             <!--<h1 class="page-header">食堂菜单</h1>-->
             <input id="search-input" type="text" class="form-control" placeholder="输入菜名关键词..." v-model="data2.search">
             <button id="search-btn" class="btn btn-info" @click="onsearch(data2.search)">搜索</button>
-            <select id="target" class="form-control">
-                <option value="0">今日菜单</option>
-                <option value="1">明日菜单</option>
-            </select>
+            <!--<label><input type="radio" class="day"  name="day"  @click="onclick(0)" checked="checked"/>&nbsp;今日菜单</label>-->
+            <!--<label><input type="radio" class="day"  name="day"  @click="onclick(1)"/>&nbsp;明日菜单</label>-->
+            <input type="checkbox" name="checkbox" id="checkbox" @click="onclick" checked>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr class="active">
                         <th>菜名</th>
                         <th>类型</th>
-                        <th>加入明日菜单</th>
+                        <th>加入菜单</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -90,19 +90,18 @@
             <button class="btn btn-warning btn-showState1" @click="onshowpart()">只显示已上架的菜单</button>
             <button class="btn btn-success btn-showStateAll" @click="onshowall()">显示全部菜单</button>
             <button class="btn btn-success btn-addNew">添加新菜</button>
-            <button class="btn btn-info btn-showTodays">查看明日菜单</button>
+            <button class="btn btn-info btn-showTodays">查看已添加菜单</button>
         </div>
         <!--食堂菜单页面 END-->
     </div>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/js/qzgz/admin/st.js"></script>
 <script type="text/javascript" src="/plugins/layer/layer.js"></script>
+
 
 </body></html>
