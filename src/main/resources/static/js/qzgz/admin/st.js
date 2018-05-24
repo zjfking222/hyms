@@ -148,10 +148,11 @@ $(function () {
     });
 
     $("[name='checkbox']").bootstrapSwitch({
-        onText:"今日",
-        offText:"明日",
+        onText:"今日菜单",
+        offText:"明日菜单",
         onColor:"info",
-        offColor:"warning"
+        offColor:"warning",
+        handleWidth:70
     }).on('switchChange.bootstrapSwitch', function(event, state) {
         if(state){
             vm.$data.day = 0;
