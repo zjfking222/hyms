@@ -141,7 +141,7 @@ $(function () {
             content: '/qzgz/admin/st_today.html',
             end: function () {
                 isDataSourcePointAll ?
-                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                    vm.$data.data1 = dataSource(): vm.$data.data1 = dataSourceState1();
                 vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
             }
         });
