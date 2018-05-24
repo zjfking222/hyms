@@ -26,6 +26,10 @@
             <!--<h1 class="page-header">食堂菜单</h1>-->
             <input id="search-input" type="text" class="form-control" placeholder="输入菜名关键词..." v-model="data2.search">
             <button id="search-btn" class="btn btn-info" @click="onsearch(data2.search)">搜索</button>
+            <select id="target" class="form-control">
+                <option value="0">今日菜单</option>
+                <option value="1">明日菜单</option>
+            </select>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead>

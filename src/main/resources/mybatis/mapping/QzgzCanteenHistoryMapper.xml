@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.QzgzCanteenHistoryMapper">
-    <insert id="insertCanteenHistory" parameterType="com.hy.model.QzgzCanteenHistory">
+    <insert id="insertCanteenHistory">
         INSERT qzgz_canteen_history
         (date,canteen_id,meal,creater,modifier)
-        VALUES (from_days(to_days(now())+1),#{canteen_id},#{meal},#{creater},#{modifier})
+        VALUES (from_days(to_days(now())+#{plusDay}),#{canteen.canteen_id},#{canteen.meal},#{canteen.creater},#{canteen.modifier})
     </insert>
     <select id="selectCanteenHistory" resultType="com.hy.model.QzgzCanteenHistory">
         SELECT ch.*
         FROM qzgz_canteen_history ch
         LEFT JOIN qzgz_canteen c
         ON c.id=ch.canteen_id
-        WHERE to_days(ch.date) = to_days(now())+1
+        WHERE to_days(ch.date) = to_days(now())+#{plusDay}
         ORDER BY c.id
     </select>
     <delete id="deleteCanteenHistory">
         DELETE FROM qzgz_canteen_history
         WHERE canteen_id = #{canteen_id}
         AND meal = #{meal}
-        AND to_days(date) = to_days(now())+1
+        AND to_days(date) = to_days(now())+#{plusDay}
     </delete>
     <select id="selectViewOfHistory" resultType="com.hy.model.QzgzCanteenView">
         SELECT id,`name`,type,MAX(zao) AS zao,MAX(zhong) AS zhong,MAX(wan) AS wan,MAX(ye) AS ye FROM

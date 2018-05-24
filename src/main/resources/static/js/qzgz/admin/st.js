@@ -1,3 +1,4 @@
+var plusDay = 0;
 $(function () {
 
     function dataSource() {
@@ -7,7 +8,7 @@ $(function () {
         return FetchData({page:1,number:1000,state:1},'POST','/web/getCanteen',false).data;
     }
     function dataSourceTodays() {
-        return FetchData({},'POST','/web/getTodaysCanteen',false).data;
+        return FetchData({plusDay:plusDay},'POST','/web/getTodaysCanteen',false).data;
     }
     function dataSourceSearch(name) {
         return {canteens:FetchData({name:name},'POST','/admin/getCanteenByName',false).data}
@@ -69,14 +70,14 @@ $(function () {
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
             },
             ondeletetoday:function (id,meal) {
-                FetchData({id:id,meal:meal},'POST','/admin/removeTodaysCanteen',false);
+                FetchData({id:id,meal:meal,plusDay:plusDay},'POST','/admin/removeTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 vm.data2.dataTodays = dataSourceTodays();
             },
             oninserttoday:function (id,meal) {
-                FetchData({id:id,meal:meal},'POST','/admin/addTodaysCanteen',false);
+                FetchData({id:id,meal:meal,plusDay:plusDay},'POST','/admin/addTodaysCanteen',false);
 
                 isDataSourcePointAll ?
                     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
