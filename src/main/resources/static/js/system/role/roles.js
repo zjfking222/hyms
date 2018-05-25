@@ -22,19 +22,20 @@ function dataSourceSearch(name) {
 function dataSourceList(rid) {
     return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
 }
+
 var vm = new Vue({
     el: '#left',
     data: {
         data0:'',
         data1: ''
     },
-    watch: {
-        data0:function (newV,oldV) {
-            this.data1 = dataSourceSearch(newV);
-        }
-    },
+    // watch: {
+    //     data0:function (newV,oldV) {
+    //         this.data1 = dataSourceSearch(newV);
+    //     }
+    // },
     created:function () {
-      this.data1 = dataSourceSearch()
+      this.data1 = dataSourceSearch();
     },
     methods: {
         onAdd:function () {
@@ -85,14 +86,19 @@ var vm = new Vue({
         onChoose:function (rid) {
             $('#treeview').attr('src','tree.html?id'+rid);
             pushRid = rid;
+            $("#rolenav li[data-id="+rid+"]").addClass('active')
+                .siblings("li").removeClass('active');
         }
     }
 });
-
 $(function () {
-    $('li').on('click',function () {
-        $(this).addClass('active')
-            .siblings("li").removeClass('active');
-    })
+    $(document).keyup(function(event){
+        if(event.keyCode === 13){
+            vm.data1 = dataSourceSearch($("#search").val());
+        }
+    });
 });
+
+
+
 

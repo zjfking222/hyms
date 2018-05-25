@@ -23,19 +23,19 @@
         text-align: center;
     }
 
-        .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1000;
-            display: block;
-            padding: 20px;
-            overflow-x: hidden;
-            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-            background-color: #f5f5f5;
-            border-right: 1px solid #eee;
-        }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #f5f5f5;
+        border-right: 1px solid #eee;
+    }
 
 
     /* Sidebar navigation */
@@ -117,35 +117,17 @@
     .item1 a:hover {
         text-decoration: none;
     }
+    #btn-add{
+        vertical-align: middle;
+    }
 
 </style>
 <div id="menus">
     <div id="left" class="sidebar">
-        <!--<table class="table-left table table-bordered table-hover">-->
-            <!--<tr>-->
-                <!--<td>-->
-                    <!--<input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">-->
-                    <!--&lt;!&ndash;<button @click="onSearch" class="btn btn-info btn-sm" id="btn-search">搜索</button>&ndash;&gt;-->
-                <!--</td>-->
-                <!--<td>-->
-                    <!--<button class="btn btn-success btn-sm" @click="onAdd">新增</button>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr v-for="role in data1" v-if="role.enable === true">-->
-                <!--<td style="display: none">{{role.id}}</td>-->
-                <!--<td><a @click="onChoose(role.id)">{{role.name}}</a></td>-->
-                <!--<td>-->
-                    <!--<button class="btn btn-warning btn-sm" @click="onEdit(role.id,role.name)">修改</button>-->
-                    <!--<button class="btn btn-danger btn-sm" @click="onDel(role.id)">删除</button>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr style="display: none;" v-else>-->
-            <!--</tr>-->
-        <!--</table>-->
         <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
         <button id="btn-add" @click="onAdd"></button>
-        <ul class="nav nav-sidebar">
-            <li v-for="role in data1" v-if="role.enable === true" @click="onChoose(role.id)">
+        <ul class="nav nav-sidebar" id="rolenav">
+            <li v-for="role in data1" :data-id="role.id" v-if="role.enable === true" @click="onChoose(role.id)">
                 <div class="item1">
                     <a class="item-a">{{role.name}}</a>
                 </div>
@@ -169,5 +151,4 @@
 <script src="/js/system/role/roles.js"></script>
 
 </body>
-
 </html>
