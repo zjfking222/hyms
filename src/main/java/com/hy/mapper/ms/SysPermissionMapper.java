@@ -7,9 +7,12 @@ import java.util.List;
 
 @Repository
 public interface SysPermissionMapper extends BaseMapper<Integer,SysPermission> {
-    List<SysPermission> selectUserMenus();
+    List<SysPermission> selectAll();
+    List<SysPermission> selectByUserId(int userId);
+    List<SysPermission> selectUserMenus(int userId);
     List<SysPermission>selectMenus(boolean parents);
     int  selectMenusTotal();
 
+    //用于权限控制树形结构
     List<SysPermission> selectRoleMenus();
 }

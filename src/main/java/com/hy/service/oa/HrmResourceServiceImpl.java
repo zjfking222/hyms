@@ -5,6 +5,8 @@ import com.hy.model.HrmResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service(value = "HrmResource")
 public class HrmResourceServiceImpl implements HrmResourceService {
 
@@ -22,4 +24,10 @@ public class HrmResourceServiceImpl implements HrmResourceService {
 //        return hrmResource;
         return hrmResourceMapper.findByLoginId(loginid);
     }
+
+    @Override
+    public List<HrmResource> selectHrByLike(String loginid, String lastname) {
+        return hrmResourceMapper.selectHrByLike(loginid,lastname);
+    }
+
 }

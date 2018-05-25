@@ -1,7 +1,6 @@
 package com.hy.service.qzgz.impl;
 
 import com.hy.common.SecurityHelp;
-import com.hy.dto.CanteenDto;
 import com.hy.dto.CanteenHistoryDto;
 import com.hy.mapper.ms.QzgzCanteenHistoryMapper;
 import com.hy.model.QzgzCanteenHistory;
@@ -12,9 +11,6 @@ import com.hy.service.qzgz.CanteenService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -25,21 +21,21 @@ public class CanteenHistoryServiceImpl implements CanteenHistoryService{
     private CanteenService canteenService;
 
     @Override
-    public boolean addTodaysCanteen(int canteenId ,int meal) {
+    public boolean addTodaysCanteen(int canteenId ,int meal, int plusDay) {
         QzgzCanteenHistory canteenHistory = new QzgzCanteenHistory();
         canteenHistory.setCanteen_id(canteenId);
         canteenHistory.setCreater(SecurityHelp.getUserId());
         canteenHistory.setModifier(SecurityHelp.getUserId());
         canteenHistory.setMeal(meal);
         return qzgzCanteenHistoryMapper
-                .insertCanteenHistory(canteenHistory) == 1;
+                .insertCanteenHistory(canteenHistory, plusDay) == 1;
     }
 
     @Override
-    public List<CanteenHistoryDto> getTodaysCanteen() {
+    public List<CanteenHistoryDto> getTodaysCanteen(int plusDay) {
 
         List<CanteenHistoryDto> canteenHistoryDtos = DTOUtil
-                .populateList(qzgzCanteenHistoryMapper.selectCanteenHistory(),
+                .populateList(qzgzCanteenHistoryMapper.selectCanteenHistory(plusDay),
                         CanteenHistoryDto.class);
         for (CanteenHistoryDto ch : canteenHistoryDtos)
         {
@@ -49,9 +45,9 @@ public class CanteenHistoryServiceImpl implements CanteenHistoryService{
     }
 
     @Override
-    public boolean removeTodaysCanteen(int canteenId, int meal) {
+    public boolean removeTodaysCanteen(int canteenId, int meal, int plusDay) {
         return qzgzCanteenHistoryMapper
-                .deleteCanteenHistory(canteenId, meal) == 1;
+                .deleteCanteenHistory(canteenId, meal, plusDay) == 1;
     }
 
     @Override

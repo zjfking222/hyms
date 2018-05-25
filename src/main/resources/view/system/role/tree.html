@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>角色管理</title>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
+</head>
+<body>
+<div id="treeview">
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script>
+    var ListData;
+    var parentNodes = [];
+    function dataSourceList(rid) {
+        return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
+    }
+
+    $(function () {
+        function checkedNodeIds(nodes, checkedNodes) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].checked) {
+                    checkedNodes.push(nodes[i].id);
+
+                    if(nodes[i].parentNode() === undefined){}
+                    else {
+                        if($.inArray(nodes[i].parentNode().id, parentNodes) === -1){
+                            parentNodes.push(nodes[i].parentNode().id)
+                        }
+                    }
+                }
+
+                if (nodes[i].hasChildren) {
+                    checkedNodeIds(nodes[i].children.view(), checkedNodes);
+                }
+            }
+        }
+        function onCheck() {
+            var checkedNodes = [], treeView = $("#treeview").data("kendoTreeView");
+            parentNodes = [];
+
+            checkedNodeIds(treeView.dataSource.view(), checkedNodes);
+            var objList = [];
+            var resultNodes = [].concat(checkedNodes);
+            for(var i = 0 ; i < parentNodes.length ; i++){
+                if($.inArray(parentNodes[i],resultNodes ) === -1){
+                    resultNodes.push(parentNodes[i]);
+                }
+            }
+            for(var j = 0 ; j < resultNodes.length ; j++){
+                var obj0 = {
+                    mid:resultNodes[j],
+                    rid:parent.pushRid,
+                    type:false
+                };
+                objList.push(obj0)
+            }
+            var postData = {
+                rolePermission:objList,
+                rid:parent.pushRid
+            }
+            if(FetchData(JSON.stringify(postData),'POST','/rolesPm/set',false,true).code !== 0)
+            {
+                parent.layer.msg('登陆失效，请重新登陆！',{time:1000,
+                    end:function () {
+                        parent.$('#treeview').attr('src','tree.html?id'+parent.pushRid);
+                    }});
+            }
+        }
+
+        ListData =  new kendo.data.HierarchicalDataSource({
+            data: dataSourceList(parent.pushRid)
+        });
+
+        $("#treeview").kendoTreeView({
+            checkboxes: {
+                checkChildren: true
+            },
+            dataSource: ListData,
+            check: onCheck
+        });
+    });
+    var FetchData = function (data, method, param, async,contentType) {
+        var response =
+            $.ajax({
+                async: async,
+                url: "/system"+param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                contentType:contentType? "application/json;charset=utf-8":
+                    "application/x-www-form-urlencoded;charset=UTF-8",
+                success: function (dataSource) {
+                    return dataSource;
+                }});
+        return response.responseJSON;
+    };
+</script>
+</body>
+</html>

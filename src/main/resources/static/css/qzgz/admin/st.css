@@ -1,16 +1,23 @@
 #search-input
 {
-    width: 80%;
     display: inline-block;
-    margin-left: 7%;
+    width: 300px;
+    margin-left: auto;
 }
 #search-btn
 {
     display: inline-block;
+    margin-right: 3rem;
 }
 body
 {
     width: 90%;
     margin: 0 auto;
     padding-bottom: 5rem;
+}
+#target{
+    margin-left: 50px;
+    width: 300px;
+    display: inline-block;
+    margin-right: auto;
 }

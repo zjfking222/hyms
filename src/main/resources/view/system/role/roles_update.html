@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>更新岗位</title>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80% ;margin: 10px auto">
+<div id="app">
+    <div class="form-group">
+        <label for="name">角色名称</label>
+        <input style="width: 45%!important;" class="form-control" id="name" placeholder="输入角色名称">
+        <div class="input-group" style="width: 40%!important; position: fixed; right: 10%; top:35px">
+           <input class="form-control" placeholder="输入需要搜索的信息" style="display:inline-block!important;" id="search-info">
+            <span class="input-group-addon" style="background: white;">
+              <a style="color: black!important;" href="javascript:;" id="search" class="btn-block">搜索</a>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="add-pan">已添账号</label>
+        <div class="form-control" style="min-height:34px;height: auto!important;text-align: left" id="add-pan">
+            <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
+               v-for="hr in result" @click="onDel(hr.id)">{{hr.lastname}}{{hr.uid}}</a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="search-pan">搜索账号</label>
+        <div style="min-height:34px;height: auto!important;text-align: left" class="form-control" id="search-pan">
+
+            <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
+               v-for="hr in search" @click="onAdd(hr.id,hr.loginid,hr.lastname)">{{hr.lastname}}</a>
+        </div>
+    </div>
+    <button id="submit"  class="btn btn-success" @click="onSubmit()" style="width:100%;margin-top: 1rem!important;">保&nbsp;&nbsp;&nbsp;存</button>
+</div>
+</body>
+
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/system/role/roles_update.js"></script>
+</html>

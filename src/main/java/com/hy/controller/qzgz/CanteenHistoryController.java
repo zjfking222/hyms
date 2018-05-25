@@ -15,21 +15,21 @@ public class CanteenHistoryController {
     private CanteenHistoryService canteenHistoryService;
 
     @PostMapping("/web/getTodaysCanteen")
-    public ResultObj getTodaysCanteen()
+    public ResultObj getTodaysCanteen(int plusDay)
     {
-        return ResultObj.success(canteenHistoryService.getTodaysCanteen());
+        return ResultObj.success(canteenHistoryService.getTodaysCanteen(plusDay));
     }
     @PostMapping("/admin/addTodaysCanteen")
-    public ResultObj addTodaysCanteen(int id,int meal)
+    public ResultObj addTodaysCanteen(int id, int meal, int plusDay)
     {
-        return canteenHistoryService.addTodaysCanteen(id, meal)?
+        return canteenHistoryService.addTodaysCanteen(id, meal, plusDay)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
     @PostMapping("/admin/removeTodaysCanteen")
-    public ResultObj removeTodaysCanteen(int id, int meal)
+    public ResultObj removeTodaysCanteen(int id, int meal, int plusDay)
     {
-        return canteenHistoryService.removeTodaysCanteen(id, meal)?
+        return canteenHistoryService.removeTodaysCanteen(id, meal, plusDay)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
@@ -39,6 +39,7 @@ public class CanteenHistoryController {
     {
         return ResultObj.success(canteenHistoryService.getTodaysCanteenView());
     }
+
     @PostMapping("/web/getCanteenHistoryByDay")
     public ResultObj getCanteenHistoryByDay(int plusDay)
     {

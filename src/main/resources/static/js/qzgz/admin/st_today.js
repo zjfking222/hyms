@@ -1,6 +1,6 @@
 $(function () {
     function dataSourceTodays() {
-        return FetchData({plusDay:1},'POST','/web/getCanteenHistoryByDay',false).data;
+        return FetchData({plusDay:parent.pushPlusDay},'POST','/web/getCanteenHistoryByDay',false).data;
     }
     var vm =
         new Vue({
@@ -10,7 +10,7 @@ $(function () {
             },
             methods: {
                 ondeletetoday:function (id,meal) {
-                    FetchData({id:id,meal:meal},'POST','/admin/removeTodaysCanteen',false);
+                    FetchData({id:id,meal:meal,plusDay:parent.pushPlusDay},'POST','/admin/removeTodaysCanteen',false);
                     vm.data1 = dataSourceTodays();
                 }
             }

@@ -1,10 +1,24 @@
 package com.hy.service.system;
 
 import com.hy.dto.PermissionDto;
+import com.hy.dto.SysPermissionDto;
+import com.hy.model.SysPermission;
 
 import java.util.List;
 
 public interface PermissionService {
+    /**
+     * 获取所有启动的权限
+     * @return 权限列表
+     */
+    List<SysPermission> getAll();
+
+    /**
+     * 获取用户权限
+     * @param userId 用户id
+     * @return 权限列表
+     */
+    List<SysPermission> getByUserId(int userId);
     /**
      * 获取用户的菜单权限列表
      *
@@ -14,11 +28,11 @@ public interface PermissionService {
     List<PermissionDto> getUserMenus(int userId);
 
     /**
-     * 获取
-     * @param userId
+     * 获取菜单 用于角色管理
+     * @param
      * @return
      */
-    List<PermissionDto> getRoleMenus(int userId);
+    List<SysPermissionDto> getRoleMenus();
     /**
      * 分页获取菜单信息
      *

@@ -3,6 +3,7 @@ package com.hy.service.system;
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
 import com.hy.dto.PermissionDto;
+import com.hy.dto.SysPermissionDto;
 import com.hy.mapper.ms.SysPermissionMapper;
 import com.hy.model.SysPermission;
 import com.hy.utils.DTOUtil;
@@ -17,8 +18,17 @@ public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private SysPermissionMapper sysPermissionMapper;
 
+    @Override
+    public List<SysPermission> getAll() {
+        return sysPermissionMapper.selectAll();
+    }
+    @Override
+    public List<SysPermission> getByUserId(int userId) {
+        return sysPermissionMapper.selectByUserId(userId);
+    }
+
     public List<PermissionDto> getUserMenus(int userId) {
-        List<SysPermission> list = sysPermissionMapper.selectUserMenus();
+        List<SysPermission> list = sysPermissionMapper.selectUserMenus(userId);
 
         Map<Integer, PermissionDto> map = new LinkedHashMap<Integer, PermissionDto>();
         for (int i = 0; i < list.size(); i++) {
@@ -42,8 +52,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDto> getRoleMenus(int userId) {
-        return null;
+    public List<SysPermissionDto> getRoleMenus() {
+        return DTOUtil.populateList(sysPermissionMapper.selectRoleMenus(), SysPermissionDto.class);
     }
 
     @Override
