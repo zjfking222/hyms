@@ -20,6 +20,7 @@
         border-bottom: 0.01rem solid #ddd;
         width: 90%!important;
         margin: 0 auto;
+        padding-bottom: 20px;
     }
     .td1{
         width: 70%!important;
@@ -27,6 +28,10 @@
     }
     #filterPrice{
         font-size: 0.8rem!important;
+    }
+    tr th{
+        padding-top: 15px;
+        padding-bottom: 5px;
     }
 
 </style>
@@ -45,7 +50,7 @@
             <tbody>
                 <tr v-for="canteen in data1">
                     <td  class="td1" v-if="canteen.meal === 1">{{ canteen.name }}</td>
-                    <td style="display: none" v-else></td>
+                    <td class="display" style="display: none" v-else></td>
                     <td v-if="canteen.meal === 1">{{canteen.type}}</td>
                     <td style="display: none" v-else></td>
                 </tr>
@@ -58,7 +63,7 @@
             <tbody>
             <tr v-for="canteen in data1">
                 <td class="td1" v-if="canteen.meal === 2">{{ canteen.name }}</td>
-                <td style="display: none" v-else></td>
+                <td class="display" style="display: none" v-else></td>
                 <td v-if="canteen.meal === 2">{{canteen.type}}</td>
                 <td style="display: none" v-else></td>
             </tr>
@@ -71,7 +76,7 @@
             <tbody>
             <tr v-for="canteen in data1">
                 <td class="td1"  v-if="canteen.meal === 3">{{ canteen.name }}</td>
-                <td style="display: none" v-else></td>
+                <td class="display" style="display: none" v-else></td>
                 <td v-if="canteen.meal === 3">{{canteen.type}}</td>
                 <td style="display: none" v-else></td>
             </tr>
@@ -84,7 +89,7 @@
             <tbody>
             <tr v-for="canteen in data1">
                 <td class="td1"  v-if="canteen.meal === 4">{{ canteen.name }}</td>
-                <td style="display: none" v-else></td>
+                <td class="display" style="display: none" v-else></td>
                 <td v-if="canteen.meal === 4">{{canteen.type}}</td>
                 <td style="display: none" v-else></td>
             </tr>
@@ -92,4 +97,9 @@
         </table>
     </div>
 </body>
+<script>
+    $(function () {
+        $('.display').parent('tr').css('display','none');
+    })
+</script>
 </html>
