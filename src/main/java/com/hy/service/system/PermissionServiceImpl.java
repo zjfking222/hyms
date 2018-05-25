@@ -18,8 +18,17 @@ public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private SysPermissionMapper sysPermissionMapper;
 
+    @Override
+    public List<SysPermission> getAll() {
+        return sysPermissionMapper.selectAll();
+    }
+    @Override
+    public List<SysPermission> getByUserId(int userId) {
+        return sysPermissionMapper.selectByUserId(userId);
+    }
+
     public List<PermissionDto> getUserMenus(int userId) {
-        List<SysPermission> list = sysPermissionMapper.selectUserMenus();
+        List<SysPermission> list = sysPermissionMapper.selectUserMenus(userId);
 
         Map<Integer, PermissionDto> map = new LinkedHashMap<Integer, PermissionDto>();
         for (int i = 0; i < list.size(); i++) {
@@ -44,7 +53,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<SysPermissionDto> getRoleMenus() {
-        return DTOUtil.populateList(sysPermissionMapper.selectRoleMenus(),SysPermissionDto.class);
+        return DTOUtil.populateList(sysPermissionMapper.selectRoleMenus(), SysPermissionDto.class);
     }
 
     @Override

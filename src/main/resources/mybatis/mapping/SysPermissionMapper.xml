@@ -20,6 +20,22 @@
     id, name, url, sort, parentId, enable, creater, created, modifier, modified, icon, 
     type, permission
   </sql>
+  <select id="selectAll" resultMap="BaseResultMap" >
+  select
+  <include refid="Base_Column_List" />
+  from sys_permission
+  where enable=1
+</select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_permission
+    where enable=1 and exists(select 1 from sys_role_user JOIN sys_role_permission
+    where sys_role_user.rid=sys_role_permission.rid
+    and sys_role_permission.mid=sys_permission.id and sys_role_user.uid=#{userId,jdbcType=INTEGER})
+    order by sort desc
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   select
   <include refid="Base_Column_List" />
@@ -40,11 +56,13 @@
       and parentId=0
     </if>
   </select>
-  <select id="selectUserMenus" resultMap="BaseResultMap"  >
+  <select id="selectUserMenus" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from sys_permission
-    where type=0 and enable=1
+    where type=0 and enable=1 and exists(select 1 from sys_role_user JOIN sys_role_permission
+    where sys_role_user.rid=sys_role_permission.rid
+    and sys_role_permission.mid=sys_permission.id and sys_role_user.uid=#{userId,jdbcType=INTEGER})
     order by sort desc
   </select>
   <select id="selectRoleMenus" resultMap="BaseResultMap"  >
