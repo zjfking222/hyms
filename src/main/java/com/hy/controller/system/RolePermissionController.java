@@ -22,12 +22,10 @@ public class RolePermissionController {
 
     @PostMapping("/rolesPm/get")
     public ResultObj getRolesPm(int rid){
-
         return ResultObj.success(rolePermissionService.getRolePermission(rid));
     }
     @PostMapping("/rolesPm/set")
     public ResultObj getRolesPm(@RequestBody SysRolePermissionWithRidDto sysRolePermissionWithRidDto){
-
         return rolePermissionService.setRolePermission(sysRolePermissionWithRidDto)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_UNKNOWN);

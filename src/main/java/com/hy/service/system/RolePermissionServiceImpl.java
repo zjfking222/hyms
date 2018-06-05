@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -89,6 +88,17 @@ public class RolePermissionServiceImpl implements RolePermissionService{
                 for (SysRolePermissionTreeDto b: branches){
                     if(b.getPid() == t.getId()){
                         t.getItems().add(b);
+                    }
+                }
+            }
+            //校验根节点的叶子节点为空
+            for (SysRolePermissionTreeDto t: trees){
+                if (t.getItems().size() == 0){
+                    System.out.println(t.getId());
+                    for (SysRolePermission rp: sysRolePermissions){
+                        if (t.getId() == rp.getMid()){
+                            t.setChecked(true);
+                        }
                     }
                 }
             }

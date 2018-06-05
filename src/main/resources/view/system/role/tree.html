@@ -18,17 +18,27 @@
 <script>
     var ListData;
     var parentNodes = [];
+    // function dataSourceList(rid) {
+    //     return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
+    // }
     function dataSourceList(rid) {
-        return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
+        var dataSource = FetchData({rid: rid},'POST','/rolesPm/get',false).data;
+        for(var n = 0 ; n < dataSource.length ; n++){
+            if(dataSource[n].items.length === 0 ){
+                delete dataSource[n].items;
+            }
+        }
+        return dataSource;
     }
-
     $(function () {
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
                 if (nodes[i].checked) {
                     checkedNodes.push(nodes[i].id);
 
-                    if(nodes[i].parentNode() === undefined){}
+                    if(nodes[i].parentNode() === undefined){
+
+                    }
                     else {
                         if($.inArray(nodes[i].parentNode().id, parentNodes) === -1){
                             parentNodes.push(nodes[i].parentNode().id)
