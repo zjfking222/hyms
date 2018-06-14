@@ -69,8 +69,8 @@ public class CanteenServiceImpl implements CanteenService{
     }
 
     @Override
-    public List<CanteenDto> getCanteenBySearchName(String name) {
-        return DTOUtil.populateList(canteenMapper.selectCanteenByName(name),
+    public List<CanteenDto> getCanteenBySearchName(String name, String state) {
+        return DTOUtil.populateList(canteenMapper.selectCanteenByName(name,state),
                 new ArrayList<CanteenDto>(),CanteenDto.class);
     }
 

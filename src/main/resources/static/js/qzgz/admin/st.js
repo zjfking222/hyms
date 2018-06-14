@@ -1,6 +1,8 @@
 var pushPlusDay;
 $(function () {
 
+    $('.choosePage').fadeOut(0);
+
     function dataSource() {
         return FetchData({page:1,number:1000},'POST','/web/getCanteen',false).data;
     }
@@ -10,8 +12,8 @@ $(function () {
     function dataSourceTodays(plusDay) {
         return FetchData({plusDay:plusDay},'POST','/web/getTodaysCanteen',false).data;
     }
-    function dataSourceSearch(name) {
-        return {canteens:FetchData({name:name},'POST','/admin/getCanteenByName',false).data}
+    function dataSourceSearch(name,state) {
+        return {canteens:FetchData({name:name,state:state},'POST','/admin/getCanteenByName',false).data}
     }
     //按钮是否只显示已上架的菜
     var isDataSourcePointAll = false;
@@ -47,11 +49,13 @@ $(function () {
                 vm.data2.dataTodays = dataSourceTodays(this.$data.day);
             },
             onshowpart:function () {
-                this.$data.data1 = dataSourceState1();
+                // this.$data.data1 = dataSourceState1();
+                this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
                 isDataSourcePointAll = false;
             },
             onshowall:function () {
-                this.$data.data1 = dataSource();
+                // this.$data.data1 = dataSource();
+                this.$data.data1 = dataSourceSearch(vm.data2.search);
                 isDataSourcePointAll = true;
             },
             onaddsubmit:function () {
@@ -69,21 +73,28 @@ $(function () {
                 FetchData({id:id,state:1},
                         'POST','/admin/updateCanteenState',false);
 
+                // isDataSourcePointAll ?
+                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 isDataSourcePointAll ?
-                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
+                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
             },
             ondeletetoday:function (id,meal) {
                 FetchData({id:id,meal:meal,plusDay:this.$data.day},'POST','/admin/removeTodaysCanteen',false);
 
+                // isDataSourcePointAll ?
+                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 isDataSourcePointAll ?
-                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
                 vm.data2.dataTodays = dataSourceTodays(this.$data.day);
             },
             oninserttoday:function (id,meal) {
                 FetchData({id:id,meal:meal,plusDay:this.$data.day},'POST','/admin/addTodaysCanteen',false);
 
+                // isDataSourcePointAll ?
+                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 isDataSourcePointAll ?
-                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
                 vm.data2.dataTodays = dataSourceTodays(this.$data.day);
             },
             oneditinfo:function (name,type,id) {
@@ -102,11 +113,20 @@ $(function () {
                     });
                 }
 
+                // isDataSourcePointAll ?
+                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
                 isDataSourcePointAll ?
-                    this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
+                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
             },
             onsearch:function (name) {
-                this.$data.data1 = dataSourceSearch(name)
+                isDataSourcePointAll ?
+                    this.$data.data1 = dataSourceSearch(name):this.$data.data1 = dataSourceSearch(name,"1");
+            },
+            onreset:function () {
+                $('#search-input').val('');
+                vm.data2.search = '';
+                isDataSourcePointAll ?
+                    this.$data.data1 = dataSourceSearch(name):this.$data.data1 = dataSourceSearch(name,"1");
             }
         }
     });
@@ -147,25 +167,50 @@ $(function () {
         });
     });
 
-    $("[name='checkbox']").bootstrapSwitch({
-        onText:"今日菜单",
-        offText:"明日菜单",
-        onColor:"info",
-        offColor:"warning",
-        handleWidth:70
-    }).on('switchChange.bootstrapSwitch', function(event, state) {
-        if(state){
-            vm.$data.day = 0;
-            vm.$data.data1 = dataSourceState1();
-            vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
-        }
-        else {
-            vm.$data.day = 1;
+    // $("[name='checkbox']").bootstrapSwitch({
+    //     onText:"今日菜单",
+    //     offText:"明日菜单",
+    //     onColor:"info",
+    //     offColor:"warning",
+    //     handleWidth:70
+    // }).on('switchChange.bootstrapSwitch', function(event, state) {
+    //     if(state){
+    //         vm.$data.day = 0;
+    //         vm.$data.data1 = dataSourceState1();
+    //         vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
+    //     }
+    //     else {
+    //         vm.$data.day = 1;
+    //         vm.$data.data1 = dataSourceState1();
+    //         vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
+    //     }
+    // });
+    laydate.render({
+        elem: '#date'
+        ,trigger: 'click'
+        ,btns: ['confirm']
+        ,calendar: true
+        ,done: function(value, date){
+            vm.$data.day = DateDiff(new Date().toLocaleDateString(),value);
             vm.$data.data1 = dataSourceState1();
             vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
         }
     });
-    
+
+    function DateDiff(sDate1, sDate2){
+        var aDate,oDate1,oDate2,iDays;
+        aDate = sDate1.split("/");
+        oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+        aDate = sDate2.split("-");
+        oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+        iDays = parseInt((oDate2 - oDate1)/ 1000/ 60/ 60/ 24);
+        return iDays
+    }
+
+    $('.nav-tab li').on('click',function () {
+        $(this).addClass('active').siblings().removeClass('active');
+        $('.'+$(this).attr('data-id')).fadeIn(0).siblings('div').fadeOut(0);
+    })
 });
 
 var FetchData = function (data, method, param, async) {

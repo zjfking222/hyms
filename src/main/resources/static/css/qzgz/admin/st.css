@@ -4,10 +4,24 @@
     width: 300px;
     margin-left: auto;
 }
+#date
+{
+    display: inline-block;
+    width: 160px;
+    background: transparent;
+    position: absolute;
+    margin-top: -59px;
+    margin-left: 515px;
+}
+#date-t{
+    position: absolute;
+    margin-top: -52px;
+    margin-left: 445px;
+}
 #search-btn
 {
     display: inline-block;
-    margin-right: 3rem;
+    margin-right: 1.5px;
 }
 body
 {
@@ -20,4 +34,9 @@ body
     width: 300px;
     display: inline-block;
     margin-right: auto;
+}
+.btn-showStateAll,.btn-showState1{
+    position: absolute;
+    margin-top: -34.5px;
+    margin-left: 108px;
 }
