@@ -49,8 +49,8 @@ public class CanteenController {
                 ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
     }
     @PostMapping("/admin/getCanteenByName")
-    public ResultObj getCanteenByName(String name)
+    public ResultObj getCanteenByName(String name, @RequestParam(required = false) String state)
     {
-        return ResultObj.success(canteenService.getCanteenBySearchName(name));
+        return ResultObj.success(canteenService.getCanteenBySearchName(name, state));
     }
 }

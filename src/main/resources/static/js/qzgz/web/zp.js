@@ -21,7 +21,7 @@ $(function(){
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
         var positionValue = (scrollTop + windowHeight) - scrollHeight;
-        if (positionValue > 100) {
+        if (positionValue > -1) {
             if(index <= dataSource.totalPage)
             {
                 $('#loading').fadeIn(0);
