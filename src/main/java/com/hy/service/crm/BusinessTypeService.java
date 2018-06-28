@@ -1,0 +1,13 @@
+package com.hy.service.crm;
+
+import com.hy.dto.CrmBusinesstypeDto;
+
+import java.util.List;
+
+public interface BusinessTypeService {
+    boolean addBusinessType(CrmBusinesstypeDto businesstypeDto);
+    boolean delBusinessType(Integer id);
+    boolean setBusinessType(CrmBusinesstypeDto businesstypeDto);
+    List<CrmBusinesstypeDto> getBusinessType();
+    List<CrmBusinesstypeDto> searchBusinessTypeByName(String name);
+}

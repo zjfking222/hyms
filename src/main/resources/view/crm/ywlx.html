@@ -2,9 +2,9 @@
 
 <html lang="zh">
 <head>
-    <title>角色管理</title>
+    <title>业务类型</title>
     <meta charset="UTF-8"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <!--<meta content="width=device-width, initial-scale=1" name="viewport"/>-->
     <link rel="stylesheet" href="/plugins/layer/theme/default/layer.css">
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -143,28 +143,27 @@
         <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
         <button id="btn-add" @click="onAdd"></button>
         <ul class="nav nav-sidebar" id="rolenav">
-            <li v-for="role in data1" :data-id="role.id" v-if="role.enable === true" @click="onChoose(role.id)">
+            <li v-for="business in data1" :data-id="business.id" @click="onChoose(business.id)">
                 <div class="item1">
-                    <a class="item-a">{{role.name}}</a>
+                    <a class="item-a">{{business.name}}</a>
                 </div>
                 <div class="item2">
-                    <button class="btn-edit" @click="onEdit(role.id,role.name)"></button>
-                    <button class="btn-del" @click="onDel(role.id)"></button>
+                    <button class="btn-edit" @click="onEdit(business.id,business.name)"></button>
+                    <button class="btn-del" @click="onDel(business.id)"></button>
                 </div>
             </li>
-            <li style="display: none" v-else></li>
         </ul>
 
     </div>
     <iframe id="treeview" width="40%" height="500px">
-</iframe>
+    </iframe>
 </div>
 
 <script src="/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="/plugins/vue/vue.min.js"></script>
 <script src="/plugins/layer/layer.js"></script>
-<script src="/js/system/role/roles.js"></script>
+<script src="/js/crm/ywlx.js"></script>
 
 </body>
 </html>
