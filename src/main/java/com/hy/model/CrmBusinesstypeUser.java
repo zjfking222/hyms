@@ -11,6 +11,18 @@ public class CrmBusinesstypeUser {
     private String loginid;
     private String lastname;
 
+    public CrmBusinesstypeUser() {
+    }
+
+    public CrmBusinesstypeUser(int btid, int uid, int creater, int modifier, String loginid, String lastname) {
+        this.btid = btid;
+        this.uid = uid;
+        this.creater = creater;
+        this.modifier = modifier;
+        this.loginid = loginid;
+        this.lastname = lastname;
+    }
+
     public int getId() {
         return id;
     }

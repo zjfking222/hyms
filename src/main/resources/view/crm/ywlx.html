@@ -16,7 +16,7 @@
         width: 100%;
     }
     #menus{
-        width: 80%;
+        width: 100%;
         margin: 0 auto;
     }
     td{
@@ -24,13 +24,13 @@
     }
 
     .sidebar {
-        position: fixed;
-        top: 0;
+        /*position: fixed;*/
+        /*top: 0;*/
         bottom: 0;
-        left: 0;
-        z-index: 1000;
+        /*left: 0;*/
+        /*z-index: 1000;*/
         display: block;
-        padding: 20px;
+        /*padding: 20px;*/
         overflow-x: hidden;
         overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
         background-color: #f5f5f5;
@@ -68,7 +68,7 @@
         line-height: 35px;
     }
     #search{
-        width: 180px;
+        width: 75%;
         display: inline-block;
     }
     #btn-add{
@@ -111,10 +111,8 @@
         display: inline-block;
     }
     #treeview{
-        position: absolute;
-        left: 270px;
-        top: 20px;
         border: 0;
+        display: inline;
     }
     li:hover{
         background: #eee;
@@ -139,7 +137,7 @@
 
 </style>
 <div id="menus">
-    <div id="left" class="sidebar">
+    <div id="left" class="sidebar col-md-2 col-sm-3 col-lg-2">
         <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
         <button id="btn-add" @click="onAdd"></button>
         <ul class="nav nav-sidebar" id="rolenav">
@@ -155,7 +153,7 @@
         </ul>
 
     </div>
-    <iframe id="treeview" width="40%" height="500px">
+    <iframe id="treeview" height="1000px" class="col-md-10 col-sm-9 col-lg-10 col-xs-12">
     </iframe>
 </div>
 
