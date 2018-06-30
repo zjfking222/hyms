@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>修改角色信息</title>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80% ;margin: 10px auto">
+<div id="app">
+    <div class="form-group">
+        <label for="add-pan">已添账号</label>
+        <div class="form-control" style="min-height:34px;height: auto!important;text-align: left" id="add-pan">
+            <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
+               v-for="hr in result" @click="onDel(hr.id)">{{hr.lastname}}{{hr.uid}}</a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="search-pan">搜索账号</label>
+        <div style="min-height:34px;height: auto!important;text-align: left" class="form-control" id="search-pan">
+
+            <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
+               v-for="hr in search" @click="onAdd(hr.id,hr.loginid,hr.lastname)">{{hr.lastname}}</a>
+        </div>
+    </div>
+    <button id="submit"  class="btn btn-success" @click="onSubmit()" style="width:100%;margin-top: 1rem!important;">保&nbsp;&nbsp;&nbsp;存</button>
+</div>
+</body>
+
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/crm/ywlx_user_update.js"></script>
+</html>

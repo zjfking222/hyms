@@ -19,9 +19,9 @@ function dataSource() {
 function dataSourceSearch(name) {
     return FetchData({name: name},'POST','/business/search',false).data;
 }
-// $(function () {
-//     $('#treeview').css('width',$(window).width()-250+'px')
-// });
+$(function () {
+    $('#treeview').css('width',$(window).width()-262+'px')
+});
 
 
 var vm = new Vue({
@@ -87,8 +87,9 @@ var vm = new Vue({
                 });
         },
         onChoose:function (rid) {
-            $('#treeview').attr('src','ymlx_user.html?id'+rid);
+            $('#treeview').attr('src','ywlx_user.html?id'+rid);
             pushRid = rid;
+            console.log(pushRid)
             $("#rolenav li[data-id="+rid+"]").addClass('active')
                 .siblings("li").removeClass('active');
         }

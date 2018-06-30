@@ -5,8 +5,10 @@ import com.hy.dto.CrmBusinesstypeUserDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.crm.BusinessTypeUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,7 +19,8 @@ public class BusinessTypeUserController {
     private BusinessTypeUserService businessTypeUserService;
 
     @PostMapping("/businessUser/get")
-    public ResultObj getBusinessUser(int btid){
+    public ResultObj getBusinessUser(int btid, @RequestParam(required = false) String sort,
+                                     @RequestParam(required = false) String dir){
         return ResultObj.success(businessTypeUserService.getBusinesstypeUser(btid));
     }
 

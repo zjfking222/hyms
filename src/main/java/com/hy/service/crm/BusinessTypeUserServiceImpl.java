@@ -1,11 +1,13 @@
 package com.hy.service.crm;
 
 import com.hy.common.SecurityHelp;
+import com.hy.dto.CrmBusinessUserDto;
 import com.hy.dto.CrmBusinesstypeUserDelDto;
 import com.hy.dto.CrmBusinesstypeUserDto;
 import com.hy.dto.HrmResourceDto;
 import com.hy.mapper.ms.CrmBusinesstypeUserMapper;
 import com.hy.model.CrmBusinesstypeUser;
+import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +22,8 @@ public class BusinessTypeUserServiceImpl implements BusinessTypeUserService{
     private CrmBusinesstypeUserMapper crmBusinesstypeUserMapper;
 
     @Override
-    public List<CrmBusinesstypeUser> getBusinesstypeUser(int btid) {
-        return crmBusinesstypeUserMapper.selectBusinesstypeUser(btid);
+    public List<CrmBusinessUserDto> getBusinesstypeUser(int btid) {
+        return DTOUtil.populateList(crmBusinesstypeUserMapper.selectBusinesstypeUser(btid), CrmBusinessUserDto.class);
     }
 
     @Override
