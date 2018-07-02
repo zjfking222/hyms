@@ -2,19 +2,11 @@ package com.hy.dto;
 
 public class CrmBusinessUserDto {
 
-    private int id;
     private int btid;
     private int uid;
     private String loginid;
     private String lastname;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getBtid() {
         return btid;

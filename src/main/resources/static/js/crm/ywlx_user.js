@@ -49,7 +49,6 @@ var vm = new Vue({
                             },
                             method:'POST',
                             success: function (result) {
-                                console.log(this.data)
                                 if (result.code === 0){
                                     options.success({data: result.data});
                                 }
@@ -110,7 +109,7 @@ var vm = new Vue({
                 maxmin: true,
                 content: '/crm/ywlx_user_update.html',
                 end: function () {
-
+                    location.reload()
                 }
             });
         }

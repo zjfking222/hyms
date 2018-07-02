@@ -7,11 +7,18 @@
 </head>
 <body style="width: 80% ;margin: 10px auto">
 <div id="app">
+    <div class="input-group">
+        <input class="form-control" placeholder="输入需要搜索的信息" style="display:inline-block!important;" id="search-info">
+        <span class="input-group-addon" style="background: white;">
+              <a style="color: black!important;" href="javascript:;" id="search" class="btn-block">搜索</a>
+            </span>
+    </div>
+
     <div class="form-group">
         <label for="add-pan">已添账号</label>
         <div class="form-control" style="min-height:34px;height: auto!important;text-align: left" id="add-pan">
             <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
-               v-for="hr in result" @click="onDel(hr.id)">{{hr.lastname}}</a>
+               v-for="hr in result" @click="onDel(hr.uid)">{{hr.lastname}}{{hr.uid}}</a>
         </div>
     </div>
 

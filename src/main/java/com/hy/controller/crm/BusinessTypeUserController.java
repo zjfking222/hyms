@@ -6,10 +6,7 @@ import com.hy.enums.ResultCode;
 import com.hy.service.crm.BusinessTypeUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/crm")
@@ -25,7 +22,9 @@ public class BusinessTypeUserController {
     }
 
     @PostMapping("/businessUser/set")
-    public ResultObj setBusinessUser(CrmBusinesstypeUserDto crmBusinesstypeUserDto){
+    public ResultObj setBusinessUser(@RequestBody CrmBusinesstypeUserDto crmBusinesstypeUserDto){
+        System.out.println(crmBusinesstypeUserDto.getnHrmResource().length);
+        System.out.println(crmBusinesstypeUserDto.getrHrmResource().length);
         return businessTypeUserService.setBusinesstypeUser(crmBusinesstypeUserDto) ?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_UNKNOWN);
