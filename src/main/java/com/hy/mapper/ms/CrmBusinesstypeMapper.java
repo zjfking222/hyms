@@ -13,4 +13,5 @@ public interface CrmBusinesstypeMapper {
     Integer deleteBusinesstype(@Param("id")Integer id);
     List<CrmBusinesstype> selectBusinesstype();
     List<CrmBusinesstype> selectBusinesstypeByName(@Param("name")String name);
+    CrmBusinesstype selectBusinesstypeById(int id);
 }

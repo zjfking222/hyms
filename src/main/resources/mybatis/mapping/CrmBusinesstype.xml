@@ -26,4 +26,7 @@
         WHERE name LIKE concat('%',#{name},'%')
         ORDER BY CONVERT(name USING gbk)
     </select>
+    <select id="selectBusinesstypeById" resultType="com.hy.model.CrmBusinesstype">
+        SELECT * FROM crm_businesstype WHERE id = #{id}
+    </select>
 </mapper>
