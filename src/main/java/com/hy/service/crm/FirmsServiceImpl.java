@@ -3,6 +3,7 @@ package com.hy.service.crm;
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
 import com.hy.dto.CrmFirmsDto;
+import com.hy.dto.CrmFirmsFetchDto;
 import com.hy.mapper.ms.CrmFirmsMapper;
 import com.hy.model.CrmFirms;
 import com.hy.utils.DTOUtil;
@@ -21,18 +22,17 @@ public class FirmsServiceImpl implements FirmsService{
     private BusinessTypeService businessTypeService;
 
     @Override
-    public boolean addCrmFirm(CrmFirmsDto crmFirmsDto) {
-        //todo 需要修改
+    public Integer addCrmFirm(CrmFirmsFetchDto crmFirmsDto) {
         CrmFirms crmFirms = DTOUtil.populate(crmFirmsDto, CrmFirms.class);
         crmFirms.setCreater(SecurityHelp.getUserId());
         crmFirms.setModifier(SecurityHelp.getUserId());
         crmFirms.setDomain(SecurityHelp.getDepartmentId());
-        return crmFirmsMapper.insertCrmFirms(crmFirms) == 1;
+        crmFirmsMapper.insertCrmFirms(crmFirms);
+        return crmFirms.getId();
     }
 
     @Override
-    public boolean setCrmFirm(CrmFirmsDto crmFirmsDto) {
-        //todo 需要修改
+    public boolean setCrmFirm(CrmFirmsFetchDto crmFirmsDto) {
         CrmFirms crmFirms = DTOUtil.populate(crmFirmsDto, CrmFirms.class);
         crmFirms.setModifier(SecurityHelp.getUserId());
         return crmFirmsMapper.updateCrmFirms(crmFirms) == 1;

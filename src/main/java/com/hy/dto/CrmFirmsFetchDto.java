@@ -1,11 +1,9 @@
 package com.hy.dto;
 
 /**
- *  企业信息返回DTO
+ *  企业信息接收DTO
  */
-
-public class CrmFirmsDto {
-
+public class CrmFirmsFetchDto {
     private int id;
     private String name;
     private String phone;
@@ -14,24 +12,8 @@ public class CrmFirmsDto {
     private String cmobile;
     private String cphone;
     private String email;
-    private CrmBusinesstypeDto btid;
+    private int btid;
     private String remark;
-
-    public CrmFirmsDto(int id, String name, String phone, String address, String contacter, String cmobile, String cphone, String email, CrmBusinesstypeDto btid, String remark) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.contacter = contacter;
-        this.cmobile = cmobile;
-        this.cphone = cphone;
-        this.email = email;
-        this.btid = btid;
-        this.remark = remark;
-    }
-
-    public CrmFirmsDto() {
-    }
 
     public int getId() {
         return id;
@@ -97,11 +79,11 @@ public class CrmFirmsDto {
         this.email = email;
     }
 
-    public CrmBusinesstypeDto getBtid() {
+    public int getBtid() {
         return btid;
     }
 
-    public void setBtid(CrmBusinesstypeDto btid) {
+    public void setBtid(int btid) {
         this.btid = btid;
     }
 

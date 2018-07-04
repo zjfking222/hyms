@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.CrmFirmsMapper">
     <insert id="insertCrmFirms" parameterType="com.hy.model.CrmFirms">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO crm_firms
         (name, phone, address, contacter, cmobile, cphone, email, btid, remark, creater, modifier, domain)
         VALUES

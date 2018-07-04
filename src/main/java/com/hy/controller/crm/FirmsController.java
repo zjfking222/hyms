@@ -1,7 +1,7 @@
 package com.hy.controller.crm;
 
 import com.hy.common.ResultObj;
-import com.hy.dto.CrmFirmsDto;
+import com.hy.dto.CrmFirmsFetchDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.crm.FirmsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +20,16 @@ public class FirmsController {
     private FirmsService firmsService;
 
     @PostMapping("/firm/add")
-    public ResultObj addCrmFirm(CrmFirmsDto crmFirmsDto){
-        return firmsService.addCrmFirm(crmFirmsDto)?
-                ResultObj.success():
-                ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+    public ResultObj addCrmFirm(CrmFirmsFetchDto crmFirmsDto){
+        try{
+            return ResultObj.success(firmsService.addCrmFirm(crmFirmsDto));
+        } catch (Exception e){
+            return ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        }
     }
 
     @PostMapping("/firm/set")
-    public ResultObj setCrmFirm(CrmFirmsDto crmFirmsDto){
+    public ResultObj setCrmFirm(CrmFirmsFetchDto crmFirmsDto){
         return firmsService.setCrmFirm(crmFirmsDto)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
