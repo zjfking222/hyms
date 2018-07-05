@@ -14,4 +14,5 @@ public interface CrmBusinesstypeMapper {
     List<CrmBusinesstype> selectBusinesstype();
     List<CrmBusinesstype> selectBusinesstypeByName(@Param("name")String name);
     CrmBusinesstype selectBusinesstypeById(int id);
+    List<CrmBusinesstype> selectBusinesstypeByUid(@Param("uid")int uid);
 }

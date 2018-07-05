@@ -62,4 +62,9 @@ public class FirmsController {
         return ResultObj.success(map);
     }
 
+    @PostMapping("/firm/getByUid")
+    public ResultObj getCrmFirmByUid(){
+        return ResultObj.success(firmsService.getCrmFirmByUid());
+    }
+
 }

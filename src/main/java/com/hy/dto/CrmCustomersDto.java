@@ -1,7 +1,6 @@
-package com.hy.model;
+package com.hy.dto;
 
-public class CrmCustomers {
-
+public class CrmCustomersDto {
     private int id;
     private String name;
     private String post;
@@ -11,15 +10,29 @@ public class CrmCustomers {
     private String mobile;
     private String phone;
     private String email;
-    private int btid;
-    private int fid;
+    private CrmBusinesstypeDto btid;
+    private CrmFirmsFetchDto fid;
     private boolean vip;
     private String remark;
-    private int creater;
-    private String created;
-    private int modifier;
-    private String modified;
-    private int domain;
+
+    public CrmCustomersDto(int id, String name, String post, String nationality, String address, boolean sex, String mobile, String phone, String email, CrmBusinesstypeDto btid, CrmFirmsFetchDto fid, boolean vip, String remark) {
+        this.id = id;
+        this.name = name;
+        this.post = post;
+        this.nationality = nationality;
+        this.address = address;
+        this.sex = sex;
+        this.mobile = mobile;
+        this.phone = phone;
+        this.email = email;
+        this.btid = btid;
+        this.fid = fid;
+        this.vip = vip;
+        this.remark = remark;
+    }
+
+    public CrmCustomersDto() {
+    }
 
     public int getId() {
         return id;
@@ -93,19 +106,19 @@ public class CrmCustomers {
         this.email = email;
     }
 
-    public int getBtid() {
+    public CrmBusinesstypeDto getBtid() {
         return btid;
     }
 
-    public void setBtid(int btid) {
+    public void setBtid(CrmBusinesstypeDto btid) {
         this.btid = btid;
     }
 
-    public int getFid() {
+    public CrmFirmsFetchDto getFid() {
         return fid;
     }
 
-    public void setFid(int fid) {
+    public void setFid(CrmFirmsFetchDto fid) {
         this.fid = fid;
     }
 
@@ -123,45 +136,5 @@ public class CrmCustomers {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getCreater() {
-        return creater;
-    }
-
-    public void setCreater(int creater) {
-        this.creater = creater;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
-    }
-
-    public int getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(int modifier) {
-        this.modifier = modifier;
-    }
-
-    public String getModified() {
-        return modified;
-    }
-
-    public void setModified(String modified) {
-        this.modified = modified;
-    }
-
-    public int getDomain() {
-        return domain;
-    }
-
-    public void setDomain(int domain) {
-        this.domain = domain;
     }
 }

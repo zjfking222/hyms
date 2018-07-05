@@ -60,4 +60,14 @@ public class FirmsServiceImpl implements FirmsService{
     public int getCrmFirmTotal(String value) {
         return crmFirmsMapper.selectCrmFirmsTotal(value, SecurityHelp.getUserId());
     }
+
+    @Override
+    public CrmFirmsFetchDto getCrmFirmById(int id) {
+        return DTOUtil.populate(crmFirmsMapper.selectCrmFirmsById(id),CrmFirmsFetchDto.class);
+    }
+
+    @Override
+    public List<CrmFirmsDto> getCrmFirmByUid() {
+        return DTOUtil.populateList(crmFirmsMapper.selectCrmFirmsByUid(SecurityHelp.getUserId()),CrmFirmsDto.class);
+    }
 }

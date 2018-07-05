@@ -2,7 +2,7 @@ var data;
 var index = parent.layer.getFrameIndex(window.name);
 $(function () {
     data = parent.pushData;
-    var optionList = FetchData(null,'POST','/business/get',false).data;
+    var optionList = FetchData(null,'POST','/business/getByUid',false).data;
 
     for(var i = 0 ; i < optionList.length; i++){
         var temp0 = temp.replace('@btid',optionList[i].id).replace('@btname',optionList[i].name);

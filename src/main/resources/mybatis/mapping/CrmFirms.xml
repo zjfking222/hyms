@@ -22,9 +22,7 @@
           email = #{email},
           btid = #{btid},
           remark = #{remark},
-          creater = #{creater},
-          modifier = #{modifier},
-          domain = #{domain}
+          modifier = #{modifier}
         WHERE id = #{id}
     </update>
     <delete id="deleteCrmFirms">
@@ -56,6 +54,15 @@
             OR address LIKE concat('%',#{value},'%')
             OR contacter LIKE concat('%',#{value},'%'))
         </if>)
-
+    </select>
+    <select id="selectCrmFirmsById" resultType="com.hy.model.CrmFirms">
+        SELECT * FROM crm_firms WHERE id = #{id}
+    </select>
+    <select id="selectCrmFirmsByUid" resultType="com.hy.model.CrmFirms">
+        SELECT * FROM crm_firms
+        WHERE EXISTS
+        (SELECT 1 FROM crm_businesstype_user
+        WHERE crm_firms.btid = crm_businesstype_user.btid
+        AND crm_businesstype_user.uid = #{uid})
     </select>
 </mapper>

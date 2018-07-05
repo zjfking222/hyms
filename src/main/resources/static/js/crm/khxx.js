@@ -29,20 +29,19 @@ var vm = new Vue({
                     '<a role="button"  class="k-button k-button-icontext  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
-                    {field: "name", title: "企业名称", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {field: "phone", title: "企业固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "name", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "address", title: "地址", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {
-                        field: "contacter",
-                        title: "联系人",
-                        headerAttributes: {"class": "grid-algin-center"},
-                        width: '100px'
-                    },
-                    {field: "cmobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "cphone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "email", title: "邮箱", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "sex_display", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
+                    {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "email", title: "邮箱", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "btid", headerAttributes: {"class": "grid-algin-center"}, width: '0px'},
+                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "fid", headerAttributes: {"class": "grid-algin-center"}, width: '0px'},
+                    {field: "fname", title: "企业单位", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "vip", title: "贵宾",template:'<input type="checkbox" onclick="return false"  #=vip_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {
                         command: [{
@@ -54,14 +53,17 @@ var vm = new Vue({
                                 pushData = {
                                     id: data.id,
                                     name: data.name,
-                                    phone: data.phone,
-                                    address: data.address,
-                                    contacter: data.contacter,
-                                    cmobile: data.cmobile,
-                                    cphone: data.cphone,
-                                    email: data.email,
-                                    btid: data.btid,
-                                    remark: data.remark
+                                    post: data.post,
+                                    nationality: data.nationality,
+                                    address:data.address,
+                                    sex:data.sex,
+                                    mobile:data.mobile,
+                                    phone:data.phone,
+                                    email:data.email,
+                                    btid:data.btid,
+                                    fid:data.fid,
+                                    vip:data.vip,
+                                    remark:data.remark
                                 };
                                 vm.edit();
                             }
@@ -77,7 +79,7 @@ var vm = new Vue({
                     transport: {
                         read: function (options) {
                             $.ajax({
-                                url: "/crm/firm/get",
+                                url: "/crm/customer/get",
                                 data: {
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                         undefined : options.data.sort[0].field,
@@ -90,6 +92,16 @@ var vm = new Vue({
                                 method: 'POST',
                                 success: function (result) {
                                     if (result.code === 0) {
+                                        //数据转化，checked属性和性别属性，用于显示模板
+                                        for(var i = 0 ; i< result.data.data.length ; i++){
+                                            result.data.data[i].vip?
+                                                result.data.data[i].vip_display = 'checked':
+                                                result.data.data[i].vip_display = '';
+                                            result.data.data[i].sex?
+                                                result.data.data[i].sex_display = '男':
+                                                result.data.data[i].sex_display = '女';
+                                        }
+                                        console.log(result.data.data)
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else
@@ -102,9 +114,9 @@ var vm = new Vue({
                         },
                         destroy: function (options) {
                             $.ajax({
-                                url: "/crm/firm/del",
+                                url: "/crm/customer/del",
                                 data: {
-                                     'id': options.data.id
+                                    'id': options.data.id
                                 },
                                 method: 'POST',
                                 success: function (result) {
@@ -112,8 +124,11 @@ var vm = new Vue({
                                         options.success(result);
                                         layer.msg('删除成功！', {time: 1000, icon: 1});
                                     }
-                                    else
+                                    else{
                                         options.error(result);
+                                        layer.msg('删除失败！（'+result.code+result.msg+'）', {time: 2300, icon: 2});
+                                    }
+                                        
                                 },
                                 error: function (result) {
                                     options.error(result);
@@ -129,21 +144,26 @@ var vm = new Vue({
                             fields: {
                                 id: {editable: false, nullable: true},
                                 name: {type: "string", nullable: false},
-                                phone: {type: "string", nullable: false},
+                                post: {type: "string", nullable: false},
+                                nationality: {type: "string", nullable: false},
                                 address: {type: "string", nullable: false},
-                                contacter: {type: "string", nullable: false},
-                                cmobile: {type: "string", nullable: false},
-                                cphone: {type: "string", nullable: false},
+                                sex: {type: "boolean", nullable: false},
+                                mobile: {type: "string", nullable: false},
+                                phone: {type: "string", nullable: false},
                                 email: {type: "string", nullable: false},
                                 btname: {type: "string", nullable: false, from: "btid.name"},
-                                btid: {type:"string", nullable: false, from: "btid.id"},
-                                remark: {type: "string", nullable: false}
+                                btid: {type: "string", nullable: false, from: "btid.id"},
+                                fname: {type: "string", nullable: false, from : "fid.name"},
+                                fid: {type: "string", nullable: false, from: "fid.id"},
+                                vip: {type:"boolean", nullable: false},
+                                remark: {type: "string", nullable: false},
+                                vip_display:{type:"string", nullable:false},
+                                sex_display:{type:"string", nullable:false}
                             }
                         }
                     },
                     error: function (e) {
                         this.cancelChanges();
-                        console.log(e);
                         if (e.errors) {
                             layer.alert(e.errors.msg, {icon: 2});
                         }
@@ -177,7 +197,7 @@ var vm = new Vue({
                     area: ['700px', '600px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/crm/qyxx_update.html',
+                    content: '/crm/khxx_update.html',
                     end: function () {
                     }
                 });
@@ -190,7 +210,7 @@ var vm = new Vue({
                     area: ['700px', '600px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/crm/qyxx_update.html',
+                    content: '/crm/khxx_update.html',
                     end: function () {
                     }
                 });

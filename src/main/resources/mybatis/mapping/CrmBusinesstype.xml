@@ -29,4 +29,11 @@
     <select id="selectBusinesstypeById" resultType="com.hy.model.CrmBusinesstype">
         SELECT * FROM crm_businesstype WHERE id = #{id}
     </select>
+    
+    <select id="selectBusinesstypeByUid" resultType="com.hy.model.CrmBusinesstype">
+        SELECT cb.id,cb.name
+        FROM crm_businesstype_user cu, crm_businesstype cb
+        WHERE cu.btid = cb.id
+              AND cu.uid = #{uid}
+    </select>
 </mapper>

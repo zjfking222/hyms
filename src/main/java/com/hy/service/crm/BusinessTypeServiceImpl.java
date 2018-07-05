@@ -50,4 +50,9 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
     public CrmBusinesstypeDto getBusinesstypeById(int id) {
         return DTOUtil.populate(crmBusinesstypeMapper.selectBusinesstypeById(id), CrmBusinesstypeDto.class);
     }
+
+    @Override
+    public List<CrmBusinesstypeDto> getBusinessTypeByUid() {
+        return DTOUtil.populateList(crmBusinesstypeMapper.selectBusinesstypeByUid(SecurityHelp.getUserId()),CrmBusinesstypeDto.class);
+    }
 }

@@ -12,4 +12,5 @@ public interface BusinessTypeService {
     List<CrmBusinesstypeDto> getBusinessType();
     List<CrmBusinesstypeDto> searchBusinessTypeByName(String name);
     CrmBusinesstypeDto getBusinesstypeById(int id);
+    List<CrmBusinesstypeDto> getBusinessTypeByUid();
 }

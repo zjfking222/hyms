@@ -47,4 +47,8 @@ public class BusinessTypeController {
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_ADD_FAILED);
     }
+    @PostMapping("/business/getByUid")
+    public ResultObj getBusinessTypeByUid(){
+        return ResultObj.success(businessTypeService.getBusinessTypeByUid());
+    }
 }
