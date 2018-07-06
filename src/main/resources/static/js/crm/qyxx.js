@@ -11,6 +11,7 @@ var vm = new Vue({
             this.getDataSource();
 
             $("#grid").kendoGrid({
+                selectable:"row",
                 dataSource: this.dataSource,
                 editable: {
                     confirmation: true,
@@ -22,7 +23,11 @@ var vm = new Vue({
                 // filterable: true,
                 columnMenu: true,
                 sortable: true,
-                pageable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
                 toolbar: [{
                     template: '<a role="button" class="k-button k-button-icontext  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
                     '<input type="text" class="k-input" id="search-input"/>' +

@@ -9,6 +9,7 @@ var vm = new Vue({
         rid = parent.pushRid;
         this.getDataSource();
         $("#grid").kendoGrid({
+            selectable:"row",
             dataSource: this.dataSource,
             editable: {
                 confirmation: true,
