@@ -218,6 +218,9 @@ var vm = new Vue({
             search: function () {
                 // vm.dataSource.read()
                 $("#grid").data("kendoGrid").dataSource.read()
+            },
+            savaAsExcel: function () {
+                $("#grid").data("kendoGrid").saveAsExcel();
             }
         }
     }
