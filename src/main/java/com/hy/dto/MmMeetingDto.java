@@ -1,13 +1,12 @@
 package com.hy.dto;
 
-import java.sql.Date;
 
 public class MmMeetingDto {
     private int id;
     private String name;
-    private Date begindate;
-    private Date enddate;
-    private int userid;
+    private String begindate;
+    private String enddate;
+    private String state;
     private String remark;
 
     public int getId() {
@@ -26,28 +25,28 @@ public class MmMeetingDto {
         this.name = name;
     }
 
-    public Date getBegindate() {
+    public String getBegindate() {
         return begindate;
     }
 
-    public void setBegindate(Date begindate) {
+    public void setBegindate(String begindate) {
         this.begindate = begindate;
     }
 
-    public Date getEnddate() {
+    public String getEnddate() {
         return enddate;
     }
 
-    public void setEnddate(Date enddate) {
+    public void setEnddate(String enddate) {
         this.enddate = enddate;
     }
 
-    public int getUserid() {
-        return userid;
+    public String getState() {
+        return state;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getRemark() {

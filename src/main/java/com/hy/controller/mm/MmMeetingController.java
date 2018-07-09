@@ -3,7 +3,6 @@ package com.hy.controller.mm;
 import com.hy.common.ResultObj;
 import com.hy.dto.MmMeetingDto;
 import com.hy.enums.ResultCode;
-import com.hy.model.MmMeeting;
 import com.hy.service.mm.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.PastOrPresent;
 import java.util.HashMap;
 
 @RestController

@@ -1,13 +1,12 @@
 package com.hy.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class MmMeeting {
     private int id;
     private String name;
     private Date begindate;
     private Date enddate;
-    private int userid;
     private String remark;
     private int domain;
     private int creater;
@@ -45,14 +44,6 @@ public class MmMeeting {
 
     public void setEnddate(Date enddate) {
         this.enddate = enddate;
-    }
-
-    public int getUserid() {
-        return userid;
-    }
-
-    public void setUserid(int userid) {
-        this.userid = userid;
     }
 
     public String getRemark() {
