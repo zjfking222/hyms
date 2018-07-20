@@ -1,6 +1,7 @@
 package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
+import com.hy.common.SecurityHelp;
 import com.hy.dto.MmMeetingDto;
 import com.hy.mapper.ms.MmMeetingMapper;
 import com.hy.model.MmMeeting;
@@ -8,6 +9,7 @@ import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -19,14 +21,49 @@ public class MeetingServiceImpl implements MeetingService{
     @Autowired
     private MmMeetingMapper mmMeetingMapper;
 
+    private SimpleDateFormat sdf;
+
+    private Date tempBegin;
+
+    private Date tempEnd;
+
+    private MmMeeting meeting;
+
+    public MeetingServiceImpl(){
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+    }
+
     @Override
     public boolean addMeeting(MmMeetingDto mmMeetingDto) {
-        return mmMeetingMapper.insertMmMeeting(DTOUtil.populate(mmMeetingDto, MmMeeting.class)) == 1;
+        try {
+            tempBegin = sdf.parse(mmMeetingDto.getBegindate());
+            tempEnd = sdf.parse(mmMeetingDto.getEnddate());
+            meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
+            meeting.setBegindate(tempBegin);
+            meeting.setEnddate(tempEnd);
+            meeting.setCreater(SecurityHelp.getUserId());
+            meeting.setModifier(SecurityHelp.getUserId());
+            meeting.setDomain(SecurityHelp.getDepartmentId());
+        }catch (ParseException e){
+            return false;
+        }
+        return mmMeetingMapper.insertMmMeeting(meeting) == 1;
     }
 
     @Override
     public boolean setMeeting(MmMeetingDto mmMeetingDto) {
-        return mmMeetingMapper.updateMmMeeting(DTOUtil.populate(mmMeetingDto, MmMeeting.class)) == 1;
+        try {
+            tempBegin = sdf.parse(mmMeetingDto.getBegindate());
+            tempEnd = sdf.parse(mmMeetingDto.getEnddate());
+            meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
+            meeting.setBegindate(tempBegin);
+            meeting.setEnddate(tempEnd);
+            meeting.setModifier(SecurityHelp.getUserId());
+        }catch (ParseException e){
+            return false;
+        }
+        return mmMeetingMapper.updateMmMeeting(meeting) == 1;
     }
 
     @Override
@@ -41,8 +78,6 @@ public class MeetingServiceImpl implements MeetingService{
         final String state1 = "未开始";
         final String state2 = "进行中";
         final String state3 = "已结束";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         List<MmMeeting> meetings = mmMeetingMapper.selectMmMeeting(value, sort, dir);
         List<MmMeetingDto> meetingDtos = DTOUtil.populateList(meetings, MmMeetingDto.class);

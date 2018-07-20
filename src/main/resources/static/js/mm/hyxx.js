@@ -49,10 +49,9 @@ var vm = new Vue({
                                 pushData = {
                                     id: data.id,
                                     name: data.name,
-                                    phone: data.begindate,
-                                    address: data.enddate,
-                                    contacter: data.state,
-                                    cmobile: data.remark
+                                    begindate: data.begindate,
+                                    enddate: data.enddate,
+                                    remark: data.remark
                                 };
                                 vm.edit();
                             }
@@ -160,10 +159,10 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '新增信息',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['500px', '410px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/mm/.html',
+                    content: '/mm/hyxx_update.html',
                     end: function () {
                     }
                 });
@@ -173,10 +172,10 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title:'编辑信息',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['500px', '410px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/mm/.html',
+                    content: '/mm/hyxx_update.html',
                     end: function () {
                     }
                 });

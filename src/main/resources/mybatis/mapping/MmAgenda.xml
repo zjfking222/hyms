@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.MmAgendaMapper">
+    <insert id="insertMmAgenda" parameterType="com.hy.model.MmAgenda">
+        INSERT INTO mm_agenda (name, date, userid, mid, remark, domain, creater, modifier)
+        VALUES (#{name}, #{date}, #{userid}, #{mid}, #{remark}, #{domain}, #{creater}, #{modifier})
+    </insert>
+    <update id="updateMmAgenda" parameterType="com.hy.model.MmAgenda">
+        UPDATE mm_agenda SET
+            name = #{name},
+            date = #{date},
+            userid = #{userid},
+            mid = #{mid},
+            remark = #{remark},
+            modifier = #{modifier}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteMmAgenda" parameterType="java.lang.Integer">
+        DELETE FROM mm_agenda
+        WHERE id = #{id}
+    </delete>
 
 </mapper>
