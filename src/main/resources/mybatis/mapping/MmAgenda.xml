@@ -2,14 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.MmAgendaMapper">
     <insert id="insertMmAgenda" parameterType="com.hy.model.MmAgenda">
-        INSERT INTO mm_agenda (name, date, userid, mid, remark, domain, creater, modifier)
-        VALUES (#{name}, #{date}, #{userid}, #{mid}, #{remark}, #{domain}, #{creater}, #{modifier})
+        INSERT INTO mm_agenda (name, date, mid, remark, domain, creater, modifier)
+        VALUES (#{name}, #{date}, #{mid}, #{remark}, #{domain}, #{creater}, #{modifier})
     </insert>
     <update id="updateMmAgenda" parameterType="com.hy.model.MmAgenda">
         UPDATE mm_agenda SET
             name = #{name},
             date = #{date},
-            userid = #{userid},
             mid = #{mid},
             remark = #{remark},
             modifier = #{modifier}
@@ -19,5 +18,14 @@
         DELETE FROM mm_agenda
         WHERE id = #{id}
     </delete>
+    <select id="selectMmAgenda" resultType="com.hy.model.MmAgenda">
+        SELECT * FROM mm_agenda WHERE mid = #{mid}
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectMmAgendaTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM mm_agenda WHERE mid = #{mid}
+    </select>
 
 </mapper>

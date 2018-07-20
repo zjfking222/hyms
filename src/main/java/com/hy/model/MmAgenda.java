@@ -1,12 +1,11 @@
 package com.hy.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class MmAgenda {
     private int id;
     private String name;
     private Date date;
-    private int userid;
     private int mid;
     private String remark;
     private int domain;
@@ -37,14 +36,6 @@ public class MmAgenda {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getUserid() {
-        return userid;
-    }
-
-    public void setUserid(int userid) {
-        this.userid = userid;
     }
 
     public int getMid() {
