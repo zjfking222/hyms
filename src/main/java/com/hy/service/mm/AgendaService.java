@@ -8,6 +8,6 @@ public interface AgendaService {
     boolean addAgenda(MmAgendaDto mmAgendaDto);
     boolean setAgenda(MmAgendaDto mmAgendaDto);
     boolean delAgenda(int id);
-    List<MmAgendaDto> getAgenda(int mid);
+    List<MmAgendaDto> getAgenda(int pageNum, int pageSize, int mid, String sort, String dir);
     int getAgendaTotal(int mid);
 }

@@ -1,4 +1,6 @@
+//会议信息
 var pushData;
+var pushMid;
 var vm = new Vue({
         el: "",
         data: {
@@ -10,7 +12,7 @@ var vm = new Vue({
 
             this.getDataSource();
 
-            $("#grid").kendoGrid({
+            var grid = $("#grid").kendoGrid({
                 selectable:"row",
                 dataSource: this.dataSource,
                 editable: {
@@ -60,6 +62,21 @@ var vm = new Vue({
                     }
                 ]
             });
+            // grid.on('click', '.k-grid-content tr', function () {
+            //     var row = grid.data("kendoGrid").select();
+            //     var data = grid.data("kendoGrid").dataItem(row);
+            //     pushMid = data.id;
+            //     $('#agendaiframe').attr('src', "hyyc.html?mid="+pushMid);
+            // });
+
+            //行项目双击事件
+            grid.dblclick('.k-grid-content tr', function () {
+                var row = grid.data("kendoGrid").select();
+                var data = grid.data("kendoGrid").dataItem(row);
+                pushMid = data.id;
+                $('#agendaiframe').attr('src', "hyyc.html?mid="+pushMid);
+            });
+
         },
         methods: {
             getDataSource: function () {
@@ -152,12 +169,12 @@ var vm = new Vue({
                 });
             },
             add: function () {
-                layer.close(vm.layItem)
+                layer.close(vm.layItem);
                 pushData = {
                     id : 0
                 };
                 this.layItem = layer.open({
-                    title: '新增信息',
+                    title: '添加会议',
                     type: 2,
                     area: ['500px', '410px'],
                     fixed: false, //不固定
@@ -168,9 +185,9 @@ var vm = new Vue({
                 });
             },
             edit:function(){
-                layer.close(vm.layItem)
+                layer.close(vm.layItem);
                 this.layItem = layer.open({
-                    title:'编辑信息',
+                    title:'编辑会议',
                     type: 2,
                     area: ['500px', '410px'],
                     fixed: false, //不固定
@@ -187,3 +204,15 @@ var vm = new Vue({
         }
     }
 );
+$(function () {
+    var layout =
+        $('body').layout({
+        south__size: '50%',
+        south__resizable: true,
+        resizerDragOpacity: 0.5
+    });
+    layout.allowOverflow("south");
+    console.log(layout.options.south.resizable);
+});
+
+

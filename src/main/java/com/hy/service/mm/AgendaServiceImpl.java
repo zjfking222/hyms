@@ -1,5 +1,6 @@
 package com.hy.service.mm;
 
+import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
 import com.hy.dto.MmAgendaDto;
 import com.hy.mapper.ms.MmAgendaMapper;
@@ -65,9 +66,14 @@ public class AgendaServiceImpl implements AgendaService {
     }
 
     @Override
-    public List<MmAgendaDto> getAgenda(int mid) {
-        //TODO
-        return null;
+    public List<MmAgendaDto> getAgenda(int pageNum, int pageSize, int mid, String sort, String dir) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<MmAgenda> agenda = mmAgendaMapper.selectMmAgenda(mid, sort, dir);
+        List<MmAgendaDto> agendaDtos = DTOUtil.populateList(agenda, MmAgendaDto.class);
+        for(int i = 0 ; i < agenda.size() ; i++){
+            agendaDtos.get(i).setDate(sdf.format(agenda.get(i).getDate()));
+        }
+        return agendaDtos;
     }
 
     @Override
