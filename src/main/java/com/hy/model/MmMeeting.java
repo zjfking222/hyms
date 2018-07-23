@@ -7,6 +7,7 @@ public class MmMeeting {
     private String name;
     private Date begindate;
     private Date enddate;
+    private Date deadline;
     private String remark;
     private int domain;
     private int creater;
@@ -44,6 +45,14 @@ public class MmMeeting {
 
     public void setEnddate(Date enddate) {
         this.enddate = enddate;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
     public String getRemark() {

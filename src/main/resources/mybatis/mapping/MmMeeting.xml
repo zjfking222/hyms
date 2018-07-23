@@ -2,14 +2,15 @@
         <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.MmMeetingMapper">
     <insert id="insertMmMeeting" parameterType="com.hy.model.MmMeeting">
-        INSERT INTO mm_meeting (name, begindate, enddate, remark, domain, creater, modifier)
-        VALUES (#{name},#{begindate},#{enddate},#{remark},#{domain},#{creater},#{modifier})
+        INSERT INTO mm_meeting (name, begindate, enddate, deadline, remark, domain, creater, modifier)
+        VALUES (#{name},#{begindate},#{enddate},#{deadline},#{remark},#{domain},#{creater},#{modifier})
     </insert>
     <update id="updateMmMeeting" parameterType="com.hy.model.MmMeeting">
         UPDATE mm_meeting SET
             name = #{name},
             begindate = #{begindate},
             enddate = #{enddate},
+            deadline = #{deadline},
             remark = #{remark},
             modifier = #{modifier}
         WHERE id = #{id}

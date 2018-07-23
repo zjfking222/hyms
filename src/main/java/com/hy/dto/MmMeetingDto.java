@@ -6,6 +6,7 @@ public class MmMeetingDto {
     private String name;
     private String begindate;
     private String enddate;
+    private String deadline;
     private String state;
     private String remark;
 
@@ -39,6 +40,14 @@ public class MmMeetingDto {
 
     public void setEnddate(String enddate) {
         this.enddate = enddate;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 
     public String getState() {

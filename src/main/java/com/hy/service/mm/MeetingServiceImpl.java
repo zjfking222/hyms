@@ -27,6 +27,8 @@ public class MeetingServiceImpl implements MeetingService{
 
     private Date tempEnd;
 
+    private Date tempDeadLine;
+
     private MmMeeting meeting;
 
     public MeetingServiceImpl(){
@@ -39,9 +41,13 @@ public class MeetingServiceImpl implements MeetingService{
         try {
             tempBegin = sdf.parse(mmMeetingDto.getBegindate());
             tempEnd = sdf.parse(mmMeetingDto.getEnddate());
+            tempDeadLine = sdf.parse(mmMeetingDto.getDeadline());
+
             meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
             meeting.setBegindate(tempBegin);
             meeting.setEnddate(tempEnd);
+            meeting.setDeadline(tempDeadLine);
+
             meeting.setCreater(SecurityHelp.getUserId());
             meeting.setModifier(SecurityHelp.getUserId());
             meeting.setDomain(SecurityHelp.getDepartmentId());
@@ -56,9 +62,13 @@ public class MeetingServiceImpl implements MeetingService{
         try {
             tempBegin = sdf.parse(mmMeetingDto.getBegindate());
             tempEnd = sdf.parse(mmMeetingDto.getEnddate());
+            tempDeadLine = sdf.parse(mmMeetingDto.getDeadline());
+
             meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
             meeting.setBegindate(tempBegin);
             meeting.setEnddate(tempEnd);
+            meeting.setDeadline(tempDeadLine);
+
             meeting.setModifier(SecurityHelp.getUserId());
         }catch (ParseException e){
             return false;
@@ -95,8 +105,18 @@ public class MeetingServiceImpl implements MeetingService{
             else {
                 md.setState(state2);
             }
-            md.setBegindate(sdf.format(mm.getBegindate()));
-            md.setEnddate(sdf.format(mm.getEnddate()));
+            //过滤空值
+            if(mm.getBegindate() != null){
+                md.setBegindate(sdf.format(mm.getBegindate()));
+            }
+            if(mm.getEnddate() != null){
+                md.setEnddate(sdf.format(mm.getEnddate()));
+            }
+            if(mm.getDeadline() != null){
+
+                md.setDeadline(sdf.format(mm.getDeadline()));
+            }
+
         }
         return meetingDtos;
     }

@@ -39,6 +39,7 @@ var vm = new Vue({
                     {field: "name", title: "会议主题", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "begindate", title: "开始时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "enddate", title: "结束时间", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "deadline", title: "提交截止时间", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {
@@ -53,6 +54,7 @@ var vm = new Vue({
                                     name: data.name,
                                     begindate: data.begindate,
                                     enddate: data.enddate,
+                                    deadline: data.deadline,
                                     remark: data.remark
                                 };
                                 vm.edit();
@@ -138,6 +140,7 @@ var vm = new Vue({
                                 name: {type: "string", nullable: false},
                                 begindate: {type: "string", nullable: false},
                                 enddate: {type: "string", nullable: false},
+                                deadline: {type: "string", nullable: false},
                                 state: {type: "string", nullable: false},
                                 remark: {type: "string", nullable: false}
                             }
@@ -176,7 +179,7 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '添加会议',
                     type: 2,
-                    area: ['500px', '410px'],
+                    area: ['500px', '485px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/mm/hyxx_update.html',
@@ -189,7 +192,7 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title:'编辑会议',
                     type: 2,
-                    area: ['500px', '410px'],
+                    area: ['500px', '485px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/mm/hyxx_update.html',
@@ -212,7 +215,7 @@ $(function () {
         resizerDragOpacity: 0.5
     });
     layout.allowOverflow("south");
-    console.log(layout.options.south.resizable);
+
 });
 
 

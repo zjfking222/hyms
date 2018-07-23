@@ -12,6 +12,10 @@ $(function () {
         elem: '#end'
         ,type: 'datetime'
     });
+    laydate.render({
+       elem: '#deadline',
+        type:'datetime'
+    });
    if(data.id === 0){
 
    }
@@ -19,16 +23,18 @@ $(function () {
        $('#name').val(data.name);
        $('#begin').val(data.begindate);
        $('#end').val(data.enddate);
+       $('#deadline').val(data.deadline);
        $('#remark').val(data.remark);
    }
    $('#submit').on('click',function () {
-       if($('#name').val()!==''&& $('#begin').val()!==''&& $('#end').val()!=='')
+       if($('#name').val()!==''&& $('#begin').val()!==''&& $('#end').val()!==''&& $('#deadline').val()!=='')
        {
            postData = {
                id: data.id,
                name: $('#name').val(),
                begindate:$('#begin').val(),
                enddate:$('#end').val(),
+               deadline:$('#deadline').val(),
                remark:$('#remark').val()
            };
            if(data.id === 0){
