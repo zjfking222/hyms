@@ -1,13 +1,15 @@
-package com.hy.dto;
+package com.hy.model;
 
-public class MmMeetingDto {
+import java.util.Date;
+
+public class VMmMeetingReceipt {
     private int id;
     private String name;
-    private String begindate;
-    private String enddate;
-    private String deadline;
-    private String state;
+    private Date begindate;
+    private Date enddate;
+    private Date deadline;
     private String remark;
+    private int rnum;
 
     public int getId() {
         return id;
@@ -25,36 +27,28 @@ public class MmMeetingDto {
         this.name = name;
     }
 
-    public String getBegindate() {
+    public Date getBegindate() {
         return begindate;
     }
 
-    public void setBegindate(String begindate) {
+    public void setBegindate(Date begindate) {
         this.begindate = begindate;
     }
 
-    public String getEnddate() {
+    public Date getEnddate() {
         return enddate;
     }
 
-    public void setEnddate(String enddate) {
+    public void setEnddate(Date enddate) {
         this.enddate = enddate;
     }
 
-    public String getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getRemark() {
@@ -63,5 +57,13 @@ public class MmMeetingDto {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getRnum() {
+        return rnum;
+    }
+
+    public void setRnum(int rnum) {
+        this.rnum = rnum;
     }
 }

@@ -1,6 +1,7 @@
 package com.hy.dto;
 
-public class MmMeetingDto {
+
+public class MmMeetingReceiptViewDto {
     private int id;
     private String name;
     private String begindate;
@@ -8,6 +9,7 @@ public class MmMeetingDto {
     private String deadline;
     private String state;
     private String remark;
+    private int rnum;
 
     public int getId() {
         return id;
@@ -49,6 +51,14 @@ public class MmMeetingDto {
         this.deadline = deadline;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getState() {
         return state;
     }
@@ -57,11 +67,11 @@ public class MmMeetingDto {
         this.state = state;
     }
 
-    public String getRemark() {
-        return remark;
+    public int getRnum() {
+        return rnum;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setRnum(int rnum) {
+        this.rnum = rnum;
     }
 }

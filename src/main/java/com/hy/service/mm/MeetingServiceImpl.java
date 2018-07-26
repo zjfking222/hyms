@@ -6,14 +6,11 @@ import com.hy.dto.MmMeetingDto;
 import com.hy.mapper.ms.MmMeetingMapper;
 import com.hy.model.MmMeeting;
 import com.hy.utils.DTOUtil;
+import com.hy.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @Service
 public class MeetingServiceImpl implements MeetingService{
@@ -21,58 +18,34 @@ public class MeetingServiceImpl implements MeetingService{
     @Autowired
     private MmMeetingMapper mmMeetingMapper;
 
-    private SimpleDateFormat sdf;
-
-    private Date tempBegin;
-
-    private Date tempEnd;
-
-    private Date tempDeadLine;
-
     private MmMeeting meeting;
-
-    public MeetingServiceImpl(){
-        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-    }
 
     @Override
     public boolean addMeeting(MmMeetingDto mmMeetingDto) {
-        try {
-            tempBegin = sdf.parse(mmMeetingDto.getBegindate());
-            tempEnd = sdf.parse(mmMeetingDto.getEnddate());
-            tempDeadLine = sdf.parse(mmMeetingDto.getDeadline());
 
-            meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
-            meeting.setBegindate(tempBegin);
-            meeting.setEnddate(tempEnd);
-            meeting.setDeadline(tempDeadLine);
 
-            meeting.setCreater(SecurityHelp.getUserId());
-            meeting.setModifier(SecurityHelp.getUserId());
-            meeting.setDomain(SecurityHelp.getDepartmentId());
-        }catch (ParseException e){
-            return false;
-        }
+        meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
+        meeting.setBegindate(DateUtil.translate(mmMeetingDto.getBegindate()));
+        meeting.setEnddate(DateUtil.translate(mmMeetingDto.getEnddate()));
+        meeting.setDeadline(DateUtil.translate(mmMeetingDto.getDeadline()));
+
+        meeting.setCreater(SecurityHelp.getUserId());
+        meeting.setModifier(SecurityHelp.getUserId());
+        meeting.setDomain(SecurityHelp.getDepartmentId());
+
         return mmMeetingMapper.insertMmMeeting(meeting) == 1;
     }
 
     @Override
     public boolean setMeeting(MmMeetingDto mmMeetingDto) {
-        try {
-            tempBegin = sdf.parse(mmMeetingDto.getBegindate());
-            tempEnd = sdf.parse(mmMeetingDto.getEnddate());
-            tempDeadLine = sdf.parse(mmMeetingDto.getDeadline());
 
-            meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
-            meeting.setBegindate(tempBegin);
-            meeting.setEnddate(tempEnd);
-            meeting.setDeadline(tempDeadLine);
+        meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
+        meeting.setBegindate(DateUtil.translate(mmMeetingDto.getBegindate()));
+        meeting.setEnddate(DateUtil.translate(mmMeetingDto.getEnddate()));
+        meeting.setDeadline(DateUtil.translate(mmMeetingDto.getDeadline()));
 
-            meeting.setModifier(SecurityHelp.getUserId());
-        }catch (ParseException e){
-            return false;
-        }
+        meeting.setModifier(SecurityHelp.getUserId());
+
         return mmMeetingMapper.updateMmMeeting(meeting) == 1;
     }
 
@@ -84,37 +57,24 @@ public class MeetingServiceImpl implements MeetingService{
     @Override
     public List<MmMeetingDto> getMeeting(int pageNum, int pageSize, String value, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        //判断时间，设定会议的状态
-        final String state1 = "未开始";
-        final String state2 = "进行中";
-        final String state3 = "已结束";
 
         List<MmMeeting> meetings = mmMeetingMapper.selectMmMeeting(value, sort, dir);
         List<MmMeetingDto> meetingDtos = DTOUtil.populateList(meetings, MmMeetingDto.class);
-        Date now = new Date();
 
         for(int i = 0 ; i < meetings.size() ; i++){
             MmMeetingDto md = meetingDtos.get(i);
             MmMeeting mm = meetings.get(i);
-            if(now.before(mm.getBegindate())){
-                md.setState(state1);
-            }
-            else if(now.after(mm.getEnddate())){
-                md.setState(state3);
-            }
-            else {
-                md.setState(state2);
-            }
+            md.setState(DateUtil.getState(mm.getBegindate(),mm.getEnddate()));
             //过滤空值
             if(mm.getBegindate() != null){
-                md.setBegindate(sdf.format(mm.getBegindate()));
+                md.setBegindate(DateUtil.translate(mm.getBegindate()));
             }
             if(mm.getEnddate() != null){
-                md.setEnddate(sdf.format(mm.getEnddate()));
+                md.setEnddate(DateUtil.translate(mm.getEnddate()));
             }
             if(mm.getDeadline() != null){
 
-                md.setDeadline(sdf.format(mm.getDeadline()));
+                md.setDeadline(DateUtil.translate(mm.getDeadline()));
             }
 
         }
