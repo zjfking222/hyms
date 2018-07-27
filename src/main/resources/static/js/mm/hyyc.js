@@ -54,7 +54,7 @@ var vm = new Vue({
                                 vm.edit();
                             }
                         }, {
-                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "180px"
+                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "240px"
                     }
                 ]
             });

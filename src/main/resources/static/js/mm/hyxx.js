@@ -37,10 +37,10 @@ var vm = new Vue({
                 }],
                 columns: [
                     {field: "name", title: "会议主题", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {field: "begindate", title: "开始时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "begindate", title: "开始时间", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "enddate", title: "结束时间", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "deadline", title: "提交截止时间", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "enddate", title: "状态",template:'<span>#=state#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {
                         command: [{
@@ -60,7 +60,7 @@ var vm = new Vue({
                                 vm.edit();
                             }
                         }, {
-                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "180px"
+                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "240px"
                     }
                 ]
             });

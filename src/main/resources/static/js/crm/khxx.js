@@ -39,7 +39,7 @@ var vm = new Vue({
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "address", title: "地址", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {field: "sex_display", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
+                    {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "email", title: "邮箱", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
@@ -74,7 +74,7 @@ var vm = new Vue({
                                 vm.edit();
                             }
                         }, {
-                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "180px"
+                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "240px"
                     }
                 ]
             });
@@ -107,7 +107,6 @@ var vm = new Vue({
                                                 result.data.data[i].sex_display = '男':
                                                 result.data.data[i].sex_display = '女';
                                         }
-                                        console.log(result.data.data)
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else

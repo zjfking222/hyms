@@ -2,6 +2,7 @@ package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.dto.MmMeetingReceiptViewDto;
+import com.hy.dto.MmReceiptInfoViewDto;
 import com.hy.mapper.ms.MmReceiptMapper;
 import com.hy.model.VMmMeetingReceipt;
 import com.hy.utils.DTOUtil;
@@ -45,5 +46,17 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public Integer getMeetingViewTotal(String value){
         return mmReceiptMapper.selectMeetingViewTotal(value);
+    }
+
+
+    @Override
+    public List<MmReceiptInfoViewDto> getReceiptView(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
+        PageHelper.startPage(pageNum, pageSize);
+        return DTOUtil.populateList(mmReceiptMapper.selectReceiptView(value, sort, dir, mid),MmReceiptInfoViewDto.class);
+    }
+
+    @Override
+    public Integer getReceiptViewTotal(String value , int mid) {
+        return mmReceiptMapper.selectReceiptViewTotal(value, mid);
     }
 }

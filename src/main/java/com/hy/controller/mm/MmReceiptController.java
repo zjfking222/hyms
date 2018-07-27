@@ -26,4 +26,15 @@ public class MmReceiptController {
         map.put("total", receiptService.getMeetingViewTotal(value));
         return ResultObj.success(map);
     }
+
+    @PostMapping("/receipt/getReceiptInfo")
+    public ResultObj getReceiptInfoView(int page, int pageSize, @RequestParam(required = false) String value,
+                                        @RequestParam(required = false) String sort,
+                                        @RequestParam(required = false) String dir,
+                                        int mid){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("data", receiptService.getReceiptView(page, pageSize, value, sort, dir, mid));
+        map.put("total", receiptService.getReceiptViewTotal(value , mid));
+        return ResultObj.success(map);
+    }
 }
