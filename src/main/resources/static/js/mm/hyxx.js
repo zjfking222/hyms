@@ -77,6 +77,7 @@ var vm = new Vue({
                 var data = grid.data("kendoGrid").dataItem(row);
                 pushMid = data.id;
                 $('#agendaiframe').attr('src', "hyyc.html?mid="+pushMid);
+
             });
 
         },

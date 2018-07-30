@@ -1,6 +1,7 @@
 package com.hy.controller.mm;
 
 import com.hy.common.ResultObj;
+import com.hy.enums.ResultCode;
 import com.hy.service.mm.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,5 +37,17 @@ public class MmReceiptController {
         map.put("data", receiptService.getReceiptView(page, pageSize, value, sort, dir, mid));
         map.put("total", receiptService.getReceiptViewTotal(value , mid));
         return ResultObj.success(map);
+    }
+
+    @PostMapping("/receipt/getReceiptDetail")
+    public ResultObj getReceiptDetail(int rid){
+        return ResultObj.success(receiptService.getReceiptDetail(rid));
+    }
+
+    @PostMapping("/receipt/del")
+    public ResultObj delReceipt(int id){
+        return receiptService.delReceipt(id)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_DELETE_FOREIGN);
     }
 }

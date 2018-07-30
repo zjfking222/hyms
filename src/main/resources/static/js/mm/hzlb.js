@@ -1,4 +1,5 @@
 //回执列表
+var pushRid;
 var vm = new Vue({
         el: "",
         data: {
@@ -10,7 +11,7 @@ var vm = new Vue({
 
             this.getDataSource();
 
-            $("#grid").kendoGrid({
+            var grid = $("#grid").kendoGrid({
                 selectable:"row",
                 dataSource: this.dataSource,
                 editable: {
@@ -35,7 +36,7 @@ var vm = new Vue({
 
                 }],
                 columns: [
-                    {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '250px'},
+                    {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '300px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -85,6 +86,23 @@ var vm = new Vue({
                         }, {
                             name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "240px"
                     }]
+            });
+
+            //行项目双击事件
+            grid.dblclick('.k-grid-content tr', function () {
+                var row = grid.data("kendoGrid").select();
+                var data = grid.data("kendoGrid").dataItem(row);
+                pushRid = data.id;
+                layer.open({
+                    title: '回执详情',
+                    type: 2,
+                    area: ['1050px', '650px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/mm/hzlb_detail.html',
+                    end: function () {
+                    }
+                });
             });
         },
         methods: {
@@ -138,6 +156,29 @@ var vm = new Vue({
                                     options.error(result);
                                 }
                             });
+                        },
+                        destroy: function (options) {
+                            $.ajax({
+                                url: "/mm/receipt/del",
+                                data: {
+                                    'id': options.data.id
+                                },
+                                method: 'POST',
+                                success: function (result) {
+                                    if (result.code === 0) {
+                                        options.success(result);
+                                        layer.msg('删除成功！', {time: 1000, icon: 1});
+                                    }
+                                    else{
+                                        options.error(result);
+                                        layer.msg('删除失败！（'+result.code+result.msg+'）', {time: 2300, icon: 2});
+                                    }
+
+                                },
+                                error: function (result) {
+                                    options.error(result);
+                                }
+                            });
                         }
                     },
                     schema: {
@@ -176,7 +217,6 @@ var vm = new Vue({
                                 pickup_display:{type:"string", nullable:false},
                                 sendoff_display:{type:"string", nullable:false},
                                 state_display:{type:"string", nullable:false}
-
                             }
                         }
                     },
@@ -215,3 +255,4 @@ var vm = new Vue({
         }
     }
 );
+

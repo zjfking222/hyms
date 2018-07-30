@@ -1,6 +1,7 @@
 package com.hy.mapper.ms;
 
 import com.hy.model.VMmMeetingReceipt;
+import com.hy.model.VMmReceiptAgenda;
 import com.hy.model.VMmReceiptInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,6 @@ public interface MmReceiptMapper {
                                            @Param("dir") String dir, @Param("mid") int mid);
 
     Integer selectReceiptViewTotal(@Param("value") String value, @Param("mid")int mid);
+
+    Integer deleteReceipt(@Param("id") int id);
 }

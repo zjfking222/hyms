@@ -3,6 +3,7 @@ var postData;
 var index = parent.layer.getFrameIndex(window.name);
 $(function () {
     data = parent.$("#agendaiframe")[0].contentWindow.pushData;
+    console.log(data)
     laydate.render({
         elem: '#date'
         ,type: 'datetime'

@@ -42,5 +42,9 @@
             OR post LIKE concat('%',#{value},'%'))
         </if>
     </select>
+    <delete id="deleteReceipt" parameterType="java.lang.Integer">
+        DELETE FROM mm_receipt WHERE id = #{id}
+    </delete>
+
 
 </mapper>

@@ -10,6 +10,7 @@ import com.hy.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -17,6 +18,15 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Autowired
     private MmReceiptMapper mmReceiptMapper;
+
+    @Autowired
+    private ReceiptAgendaService agendaService;
+
+    @Autowired
+    private ReceiptDinesService dinesService;
+
+    @Autowired
+    private ReceiptStayService stayService;
 
     @Override
     public List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir) {
@@ -59,4 +69,20 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Integer getReceiptViewTotal(String value , int mid) {
         return mmReceiptMapper.selectReceiptViewTotal(value, mid);
     }
+
+    @Override
+    public HashMap<String, Object> getReceiptDetail(int rid) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("agenda",agendaService.getReceiptAgendaView(rid));
+        map.put("dines",dinesService.getReceiptDines(rid));
+        map.put("stay",stayService.getReceiptStayView(rid));
+        return map;
+    }
+
+    @Override
+    public boolean delReceipt(int id) {
+        return mmReceiptMapper.deleteReceipt(id) == 1;
+    }
+
+
 }

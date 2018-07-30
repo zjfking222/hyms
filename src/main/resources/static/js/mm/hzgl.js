@@ -10,7 +10,8 @@ var vm = new Vue({
 
             this.getDataSource();
 
-            $("#grid").kendoGrid({
+            var grid =
+                $("#grid").kendoGrid({
                 selectable:"row",
                 dataSource: this.dataSource,
                 editable: {
@@ -54,6 +55,11 @@ var vm = new Vue({
                             }
                         }], title: " ", width: "180px"
                     }]
+            });
+            grid.dblclick('.k-grid-content tr', function () {
+                var row = grid.data("kendoGrid").select();
+                var data = grid.data("kendoGrid").dataItem(row);
+                window.location.href = "/mm/hzlb.html?id="+data.id;
             });
         },
         methods: {

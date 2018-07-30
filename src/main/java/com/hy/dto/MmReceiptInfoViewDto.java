@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class MmReceiptInfoViewDto {
 
+    private int id;
     private String fname;
     private String name;
     private boolean sex;
@@ -27,6 +28,14 @@ public class MmReceiptInfoViewDto {
     private String implement;
     private Date modified;
     private boolean state;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFname() {
         return fname;
