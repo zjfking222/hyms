@@ -80,4 +80,9 @@ public class AgendaServiceImpl implements AgendaService {
     public int getAgendaTotal(int mid) {
         return mmAgendaMapper.selectMmAgendaTotal(mid);
     }
+
+    @Override
+    public List<MmAgenda> getAgendaByRid(int rid) {
+        return mmAgendaMapper.selectMmAgendaByRid(rid);
+    }
 }

@@ -28,4 +28,10 @@
         SELECT COUNT(1) FROM mm_agenda WHERE mid = #{mid}
     </select>
 
+    <select id="selectMmAgendaByRid" resultType="com.hy.model.MmAgenda">
+        SELECT ma.* FROM mm_agenda ma, mm_receipt rc, mm_meeting mt
+        WHERE mt.id = rc.mid
+            AND mt.id = ma.mid
+              AND rc.id = #{rid}
+    </select>
 </mapper>

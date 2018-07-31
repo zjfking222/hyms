@@ -60,4 +60,7 @@
             OR nationality LIKE concat('%',#{value},'%'))
         </if>)
     </select>
+    <select id="seleCrmCustomerById" resultType="com.hy.model.CrmCustomers">
+        SELECT * FROM crm_customers WHERE id = #{id}
+    </select>
 </mapper>

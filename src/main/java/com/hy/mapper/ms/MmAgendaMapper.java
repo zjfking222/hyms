@@ -16,4 +16,5 @@ public interface MmAgendaMapper {
                                   @Param("dir") String dir);
     Integer selectMmAgendaTotal(@Param("mid")int mid);
 
+    List<MmAgenda> selectMmAgendaByRid(@Param("rid")int rid);
 }

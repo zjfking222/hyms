@@ -36,4 +36,9 @@
             AND name LIKE concat('%',#{value},'%')
         </if>
     </select>
+    <select id="selectMeetingByRid" resultType="com.hy.model.MmMeeting">
+        SELECT mt.* FROM mm_meeting mt, mm_receipt rc
+        WHERE mt.id = rc.mid
+        AND rc.id = #{rid}
+    </select>
 </mapper>

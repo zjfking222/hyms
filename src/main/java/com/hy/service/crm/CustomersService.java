@@ -11,4 +11,5 @@ public interface CustomersService {
     boolean delCustomer(int id);
     List<CrmCustomersDto> getCrmCustomer(int pageNum, int pageSize, String value, String sort, String dir);
     int getCrmCustomerTotal(String value);
+    CrmCustomersDto getCrmCustomerById(int id);
 }

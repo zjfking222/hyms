@@ -21,9 +21,8 @@ new Vue({
     },
     created:function () {
         var dataSource = FetchData({rid:parent.pushRid},'POST','/receipt/getReceiptDetail',false).data;
-        for(var i = 0 ; i < dataSource.dines.length; i++)
-        this.agenda = dataSource.agenda;
         this.dines = dataSource.dines;
+        this.agenda = dataSource.agenda;
         this.stay = dataSource.stay;
     }
 });

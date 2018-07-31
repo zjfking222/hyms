@@ -9,6 +9,18 @@ public class MmReceiptStayViewDto {
     private int standard;
     private int suite;
 
+    public MmReceiptStayViewDto() {
+    }
+
+    public MmReceiptStayViewDto(int rid, String name, String date, int single, int standard, int suite) {
+        this.rid = rid;
+        this.name = name;
+        this.date = date;
+        this.single = single;
+        this.standard = standard;
+        this.suite = suite;
+    }
+
     public int getRid() {
         return rid;
     }

@@ -1,5 +1,6 @@
 package com.hy.mapper.ms;
 
+import com.hy.model.MmReceipt;
 import com.hy.model.VMmMeetingReceipt;
 import com.hy.model.VMmReceiptAgenda;
 import com.hy.model.VMmReceiptInfo;
@@ -20,4 +21,6 @@ public interface MmReceiptMapper {
     Integer selectReceiptViewTotal(@Param("value") String value, @Param("mid")int mid);
 
     Integer deleteReceipt(@Param("id") int id);
+
+    MmReceipt selectReceiptById(@Param("id")int id);
 }

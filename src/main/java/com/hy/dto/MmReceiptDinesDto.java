@@ -11,6 +11,18 @@ public class MmReceiptDinesDto {
     private int dinner;
     private int dinnerx;
 
+    public MmReceiptDinesDto() {
+    }
+
+    public MmReceiptDinesDto(int rid, String date, int lunchx, int lunch, int dinner, int dinnerx) {
+        this.rid = rid;
+        this.date = date;
+        this.lunchx = lunchx;
+        this.lunch = lunch;
+        this.dinner = dinner;
+        this.dinnerx = dinnerx;
+    }
+
     public int getId() {
         return id;
     }

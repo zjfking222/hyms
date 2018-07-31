@@ -45,6 +45,8 @@
     <delete id="deleteReceipt" parameterType="java.lang.Integer">
         DELETE FROM mm_receipt WHERE id = #{id}
     </delete>
-
+    <select id="selectReceiptById" resultType="com.hy.model.MmReceipt">
+        SELECT * FROM mm_receipt WHERE id = #{id}
+    </select>
 
 </mapper>

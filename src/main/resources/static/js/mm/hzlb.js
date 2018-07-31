@@ -66,22 +66,7 @@ var vm = new Vue({
                                 e.preventDefault();
                                 var tr = $(e.target).closest("tr");
                                 var data = this.dataItem(tr);
-                                pushData = {
-                                    // id: data.id,
-                                    // name: data.name,
-                                    // post: data.post,
-                                    // nationality: data.nationality,
-                                    // address:data.address,
-                                    // sex:data.sex,
-                                    // mobile:data.mobile,
-                                    // phone:data.phone,
-                                    // email:data.email,
-                                    // btid:data.btid,
-                                    // fid:data.fid,
-                                    // vip:data.vip,
-                                    // remark:data.remark
-                                };
-                                vm.edit();
+                                vm.edit(data.id);
                             }
                         }, {
                             name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "240px"
@@ -251,6 +236,19 @@ var vm = new Vue({
             },
             savaAsExcel: function () {
                 $("#grid").data("kendoGrid").saveAsExcel();
+            },
+            edit:function () {
+                this.layItem = layer.open({
+                    title: '编辑回执',
+                    type: 2,
+                    area: ['1050px', '650px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/mm/hzlb_update.html',
+                    end: function () {
+                    }
+                });
+                layer.full(this.layItem);
             }
         }
     }

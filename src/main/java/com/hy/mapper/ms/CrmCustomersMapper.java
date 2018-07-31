@@ -14,4 +14,5 @@ public interface CrmCustomersMapper {
     List<CrmCustomers> selectCrmCustomer(@Param("uid") int uid, @Param("value") String value, @Param("sort") String sort,
                                          @Param("dir") String dir);
     Integer selectCrmCustomerTotal(@Param("uid")int uid, @Param("value") String value);
+    CrmCustomers seleCrmCustomerById(@Param("id") int id);
 }

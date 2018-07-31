@@ -1,10 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>回执编辑</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+    <style>
+        .title,.title2{
+            height: 38px;
+            background: #333;
+            color: #eee;
+            font-size: 14px;
+        }
+        .title span,.title2 span{
+            margin-left: 10px;
+            line-height: 40px;
+        }
+        .tb1,.tb2,.tb3{
+            margin-top: 20px;
+        }
+        .tb2,.tb3{
+            display: inline-block;
+        }
+        .tb2{
+            width: 40%;
+        }
+        .tb3{
+            margin-left: 2%;
+            width: 57.5%;
+        }
+        label{
+            line-height: 30px;
+            text-align: right;
+        }
+        .subtb{
+            padding-bottom: 20px;
+            border: 0.01em solid #333;
+            height: 100%;
+            display: table;
+            padding-top: 20px;
+            width: 100%;
+        }
+        .form-line{
+            display: table;
+            width: 100%;
+        }
+    </style>
 </head>
+
 <body>
 
+<div id="app">
+    <div class="tb1">
+        <div class="title">
+            <span>
+                客户信息
+            </span>
+        </div>
+        <div class="subtb">
+            <div class="form-group  col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">姓名</label><div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="name" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4  col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">国籍</label> <div class="col-md-8 col-sm-8  col-xs-8"><input type="text" name="nationality" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">性别</label> <div class=" col-md-4 col-sm-4 col-xs-8"><input type="text" name="sex" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group  col-md-4 col-sm-4  col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">职务</label> <div class="col-md-8 col-sm-8  col-xs-8"><input type="text" name="post" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4 col-xs-4">企业</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="fname" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4 ">VIP</label> <div class=" col-md-4 col-sm-4  col-xs-8"><input type="checkbox" name="vip" disabled="disabled" class="form-control" style="margin: 0px; width: 16px;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4 col-xs-4">手机</label> <div class=" col-md-8 col-sm-8 col-xs-8"><input type="text" name="mobile" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">固话</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="phone" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">邮箱</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="email" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">地址</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="address" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">备注</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="remark" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+
+            <div class="form-line">
+                <div class="form-group col-md-4 col-sm-4 col-xs-12 "><label class="control-label col-md-4 col-sm-4  col-xs-4">负责人</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="remark" readonly="readonly" class="form-control" style="width: 100%;"></div></div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12 "><label class="control-label col-md-4 col-sm-4  col-xs-4">回执备注</label> <div class=" col-md-8 col-sm-8  col-xs-8"><textarea type="text" name="name" class="form-control" style="resize: none; width: 100%;"></textarea></div></div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12 "><label class="control-label col-md-4 col-sm-4  col-xs-4">落实情况</label> <div class=" col-md-8 col-sm-8  col-xs-8"><textarea type="text" name="name" class="form-control" style="resize: none; width: 100%;"></textarea></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tb1">
+        <div class="title">
+            <span>
+                派车信息
+            </span>
+        </div>
+        <div class="subtb">
+            <div class="form-line">
+                <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">自驾</label> <div class=" col-md-4 col-sm-4  col-xs-8"><input type="checkbox" name="driving" class="form-control" style="margin: 0px; width: 16px;"></div></div>
+            </div>
+            <div class="form-line">
+
+                <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">派车接</label> <div class=" col-md-4 col-sm-4  col-xs-8"><input type="checkbox" name="pickup" class="form-control" style="margin: 0px; width: 16px;"></div></div>
+                <div class="form-group  col-md-4 col-sm-4 "><label class="control-label col-md-4 col-sm-4  col-xs-4">到达日期</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="arrivaldate" data-field="arrivaldate" class="form-control datelong" style="width: 100%;"></div></div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">到达信息</label> <div class="col-md-8 col-sm-8  col-xs-8"><input type="text" name="arrivalinfo" class="form-control" style="width: 100%;"></div></div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">到达备注</label> <div class="col-md-8 col-sm-8  col-xs-8"><textarea type="text" name="arrivalremark" class="form-control" style="width: 100%;"></textarea></div></div>
+            </div>
+            <div class="form-line">
+                <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">派车送</label> <div class=" col-md-4 col-sm-4  col-xs-8"><input type="checkbox" name="sendoff" class="form-control" style="margin: 0px; width: 16px;"></div></div>
+                <div class="form-group  col-md-4 col-sm-4 "><label class="control-label col-md-4 col-sm-4  col-xs-4">回程日期</label> <div class=" col-md-8 col-sm-8  col-xs-8"><input type="text" name="departuredate" data-field="departuredate" class="form-control datelong" style="width: 100%;"></div></div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">回程信息</label> <div class="col-md-8 col-sm-8  col-xs-8"><input type="text" name="departureinfo" class="form-control" style="width: 100%;"></div></div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12"><label class="control-label col-md-4 col-sm-4  col-xs-4">回程备注</label> <div class="col-md-8 col-sm-8  col-xs-8"><textarea type="text" name="departureremark" class="form-control" style="width: 100%;"></textarea></div></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="tb2">
+        <div class="title">
+            <span>
+                议程详情
+            </span>
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+    <div class="tb3">
+        <div class="title">
+            <span>
+                用餐详情
+            </span>
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+    <div class="tb1">
+        <div class="title">
+            <span>
+                住宿详情
+            </span>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script src="/js/mm/hzlb_update.js"></script>
 </body>
 </html>

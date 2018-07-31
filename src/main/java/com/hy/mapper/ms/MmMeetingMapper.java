@@ -15,4 +15,5 @@ public interface MmMeetingMapper {
                                     @Param("dir") String dir);
     Integer selectMmMeetingTotal(@Param("value") String value);
 
+    MmMeeting selectMeetingByRid(@Param("rid")int rid);
 }

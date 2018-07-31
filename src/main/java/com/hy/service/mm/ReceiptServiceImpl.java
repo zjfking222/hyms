@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.hy.dto.MmMeetingReceiptViewDto;
 import com.hy.dto.MmReceiptInfoViewDto;
 import com.hy.mapper.ms.MmReceiptMapper;
+import com.hy.model.MmReceipt;
 import com.hy.model.VMmMeetingReceipt;
+import com.hy.service.crm.CustomersService;
 import com.hy.utils.DTOUtil;
 import com.hy.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Autowired
     private ReceiptStayService stayService;
+
+    @Autowired
+    private CustomersService customersService;
 
     @Override
     public List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir) {
@@ -76,6 +81,8 @@ public class ReceiptServiceImpl implements ReceiptService {
         map.put("agenda",agendaService.getReceiptAgendaView(rid));
         map.put("dines",dinesService.getReceiptDines(rid));
         map.put("stay",stayService.getReceiptStayView(rid));
+        MmReceipt mmReceipt = mmReceiptMapper.selectReceiptById(rid);
+        map.put("custom",customersService.getCrmCustomerById(mmReceipt.getCid()));
         return map;
     }
 

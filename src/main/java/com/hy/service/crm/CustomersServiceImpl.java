@@ -65,4 +65,14 @@ public class CustomersServiceImpl implements CustomersService{
     public int getCrmCustomerTotal(String value) {
         return customersMapper.selectCrmCustomerTotal(SecurityHelp.getUserId(), value);
     }
+
+    @Override
+    public CrmCustomersDto getCrmCustomerById(int id) {
+        CrmCustomers customers = customersMapper.seleCrmCustomerById(id);
+        return new CrmCustomersDto(customers.getId(),customers.getName(),customers.getPost(),
+                customers.getNationality(),customers.getAddress(),customers.getSex(),customers.getMobile(),
+                customers.getPhone(),customers.getEmail(),businessTypeService.getBusinesstypeById(customers.getBtid()),
+                firmsService.getCrmFirmById(customers.getFid()),customers.getVip(),customers.getRemark());
+    }
+
 }

@@ -85,4 +85,9 @@ public class MeetingServiceImpl implements MeetingService{
     public int getMeetingTotal(String value) {
         return mmMeetingMapper.selectMmMeetingTotal(value);
     }
+
+    @Override
+    public MmMeeting getMeetingByRid(int rid) {
+        return mmMeetingMapper.selectMeetingByRid(rid);
+    }
 }
