@@ -1,8 +1,11 @@
 package com.hy.service.mm;
 
+import com.hy.common.SecurityHelp;
+import com.hy.dto.MmReceiptStayFetchDto;
 import com.hy.dto.MmReceiptStayViewDto;
 import com.hy.mapper.ms.MmReceiptStayMapper;
 import com.hy.model.MmMeeting;
+import com.hy.model.MmReceiptStay;
 import com.hy.model.VMmReceiptStay;
 import com.hy.utils.DTOUtil;
 import com.hy.utils.DateUtil;
@@ -43,5 +46,15 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
             }
             return stayViewDtos;
         }
+    }
+
+    @Override
+    public boolean setReceiptStay(List<MmReceiptStayFetchDto> mmReceiptStayFetchDtos) {
+        List<MmReceiptStay> mmReceiptStays = DTOUtil.populateList(mmReceiptStayFetchDtos, MmReceiptStay.class);
+        for(int i = 0 ; i < mmReceiptStays.size(); i++){
+            mmReceiptStays.get(i).setModifier(SecurityHelp.getUserId());
+            mmReceiptStays.get(i).setDate(DateUtil.translate(mmReceiptStayFetchDtos.get(i).getDate()));
+        }
+        return mmReceiptStayMapper.updateReceiptStay(mmReceiptStays) == mmReceiptStays.size();
     }
 }

@@ -1,6 +1,5 @@
 package com.hy.dto;
 
-import java.util.Date;
 
 public class MmReceiptDto {
     private int id;

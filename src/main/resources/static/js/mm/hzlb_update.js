@@ -33,12 +33,10 @@ var vm = new Vue({
         this.stay = dataSource.stay;
         this.receipt = dataSource.receipt;
 
+
     },
     mounted:function () {
-        for(var i = 0 ; i < $('select').length ; i++)
-        {
-            $("select").eq(i).find("option[text='"+this.stay.name+"']").attr("selected",true);
-        }
+
         $('#submit').on('click',function () {
             vm.postData = {
                 receipt:{
@@ -63,9 +61,21 @@ var vm = new Vue({
             for (var i = 0 ; i < $('select').length ; i++) {
                 vm.stay[i].hid = $("select").eq(i).val();
             }
-            console.log(vm.postData);
-            var fetchData = FetchData(JSON.stringify(vm.postData),'POST','/mm/receipt/set',false, true).data;
-            console.log(fetchData)
+            FetchData(JSON.stringify(vm.postData),'POST','/mm/receipt/set',false, true).code === 0 ?
+                parent.layer.msg('修改成功'):
+                parent.layer.msg('修改失败');
+            parent.layer.close(index);
+        })
+    }
+});
+//住宿选择初始化
+$(function () {
+    for(var i = 0 ; i < $('select').length ; i++)
+    {
+        $('select').eq(i).children('option').each(function () {
+            if($(this).text() === vm.stay[i].name){
+                $(this).prop("selected",true);
+            }
         })
     }
 });

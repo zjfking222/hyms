@@ -1,5 +1,6 @@
 package com.hy.service.mm;
 
+import com.hy.dto.MmReceiptStayFetchDto;
 import com.hy.dto.MmReceiptStayViewDto;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface ReceiptStayService {
      * @return 住宿列表
      */
     List<MmReceiptStayViewDto> getReceiptStayView(int rid);
+    boolean setReceiptStay(List<MmReceiptStayFetchDto> mmReceiptStayFetchDtos);
 }

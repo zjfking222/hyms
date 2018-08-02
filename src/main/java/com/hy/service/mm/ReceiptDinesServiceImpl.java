@@ -1,5 +1,7 @@
 package com.hy.service.mm;
 
+import com.hy.common.SecurityHelp;
+import com.hy.dto.MmReceiptDineFetchDto;
 import com.hy.dto.MmReceiptDinesDto;
 import com.hy.mapper.ms.MmReceiptDinesMapper;
 import com.hy.model.MmMeeting;
@@ -42,5 +44,15 @@ public class ReceiptDinesServiceImpl implements ReceiptDinesService {
             }
             return dinesDtos;
         }
+    }
+
+    @Override
+    public boolean setReceiptDines(List<MmReceiptDineFetchDto> mmReceiptDinesDtos) {
+        List<MmReceiptDines> mmReceiptDines = DTOUtil.populateList(mmReceiptDinesDtos, MmReceiptDines.class);
+        for(int i = 0 ; i < mmReceiptDines.size() ; i++){
+            mmReceiptDines.get(i).setModifier(SecurityHelp.getUserId());
+            mmReceiptDines.get(i).setDate(DateUtil.translate(mmReceiptDinesDtos.get(i).getDate()));
+        }
+        return mmReceiptDinesMapper.updateReceiptDines(mmReceiptDines) == mmReceiptDines.size();
     }
 }

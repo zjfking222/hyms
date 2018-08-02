@@ -3,6 +3,16 @@
 <mapper namespace="com.hy.mapper.ms.MmReceiptAgendaMapper">
     <select id="selectReceiptAgendaView" resultType="com.hy.model.VMmReceiptAgenda">
         SELECT * FROM v_mm_receipt_agenda
-        WHERE  rid = #{rid}
+        WHERE  rid = #{rid} order by date
     </select>
+    <update id="updateReceiptAgenda" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE mm_receipt_agenda
+            <set>
+                attend=#{item.attend},
+                modifier=#{item.modifier}
+            </set>
+            WHERE (id=#{item.id})
+        </foreach>
+    </update>
 </mapper>

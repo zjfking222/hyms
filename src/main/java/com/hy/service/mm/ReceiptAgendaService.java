@@ -1,5 +1,6 @@
 package com.hy.service.mm;
 
+import com.hy.dto.MmReceiptAgendaFetchDto;
 import com.hy.dto.MmReceiptAgendaViewDto;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface ReceiptAgendaService {
      * @return 议程列表
      */
     List<MmReceiptAgendaViewDto> getReceiptAgendaView(int rid);
+    boolean setReceiptAgenda(List<MmReceiptAgendaFetchDto> mmReceiptAgendaFetchDtos);
 }

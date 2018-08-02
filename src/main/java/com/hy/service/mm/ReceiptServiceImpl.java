@@ -1,8 +1,10 @@
 package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
+import com.hy.common.SecurityHelp;
 import com.hy.dto.MmMeetingReceiptViewDto;
 import com.hy.dto.MmReceiptDto;
+import com.hy.dto.MmReceiptFetchDto;
 import com.hy.dto.MmReceiptInfoViewDto;
 import com.hy.mapper.ms.MmReceiptMapper;
 import com.hy.model.MmReceipt;
@@ -13,11 +15,13 @@ import com.hy.utils.DTOUtil;
 import com.hy.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Transactional
 public class ReceiptServiceImpl implements ReceiptService {
 
     @Autowired
@@ -115,5 +119,36 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public boolean delReceipt(int id) {
         return mmReceiptMapper.deleteReceipt(id) == 1;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setReceipt(MmReceiptFetchDto mmReceiptFetchDto) {
+        try {
+            //更新receipt
+            MmReceipt mmReceipt = DTOUtil.populate(mmReceiptFetchDto.getReceipt(),MmReceipt.class);
+            //判断空值
+            if(mmReceiptFetchDto.getReceipt().getArrivaldate() != null){
+                mmReceipt.setArrivaldate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getArrivaldate()));
+            }
+            if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null){
+                mmReceipt.setDeparturedate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getDeparturedate()));
+            }
+            mmReceipt.setModifier(SecurityHelp.getUserId());
+            mmReceiptMapper.updateReceipt(mmReceipt);
+
+            //批量更新 receiptAgenda
+            agendaService.setReceiptAgenda(mmReceiptFetchDto.getAgenda());
+
+            //批量更新 receiptDines
+            dinesService.setReceiptDines(mmReceiptFetchDto.getDines());
+
+            //批量更新 receiptStay
+            stayService.setReceiptStay(mmReceiptFetchDto.getStay());
+
+            return true;
+        }catch (Exception e){
+            throw e;
+        }
     }
 }

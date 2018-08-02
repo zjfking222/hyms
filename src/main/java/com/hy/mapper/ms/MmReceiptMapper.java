@@ -23,4 +23,6 @@ public interface MmReceiptMapper {
     Integer deleteReceipt(@Param("id") int id);
 
     MmReceipt selectReceiptById(@Param("id")int id);
+
+    Integer updateReceipt(MmReceipt mmReceipt);
 }

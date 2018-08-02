@@ -1,5 +1,6 @@
 package com.hy.service.mm;
 
+import com.hy.dto.MmReceiptDineFetchDto;
 import com.hy.dto.MmReceiptDinesDto;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface ReceiptDinesService {
      * @return 用餐列表
      */
     List<MmReceiptDinesDto> getReceiptDines(int rid);
+
+    boolean setReceiptDines(List<MmReceiptDineFetchDto> mmReceiptDineFetchDtos);
 }

@@ -1,6 +1,7 @@
 package com.hy.service.mm;
 
 import com.hy.dto.MmMeetingReceiptViewDto;
+import com.hy.dto.MmReceiptFetchDto;
 import com.hy.dto.MmReceiptInfoViewDto;
 
 import java.util.HashMap;
@@ -24,4 +25,5 @@ public interface ReceiptService {
 
     boolean delReceipt(int id);
 
+    boolean setReceipt(MmReceiptFetchDto mmReceiptFetchDto);
 }

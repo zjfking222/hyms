@@ -51,6 +51,6 @@ public class MmReceiptController {
 
     @PostMapping("/receipt/set")
     public ResultObj setReceipt(@RequestBody MmReceiptFetchDto mmReceiptFetchDto){
-        return ResultObj.success(mmReceiptFetchDto);
+        return ResultObj.success(receiptService.setReceipt(mmReceiptFetchDto));
     }
 }

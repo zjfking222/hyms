@@ -48,5 +48,21 @@
     <select id="selectReceiptById" resultType="com.hy.model.MmReceipt">
         SELECT * FROM mm_receipt WHERE id = #{id}
     </select>
+    <update id="updateReceipt" parameterType="com.hy.model.MmReceipt">
+        UPDATE mm_receipt SET
+            driving = #{driving},
+            pickup = #{pickup},
+            arrivaldate = #{arrivaldate},
+            arrivalinfo = #{arrivalinfo},
+            arrivalremark = #{arrivalremark},
+            sendoff = #{sendoff},
+            departuredate = #{departuredate},
+            departureinfo = #{departureinfo},
+            departureremark = #{departureremark},
+            remark = #{remark},
+            implement = #{implement},
+            modifier = #{modifier}
+        WHERE id = #{id}
+    </update>
 
 </mapper>
