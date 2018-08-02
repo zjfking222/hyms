@@ -20,7 +20,7 @@ $(function () {
         $('#post').val(data.post);
         $('#nationality').val(data.nationality);
         $('#address').val(data.address);
-        $('#sex').val(data.sex.toString());
+        $('#sex').val(data.sex);
         $('#mobile').val(data.mobile);
         $('#phone').val(data.phone);
         $('#email').val(data.email);
@@ -38,7 +38,7 @@ $(function () {
                 post: $('#post').val(),
                 nationality: $('#nationality').val(),
                 address: $('#address').val(),
-                sex: $('#sex').val()  === 'true' ,
+                sex: $('#sex').val(),
                 mobile: $('#mobile').val(),
                 phone: $('#phone').val(),
                 email: $('#email').val(),
@@ -56,13 +56,13 @@ $(function () {
                 postData.btname = $("#btid").find("option:selected").text();
                 postData.fname = $("#fid").find("option:selected").text();
 
-                //对vip与性别显示修改
-                if($('#sex').val() === 'true'){
-                    postData.sex_display = "男";
-                }
-                else {
-                    postData.sex_display = "女";
-                }
+                // //对vip与性别显示修改
+                // if($('#sex').val() === 'true'){
+                //     postData.sex_display = "男";
+                // }
+                // else {
+                //     postData.sex_display = "女";
+                // }
                 if($('#vip').val()  === 'true'){
                     postData.vip_display = 'checked';
                 }
@@ -87,7 +87,7 @@ $(function () {
                 post: $('#post').val(),
                 nationality: $('#nationality').val(),
                 address: $('#address').val(),
-                sex: $('#sex').val() === 'true',
+                sex: $('#sex').val(),
                 mobile: $('#mobile').val(),
                 phone: $('#phone').val(),
                 email: $('#email').val(),
@@ -102,13 +102,13 @@ $(function () {
                 postData.btname = $("#btid").find("option:selected").text();
                 postData.fname = $("#fid").find("option:selected").text();
 
-                //对vip与性别显示修改
-                if($('#sex').val() === 'true'){
-                    postData.sex_display = "男";
-                }
-                else {
-                    postData.sex_display = "女";
-                }
+                // //对vip与性别显示修改
+                // if($('#sex').val() === 'true'){
+                //     postData.sex_display = "男";
+                // }
+                // else {
+                //     postData.sex_display = "女";
+                // }
                 if($('#vip').val()  === 'true'){
                     postData.vip_display = 'checked';
                 }

@@ -39,7 +39,8 @@ var vm = new Vue({
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "address", title: "地址", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
+                    // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
+                    {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "email", title: "邮箱", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
@@ -103,9 +104,9 @@ var vm = new Vue({
                                             result.data.data[i].vip?
                                                 result.data.data[i].vip_display = 'checked':
                                                 result.data.data[i].vip_display = '';
-                                            result.data.data[i].sex?
-                                                result.data.data[i].sex_display = '男':
-                                                result.data.data[i].sex_display = '女';
+                                            // result.data.data[i].sex?
+                                            //     result.data.data[i].sex_display = '男':
+                                            //     result.data.data[i].sex_display = '女';
                                         }
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
@@ -152,7 +153,7 @@ var vm = new Vue({
                                 post: {type: "string", nullable: false},
                                 nationality: {type: "string", nullable: false},
                                 address: {type: "string", nullable: false},
-                                sex: {type: "boolean", nullable: false},
+                                sex: {type: "string", nullable: false},
                                 mobile: {type: "string", nullable: false},
                                 phone: {type: "string", nullable: false},
                                 email: {type: "string", nullable: false},
@@ -163,7 +164,7 @@ var vm = new Vue({
                                 vip: {type:"boolean", nullable: false},
                                 remark: {type: "string", nullable: false},
                                 vip_display:{type:"string", nullable:false},
-                                sex_display:{type:"string", nullable:false}
+                                // sex_display:{type:"string", nullable:false}
                             }
                         }
                     },
@@ -209,6 +210,7 @@ var vm = new Vue({
             },
             edit:function(){
                 layer.close(vm.layItem)
+                console.log(pushData)
                 this.layItem = layer.open({
                     title:'编辑信息',
                     type: 2,

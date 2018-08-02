@@ -7,7 +7,7 @@ public class CrmCustomersFetchDto {
     private String post;
     private String nationality;
     private String address;
-    private boolean sex;
+    private String sex;
     private String mobile;
     private String phone;
     private String email;
@@ -56,11 +56,11 @@ public class CrmCustomersFetchDto {
         this.address = address;
     }
 
-    public boolean getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

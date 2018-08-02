@@ -2,6 +2,8 @@ package com.hy.dto;
 
 
 public class MmReceiptStayViewDto {
+
+    private int id;
     private int rid;
     private String name;
     private String date;
@@ -19,6 +21,14 @@ public class MmReceiptStayViewDto {
         this.single = single;
         this.standard = standard;
         this.suite = suite;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getRid() {

@@ -2,10 +2,12 @@ package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.dto.MmMeetingReceiptViewDto;
+import com.hy.dto.MmReceiptDto;
 import com.hy.dto.MmReceiptInfoViewDto;
 import com.hy.mapper.ms.MmReceiptMapper;
 import com.hy.model.MmReceipt;
 import com.hy.model.VMmMeetingReceipt;
+import com.hy.model.VMmReceiptInfo;
 import com.hy.service.crm.CustomersService;
 import com.hy.utils.DTOUtil;
 import com.hy.utils.DateUtil;
@@ -67,7 +69,19 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public List<MmReceiptInfoViewDto> getReceiptView(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
         PageHelper.startPage(pageNum, pageSize);
-        return DTOUtil.populateList(mmReceiptMapper.selectReceiptView(value, sort, dir, mid),MmReceiptInfoViewDto.class);
+        List<VMmReceiptInfo> vMmReceiptInfos = mmReceiptMapper.selectReceiptView(value, sort, dir, mid);
+
+        List<MmReceiptInfoViewDto> mmReceiptInfoViewDtos = DTOUtil.populateList(vMmReceiptInfos,MmReceiptInfoViewDto.class);
+        for (int i = 0 ; i < vMmReceiptInfos.size() ; i++){
+            if(vMmReceiptInfos.get(i).getSex()){
+                mmReceiptInfoViewDtos.get(i).setSex("男");
+            }
+            else {
+                mmReceiptInfoViewDtos.get(i).setSex("女");
+            }
+        }
+
+        return mmReceiptInfoViewDtos;
     }
 
     @Override
@@ -82,7 +96,19 @@ public class ReceiptServiceImpl implements ReceiptService {
         map.put("dines",dinesService.getReceiptDines(rid));
         map.put("stay",stayService.getReceiptStayView(rid));
         MmReceipt mmReceipt = mmReceiptMapper.selectReceiptById(rid);
-        map.put("custom",customersService.getCrmCustomerById(mmReceipt.getCid()));
+        MmReceiptDto mmReceiptDto = DTOUtil.populate(mmReceipt,MmReceiptDto.class);
+        //时间格式转化
+        if(mmReceipt.getArrivaldate() != null)
+        {
+            mmReceiptDto.setArrivaldate(DateUtil.translate(mmReceipt.getArrivaldate()));
+        }
+        if(mmReceipt.getDeparturedate() != null)
+        {
+            mmReceiptDto.setDeparturedate(DateUtil.translate(mmReceipt.getDeparturedate()));
+        }
+        //设置用户信息
+        mmReceiptDto.setCustomers(customersService.getCrmCustomerById(mmReceipt.getCid()));
+        map.put("receipt",mmReceiptDto);
         return map;
     }
 
@@ -90,6 +116,4 @@ public class ReceiptServiceImpl implements ReceiptService {
     public boolean delReceipt(int id) {
         return mmReceiptMapper.deleteReceipt(id) == 1;
     }
-
-
 }

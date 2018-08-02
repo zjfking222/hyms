@@ -1,13 +1,11 @@
-package com.hy.model;
+package com.hy.dto;
 
-import java.util.Date;
-
-public class VMmReceiptStay {
+public class MmReceiptStayFetchDto {
 
     private int id;
+    private int hid;
+    private String date;
     private int rid;
-    private String name;
-    private Date date;
     private int single;
     private int standard;
     private int suite;
@@ -20,28 +18,28 @@ public class VMmReceiptStay {
         this.id = id;
     }
 
+    public int getHid() {
+        return hid;
+    }
+
+    public void setHid(int hid) {
+        this.hid = hid;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public int getRid() {
         return rid;
     }
 
     public void setRid(int rid) {
         this.rid = rid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public int getSingle() {

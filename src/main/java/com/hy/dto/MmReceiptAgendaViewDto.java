@@ -11,7 +11,6 @@ public class MmReceiptAgendaViewDto {
     private int rid;
     private int aid;
     private int id;
-    private int domain;
     private boolean state;
 
     public String getName() {
@@ -70,13 +69,6 @@ public class MmReceiptAgendaViewDto {
         this.id = id;
     }
 
-    public int getDomain() {
-        return domain;
-    }
-
-    public void setDomain(int domain) {
-        this.domain = domain;
-    }
 
     public boolean getState() {
         return state;

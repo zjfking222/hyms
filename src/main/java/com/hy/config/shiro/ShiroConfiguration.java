@@ -36,8 +36,6 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/plugins/**", "anon");
         filterChainDefinitionMap.put("/qzgz/web/**", "anon");
 
-        //测试
-        filterChainDefinitionMap.put("/mm/**", "anon");
         filterChainDefinitionMap.put("/qzgz/upload/**", "anon");
         //AJAX登录判断
         filterChainDefinitionMap.put("/index/login", "anon");

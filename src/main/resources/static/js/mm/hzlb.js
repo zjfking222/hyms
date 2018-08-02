@@ -38,7 +38,8 @@ var vm = new Vue({
                 columns: [
                     {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '300px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -66,6 +67,7 @@ var vm = new Vue({
                                 e.preventDefault();
                                 var tr = $(e.target).closest("tr");
                                 var data = this.dataItem(tr);
+                                pushRid = data.id;
                                 vm.edit(data.id);
                             }
                         }, {
@@ -115,9 +117,9 @@ var vm = new Vue({
                                             result.data.data[i].vip?
                                                 result.data.data[i].vip_display = 'checked':
                                                 result.data.data[i].vip_display = '';
-                                            result.data.data[i].sex?
-                                                result.data.data[i].sex_display = '男':
-                                                result.data.data[i].sex_display = '女';
+                                            // result.data.data[i].sex?
+                                            //     result.data.data[i].sex_display = '男':
+                                            //     result.data.data[i].sex_display = '女';
                                             result.data.data[i].sendoff?
                                                 result.data.data[i].sendoff_display = 'checked':
                                                 result.data.data[i].sendoff_display = '';
@@ -197,7 +199,7 @@ var vm = new Vue({
                                 modified: {type: "string", nullable: false},
                                 state: {type: "string", nullable: false},
                                 vip_display:{type:"string", nullable:false},
-                                sex_display:{type:"string", nullable:false},
+                                // sex_display:{type:"string", nullable:false},
                                 driving_display:{type:"string", nullable:false},
                                 pickup_display:{type:"string", nullable:false},
                                 sendoff_display:{type:"string", nullable:false},

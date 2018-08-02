@@ -1,13 +1,11 @@
 package com.hy.controller.mm;
 
 import com.hy.common.ResultObj;
+import com.hy.dto.MmReceiptFetchDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.mm.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -49,5 +47,10 @@ public class MmReceiptController {
         return receiptService.delReceipt(id)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_DELETE_FOREIGN);
+    }
+
+    @PostMapping("/receipt/set")
+    public ResultObj setReceipt(@RequestBody MmReceiptFetchDto mmReceiptFetchDto){
+        return ResultObj.success(mmReceiptFetchDto);
     }
 }

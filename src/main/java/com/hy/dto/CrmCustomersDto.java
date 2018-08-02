@@ -6,7 +6,7 @@ public class CrmCustomersDto {
     private String post;
     private String nationality;
     private String address;
-    private boolean sex;
+    private String sex;
     private String mobile;
     private String phone;
     private String email;
@@ -15,13 +15,12 @@ public class CrmCustomersDto {
     private boolean vip;
     private String remark;
 
-    public CrmCustomersDto(int id, String name, String post, String nationality, String address, boolean sex, String mobile, String phone, String email, CrmBusinesstypeDto btid, CrmFirmsFetchDto fid, boolean vip, String remark) {
+    public CrmCustomersDto(int id, String name, String post, String nationality, String address, String mobile, String phone, String email, CrmBusinesstypeDto btid, CrmFirmsFetchDto fid, boolean vip, String remark) {
         this.id = id;
         this.name = name;
         this.post = post;
         this.nationality = nationality;
         this.address = address;
-        this.sex = sex;
         this.mobile = mobile;
         this.phone = phone;
         this.email = email;
@@ -74,11 +73,11 @@ public class CrmCustomersDto {
         this.address = address;
     }
 
-    public boolean getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

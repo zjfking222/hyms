@@ -7,7 +7,7 @@ public class MmReceiptInfoViewDto {
     private int id;
     private String fname;
     private String name;
-    private boolean sex;
+    private String sex;
     private String nationality;
     private String post;
     private String mobile;
@@ -53,11 +53,11 @@ public class MmReceiptInfoViewDto {
         this.name = name;
     }
 
-    public boolean getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

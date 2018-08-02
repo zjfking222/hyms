@@ -25,12 +25,27 @@ public class CustomersServiceImpl implements CustomersService{
     @Autowired
     private FirmsService firmsService;
 
+    private String male = "男";
+    private String female = "女";
+
     @Override
     public Integer addCustomer(CrmCustomersFetchDto crmCustomersFetchDto) {
         CrmCustomers customer = DTOUtil.populate(crmCustomersFetchDto, CrmCustomers.class);
         customer.setCreater(SecurityHelp.getUserId());
         customer.setModifier(SecurityHelp.getUserId());
         customer.setDomain(SecurityHelp.getDepartmentId());
+
+        if (crmCustomersFetchDto.getSex().equals(female)){
+            customer.setSex(false);
+        }
+        else if(crmCustomersFetchDto.getSex().equals(male)){
+            customer.setSex(true);
+        }
+        //篡改为非男非女的操作默认性别为男
+        else {
+            customer.setSex(true);
+        }
+
         customersMapper.insertCrmCustomer(customer);
         return customer.getId();
     }
@@ -39,6 +54,15 @@ public class CustomersServiceImpl implements CustomersService{
     public boolean setCustomer(CrmCustomersFetchDto crmCustomersFetchDto) {
         CrmCustomers customers = DTOUtil.populate(crmCustomersFetchDto, CrmCustomers.class);
         customers.setModifier(SecurityHelp.getUserId());
+        if(crmCustomersFetchDto.getSex().equals(male)){
+            customers.setSex(true);
+        }
+        else if (crmCustomersFetchDto.getSex().equals(female)){
+            customers.setSex(false);
+        }
+        else {
+            customers.setSex(true);
+        }
         return customersMapper.updateCrmCustomer(customers) == 1;
     }
 
@@ -53,10 +77,16 @@ public class CustomersServiceImpl implements CustomersService{
         List<CrmCustomers> crms = customersMapper.selectCrmCustomer(SecurityHelp.getUserId(), value, sort, dir);
         List<CrmCustomersDto> dtos = new ArrayList<>();
         for (CrmCustomers crm : crms){
-            dtos.add(new CrmCustomersDto(crm.getId(),crm.getName(),crm.getPost(),crm.getNationality(),crm.getAddress(),
-                    crm.getSex(),crm.getMobile(),crm.getPhone(),crm.getEmail(),
+            CrmCustomersDto customersDto = new CrmCustomersDto(crm.getId(),crm.getName(),crm.getPost(),crm.getNationality(),crm.getAddress(),crm.getMobile(),crm.getPhone(),crm.getEmail(),
                     businessTypeService.getBusinesstypeById(crm.getBtid()),firmsService.getCrmFirmById(crm.getFid()),
-                    crm.getVip(),crm.getRemark()));
+                    crm.getVip(),crm.getRemark());
+            if(crm.getSex()){
+                customersDto.setSex(male);
+            }
+            else {
+                customersDto.setSex(female);
+            }
+            dtos.add(customersDto);
         }
         return dtos;
     }
@@ -69,10 +99,17 @@ public class CustomersServiceImpl implements CustomersService{
     @Override
     public CrmCustomersDto getCrmCustomerById(int id) {
         CrmCustomers customers = customersMapper.seleCrmCustomerById(id);
-        return new CrmCustomersDto(customers.getId(),customers.getName(),customers.getPost(),
-                customers.getNationality(),customers.getAddress(),customers.getSex(),customers.getMobile(),
+        CrmCustomersDto crmCustomersDto = new CrmCustomersDto(customers.getId(),customers.getName(),customers.getPost(),
+                customers.getNationality(),customers.getAddress(),customers.getMobile(),
                 customers.getPhone(),customers.getEmail(),businessTypeService.getBusinesstypeById(customers.getBtid()),
                 firmsService.getCrmFirmById(customers.getFid()),customers.getVip(),customers.getRemark());
+        if(customers.getSex()){
+            crmCustomersDto.setSex(male);
+        }
+        else {
+            crmCustomersDto.setSex(female);
+        }
+        return crmCustomersDto;
     }
 
 }
