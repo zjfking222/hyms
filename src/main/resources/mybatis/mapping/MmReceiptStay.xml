@@ -16,4 +16,12 @@
             WHERE id = #{item.id}
         </foreach>
     </update>
+    <insert id="insertReceiptStay" parameterType="java.util.List">
+        INSERT INTO mm_receipt_stay (rid, date, hid, single, standard, suite, domain, creater, modifier)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.rid},#{item.date},#{item.hid},#{item.single},#{item.standard},#{item.suite},#{item.domain},
+            #{item.creater},#{item.modifier})
+        </foreach>
+    </insert>
 </mapper>

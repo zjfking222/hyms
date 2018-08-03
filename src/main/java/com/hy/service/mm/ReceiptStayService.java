@@ -14,5 +14,14 @@ public interface ReceiptStayService {
      * @return 住宿列表
      */
     List<MmReceiptStayViewDto> getReceiptStayView(int rid);
+    /**
+     * 批量更新ReceiptStay
+     * 被ReceiptService引用
+     */
     boolean setReceiptStay(List<MmReceiptStayFetchDto> mmReceiptStayFetchDtos);
+    /**
+     * 批量插入ReceiptStay
+     * 被ReceiptService引用
+     */
+    boolean addReceiptStay(List<MmReceiptStayFetchDto> mmReceiptStayFetchDtos);
 }

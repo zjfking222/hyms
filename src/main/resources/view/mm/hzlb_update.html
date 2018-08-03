@@ -5,9 +5,11 @@
     <title>回执编辑</title>
     <!-- Bootstrap core CSS -->
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
     <!-- Custom styles for this template -->
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/plugins/laydate/theme/default/laydate.css">
     <style>
         .title,.title2{
             height: 38px;
@@ -63,6 +65,9 @@
             border-radius: 4px;
             box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
             transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        }
+        select{
+            height: 35px;
         }
     </style>
 </head>
@@ -192,7 +197,7 @@
                 <div class="form-group  col-md-4 col-sm-4 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">到达日期</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
-                        <input type="text" v-model="receipt.arrivaldate" name="arrivaldate" class="form-control" style="width: 100%;">
+                        <input type="text" id="arrivaldate" name="arrivaldate" class="form-control" style="width: 100%;">
                     </div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
@@ -218,7 +223,7 @@
                 <div class="form-group  col-md-4 col-sm-4 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">回程日期</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
-                        <input type="text" v-model="receipt.departuredate" name="departuredate" class="form-control" style="width: 100%;">
+                        <input type="text" id="departuredate" name="departuredate" class="form-control" style="width: 100%;">
                     </div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
@@ -296,16 +301,16 @@
                         <span>{{d.date}}</span>
                     </td>
                     <td>
-                        <input class="form-num" type="text" v-model="d.lunch">
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.lunch">
                     </td>
                     <td>
-                        <input class="form-num" type="text" v-model="d.lunchx">
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.lunchx">
                     </td>
                     <td>
-                        <input class="form-num" type="text" v-model="d.dinner">
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.dinner">
                     </td>
                     <td>
-                        <input class="form-num" type="text" v-model="d.dinnerx">
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.dinnerx">
                     </td>
                 </tr>
                 </tbody>
@@ -342,13 +347,13 @@
                         </select>
                     </td>
                     <td>
-                        <input class="form-num" type="text" v-model="s.single">
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.single">
                     </td>
                     <td>
-                        <input class="form-num" type="text" v-model="s.standard">
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.standard">
                     </td>
                     <td>
-                        <input class="form-num" type="text" v-model="s.suite">
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.suite">
                     </td>
                 </tr>
                 </tbody>
@@ -363,6 +368,10 @@
 <script src="/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script src="/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script src="/plugins/laydate/laydate.js"></script>
 <script src="/js/mm/hzlb_update.js"></script>
 </body>
 </html>

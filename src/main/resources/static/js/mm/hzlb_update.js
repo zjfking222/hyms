@@ -23,7 +23,8 @@ var vm = new Vue({
         stay:'',
         receipt:'',
         hotel:'',
-        postData:''
+        postData:'',
+        validator: null
     },
     created:function () {
         var dataSource = FetchData({rid:parent.pushRid},'POST','/mm/receipt/getReceiptDetail',false).data;
@@ -34,8 +35,28 @@ var vm = new Vue({
         this.receipt = dataSource.receipt;
 
 
+
     },
     mounted:function () {
+        var errorTemplate = '<div class="k-widget k-tooltip k-tooltip-validation"' + 'style="margin: 0.6em -1.8em"><span class="k-icon k-i-warning"> </span>' + '#=message#<div class="k-callout k-callout-n"></div></div>'
+
+        this.validator = $(".form-num").kendoValidator({
+            validate: function(e) {
+            },
+            //验证样式 默认为default
+            invalidMessageType : "default",
+            //自定义错误模板
+            errorTemplate: errorTemplate
+        }).data("kendoValidator");
+
+        laydate.render({
+            elem: '#arrivaldate'
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '#departuredate'
+            ,type: 'datetime'
+        });
 
         $('#submit').on('click',function () {
             vm.postData = {
@@ -44,11 +65,13 @@ var vm = new Vue({
                     cid:vm.receipt.customers.id,
                     driving:vm.receipt.driving,
                     pickup:vm.receipt.pickup,
-                    arrivaldate:vm.receipt.arrivaldate,
+                    // arrivaldate:vm.receipt.arrivaldate,
+                    arrivaldate:$('#arrivaldate').val(),
                     arrivalinfo:vm.receipt.arrivalinfo,
                     arrivalremark:vm.receipt.arrivalremark,
                     sendoff:vm.receipt.sendoff,
-                    departuredate:vm.receipt.departuredate,
+                    // departuredate:vm.receipt.departuredate,
+                    departuredate:$('#departuredate').val(),
                     departureinfo:vm.receipt.departureinfo,
                     departureremark:vm.receipt.departureremark,
                     remark:vm.receipt.remark,
@@ -61,15 +84,22 @@ var vm = new Vue({
             for (var i = 0 ; i < $('select').length ; i++) {
                 vm.stay[i].hid = $("select").eq(i).val();
             }
-            FetchData(JSON.stringify(vm.postData),'POST','/mm/receipt/set',false, true).code === 0 ?
-                parent.layer.msg('修改成功'):
-                parent.layer.msg('修改失败');
-            parent.layer.close(index);
+            if(vm.validator.validate()) {
+                FetchData(JSON.stringify(vm.postData), 'POST', '/mm/receipt/set', false, true).code === 0 ?
+                    parent.layer.msg('修改成功') :
+                    parent.layer.msg('修改失败');
+                parent.layer.close(index);
+            }
+            else {
+                parent.layer.msg('无法提交,请检查格式');
+            }
         })
     }
 });
-//住宿选择初始化
+//到达回程日期初始化、住宿选择初始化
 $(function () {
+    $('#arrivaldate').val(vm.receipt.arrivaldate);
+    $('#departuredate').val(vm.receipt.departuredate);
     for(var i = 0 ; i < $('select').length ; i++)
     {
         $('select').eq(i).children('option').each(function () {
@@ -78,4 +108,5 @@ $(function () {
             }
         })
     }
+
 });

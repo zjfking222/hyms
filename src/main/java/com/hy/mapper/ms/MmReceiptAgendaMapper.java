@@ -11,4 +11,5 @@ import java.util.List;
 public interface MmReceiptAgendaMapper {
     List<VMmReceiptAgenda> selectReceiptAgendaView(@Param("rid") int rid);
     Integer updateReceiptAgenda(List<MmReceiptAgenda> mmReceiptAgenda);
+    Integer insertReceiptAgenda(List<MmReceiptAgenda> mmReceiptAgenda);
 }

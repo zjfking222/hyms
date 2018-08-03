@@ -11,4 +11,5 @@ import java.util.List;
 public interface MmReceiptStayMapper {
     List<VMmReceiptStay> selectReceiptStayView(@Param("rid") int rid);
     Integer updateReceiptStay(List<MmReceiptStay> mmReceiptStays);
+    Integer insertReceiptStay(List<MmReceiptStay> mmReceiptStays);
 }

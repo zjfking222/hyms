@@ -13,6 +13,20 @@ public class MmReceiptAgendaViewDto {
     private int id;
     private boolean state;
 
+    public MmReceiptAgendaViewDto(String name, Date date, boolean attend, int mid, int rid, int aid, int id, boolean state) {
+        this.name = name;
+        this.date = date;
+        this.attend = attend;
+        this.mid = mid;
+        this.rid = rid;
+        this.aid = aid;
+        this.id = id;
+        this.state = state;
+    }
+
+    public MmReceiptAgendaViewDto() {
+    }
+
     public String getName() {
         return name;
     }

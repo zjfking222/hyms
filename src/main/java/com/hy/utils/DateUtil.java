@@ -34,6 +34,7 @@ public class DateUtil {
         try {
             return sdf.parse(dateString);
         }catch (ParseException e){
+            e.printStackTrace();
             return null;
         }
     }
@@ -58,6 +59,18 @@ public class DateUtil {
      */
     public static String breviary(Date date){
         return sdf_bre.format(date);
+    }
+
+    /**
+     * 将string转化成没有时间的格式的date类型
+     */
+    public static Date breviary(String dateString){
+        try {
+            return sdf_bre.parse(dateString);
+        }catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

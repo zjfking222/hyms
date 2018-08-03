@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class ReceiptDinesServiceImpl implements ReceiptDinesService {
@@ -49,10 +50,25 @@ public class ReceiptDinesServiceImpl implements ReceiptDinesService {
     @Override
     public boolean setReceiptDines(List<MmReceiptDineFetchDto> mmReceiptDinesDtos) {
         List<MmReceiptDines> mmReceiptDines = DTOUtil.populateList(mmReceiptDinesDtos, MmReceiptDines.class);
-        for(int i = 0 ; i < mmReceiptDines.size() ; i++){
+        IntStream.range(0, mmReceiptDines.size()).forEach(i -> {
             mmReceiptDines.get(i).setModifier(SecurityHelp.getUserId());
             mmReceiptDines.get(i).setDate(DateUtil.translate(mmReceiptDinesDtos.get(i).getDate()));
-        }
+        });
         return mmReceiptDinesMapper.updateReceiptDines(mmReceiptDines) == mmReceiptDines.size();
+    }
+
+    @Override
+    public boolean addReceiptDines(List<MmReceiptDineFetchDto> mmReceiptDineFetchDtos) {
+
+        List<MmReceiptDines> mmReceiptDines = DTOUtil.populateList(mmReceiptDineFetchDtos, MmReceiptDines.class);
+
+        IntStream.range(0, mmReceiptDines.size()).forEach(i -> {
+            mmReceiptDines.get(i).setModifier(SecurityHelp.getUserId());
+            mmReceiptDines.get(i).setCreater(SecurityHelp.getUserId());
+            mmReceiptDines.get(i).setDomain(SecurityHelp.getDepartmentId());
+            mmReceiptDines.get(i).setDate(DateUtil.breviary(mmReceiptDineFetchDtos.get(i).getDate()));
+        });
+
+        return mmReceiptDinesMapper.insertReceiptDines(mmReceiptDines) == mmReceiptDines.size();
     }
 }

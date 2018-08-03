@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class ReceiptStayServiceImpl implements ReceiptStayService {
@@ -50,11 +51,29 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
 
     @Override
     public boolean setReceiptStay(List<MmReceiptStayFetchDto> mmReceiptStayFetchDtos) {
+
         List<MmReceiptStay> mmReceiptStays = DTOUtil.populateList(mmReceiptStayFetchDtos, MmReceiptStay.class);
-        for(int i = 0 ; i < mmReceiptStays.size(); i++){
+
+        IntStream.range(0, mmReceiptStays.size()).forEach(i -> {
             mmReceiptStays.get(i).setModifier(SecurityHelp.getUserId());
             mmReceiptStays.get(i).setDate(DateUtil.translate(mmReceiptStayFetchDtos.get(i).getDate()));
-        }
+        });
+
         return mmReceiptStayMapper.updateReceiptStay(mmReceiptStays) == mmReceiptStays.size();
+    }
+
+    @Override
+    public boolean addReceiptStay(List<MmReceiptStayFetchDto> mmReceiptStayFetchDtos) {
+
+        List<MmReceiptStay> mmReceiptStays = DTOUtil.populateList(mmReceiptStayFetchDtos, MmReceiptStay.class);
+
+        IntStream.range(0, mmReceiptStays.size()).forEach(i -> {
+            mmReceiptStays.get(i).setDate(DateUtil.breviary(mmReceiptStayFetchDtos.get(i).getDate()));
+            mmReceiptStays.get(i).setModifier(SecurityHelp.getUserId());
+            mmReceiptStays.get(i).setCreater(SecurityHelp.getUserId());
+            mmReceiptStays.get(i).setDomain(SecurityHelp.getDepartmentId());
+        });
+
+        return mmReceiptStayMapper.insertReceiptStay(mmReceiptStays) == mmReceiptStays.size();
     }
 }

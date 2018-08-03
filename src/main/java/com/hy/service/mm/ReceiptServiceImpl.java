@@ -137,14 +137,32 @@ public class ReceiptServiceImpl implements ReceiptService {
             mmReceipt.setModifier(SecurityHelp.getUserId());
             mmReceiptMapper.updateReceipt(mmReceipt);
 
-            //批量更新 receiptAgenda
-            agendaService.setReceiptAgenda(mmReceiptFetchDto.getAgenda());
+            //批量更新或插入 receiptAgenda
+            if(mmReceiptFetchDto.getAgenda().size() > 0){
+                if (mmReceiptFetchDto.getAgenda().get(0).getId() != 0) {
+                    agendaService.setReceiptAgenda(mmReceiptFetchDto.getAgenda());
+                } else {
+                    agendaService.addReceiptAgenda(mmReceiptFetchDto.getAgenda());
+                }
+            }
 
-            //批量更新 receiptDines
-            dinesService.setReceiptDines(mmReceiptFetchDto.getDines());
+            //批量更新或插入 receiptDines
+            if(mmReceiptFetchDto.getDines().size() > 0){
+                if (mmReceiptFetchDto.getDines().get(0).getId() != 0){
+                    dinesService.setReceiptDines(mmReceiptFetchDto.getDines());
+                } else {
+                    dinesService.addReceiptDines(mmReceiptFetchDto.getDines());
+                }
+            }
 
-            //批量更新 receiptStay
-            stayService.setReceiptStay(mmReceiptFetchDto.getStay());
+            //批量更新或插入 receiptStay
+            if(mmReceiptFetchDto.getStay().size() > 0){
+                if(mmReceiptFetchDto.getStay().get(0).getId() != 0){
+                    stayService.setReceiptStay(mmReceiptFetchDto.getStay());
+                } else {
+                    stayService.addReceiptStay(mmReceiptFetchDto.getStay());
+                }
+            }
 
             return true;
         }catch (Exception e){

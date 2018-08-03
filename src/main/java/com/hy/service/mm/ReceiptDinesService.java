@@ -13,6 +13,14 @@ public interface ReceiptDinesService {
      * @return 用餐列表
      */
     List<MmReceiptDinesDto> getReceiptDines(int rid);
-
+    /**
+     * 批量更新ReceiptDines
+     * 被ReceiptService引用
+     */
     boolean setReceiptDines(List<MmReceiptDineFetchDto> mmReceiptDineFetchDtos);
+    /**
+     * 批量插入ReceiptDines
+     * 被ReceiptService引用
+     */
+    boolean addReceiptDines(List<MmReceiptDineFetchDto> mmReceiptDineFetchDtos);
 }
