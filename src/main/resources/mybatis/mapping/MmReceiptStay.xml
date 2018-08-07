@@ -4,6 +4,9 @@
     <select id="selectReceiptStayView" resultType="com.hy.model.VMmReceiptStay">
         SELECT * FROM v_mm_receipt_stay WHERE rid = #{rid} order by date
     </select>
+    <select id="selectReceiptStay" resultType="com.hy.model.MmReceiptStay">
+        SELECT * FROM mm_receipt_stay WHERE rid = #{rid} ORDER BY date
+    </select>
     <update id="updateReceiptStay" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE mm_receipt_stay SET

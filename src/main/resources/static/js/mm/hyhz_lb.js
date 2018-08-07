@@ -13,7 +13,7 @@ var vm = new Vue({
             this.getDataSource();
 
             var grid = $("#grid").kendoGrid({
-                selectable:"row",
+                // selectable:"row",
                 dataSource: this.dataSource,
                 editable: {
                     confirmation: true,
@@ -23,6 +23,7 @@ var vm = new Vue({
                     }
                 },
                 // filterable: true,
+                persistSelection: true,
                 columnMenu: true,
                 sortable: true,
                 pageable: {
@@ -39,6 +40,7 @@ var vm = new Vue({
 
                 }],
                 columns: [
+                    { selectable:true, width: '50px'},
                     {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '300px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -91,10 +93,10 @@ var vm = new Vue({
                 layer.open({
                     title: '回执详情',
                     type: 2,
-                    area: ['1050px', '650px'],
+                    area: ['1050px', '450px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/mm/hzlb_detail.html',
+                    content: '/mm/hyhz_detail.html',
                     end: function () {
                     }
                 });

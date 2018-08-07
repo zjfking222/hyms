@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>回执列表详情</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+    <style>
+        .tb{
+            width: 32%;
+            display: inline-block;
+        }
+        .table,.title{
+            margin: 0 auto;
+            width: 95%;
+        }
+        .title,.title2{
+            height: 38px;
+            background: #333;
+            color: #eee;
+            font-size: 14px;
+        }
+        .title span,.title2 span{
+            margin-left: 10px;
+            line-height: 40px;
+        }
+        .col{
+            width: 100%;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div class="row">
+        <div class="tb">
+            <div class="title">
+                <span>议程详情</span>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">名称</th>
+                    <th scope="col">时间</th>
+                    <th scope="col">是否出席</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="a in agenda">
+                    <td>
+                        <span>{{a.name}}</span>
+                    </td>
+                    <td>
+                        <span>{{a.date}}</span>
+                    </td>
+                    <td>
+                        <input v-if="a.attend" type="checkbox" onclick="return false"  checked/>
+                        <input v-else type="checkbox" onclick="return false" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tb">
+            <div class="title">
+                <span>用餐详情</span>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">日期</th>
+                    <th scope="col">午餐</th>
+                    <th scope="col">晚餐</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="d in dines">
+                    <td>
+                        <span>{{d.date}}</span>
+                    </td>
+                    <td>
+                        <span>{{d.lunch}}</span>
+                    </td>
+                    <td>
+                        <span>{{d.dinner}}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tb">
+            <div class="title2">
+                <span>住宿详情</span>
+            </div>
+            <table class="table2 table">
+                <thead>
+                <tr>
+                    <th scope="col">日期</th>
+                    <th scope="col">人数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="s in stay">
+                    <td>
+                        <span>{{s.date}}</span>
+                    </td>
+                    <td>
+                        <span>{{s.single}}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tb">
+
+    </div>
+</div>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script src="/js/mm/hyhz_detail.js"></script>
+</body>
+</html>

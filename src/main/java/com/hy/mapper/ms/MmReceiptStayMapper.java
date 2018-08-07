@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface MmReceiptStayMapper {
     List<VMmReceiptStay> selectReceiptStayView(@Param("rid") int rid);
+    List<MmReceiptStay> selectReceiptStay(@Param("rid") int rid);
     Integer updateReceiptStay(List<MmReceiptStay> mmReceiptStays);
     Integer insertReceiptStay(List<MmReceiptStay> mmReceiptStays);
 }

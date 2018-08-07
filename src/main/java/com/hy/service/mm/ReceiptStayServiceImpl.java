@@ -1,6 +1,7 @@
 package com.hy.service.mm;
 
 import com.hy.common.SecurityHelp;
+import com.hy.dto.MmReceiptStayDto;
 import com.hy.dto.MmReceiptStayFetchDto;
 import com.hy.dto.MmReceiptStayViewDto;
 import com.hy.mapper.ms.MmReceiptStayMapper;
@@ -32,9 +33,7 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
 
         if(vrs.size() != 0) {
             List<MmReceiptStayViewDto> rsdto = DTOUtil.populateList(vrs, MmReceiptStayViewDto.class);
-            for (int i = 0; i < vrs.size(); i++) {
-                rsdto.get(i).setDate(DateUtil.breviary(vrs.get(i).getDate()));
-            }
+            IntStream.range(0, vrs.size()).forEach(i -> rsdto.get(i).setDate(DateUtil.breviary(vrs.get(i).getDate())));
             return rsdto;
         }
         else {

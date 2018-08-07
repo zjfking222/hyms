@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ReceiptStayService {
     /**
-     * 获取回执住宿列表
+     * 获取回执住宿列表（用于回执管理）
      *
      * @param rid 回执id
      * @return 住宿列表

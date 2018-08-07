@@ -98,6 +98,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         map.put("agenda",agendaService.getReceiptAgendaView(rid));
         map.put("dines",dinesService.getReceiptDines(rid));
         map.put("stay",stayService.getReceiptStayView(rid));
+
         MmReceipt mmReceipt = mmReceiptMapper.selectReceiptById(rid);
         MmReceiptDto mmReceiptDto = DTOUtil.populate(mmReceipt,MmReceiptDto.class);
         //时间格式转化
@@ -114,6 +115,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         map.put("receipt",mmReceiptDto);
         return map;
     }
+
 
     @Override
     public boolean delReceipt(int id) {
