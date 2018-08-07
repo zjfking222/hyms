@@ -2,10 +2,7 @@ package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
-import com.hy.dto.MmMeetingReceiptViewDto;
-import com.hy.dto.MmReceiptDto;
-import com.hy.dto.MmReceiptFetchDto;
-import com.hy.dto.MmReceiptInfoViewDto;
+import com.hy.dto.*;
 import com.hy.mapper.ms.MmReceiptMapper;
 import com.hy.model.MmReceipt;
 import com.hy.model.VMmMeetingReceipt;
@@ -19,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 @Transactional
@@ -40,9 +38,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     private CustomersService customersService;
 
     @Override
-    public List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir) {
+    public List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir,
+                                                        String state) {
         PageHelper.startPage(pageNum, pageSize);
-        List<VMmMeetingReceipt> vMmMeetingReceipts = mmReceiptMapper.selectMeetingView(value, sort, dir);
+        List<VMmMeetingReceipt> vMmMeetingReceipts = mmReceiptMapper.selectMeetingView(value, sort, dir, state);
         List<MmMeetingReceiptViewDto> mmMeetingReceiptViewDtos = DTOUtil.populateList(vMmMeetingReceipts, MmMeetingReceiptViewDto.class);
 
         for (int i = 0 ; i < vMmMeetingReceipts.size() ; i++){
@@ -65,8 +64,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Integer getMeetingViewTotal(String value){
-        return mmReceiptMapper.selectMeetingViewTotal(value);
+    public Integer getMeetingViewTotal(String value, String state){
+        return mmReceiptMapper.selectMeetingViewTotal(value, state);
     }
 
 
@@ -168,5 +167,19 @@ public class ReceiptServiceImpl implements ReceiptService {
         }catch (Exception e){
             throw e;
         }
+    }
+
+    @Override
+    public boolean addReceipt(List<MmReceiptNewDto> mmReceiptNewDtos) {
+        List<MmReceipt> mmReceipts = DTOUtil.populateList(mmReceiptNewDtos, MmReceipt.class);
+
+        IntStream.range(0, mmReceipts.size()).forEach(i -> {
+            mmReceipts.get(i).setUid(SecurityHelp.getUserId());
+            mmReceipts.get(i).setDomain(SecurityHelp.getDepartmentId());
+            mmReceipts.get(i).setCreater(SecurityHelp.getUserId());
+            mmReceipts.get(i).setModifier(SecurityHelp.getUserId());
+            mmReceipts.get(i).setLastname(SecurityHelp.getUserName());
+        });
+        return mmReceiptMapper.insertReceipt(mmReceipts) == mmReceipts.size();
     }
 }

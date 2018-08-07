@@ -4,6 +4,9 @@
     <select id="selectMeetingView" resultType="com.hy.model.VMmMeetingReceipt">
         SELECT * FROM v_mm_meeting_receipt
         WHERE 1 = 1
+        <if test="state != null and '' != state">
+            AND enddate > now()
+        </if>
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')
         </if>
@@ -14,6 +17,9 @@
     <select id="selectMeetingViewTotal" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM v_mm_meeting_receipt
         WHERE 1 = 1
+        <if test="state != null and '' != state">
+            AND enddate > now()
+        </if>
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')
         </if>
@@ -64,5 +70,13 @@
             modifier = #{modifier}
         WHERE id = #{id}
     </update>
+    
+    <insert id="insertReceipt" parameterType="com.hy.model.MmReceipt">
+        INSERT INTO mm_receipt (mid, cid, uid, domain, creater, modifier, lastname)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.mid},#{item.cid},#{item.uid},#{item.domain},#{item.creater},#{item.modifier},#{item.lastname})
+        </foreach>
+    </insert>
 
 </mapper>

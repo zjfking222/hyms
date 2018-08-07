@@ -2,12 +2,14 @@ package com.hy.controller.mm;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.MmReceiptFetchDto;
+import com.hy.dto.MmReceiptNewDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.mm.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/mm")
@@ -19,10 +21,11 @@ public class MmReceiptController {
     @PostMapping("/receipt/getMeeting")
     public ResultObj getReceiptMeetingView(int page, int pageSize, @RequestParam(required = false) String value,
                                            @RequestParam(required = false) String sort,
-                                           @RequestParam(required = false) String dir){
+                                           @RequestParam(required = false) String dir,
+                                           @RequestParam(required = false) String state){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", receiptService.getMeetingView(page, pageSize, value, sort, dir));
-        map.put("total", receiptService.getMeetingViewTotal(value));
+        map.put("data", receiptService.getMeetingView(page, pageSize, value, sort, dir, state));
+        map.put("total", receiptService.getMeetingViewTotal(value, state));
         return ResultObj.success(map);
     }
 
@@ -52,5 +55,9 @@ public class MmReceiptController {
     @PostMapping("/receipt/set")
     public ResultObj setReceipt(@RequestBody MmReceiptFetchDto mmReceiptFetchDto){
         return ResultObj.success(receiptService.setReceipt(mmReceiptFetchDto));
+    }
+    @PostMapping("/receipt/add")
+    public ResultObj addReceipt(@RequestBody List<MmReceiptNewDto> mmReceiptNewDtos){
+        return ResultObj.success(receiptService.addReceipt(mmReceiptNewDtos));
     }
 }

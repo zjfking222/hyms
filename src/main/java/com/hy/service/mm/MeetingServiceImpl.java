@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class MeetingServiceImpl implements MeetingService{
@@ -61,23 +62,24 @@ public class MeetingServiceImpl implements MeetingService{
         List<MmMeeting> meetings = mmMeetingMapper.selectMmMeeting(value, sort, dir);
         List<MmMeetingDto> meetingDtos = DTOUtil.populateList(meetings, MmMeetingDto.class);
 
-        for(int i = 0 ; i < meetings.size() ; i++){
+        //过滤空值
+        IntStream.range(0, meetings.size()).forEach(i -> {
             MmMeetingDto md = meetingDtos.get(i);
             MmMeeting mm = meetings.get(i);
-            md.setState(DateUtil.getState(mm.getBegindate(),mm.getEnddate()));
-            //过滤空值
-            if(mm.getBegindate() != null){
+            md.setState(DateUtil.getState(mm.getBegindate(), mm.getEnddate()));
+            if (mm.getBegindate() == null) {
+
+            } else {
                 md.setBegindate(DateUtil.translate(mm.getBegindate()));
             }
-            if(mm.getEnddate() != null){
+            if (mm.getEnddate() != null) {
                 md.setEnddate(DateUtil.translate(mm.getEnddate()));
             }
-            if(mm.getDeadline() != null){
+            if (mm.getDeadline() != null) {
 
                 md.setDeadline(DateUtil.translate(mm.getDeadline()));
             }
-
-        }
+        });
         return meetingDtos;
     }
 

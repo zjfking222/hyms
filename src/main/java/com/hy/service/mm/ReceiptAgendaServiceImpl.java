@@ -32,9 +32,9 @@ public class ReceiptAgendaServiceImpl implements ReceiptAgendaService {
         else {
             List<MmAgenda> agenda = agendaService.getAgendaByRid(rid);
             List<MmReceiptAgendaViewDto> agendaViewDtos = new ArrayList<>();
-            for(int i = 0 ; i < agenda.size() ; i++){
-                agendaViewDtos.add(new MmReceiptAgendaViewDto(agenda.get(i).getName(),agenda.get(i).getDate(),
-                        false,agenda.get(i).getMid(),rid,agenda.get(i).getId(),0,false));
+            for (MmAgenda anAgenda : agenda) {
+                agendaViewDtos.add(new MmReceiptAgendaViewDto(anAgenda.getName(), anAgenda.getDate(),
+                        false, anAgenda.getMid(), rid, anAgenda.getId(), 0, false));
             }
             return agendaViewDtos;
         }

@@ -29,9 +29,9 @@ var vm = new Vue({
                     buttonCount: 5
                 },
                 toolbar: [{
-                    template: '<a role="button" class="k-button k-button-icontext  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
+                    template: '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
                     '<input type="text" class="k-input" id="search-input"/>' +
-                    '<a role="button"  class="k-button k-button-icontext  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
                     {field: "name", title: "企业名称", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},

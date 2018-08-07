@@ -2,16 +2,19 @@ package com.hy.service.crm;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
+import com.hy.dto.CrmCustomerFirmViewDto;
 import com.hy.dto.CrmCustomersDto;
 import com.hy.dto.CrmCustomersFetchDto;
 import com.hy.mapper.ms.CrmCustomersMapper;
 import com.hy.model.CrmCustomers;
+import com.hy.model.VCrmCustomerFirm;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class CustomersServiceImpl implements CustomersService{
@@ -103,13 +106,25 @@ public class CustomersServiceImpl implements CustomersService{
                 customers.getNationality(),customers.getAddress(),customers.getMobile(),
                 customers.getPhone(),customers.getEmail(),businessTypeService.getBusinesstypeById(customers.getBtid()),
                 firmsService.getCrmFirmById(customers.getFid()),customers.getVip(),customers.getRemark());
-        if(customers.getSex()){
-            crmCustomersDto.setSex(male);
-        }
-        else {
-            crmCustomersDto.setSex(female);
-        }
+        crmCustomersDto.setSex(customers.getSex() ? male : female);
         return crmCustomersDto;
     }
 
+    @Override
+    public List<CrmCustomerFirmViewDto> getCrmCustomerByUid(int pageNum, int pageSize, int mid, String value,
+                                                            String sort, String dir) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<VCrmCustomerFirm> vCrmCustomerFirms = customersMapper.selectCrmCustomerByUid(SecurityHelp.getUserId(),
+                mid,value,sort,dir);
+        List<CrmCustomerFirmViewDto> dto = DTOUtil.populateList(vCrmCustomerFirms, CrmCustomerFirmViewDto.class);
+        IntStream.range(0, vCrmCustomerFirms.size()).forEach(i ->
+            dto.get(i).setSex(vCrmCustomerFirms.get(i).getSex() ? male : female)
+        );
+        return dto;
+    }
+
+    @Override
+    public Integer getCrmCustomerByUidTotal(int mid, String value) {
+        return customersMapper.selectCrmCustomerByUidTotal(SecurityHelp.getUserId(), mid, value);
+    }
 }

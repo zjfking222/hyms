@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/crm")
@@ -66,10 +67,21 @@ public class CustomersController {
             }
         }catch (Exception e)
         {
-
+            e.printStackTrace();
         }
-        map.put("data",customersService.getCrmCustomer(page, pageSize, value, sort, dir));
-        map.put("total",customersService.getCrmCustomerTotal(value));
+        map.put("data", customersService.getCrmCustomer(page, pageSize, value, sort, dir));
+        map.put("total", customersService.getCrmCustomerTotal(value));
+        return ResultObj.success(map);
+    }
+
+    @PostMapping("/customerfirm/get")
+    public ResultObj getCustomerFirmView(int page, int pageSize, int mid,
+                                         @RequestParam(required = false) String value,
+                                         @RequestParam(required = false) String sort,
+                                         @RequestParam(required = false) String dir){
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", customersService.getCrmCustomerByUid(page, pageSize, mid, value, sort, dir));
+        map.put("total", customersService.getCrmCustomerByUidTotal(mid, value));
         return ResultObj.success(map);
     }
 }
