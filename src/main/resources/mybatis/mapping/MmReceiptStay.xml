@@ -2,7 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.MmReceiptStayMapper">
     <select id="selectReceiptStayView" resultType="com.hy.model.VMmReceiptStay">
-        SELECT * FROM v_mm_receipt_stay WHERE rid = #{rid}
+        SELECT * FROM v_mm_receipt_stay WHERE rid = #{rid} order by date
     </select>
-
+    <select id="selectReceiptStay" resultType="com.hy.model.MmReceiptStay">
+        SELECT * FROM mm_receipt_stay WHERE rid = #{rid} ORDER BY date
+    </select>
+    <update id="updateReceiptStay" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE mm_receipt_stay SET
+                rid = #{item.rid},
+                hid = #{item.hid},
+                single = #{item.single},
+                standard = #{item.standard},
+                suite = #{item.suite},
+                modifier = #{item.modifier}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+    <insert id="insertReceiptStay" parameterType="java.util.List">
+        INSERT INTO mm_receipt_stay (rid, date, hid, single, standard, suite, domain, creater, modifier)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.rid},#{item.date},#{item.hid},#{item.single},#{item.standard},#{item.suite},#{item.domain},
+            #{item.creater},#{item.modifier})
+        </foreach>
+    </insert>
 </mapper>

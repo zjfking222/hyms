@@ -1,9 +1,8 @@
 package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.dto.MmMeetingReceiptViewDto;
-import com.hy.dto.MmReceiptDto;
-import com.hy.dto.MmReceiptInfoViewDto;
+import com.hy.common.SecurityHelp;
+import com.hy.dto.*;
 import com.hy.mapper.ms.MmReceiptMapper;
 import com.hy.model.MmReceipt;
 import com.hy.model.VMmMeetingReceipt;
@@ -13,11 +12,14 @@ import com.hy.utils.DTOUtil;
 import com.hy.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
+@Transactional
 public class ReceiptServiceImpl implements ReceiptService {
 
     @Autowired
@@ -36,9 +38,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     private CustomersService customersService;
 
     @Override
-    public List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir) {
+    public List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir,
+                                                        String state) {
         PageHelper.startPage(pageNum, pageSize);
-        List<VMmMeetingReceipt> vMmMeetingReceipts = mmReceiptMapper.selectMeetingView(value, sort, dir);
+        List<VMmMeetingReceipt> vMmMeetingReceipts = mmReceiptMapper.selectMeetingView(value, sort, dir, state);
         List<MmMeetingReceiptViewDto> mmMeetingReceiptViewDtos = DTOUtil.populateList(vMmMeetingReceipts, MmMeetingReceiptViewDto.class);
 
         for (int i = 0 ; i < vMmMeetingReceipts.size() ; i++){
@@ -61,8 +64,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Integer getMeetingViewTotal(String value){
-        return mmReceiptMapper.selectMeetingViewTotal(value);
+    public Integer getMeetingViewTotal(String value, String state){
+        return mmReceiptMapper.selectMeetingViewTotal(value, state);
     }
 
 
@@ -95,6 +98,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         map.put("agenda",agendaService.getReceiptAgendaView(rid));
         map.put("dines",dinesService.getReceiptDines(rid));
         map.put("stay",stayService.getReceiptStayView(rid));
+
         MmReceipt mmReceipt = mmReceiptMapper.selectReceiptById(rid);
         MmReceiptDto mmReceiptDto = DTOUtil.populate(mmReceipt,MmReceiptDto.class);
         //时间格式转化
@@ -112,8 +116,72 @@ public class ReceiptServiceImpl implements ReceiptService {
         return map;
     }
 
+
     @Override
     public boolean delReceipt(int id) {
         return mmReceiptMapper.deleteReceipt(id) == 1;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setReceipt(MmReceiptFetchDto mmReceiptFetchDto) {
+        try {
+            //更新receipt
+            MmReceipt mmReceipt = DTOUtil.populate(mmReceiptFetchDto.getReceipt(),MmReceipt.class);
+            //判断空值
+            if(mmReceiptFetchDto.getReceipt().getArrivaldate() != null){
+                mmReceipt.setArrivaldate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getArrivaldate()));
+            }
+            if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null){
+                mmReceipt.setDeparturedate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getDeparturedate()));
+            }
+            mmReceipt.setModifier(SecurityHelp.getUserId());
+            mmReceiptMapper.updateReceipt(mmReceipt);
+
+            //批量更新或插入 receiptAgenda
+            if(mmReceiptFetchDto.getAgenda().size() > 0){
+                if (mmReceiptFetchDto.getAgenda().get(0).getId() != 0) {
+                    agendaService.setReceiptAgenda(mmReceiptFetchDto.getAgenda());
+                } else {
+                    agendaService.addReceiptAgenda(mmReceiptFetchDto.getAgenda());
+                }
+            }
+
+            //批量更新或插入 receiptDines
+            if(mmReceiptFetchDto.getDines().size() > 0){
+                if (mmReceiptFetchDto.getDines().get(0).getId() != 0){
+                    dinesService.setReceiptDines(mmReceiptFetchDto.getDines());
+                } else {
+                    dinesService.addReceiptDines(mmReceiptFetchDto.getDines());
+                }
+            }
+
+            //批量更新或插入 receiptStay
+            if(mmReceiptFetchDto.getStay().size() > 0){
+                if(mmReceiptFetchDto.getStay().get(0).getId() != 0){
+                    stayService.setReceiptStay(mmReceiptFetchDto.getStay());
+                } else {
+                    stayService.addReceiptStay(mmReceiptFetchDto.getStay());
+                }
+            }
+
+            return true;
+        }catch (Exception e){
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean addReceipt(List<MmReceiptNewDto> mmReceiptNewDtos) {
+        List<MmReceipt> mmReceipts = DTOUtil.populateList(mmReceiptNewDtos, MmReceipt.class);
+
+        IntStream.range(0, mmReceipts.size()).forEach(i -> {
+            mmReceipts.get(i).setUid(SecurityHelp.getUserId());
+            mmReceipts.get(i).setDomain(SecurityHelp.getDepartmentId());
+            mmReceipts.get(i).setCreater(SecurityHelp.getUserId());
+            mmReceipts.get(i).setModifier(SecurityHelp.getUserId());
+            mmReceipts.get(i).setLastname(SecurityHelp.getUserName());
+        });
+        return mmReceiptMapper.insertReceipt(mmReceipts) == mmReceipts.size();
     }
 }

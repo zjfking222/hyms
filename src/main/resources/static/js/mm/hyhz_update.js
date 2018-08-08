@@ -1,4 +1,4 @@
-//回执列表-编辑
+//会议回执-编辑
 var index = parent.layer.getFrameIndex(window.name);
 var FetchData = function (data, method, param, async,contentType) {
     var response =
@@ -81,8 +81,8 @@ var vm = new Vue({
                 agenda:vm.agenda,
                 stay:vm.stay
             };
-            for (var i = 0 ; i < $('select').length ; i++) {
-                vm.stay[i].hid = $("select").eq(i).val();
+            for (var i = 0 ; i < vm.stay.length ; i++) {
+                vm.stay[i].hid = vm.hotel[0].id;
             }
             if(vm.validator.validate()) {
                 FetchData(JSON.stringify(vm.postData), 'POST', '/mm/receipt/set', false, true).code === 0 ?
@@ -96,17 +96,17 @@ var vm = new Vue({
         })
     }
 });
-//到达回程日期初始化、住宿选择初始化
+// 到达回程日期初始化、住宿选择初始化
 $(function () {
     $('#arrivaldate').val(vm.receipt.arrivaldate);
     $('#departuredate').val(vm.receipt.departuredate);
-    for(var i = 0 ; i < $('select').length ; i++)
-    {
-        $('select').eq(i).children('option').each(function () {
-            if($(this).text() === vm.stay[i].name){
-                $(this).prop("selected",true);
-            }
-        })
-    }
+    // for(var i = 0 ; i < $('select').length ; i++)
+    // {
+    //     $('select').eq(i).children('option').each(function () {
+    //         if($(this).text() === vm.stay[i].name){
+    //             $(this).prop("selected",true);
+    //         }
+    //     })
+    // }
 
 });

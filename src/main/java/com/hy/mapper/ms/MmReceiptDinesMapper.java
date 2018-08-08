@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface MmReceiptDinesMapper {
     List<MmReceiptDines> selectReceiptDines(@Param("rid")int rid);
+    Integer updateReceiptDines(List<MmReceiptDines> mmReceiptDines);
+    Integer insertReceiptDines(List<MmReceiptDines> mmReceiptDines);
 }

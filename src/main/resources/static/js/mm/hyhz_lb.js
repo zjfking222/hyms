@@ -1,5 +1,6 @@
-//回执列表
+//会议回执列表
 var pushRid;
+var pushMid;
 var vm = new Vue({
         el: "",
         data: {
@@ -12,7 +13,7 @@ var vm = new Vue({
             this.getDataSource();
 
             var grid = $("#grid").kendoGrid({
-                selectable:"row",
+                // selectable:"row",
                 dataSource: this.dataSource,
                 editable: {
                     confirmation: true,
@@ -22,6 +23,7 @@ var vm = new Vue({
                     }
                 },
                 // filterable: true,
+                persistSelection: true,
                 columnMenu: true,
                 sortable: true,
                 pageable: {
@@ -32,10 +34,13 @@ var vm = new Vue({
                 toolbar: [{
                     template: '<input type="text" class="k-input" id="search-input"/>' +
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加客户</a>'+
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm."><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.savaAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
 
                 }],
                 columns: [
+                    { selectable:true, width: '50px'},
                     {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '300px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -61,17 +66,22 @@ var vm = new Vue({
                     {field: "modified", title: "修改时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "state", title: "已提交",template:'<input type="checkbox" onclick="return false"  #=state_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {
-                        command: [{
-                            name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
-                            click: function (e) {
-                                e.preventDefault();
-                                var tr = $(e.target).closest("tr");
-                                var data = this.dataItem(tr);
-                                pushRid = data.id;
-                                vm.edit(data.id);
-                            }
-                        }, {
-                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "240px"
+                        command: [
+                            {
+                                name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
+                                click: function (e) {
+                                    e.preventDefault();
+                                    var tr = $(e.target).closest("tr");
+                                    var data = this.dataItem(tr);
+                                    pushRid = data.id;
+                                    vm.edit(data.id);
+                                }
+                            },
+                            {
+                                name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"
+                            }],
+                            title: " ",
+                            width: "240px"
                     }]
             });
 
@@ -83,10 +93,10 @@ var vm = new Vue({
                 layer.open({
                     title: '回执详情',
                     type: 2,
-                    area: ['1050px', '650px'],
+                    area: ['1050px', '450px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/mm/hzlb_detail.html',
+                    content: '/mm/hyhz_detail.html',
                     end: function () {
                     }
                 });
@@ -117,9 +127,6 @@ var vm = new Vue({
                                             result.data.data[i].vip?
                                                 result.data.data[i].vip_display = 'checked':
                                                 result.data.data[i].vip_display = '';
-                                            // result.data.data[i].sex?
-                                            //     result.data.data[i].sex_display = '男':
-                                            //     result.data.data[i].sex_display = '女';
                                             result.data.data[i].sendoff?
                                                 result.data.data[i].sendoff_display = 'checked':
                                                 result.data.data[i].sendoff_display = '';
@@ -199,7 +206,6 @@ var vm = new Vue({
                                 modified: {type: "string", nullable: false},
                                 state: {type: "string", nullable: false},
                                 vip_display:{type:"string", nullable:false},
-                                // sex_display:{type:"string", nullable:false},
                                 driving_display:{type:"string", nullable:false},
                                 pickup_display:{type:"string", nullable:false},
                                 sendoff_display:{type:"string", nullable:false},
@@ -228,7 +234,6 @@ var vm = new Vue({
                     },
                     pageSize: 15,
                     serverPaging: true,
-                    // serverFiltering: true,
                     serverSorting: true
                 });
             },
@@ -246,11 +251,24 @@ var vm = new Vue({
                     area: ['1050px', '650px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/mm/hzlb_update.html',
+                    content: '/mm/hyhz_update.html',
                     end: function () {
                     }
                 });
                 layer.full(this.layItem);
+            },
+            add:function () {
+                pushMid = window.location.search.substr(4);
+                this.layItem = layer.open({
+                    title: '添加客户',
+                    type: 2,
+                    area: ['1050px', '650px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/mm/hyhz_lb_add.html',
+                    end: function () {
+                    }
+                })
             }
         }
     }

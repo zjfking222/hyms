@@ -288,10 +288,8 @@
                 <thead>
                 <tr>
                     <th scope="col">日期</th>
-                    <th scope="col">午餐-自助</th>
-                    <th scope="col">午餐-桌餐</th>
-                    <th scope="col">晚餐-自助</th>
-                    <th scope="col">晚餐-桌餐</th>
+                    <th scope="col">午餐</th>
+                    <th scope="col">晚餐</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -304,13 +302,7 @@
                         <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.lunch">
                     </td>
                     <td>
-                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.lunchx">
-                    </td>
-                    <td>
                         <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.dinner">
-                    </td>
-                    <td>
-                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.dinnerx">
                     </td>
                 </tr>
                 </tbody>
@@ -329,10 +321,7 @@
                 <thead>
                 <tr>
                     <th scope="col">日期</th>
-                    <th scope="col">酒店</th>
-                    <th scope="col">单间</th>
-                    <th scope="col">标间</th>
-                    <th scope="col">套房</th>
+                    <th scope="col">人数</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -341,19 +330,7 @@
                         <span>{{s.date}}</span>
                     </td>
                     <td>
-                        <!--<span>{{s.name}}</span>-->
-                        <select>
-                            <option v-for="h in hotel" :value="h.id">{{h.name}}</option>
-                        </select>
-                    </td>
-                    <td>
                         <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.single">
-                    </td>
-                    <td>
-                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.standard">
-                    </td>
-                    <td>
-                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.suite">
                     </td>
                 </tr>
                 </tbody>
@@ -372,6 +349,6 @@
 <script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
 <script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script src="/plugins/laydate/laydate.js"></script>
-<script src="/js/mm/hzlb_update.js"></script>
+<script src="/js/mm/hyhz_update.js"></script>
 </body>
 </html>

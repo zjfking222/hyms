@@ -63,4 +63,43 @@
     <select id="seleCrmCustomerById" resultType="com.hy.model.CrmCustomers">
         SELECT * FROM crm_customers WHERE id = #{id}
     </select>
+
+
+    <select id="selectCrmCustomerByUid" resultType="com.hy.model.VCrmCustomerFirm">
+        SELECT
+        c.*
+        FROM
+        v_crm_customer_firm c
+        WHERE EXISTS
+        ( SELECT 1 FROM crm_businesstype_user bt WHERE c.btid = bt.btid
+        AND bt.uid = #{uid})
+        AND NOT EXISTS
+        ( SELECT 1 FROM mm_receipt d WHERE d.cid=c.id AND mid = #{mid})
+
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectCrmCustomerByUidTotal" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        v_crm_customer_firm c
+        WHERE EXISTS
+        ( SELECT 1 FROM crm_businesstype_user bt WHERE c.btid = bt.btid
+        AND bt.uid = #{uid})
+        AND NOT EXISTS
+        ( SELECT 1 FROM mm_receipt d WHERE d.cid=c.id AND mid = #{mid})
+
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+    </select>
 </mapper>

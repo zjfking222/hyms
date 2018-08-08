@@ -1,15 +1,18 @@
 package com.hy.service.mm;
 
 import com.hy.dto.MmMeetingReceiptViewDto;
+import com.hy.dto.MmReceiptFetchDto;
 import com.hy.dto.MmReceiptInfoViewDto;
+import com.hy.dto.MmReceiptNewDto;
 
 import java.util.HashMap;
 import java.util.List;
 
 public interface ReceiptService {
 
-    List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir);
-    Integer getMeetingViewTotal(String value);
+    List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir,
+                                                 String state);
+    Integer getMeetingViewTotal(String value, String state);
 
     List<MmReceiptInfoViewDto> getReceiptView(int pageNum, int pageSize, String value, String sort, String dir, int mid);
     Integer getReceiptViewTotal(String value, int mid);
@@ -24,4 +27,7 @@ public interface ReceiptService {
 
     boolean delReceipt(int id);
 
+    boolean setReceipt(MmReceiptFetchDto mmReceiptFetchDto);
+
+    boolean addReceipt(List<MmReceiptNewDto> mmReceiptNewDtos);
 }

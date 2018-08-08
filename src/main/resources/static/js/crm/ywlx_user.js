@@ -23,7 +23,7 @@ var vm = new Vue({
             sortable: true,
             // pageable: false,
             toolbar: [{
-                template: '<a role="button" class="k-button k-button-icontext  href="javascript:;" onclick="vm.edit()"><span class="k-icon k-i-edit"></span>编辑</a>'
+                template: '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.edit()"><span class="k-icon k-i-edit"></span>编辑</a>'
             }],
             columns: [
                 {field: "loginid", title: "账户名", headerAttributes: {"class": "grid-algin-center"}},

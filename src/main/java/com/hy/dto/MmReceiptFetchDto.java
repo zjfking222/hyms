@@ -1,12 +1,14 @@
 package com.hy.dto;
 
 
+import java.util.List;
+
 public class MmReceiptFetchDto {
 
     private MmReceiptDto receipt;
-    private MmReceiptStayFetchDto[] stay;
-    private MmReceiptAgendaFetchDto[] agenda;
-    private MmReceiptDineFetchDto[] dines;
+    private List<MmReceiptStayFetchDto> stay;
+    private List<MmReceiptAgendaFetchDto> agenda;
+    private List<MmReceiptDineFetchDto> dines;
 
     public MmReceiptDto getReceipt() {
         return receipt;
@@ -16,27 +18,27 @@ public class MmReceiptFetchDto {
         this.receipt = receipt;
     }
 
-    public MmReceiptStayFetchDto[] getStay() {
+    public List<MmReceiptStayFetchDto> getStay() {
         return stay;
     }
 
-    public void setStay(MmReceiptStayFetchDto[] stay) {
+    public void setStay(List<MmReceiptStayFetchDto> stay) {
         this.stay = stay;
     }
 
-    public MmReceiptAgendaFetchDto[] getAgenda() {
+    public List<MmReceiptAgendaFetchDto> getAgenda() {
         return agenda;
     }
 
-    public void setAgenda(MmReceiptAgendaFetchDto[] agenda) {
+    public void setAgenda(List<MmReceiptAgendaFetchDto> agenda) {
         this.agenda = agenda;
     }
 
-    public MmReceiptDineFetchDto[] getDines() {
+    public List<MmReceiptDineFetchDto> getDines() {
         return dines;
     }
 
-    public void setDines(MmReceiptDineFetchDto[] dines) {
+    public void setDines(List<MmReceiptDineFetchDto> dines) {
         this.dines = dines;
     }
 }
