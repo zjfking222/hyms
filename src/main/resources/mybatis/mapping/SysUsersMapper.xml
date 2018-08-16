@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.SysUsersMapper" >
+  <resultMap id="BaseResultMap" type="com.hy.model.SysUsers" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="BIT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="BIT" />
+    <result column="deptid" property="deptid" jdbcType="SMALLINT" />
+    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="oaloginid" property="oaloginid" jdbcType="VARCHAR" />
+    <result column="oauserid" property="oauserid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, password, sex, mobile, enable, deptid, creater, created, modifier,
+    modified, oaloginid, oauserid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_users
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_users
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hy.model.SysUsers" >
+    insert into sys_users (id, name, password,
+      sex, mobile, enable, deptid,
+      creater, modifier,oaloginid, oauserid)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{sex,jdbcType=BIT}, #{mobile,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, #{deptid,jdbcType=SMALLINT},
+      #{creater,jdbcType=INTEGER},  #{modifier,jdbcType=INTEGER}, #{oaloginid,jdbcType=VARCHAR}, #{oauserid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hy.model.SysUsers" >
+    insert into sys_users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="deptid != null" >
+        deptid,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="oaloginid != null" >
+        oaloginid,
+      </if>
+      <if test="oauserid != null" >
+        oauserid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=SMALLINT},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=INTEGER},
+      </if>
+      <if test="modified != null" >
+        #{modified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oaloginid != null" >
+        #{oaloginid,jdbcType=VARCHAR},
+      </if>
+      <if test="oauserid != null" >
+        #{oauserid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.SysUsers" >
+    update sys_users
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=BIT},
+      </if>
+      <if test="departmentid != null" >
+        deptid = #{deptid,jdbcType=SMALLINT},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=INTEGER},
+      </if>
+      <if test="modified != null" >
+        modified = #{modified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oaloginid != null" >
+        oaloginid = #{oaloginid,jdbcType=VARCHAR},
+      </if>
+      <if test="oauserid != null" >
+        oauserid = #{oauserid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hy.model.SysUsers" >
+    update sys_users
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=BIT},
+      deptid = #{deptid,jdbcType=SMALLINT},
+      creater = #{creater,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=INTEGER},
+      modified = #{modified,jdbcType=TIMESTAMP},
+      oaloginid = #{oaloginid,jdbcType=VARCHAR},
+      oauserid = #{oauserid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectUsers" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_users
+  </select>
+  <select id="selectByUid" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from sys_users
+    where oauserid = #{oauserid}
+  </select>
+  <delete id="deleteByUid" parameterType="com.hy.model.SysUsers">
+    DELETE FROM sys_users
+    WHERE oauserid=#{oauserid}
+  </delete>
+  <select id="selectUsersByLike" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_users
+    <if test="name != null">
+      WHERE name like concat('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  <select id="selectAllUsers" resultType="com.hy.model.SysUsers">
+    select *
+    from sys_users
+    where 1=1
+    <if test="value != null and '' != value">
+        AND ( name LIKE concat('%',#{value},'%')
+        OR oaloginid LIKE concat(#{value},'%'))
+    </if>
+    <if test="sort != null and '' != sort">
+      ORDER BY CONVERT(${sort} USING gbk) ${dir}
+    </if>
+  </select>
+  <select id="selectTotalUsers" resultType="java.lang.Integer">
+    select count(1)
+    from sys_users
+    where 1=1
+    <if test="value != null and '' != value">
+    AND ( name LIKE concat('%',#{value},'%')
+    OR oaloginid LIKE concat(#{value},'%'))
+    </if>
+  </select>
+</mapper>

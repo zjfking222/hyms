@@ -18,4 +18,8 @@ public class HrmResourceController {
     public ResultObj getSearchHr(String search){
         return ResultObj.success(hrmResourceService.selectHrByLike(search,search));
     }
+    @PostMapping("hr/get")
+    public ResultObj getHr(String search){
+        return ResultObj.success(hrmResourceService.selectHrLike(search,search));
+    }
 }
