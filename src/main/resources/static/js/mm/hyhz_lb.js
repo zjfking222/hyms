@@ -41,6 +41,8 @@ var vm = new Vue({
                 }],
                 columns: [
                     { selectable:true, width: '50px'},
+                    {field: "id", headerAttributes: {"class": "grid-algin-center"}, width: '0', hidden:'true'},
+
                     {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '300px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -74,7 +76,7 @@ var vm = new Vue({
                                     var tr = $(e.target).closest("tr");
                                     var data = this.dataItem(tr);
                                     pushRid = data.id;
-                                    vm.edit(data.id);
+                                    vm.edit();
                                 }
                             },
                             {
@@ -86,9 +88,13 @@ var vm = new Vue({
             });
 
             //行项目双击事件
-            grid.dblclick('.k-grid-content tr', function () {
-                var row = grid.data("kendoGrid").select();
-                var data = grid.data("kendoGrid").dataItem(row);
+            grid.dblclick('.k-grid-content tr', function (e) {
+
+                grid.data("kendoGrid").clearSelection();
+
+                grid.data("kendoGrid").select($(e.target).parents('tr'));
+                var data = grid.data("kendoGrid").dataItem($(e.target).parents('tr'));
+                console.log(data.id)
                 pushRid = data.id;
                 layer.open({
                     title: '回执详情',
@@ -97,6 +103,7 @@ var vm = new Vue({
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/mm/hyhz_detail.html',
+                    shadeClose:true,
                     end: function () {
                     }
                 });
