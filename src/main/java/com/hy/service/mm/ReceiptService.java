@@ -1,9 +1,6 @@
 package com.hy.service.mm;
 
-import com.hy.dto.MmMeetingReceiptViewDto;
-import com.hy.dto.MmReceiptFetchDto;
-import com.hy.dto.MmReceiptInfoViewDto;
-import com.hy.dto.MmReceiptNewDto;
+import com.hy.dto.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,4 +27,6 @@ public interface ReceiptService {
     boolean setReceipt(MmReceiptFetchDto mmReceiptFetchDto);
 
     boolean addReceipt(List<MmReceiptNewDto> mmReceiptNewDtos);
+
+    boolean setReceiptState(List<MmReceiptDto> mmReceiptDtos);
 }

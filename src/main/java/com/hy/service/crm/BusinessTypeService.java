@@ -1,7 +1,6 @@
 package com.hy.service.crm;
 
 import com.hy.dto.CrmBusinesstypeDto;
-import com.hy.model.CrmBusinesstype;
 
 import java.util.List;
 

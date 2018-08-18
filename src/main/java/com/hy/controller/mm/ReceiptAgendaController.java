@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/mm")
-public class MmReceiptAgendaController {
+public class ReceiptAgendaController {
 
     @Autowired
     private ReceiptAgendaService receiptAgendaService;

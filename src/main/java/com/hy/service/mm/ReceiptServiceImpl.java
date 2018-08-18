@@ -184,4 +184,11 @@ public class ReceiptServiceImpl implements ReceiptService {
         });
         return mmReceiptMapper.insertReceipt(mmReceipts) == mmReceipts.size();
     }
+
+    @Override
+    public boolean setReceiptState(List<MmReceiptDto> mmReceiptDtos) {
+
+        return mmReceiptMapper.updateReceiptState(DTOUtil.populateList(mmReceiptDtos,MmReceipt.class))
+                == mmReceiptDtos.size();
+    }
 }

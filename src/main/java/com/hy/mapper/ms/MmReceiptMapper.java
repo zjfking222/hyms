@@ -24,4 +24,6 @@ public interface MmReceiptMapper {
     Integer updateReceipt(MmReceipt mmReceipt);
 
     Integer insertReceipt(List<MmReceipt> mmReceipts);
+
+    Integer updateReceiptState(List<MmReceipt> mmReceipts);
 }

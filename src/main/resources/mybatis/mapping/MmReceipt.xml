@@ -78,5 +78,14 @@
             (#{item.mid},#{item.cid},#{item.uid},#{item.domain},#{item.creater},#{item.modifier},#{item.lastname})
         </foreach>
     </insert>
+    <update id="updateReceiptState" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE mm_receipt
+            <set>
+                state = 1
+            </set>
+            WHERE (id=#{item.id})
+        </foreach>
+    </update>
 
 </mapper>

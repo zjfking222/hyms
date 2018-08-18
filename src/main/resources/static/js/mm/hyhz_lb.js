@@ -1,18 +1,35 @@
 //会议回执列表
 var pushRid;
 var pushMid;
+var FetchData = function (data, method, param, async,contentType) {
+    var response =
+        $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            contentType:contentType? "application/json;charset=utf-8":
+                "application/x-www-form-urlencoded;charset=UTF-8",
+            success: function (dataSource) {
+                return dataSource;
+            }});
+    return response.responseJSON;
+};
 var vm = new Vue({
         el: "",
         data: {
             dataSource: [],
             activeItem: {id: 0, title: "", content: ""},
-            layItem : null
+            layItem : null,
+            grid:''
         },
         created: function () {
 
             this.getDataSource();
 
-            var grid = $("#grid").kendoGrid({
+            var grid =
+            this.grid = $("#grid").kendoGrid({
                 // selectable:"row",
                 dataSource: this.dataSource,
                 editable: {
@@ -35,7 +52,7 @@ var vm = new Vue({
                     template: '<input type="text" class="k-input" id="search-input"/>' +
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加客户</a>'+
-                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm."><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.submit()"><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.savaAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
 
                 }],
@@ -68,20 +85,27 @@ var vm = new Vue({
                     {field: "modified", title: "修改时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "state", title: "已提交",template:'<input type="checkbox" onclick="return false"  #=state_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {
-                        command: [
-                            {
-                                name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
-                                click: function (e) {
-                                    e.preventDefault();
-                                    var tr = $(e.target).closest("tr");
-                                    var data = this.dataItem(tr);
-                                    pushRid = data.id;
-                                    vm.edit();
-                                }
-                            },
-                            {
-                                name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"
-                            }],
+                        // command: [
+                        //     {
+                        //         name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
+                        //         click: function (e) {
+                        //             e.preventDefault();
+                        //             var tr = $(e.target).closest("tr");
+                        //             var data = this.dataItem(tr);
+                        //             pushRid = data.id;
+                        //             vm.edit();
+                        //         }
+                        //     },
+                        //     {
+                        //         name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"
+                        //     }],
+                        template:
+                            '# if (state == "false") { #'+
+                            '<a role="butto"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.edit('+'#=id #'+')">' +
+                            '<span class="k-icon k-i-edit"></span>编辑</a>' +
+                            '<a role="butto" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.delete('+'#=id #'+')">' +
+                            '<span class="k-icon k-i-delete"></span>删除</a>' +
+                            '# } #',
                             title: " ",
                             width: "240px"
                     }]
@@ -94,7 +118,7 @@ var vm = new Vue({
 
                 grid.data("kendoGrid").select($(e.target).parents('tr'));
                 var data = grid.data("kendoGrid").dataItem($(e.target).parents('tr'));
-                console.log(data.id)
+
                 pushRid = data.id;
                 layer.open({
                     title: '回执详情',
@@ -158,29 +182,9 @@ var vm = new Vue({
                                 }
                             });
                         },
-                        destroy: function (options) {
-                            $.ajax({
-                                url: "/mm/receipt/del",
-                                data: {
-                                    'id': options.data.id
-                                },
-                                method: 'POST',
-                                success: function (result) {
-                                    if (result.code === 0) {
-                                        options.success(result);
-                                        layer.msg('删除成功！', {time: 1000, icon: 1});
-                                    }
-                                    else{
-                                        options.error(result);
-                                        layer.msg('删除失败！（'+result.code+result.msg+'）', {time: 2300, icon: 2});
-                                    }
-
-                                },
-                                error: function (result) {
-                                    options.error(result);
-                                }
-                            });
-                        }
+                        // destroy: function (options) {
+                        //
+                        // }
                     },
                     schema: {
                         data: "data",
@@ -251,7 +255,8 @@ var vm = new Vue({
             savaAsExcel: function () {
                 $("#grid").data("kendoGrid").saveAsExcel();
             },
-            edit:function () {
+            edit:function (id) {
+                pushRid = id;
                 this.layItem = layer.open({
                     title: '编辑回执',
                     type: 2,
@@ -276,6 +281,44 @@ var vm = new Vue({
                     end: function () {
                     }
                 })
+            },
+            submit:function () {
+                var setList = [];
+                var row = this.grid.data("kendoGrid").select();
+                for(var i = 0; i < row.length ; i++){
+                    setList.push(this.grid.data("kendoGrid").dataItem(row[i]))
+                }
+                var ids = [];
+                for (var j = 0 ; j < setList.length ; j++){
+                    ids[j] = { id: setList[j].id }
+                }
+                FetchData(JSON.stringify(ids),'POST','/mm/receipt/setState',false, true).code === 0 ?
+                    parent.layer.msg('添加成功') :
+                    parent.layer.msg('添加失败');
+                parent.location.reload();
+            },
+            delete:function (id) {
+                layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
+                    function () {
+                        $.ajax({
+                            url: "/mm/receipt/del",
+                            data: {
+                                'id': id
+                            },
+                            method: 'POST',
+                            success: function (result) {
+                                if (result.code === 0) {
+                                    layer.msg('删除成功！', {time: 1000, icon: 1});
+                                }
+                                else{
+                                    layer.msg('删除失败！（'+result.code+result.msg+'）', {time: 2300, icon: 2});
+                                }
+                                location.reload()
+                            }
+                        });
+                    },
+                    function () {
+                    });
             }
         }
     }

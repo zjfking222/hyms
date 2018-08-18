@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/mm")
-public class MmMeetingController {
+public class MeetingController {
 
     @Autowired
     private MeetingService meetingService;

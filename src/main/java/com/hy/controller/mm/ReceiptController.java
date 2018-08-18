@@ -1,6 +1,7 @@
 package com.hy.controller.mm;
 
 import com.hy.common.ResultObj;
+import com.hy.dto.MmReceiptDto;
 import com.hy.dto.MmReceiptFetchDto;
 import com.hy.dto.MmReceiptNewDto;
 import com.hy.enums.ResultCode;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mm")
-public class MmReceiptController {
+public class ReceiptController {
 
     @Autowired
     private ReceiptService receiptService;
@@ -54,10 +55,29 @@ public class MmReceiptController {
 
     @PostMapping("/receipt/set")
     public ResultObj setReceipt(@RequestBody MmReceiptFetchDto mmReceiptFetchDto){
-        return ResultObj.success(receiptService.setReceipt(mmReceiptFetchDto));
+        try {
+            return ResultObj.success(receiptService.setReceipt(mmReceiptFetchDto));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
+        }
     }
     @PostMapping("/receipt/add")
     public ResultObj addReceipt(@RequestBody List<MmReceiptNewDto> mmReceiptNewDtos){
-        return ResultObj.success(receiptService.addReceipt(mmReceiptNewDtos));
+        try {
+            return ResultObj.success(receiptService.addReceipt(mmReceiptNewDtos));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        }
+    }
+    @PostMapping("/receipt/setState")
+    public ResultObj setReceiptState(@RequestBody List<MmReceiptDto> mmReceiptDtos){
+        try {
+            return ResultObj.success(receiptService.setReceiptState(mmReceiptDtos));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
+        }
     }
 }

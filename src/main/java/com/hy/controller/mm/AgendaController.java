@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/mm")
-public class MmAgendaController {
+public class AgendaController {
     @Autowired
     private AgendaService agendaService;
 
