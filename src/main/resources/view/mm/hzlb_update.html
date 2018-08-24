@@ -195,6 +195,17 @@
                     </div>
                 </div>
                 <div class="form-group  col-md-4 col-sm-4 ">
+                    <label for="arrivaltype" class="control-label col-md-4 col-sm-4  col-xs-4">到达方式</label>
+                    <div class=" col-md-5 col-sm-8  col-xs-8">
+                        <select name="arrivaltype" id="arrivaltype" class="form-control" style="width: 100%;" >
+                            <option value="" selected></option>
+                            <option value="自驾">自驾</option>
+                            <option value="高铁">高铁</option>
+                            <option value="飞机">飞机</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group  col-md-4 col-sm-4 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">到达日期</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
                         <input type="text" id="arrivaldate" name="arrivaldate" class="form-control" style="width: 100%;">
@@ -218,6 +229,17 @@
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">派车送</label>
                     <div class=" col-md-4 col-sm-4  col-xs-8">
                         <input type="checkbox" v-model="receipt.sendoff" name="sendoff" class="form-control" style="margin: 0px; width: 16px;">
+                    </div>
+                </div>
+                <div class="form-group  col-md-4 col-sm-4 ">
+                    <label for="returntype" class="control-label col-md-4 col-sm-4  col-xs-4">回程方式</label>
+                    <div class=" col-md-5 col-sm-8  col-xs-8">
+                        <select name="returntype" id="returntype" class="form-control" style="width: 100%;" >
+                            <option value="" selected></option>
+                            <option value="自驾">自驾</option>
+                            <option value="高铁">高铁</option>
+                            <option value="飞机">飞机</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group  col-md-4 col-sm-4 ">
@@ -342,7 +364,7 @@
                     </td>
                     <td>
                         <!--<span>{{s.name}}</span>-->
-                        <select>
+                        <select class="slt_hotel">
                             <option v-for="h in hotel" :value="h.id">{{h.name}}</option>
                         </select>
                     </td>

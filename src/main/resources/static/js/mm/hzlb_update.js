@@ -65,11 +65,13 @@ var vm = new Vue({
                     cid:vm.receipt.customers.id,
                     driving:vm.receipt.driving,
                     pickup:vm.receipt.pickup,
+                    arrivaltype:vm.receipt.arrivaltype,
                     // arrivaldate:vm.receipt.arrivaldate,
                     arrivaldate:$('#arrivaldate').val(),
                     arrivalinfo:vm.receipt.arrivalinfo,
                     arrivalremark:vm.receipt.arrivalremark,
                     sendoff:vm.receipt.sendoff,
+                    returntype:vm.receipt.returntype,
                     // departuredate:vm.receipt.departuredate,
                     departuredate:$('#departuredate').val(),
                     departureinfo:vm.receipt.departureinfo,
@@ -81,8 +83,8 @@ var vm = new Vue({
                 agenda:vm.agenda,
                 stay:vm.stay
             };
-            for (var i = 0 ; i < $('select').length ; i++) {
-                vm.stay[i].hid = $("select").eq(i).val();
+            for (var i = 0 ; i < $('.slt_hotel').length ; i++) {
+                vm.stay[i].hid = $('.slt_hotel').eq(i).val();
             }
             if(vm.validator.validate()) {
                 FetchData(JSON.stringify(vm.postData), 'POST', '/mm/receipt/set', false, true).code === 0 ?
@@ -100,9 +102,9 @@ var vm = new Vue({
 $(function () {
     $('#arrivaldate').val(vm.receipt.arrivaldate);
     $('#departuredate').val(vm.receipt.departuredate);
-    for(var i = 0 ; i < $('select').length ; i++)
+    for(var i = 0 ; i < $('.slt_hotel').length ; i++)
     {
-        $('select').eq(i).children('option').each(function () {
+        $('.slt_hotel').eq(i).children('option').each(function () {
             if($(this).text() === vm.stay[i].name){
                 $(this).prop("selected",true);
             }
