@@ -55,7 +55,7 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
 
         IntStream.range(0, mmReceiptStays.size()).forEach(i -> {
             mmReceiptStays.get(i).setModifier(SecurityHelp.getUserId());
-            mmReceiptStays.get(i).setDate(DateUtil.translate(mmReceiptStayFetchDtos.get(i).getDate()));
+            mmReceiptStays.get(i).setDate(DateUtil.breviary(mmReceiptStayFetchDtos.get(i).getDate()));
         });
 
         return mmReceiptStayMapper.updateReceiptStay(mmReceiptStays) == mmReceiptStays.size();

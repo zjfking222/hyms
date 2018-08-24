@@ -129,10 +129,10 @@ public class ReceiptServiceImpl implements ReceiptService {
             //更新receipt
             MmReceipt mmReceipt = DTOUtil.populate(mmReceiptFetchDto.getReceipt(),MmReceipt.class);
             //判断空值
-            if(mmReceiptFetchDto.getReceipt().getArrivaldate() != null){
+            if(mmReceiptFetchDto.getReceipt().getArrivaldate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getArrivaldate())){
                 mmReceipt.setArrivaldate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getArrivaldate()));
             }
-            if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null){
+            if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getArrivaldate())){
                 mmReceipt.setDeparturedate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getDeparturedate()));
             }
             mmReceipt.setModifier(SecurityHelp.getUserId());

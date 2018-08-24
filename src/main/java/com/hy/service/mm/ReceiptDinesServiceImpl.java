@@ -52,7 +52,7 @@ public class ReceiptDinesServiceImpl implements ReceiptDinesService {
         List<MmReceiptDines> mmReceiptDines = DTOUtil.populateList(mmReceiptDinesDtos, MmReceiptDines.class);
         IntStream.range(0, mmReceiptDines.size()).forEach(i -> {
             mmReceiptDines.get(i).setModifier(SecurityHelp.getUserId());
-            mmReceiptDines.get(i).setDate(DateUtil.translate(mmReceiptDinesDtos.get(i).getDate()));
+            mmReceiptDines.get(i).setDate(DateUtil.breviary(mmReceiptDinesDtos.get(i).getDate()));
         });
         return mmReceiptDinesMapper.updateReceiptDines(mmReceiptDines) == mmReceiptDines.size();
     }
