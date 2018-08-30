@@ -12,10 +12,12 @@ public class MmReceipt {
     private Date arrivaldate;
     private String arrivalinfo;
     private String arrivalremark;
+    private String arrivaltype;
     private boolean sendoff;
     private Date departuredate;
     private String departureinfo;
     private String departureremark;
+    private String returntype;
     private int uid;
     private String remark;
     private String implement;
@@ -89,6 +91,22 @@ public class MmReceipt {
 
     public void setArrivalremark(String arrivalremark) {
         this.arrivalremark = arrivalremark;
+    }
+
+    public String getArrivaltype() {
+        return arrivaltype;
+    }
+
+    public void setArrivaltype(String arrivaltype) {
+        this.arrivaltype = arrivaltype;
+    }
+
+    public String getReturntype() {
+        return returntype;
+    }
+
+    public void setReturntype(String returntype) {
+        this.returntype = returntype;
     }
 
     public boolean getSendoff() {

@@ -1,5 +1,6 @@
 //回执列表
 var pushRid;
+var pushMid;
 var vm = new Vue({
         el: "",
         data: {
@@ -48,10 +49,12 @@ var vm = new Vue({
                     {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "driving", title: "是否自驾",template:'<input type="checkbox" onclick="return false"  #=driving_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "pickup", title: "派车接",template:'<input type="checkbox" onclick="return false"  #=pickup_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "arrivalType", title: "到达地点", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "arrivalDate", title: "到达日期", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "arrivalInfo", title: "到达信息", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "arrivalRemark", title: "到达备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "sendoff", title: "派车送",template:'<input type="checkbox" onclick="return false"  #=sendoff_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "returnType", title: "回程地点", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "departureDate", title: "回程日期", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "departureInfo", title: "回程信息", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "departureRemark", title: "回程备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -68,6 +71,7 @@ var vm = new Vue({
                                 var tr = $(e.target).closest("tr");
                                 var data = this.dataItem(tr);
                                 pushRid = data.id;
+                                pushMid = window.location.search.substr(4);
                                 vm.edit(data.id);
                             }
                         }, {
@@ -186,10 +190,12 @@ var vm = new Vue({
                                 btname: {type: "string", nullable: false},
                                 driving: {type: "string", nullable: false},
                                 pickup: {type: "string", nullable: false},
+                                arrivalType: {type: "string", nullable: false},
                                 arrivalDate: {type: "string", nullable: false},
                                 arrivalInfo: {type: "string", nullable: false},
                                 arrivalRemark: {type: "string", nullable: false},
                                 sendoff: {type: "string", nullable: false},
+                                returnType: {type: "string", nullable: false},
                                 departureDate: {type: "string", nullable: false},
                                 departureInfo: {type: "string", nullable: false},
                                 departureRemark: {type: "string", nullable: false},
@@ -248,6 +254,7 @@ var vm = new Vue({
                     maxmin: true,
                     content: '/mm/hzlb_update.html',
                     end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
                     }
                 });
                 layer.full(this.layItem);

@@ -18,10 +18,12 @@ public class MmReceiptInfoViewDto {
     private boolean pickup;
     private Date arrivalDate;
     private String arrivalInfo;
+    private String arrivalType;
     private String arrivalRemark;
     private boolean sendoff;
     private Date departureDate;
     private String departureInfo;
+    private String returnType;
     private String departureRemark;
     private String uname;
     private String remark;
@@ -141,6 +143,14 @@ public class MmReceiptInfoViewDto {
         this.arrivalInfo = arrivalInfo;
     }
 
+    public String getArrivalType() {
+        return arrivalType;
+    }
+
+    public void setArrivalType(String arrivalType) {
+        this.arrivalType = arrivalType;
+    }
+
     public String getArrivalRemark() {
         return arrivalRemark;
     }
@@ -171,6 +181,14 @@ public class MmReceiptInfoViewDto {
 
     public void setDepartureInfo(String departureInfo) {
         this.departureInfo = departureInfo;
+    }
+
+    public String getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
     }
 
     public String getDepartureRemark() {

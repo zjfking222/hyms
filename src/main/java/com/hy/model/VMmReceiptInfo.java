@@ -11,11 +11,13 @@ public class VMmReceiptInfo {
     private boolean pickup;
     private Date arrivalDate;
     private String arrivalInfo;
+    private String arrivalType;
     private String arrivalRemark;
     private boolean sendoff;
     private Date departureDate;
     private String departureInfo;
     private String departureRemark;
+    private String returnType;
     private String remark;
     private String implement;
     private Date modified;
@@ -88,6 +90,22 @@ public class VMmReceiptInfo {
 
     public void setArrivalInfo(String arrivalInfo) {
         this.arrivalInfo = arrivalInfo;
+    }
+
+    public String getArrivalType() {
+        return arrivalType;
+    }
+
+    public void setArrivalType(String arrivalType) {
+        this.arrivalType = arrivalType;
+    }
+
+    public String getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
     }
 
     public String getArrivalRemark() {

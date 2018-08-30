@@ -11,34 +11,41 @@
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
     <link rel="stylesheet" href="/plugins/laydate/theme/default/laydate.css">
     <style>
-        .title,.title2{
+        .title, .title2 {
             height: 38px;
             background: #333;
             color: #eee;
             font-size: 14px;
         }
-        .title span,.title2 span{
+
+        .title span, .title2 span {
             margin-left: 10px;
             line-height: 40px;
         }
-        .tb1,.tb2,.tb3{
+
+        .tb1, .tb2, .tb3 {
             margin-top: 20px;
         }
-        .tb2,.tb3{
+
+        .tb2, .tb3 {
             display: inline-block;
         }
-        .tb2{
+
+        .tb2 {
             width: 40%;
         }
-        .tb3{
+
+        .tb3 {
             margin-left: 2%;
             width: 57.5%;
         }
-        label{
+
+        label {
             line-height: 30px;
             text-align: right;
         }
-        .subtb{
+
+        .subtb {
             padding-bottom: 20px;
             border: 0.01em solid #333;
             height: 100%;
@@ -46,27 +53,31 @@
             padding-top: 20px;
             width: 100%;
         }
-        .form-line{
+
+        .form-line {
             display: table;
             width: 100%;
         }
-        .form-num{
+
+        .form-num {
             width: 20px;
             color: #555;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         }
-        .form-date{
+
+        .form-date {
             width: 100px;
             color: #555;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         }
-        select{
+
+        select {
             height: 35px;
         }
     </style>
@@ -84,67 +95,78 @@
             <div class="form-group  col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">姓名</label>
                 <div class=" col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="name" v-model="receipt.customers.name" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="name" v-model="receipt.customers.name" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4  col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">国籍</label>
                 <div class="col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="nationality" v-model="receipt.customers.nationality" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="nationality" v-model="receipt.customers.nationality" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">性别</label>
                 <div class=" col-md-4 col-sm-4 col-xs-8">
-                    <input type="text" name="sex" v-model="receipt.customers.sex" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="sex" v-model="receipt.customers.sex" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group  col-md-4 col-sm-4  col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">职务</label>
                 <div class="col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="post" v-model="receipt.customers.post" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="post" v-model="receipt.customers.post" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4 col-xs-4">企业</label>
                 <div class=" col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="fname" v-model="receipt.customers.fid.name" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="fname" v-model="receipt.customers.fid.name" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4 ">VIP</label>
                 <div class=" col-md-4 col-sm-4  col-xs-8">
-                    <input type="checkbox" name="vip" v-model="receipt.customers.vip" disabled="disabled" class="form-control" style="margin: 0px; width: 16px;">
+                    <input type="checkbox" name="vip" v-model="receipt.customers.vip" disabled="disabled"
+                           class="form-control" style="margin: 0px; width: 16px;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4 col-xs-4">手机</label>
                 <div class=" col-md-8 col-sm-8 col-xs-8">
-                    <input type="text" name="mobile" v-model="receipt.customers.mobile" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="mobile" v-model="receipt.customers.mobile" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">固话</label>
                 <div class=" col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="phone" v-model="receipt.customers.phone" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="phone" v-model="receipt.customers.phone" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">邮箱</label>
                 <div class=" col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="email" v-model="receipt.customers.email" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="email" v-model="receipt.customers.email" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">地址</label>
                 <div class=" col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="address" v-model="receipt.customers.address" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="address" v-model="receipt.customers.address" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4">备注</label>
                 <div class=" col-md-8 col-sm-8  col-xs-8">
-                    <input type="text" name="remark" v-model="receipt.customers.remark" readonly="readonly" class="form-control" style="width: 100%;">
+                    <input type="text" name="remark" v-model="receipt.customers.remark" readonly="readonly"
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
 
@@ -152,22 +174,56 @@
                 <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">负责人</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
-                        <input type="text" name="remark" v-model="receipt.lastname" readonly="readonly" class="form-control" style="width: 100%;">
+                        <input type="text" name="remark" v-model="receipt.lastname" readonly="readonly"
+                               class="form-control" style="width: 100%;">
                     </div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">回执备注</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
-                        <textarea type="text" name="name" v-model="receipt.remark" class="form-control" rows="3" style="resize: none; width: 100%;"></textarea>
+                        <textarea type="text" name="name" v-model="receipt.remark" class="form-control" rows="3"
+                                  style="resize: none; width: 100%;"></textarea>
                     </div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">落实情况</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
-                        <textarea type="text" name="name" v-model="receipt.implement" rows="3" class="form-control" style="resize: none; width: 100%;"></textarea>
+                        <textarea type="text" name="name" v-model="receipt.implement" rows="3" class="form-control"
+                                  style="resize: none; width: 100%;"></textarea>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="tb1">
+        <div class="title">
+            <span>
+                班车信息
+            </span>
+        </div>
+        <div>
+            <table class="table2 table">
+                <thead>
+                <tr>
+                    <th scope="col">起点</th>
+                    <th scope="col">终点</th>
+                    <th scope="col">行驶时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="b in bus">
+                    <td>
+                        <span>{{b.start}}</span>
+                    </td>
+                    <td>
+                        <span>{{b.end}}</span>
+                    </td>
+                    <td>
+                        <span>{{b.runtime}}</span>
+                    </td>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -182,7 +238,8 @@
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">自驾</label>
                     <div class=" col-md-4 col-sm-4  col-xs-8">
-                        <input type="checkbox" v-model="receipt.driving" name="driving" class="form-control" style="margin: 0px; width: 16px;">
+                        <input type="checkbox" v-model="receipt.driving" name="driving" class="form-control"
+                               style="margin: 0px; width: 16px;">
                     </div>
                 </div>
             </div>
@@ -191,36 +248,41 @@
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">派车接</label>
                     <div class=" col-md-4 col-sm-4  col-xs-8">
-                        <input type="checkbox" v-model="receipt.pickup" name="pickup" class="form-control" style="margin: 0px; width: 16px;">
+                        <input type="checkbox" v-model="receipt.pickup" name="pickup" class="form-control"
+                               style="margin: 0px; width: 16px;">
                     </div>
                 </div>
                 <div class="form-group  col-md-4 col-sm-4 ">
-                    <label for="arrivaltype" class="control-label col-md-4 col-sm-4  col-xs-4">到达方式</label>
-                    <div class=" col-md-5 col-sm-8  col-xs-8">
-                        <select name="arrivaltype" id="arrivaltype" class="form-control" style="width: 100%;" >
+                    <label for="arrivaltype" class="control-label col-md-4 col-sm-4  col-xs-4">到达地点</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <select name="arrivaltype" id="arrivaltype" class="form-control" style="width: 100%;">
                             <option value="" selected></option>
-                            <option value="自驾">自驾</option>
-                            <option value="高铁">高铁</option>
-                            <option value="飞机">飞机</option>
+                            <option value="桐乡高铁站">桐乡高铁站</option>
+                            <option value="杭州萧山机场">杭州萧山机场</option>
+                            <option value="上海虹桥机场">上海虹桥机场</option>
+                            <option value="上海浦东机场">上海浦东机场</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group  col-md-4 col-sm-4 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">到达日期</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
-                        <input type="text" id="arrivaldate" name="arrivaldate" class="form-control" style="width: 100%;">
+                        <input type="text" id="arrivaldate" name="arrivaldate" class="form-control"
+                               style="width: 100%;">
                     </div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">到达信息</label>
                     <div class="col-md-8 col-sm-8  col-xs-8">
-                        <input type="text" v-model="receipt.arrivalinfo" name="arrivalinfo" class="form-control" style="width: 100%;">
+                        <input type="text" v-model="receipt.arrivalinfo" name="arrivalinfo" class="form-control"
+                               style="width: 100%;">
                     </div>
                 </div>
                 <div class="form-group col-md-8 col-sm-8 col-xs-12">
                     <label class="control-label col-md-2 col-sm-2  col-xs-2">到达备注</label>
                     <div class="col-md-10 col-sm-10  col-xs-10">
-                        <textarea type="text" v-model="receipt.arrivalremark" name="arrivalremark" class="form-control" style="width: 100%;resize: none"></textarea>
+                        <textarea type="text" v-model="receipt.arrivalremark" name="arrivalremark" class="form-control"
+                                  style="width: 100%;resize: none"></textarea>
                     </div>
                 </div>
             </div>
@@ -228,36 +290,47 @@
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">派车送</label>
                     <div class=" col-md-4 col-sm-4  col-xs-8">
-                        <input type="checkbox" v-model="receipt.sendoff" name="sendoff" class="form-control" style="margin: 0px; width: 16px;">
+                        <input type="checkbox" v-model="receipt.sendoff" name="sendoff" class="form-control"
+                               style="margin: 0px; width: 16px;">
                     </div>
                 </div>
                 <div class="form-group  col-md-4 col-sm-4 ">
-                    <label for="returntype" class="control-label col-md-4 col-sm-4  col-xs-4">回程方式</label>
-                    <div class=" col-md-5 col-sm-8  col-xs-8">
-                        <select name="returntype" id="returntype" class="form-control" style="width: 100%;" >
+                    <label for="returntype" class="control-label col-md-4 col-sm-4  col-xs-4">回程地点</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <select name="returntype" id="returntype" class="form-control" style="width: 100%;">
                             <option value="" selected></option>
-                            <option value="自驾">自驾</option>
-                            <option value="高铁">高铁</option>
-                            <option value="飞机">飞机</option>
+                            <option value="桐乡高铁站">桐乡高铁站</option>
+                            <option value="杭州萧山机场">杭州萧山机场</option>
+                            <option value="上海虹桥机场">上海虹桥机场</option>
+                            <option value="上海浦东机场">上海浦东机场</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group  col-md-4 col-sm-4 ">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">回程日期</label>
                     <div class=" col-md-8 col-sm-8  col-xs-8">
-                        <input type="text" id="departuredate" name="departuredate" class="form-control" style="width: 100%;">
+                        <input type="text" id="departuredate" name="departuredate" class="form-control"
+                               style="width: 100%;">
                     </div>
                 </div>
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">回程信息</label>
                     <div class="col-md-8 col-sm-8  col-xs-8">
-                        <input type="text" v-model="receipt.departureinfo" name="departureinfo" class="form-control" style="width: 100%;">
+                        <input type="text" v-model="receipt.departureinfo" name="departureinfo" class="form-control"
+                               style="width: 100%;">
                     </div>
                 </div>
                 <div class="form-group col-md-8 col-sm-8 col-xs-12">
                     <label class="control-label col-md-2 col-sm-2  col-xs-2">回程备注</label>
                     <div class="col-md-10 col-sm-10  col-xs-10">
-                        <textarea type="text" v-model="receipt.departureremark" name="departureremark" class="form-control" style="resize:none; width: 100%;"></textarea>
+                        <textarea type="text" v-model="receipt.departureremark" name="departureremark"
+                                  class="form-control" style="resize:none; width: 100%;"></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-8 col-sm-8 col-xs-12">
+                    <label class="control-label col-md-2 col-sm-2  col-xs-2">班车提醒</label>
+                    <div>
+                        <span  style=" display: block; margin-left: 118px; margin-top: 5px">回程日期：桐乡高铁站请至少提前1小时；杭州萧山机场请至少提前3小时；上海虹桥、浦东机场请至少提前4小时</span>
                     </div>
                 </div>
             </div>

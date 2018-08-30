@@ -24,7 +24,8 @@ var vm = new Vue({
         receipt:'',
         hotel:'',
         postData:'',
-        validator: null
+        validator: null,
+        bus:'',
     },
     created:function () {
         var dataSource = FetchData({rid:parent.pushRid},'POST','/mm/receipt/getReceiptDetail',false).data;
@@ -33,7 +34,7 @@ var vm = new Vue({
         this.agenda = dataSource.agenda;
         this.stay = dataSource.stay;
         this.receipt = dataSource.receipt;
-
+        this.bus = FetchData({mid:parent.pushMid},'POST','/mm/bus/getInfo',false).data;
 
 
     },
@@ -65,11 +66,13 @@ var vm = new Vue({
                     cid:vm.receipt.customers.id,
                     driving:vm.receipt.driving,
                     pickup:vm.receipt.pickup,
+                    arrivaltype:$('#arrivaltype').val(),
                     // arrivaldate:vm.receipt.arrivaldate,
                     arrivaldate:$('#arrivaldate').val(),
                     arrivalinfo:vm.receipt.arrivalinfo,
                     arrivalremark:vm.receipt.arrivalremark,
                     sendoff:vm.receipt.sendoff,
+                    returntype:$('#returntype').val(),
                     // departuredate:vm.receipt.departuredate,
                     departuredate:$('#departuredate').val(),
                     departureinfo:vm.receipt.departureinfo,
@@ -89,6 +92,7 @@ var vm = new Vue({
                     parent.layer.msg('修改成功') :
                     parent.layer.msg('修改失败');
                 parent.layer.close(index);
+                $("#grid").data("kendoGrid").dataSource.read()
             }
             else {
                 parent.layer.msg('无法提交,请检查格式');
@@ -108,5 +112,8 @@ $(function () {
     //         }
     //     })
     // }
+    $('#arrivaltype').val(vm.receipt.arrivaltype);
+
+    $('#returntype').val(vm.receipt.returntype);
 
 });

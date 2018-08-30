@@ -60,11 +60,13 @@
             pickup = #{pickup},
             arrivaldate = #{arrivaldate},
             arrivalinfo = #{arrivalinfo},
+            arrivaltype =#{arrivaltype},
             arrivalremark = #{arrivalremark},
             sendoff = #{sendoff},
             departuredate = #{departuredate},
             departureinfo = #{departureinfo},
             departureremark = #{departureremark},
+            returntype = #{returntype},
             remark = #{remark},
             implement = #{implement},
             modifier = #{modifier}

@@ -24,7 +24,8 @@ var vm = new Vue({
         receipt:'',
         hotel:'',
         postData:'',
-        validator: null
+        validator: null,
+        bus:'',
     },
     created:function () {
         var dataSource = FetchData({rid:parent.pushRid},'POST','/mm/receipt/getReceiptDetail',false).data;
@@ -33,10 +34,13 @@ var vm = new Vue({
         this.agenda = dataSource.agenda;
         this.stay = dataSource.stay;
         this.receipt = dataSource.receipt;
+        this.bus = FetchData({mid:parent.pushMid},'POST','/mm/bus/getInfo',false).data;
 
 
 
     },
+
+
     mounted:function () {
         var errorTemplate = '<div class="k-widget k-tooltip k-tooltip-validation"' + 'style="margin: 0.6em -1.8em"><span class="k-icon k-i-warning"> </span>' + '#=message#<div class="k-callout k-callout-n"></div></div>'
 
@@ -65,13 +69,13 @@ var vm = new Vue({
                     cid:vm.receipt.customers.id,
                     driving:vm.receipt.driving,
                     pickup:vm.receipt.pickup,
-                    arrivaltype:vm.receipt.arrivaltype,
+                    arrivaltype:$('#arrivaltype').val(),
                     // arrivaldate:vm.receipt.arrivaldate,
                     arrivaldate:$('#arrivaldate').val(),
                     arrivalinfo:vm.receipt.arrivalinfo,
                     arrivalremark:vm.receipt.arrivalremark,
                     sendoff:vm.receipt.sendoff,
-                    returntype:vm.receipt.returntype,
+                    returntype:$('#returntype').val(),
                     // departuredate:vm.receipt.departuredate,
                     departuredate:$('#departuredate').val(),
                     departureinfo:vm.receipt.departureinfo,
@@ -110,5 +114,8 @@ $(function () {
             }
         })
     }
+    $('#arrivaltype').val(vm.receipt.arrivaltype);
+
+    $('#returntype').val(vm.receipt.returntype);
 
 });
