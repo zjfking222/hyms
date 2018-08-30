@@ -53,7 +53,7 @@ var vm = new Vue({
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加客户</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.submit()"><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
-                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.savaAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.saveAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
 
                 }],
                 columns: [
@@ -255,7 +255,7 @@ var vm = new Vue({
                 // vm.dataSource.read()
                 $("#grid").data("kendoGrid").dataSource.read()
             },
-            savaAsExcel: function () {
+            saveAsExcel: function () {
                 $("#grid").data("kendoGrid").saveAsExcel();
             },
             edit:function (id) {
@@ -299,9 +299,10 @@ var vm = new Vue({
                     ids[j] = { id: setList[j].id }
                 }
                 FetchData(JSON.stringify(ids),'POST','/mm/receipt/setState',false, true).code === 0 ?
-                    parent.layer.msg('添加成功') :
-                    parent.layer.msg('添加失败');
-                parent.location.reload();
+                    layer.msg('提交成功') :
+                    layer.msg('提交失败');
+                $("#grid").data("kendoGrid").dataSource.read();
+                $("#grid").data("kendoGrid").clearSelection();
             },
             delete:function (id) {
                 layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},

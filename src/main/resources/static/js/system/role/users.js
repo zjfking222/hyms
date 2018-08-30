@@ -135,6 +135,7 @@ var vm = new Vue({
                 area: ['450px', '600px'],
                 fixed: false, //不固定
                 maxmin: true,
+                shadeClose: true,
                 content: '/system/role/users_update.html',
                 end: function () {
                     $("#grid").data("kendoGrid").dataSource.read()
