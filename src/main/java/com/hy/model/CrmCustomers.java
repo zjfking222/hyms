@@ -13,7 +13,7 @@ public class CrmCustomers {
     private String email;
     private int btid;
     private int fid;
-    private boolean vip;
+    private int vip;
     private String remark;
     private int creater;
     private String created;
@@ -109,11 +109,11 @@ public class CrmCustomers {
         this.fid = fid;
     }
 
-    public boolean getVip() {
+    public int getVip() {
         return vip;
     }
 
-    public void setVip(boolean vip) {
+    public void setVip(int vip) {
         this.vip = vip;
     }
 

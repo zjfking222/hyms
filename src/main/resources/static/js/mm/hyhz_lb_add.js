@@ -60,7 +60,7 @@ var vm = new Vue({
                     {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '60px'},
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "vip", title: "贵宾",template:'<input type="checkbox" onclick="return false"  #=vip_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     // {field: "btid", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     ]
             });
@@ -86,11 +86,11 @@ var vm = new Vue({
                                 success: function (result) {
                                     if (result.code === 0) {
 
-                                        for(var i = 0 ; i< result.data.data.length ; i++){
-                                            result.data.data[i].vip?
-                                                result.data.data[i].vip_display = 'checked':
-                                                result.data.data[i].vip_display = '';
-                                        }
+                                        // for(var i = 0 ; i< result.data.data.length ; i++){
+                                        //     result.data.data[i].vip?
+                                        //         result.data.data[i].vip_display = 'checked':
+                                        //         result.data.data[i].vip_display = '';
+                                        // }
 
                                         options.success({data: result.data.data, total: result.data.total});
                                     }

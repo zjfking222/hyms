@@ -26,7 +26,7 @@ $(function () {
         $('#email').val(data.email);
         $('#btid').val(data.btid);
         $('#fid').val(data.fid);
-        $('#vip').val(data.vip.toString());
+        $('#vip').val(data.vip);
         $('#remark').val(data.remark);
     }else {
 
@@ -44,7 +44,7 @@ $(function () {
                 email: $('#email').val(),
                 btid: $('#btid').val(),
                 fid: $('#fid').val() === '' || $('#fid').val() === null ? 0:$('#fid').val(),
-                vip: $('#vip').val()  === 'true',
+                vip: $('#vip').val(),
                 remark: $('#remark').val()
             };
 
@@ -63,12 +63,12 @@ $(function () {
                 // else {
                 //     postData.sex_display = "女";
                 // }
-                if($('#vip').val()  === 'true'){
-                    postData.vip_display = 'checked';
-                }
-                else {
-                    postData.vip_display = '';
-                }
+                // if($('#vip').val()  === 'true'){
+                //     postData.vip_display = 'checked';
+                // }
+                // else {
+                //     postData.vip_display = '';
+                // }
 
 
                 parent.vm.dataSource.add(postData);
@@ -93,7 +93,7 @@ $(function () {
                 email: $('#email').val(),
                 btid: $('#btid').val(),
                 fid: $('#fid').val() === ''|| $('#fid').val() === null? 0:$('#fid').val(),
-                vip: $('#vip').val()  === 'true',
+                vip: $('#vip').val(),
                 remark: $('#remark').val()
             };
             if(FetchData(postData,'POST','/customer/set',false).code === 0){
@@ -109,12 +109,6 @@ $(function () {
                 // else {
                 //     postData.sex_display = "女";
                 // }
-                if($('#vip').val()  === 'true'){
-                    postData.vip_display = 'checked';
-                }
-                else {
-                    postData.vip_display = '';
-                }
 
                 parent.vm.dataSource.pushUpdate(postData);
             }else {

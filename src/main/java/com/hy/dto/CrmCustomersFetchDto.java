@@ -13,7 +13,7 @@ public class CrmCustomersFetchDto {
     private String email;
     private int btid;
     private int fid;
-    private boolean vip;
+    private int vip;
     private String remark;
 
     public int getId() {
@@ -104,11 +104,11 @@ public class CrmCustomersFetchDto {
         this.fid = fid;
     }
 
-    public boolean getVip() {
+    public int getVip() {
         return vip;
     }
 
-    public void setVip(boolean vip) {
+    public void setVip(int vip) {
         this.vip = vip;
     }
 

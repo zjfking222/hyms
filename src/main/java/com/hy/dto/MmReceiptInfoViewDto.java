@@ -12,7 +12,7 @@ public class MmReceiptInfoViewDto {
     private String post;
     private String mobile;
     private String phone;
-    private boolean vip;
+    private int vip;
     private String btname;
     private boolean driving;
     private boolean pickup;
@@ -95,11 +95,11 @@ public class MmReceiptInfoViewDto {
         this.phone = phone;
     }
 
-    public boolean getVip() {
+    public int getVip() {
         return vip;
     }
 
-    public void setVip(boolean vip) {
+    public void setVip(int vip) {
         this.vip = vip;
     }
 

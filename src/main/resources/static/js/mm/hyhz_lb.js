@@ -68,7 +68,7 @@ var vm = new Vue({
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "vip", title: "贵宾",template:'<input type="checkbox" onclick="return false"  #=vip_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "driving", title: "是否自驾",template:'<input type="checkbox" onclick="return false"  #=driving_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "pickup", title: "派车接",template:'<input type="checkbox" onclick="return false"  #=pickup_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
@@ -156,9 +156,9 @@ var vm = new Vue({
                                     if (result.code === 0) {
                                         //数据转化，checked属性和性别属性，用于显示模板
                                         for(var i = 0 ; i< result.data.data.length ; i++){
-                                            result.data.data[i].vip?
-                                                result.data.data[i].vip_display = 'checked':
-                                                result.data.data[i].vip_display = '';
+                                            // result.data.data[i].vip?
+                                            //     result.data.data[i].vip_display = 'checked':
+                                            //     result.data.data[i].vip_display = '';
                                             result.data.data[i].sendoff?
                                                 result.data.data[i].sendoff_display = 'checked':
                                                 result.data.data[i].sendoff_display = '';

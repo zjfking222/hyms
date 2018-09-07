@@ -13,7 +13,7 @@ public class VCrmCustomerFirm {
     private String remark;
     private int creater;
     private String fname;
-    private boolean vip;
+    private int vip;
     private int btid;
     private String btname;
     private int domain;
@@ -114,11 +114,11 @@ public class VCrmCustomerFirm {
         this.fname = fname;
     }
 
-    public boolean getVip() {
+    public int getVip() {
         return vip;
     }
 
-    public void setVip(boolean vip) {
+    public void setVip(int vip) {
         this.vip = vip;
     }
 

@@ -31,7 +31,7 @@ public class VMmReceiptInfo {
     private String nationality;
     private String mobile;
     private String phone;
-    private boolean vip;
+    private int vip;
     private String fname;
     private String btname;
     private int btid;
@@ -252,11 +252,11 @@ public class VMmReceiptInfo {
         this.phone = phone;
     }
 
-    public boolean getVip() {
+    public int getVip() {
         return vip;
     }
 
-    public void setVip(boolean vip) {
+    public void setVip(int vip) {
         this.vip = vip;
     }
 

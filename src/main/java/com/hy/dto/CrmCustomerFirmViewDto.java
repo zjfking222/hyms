@@ -9,7 +9,7 @@ public class CrmCustomerFirmViewDto {
     private String nationality;
     private String post;
     private String mobile;
-    private boolean vip;
+    private int vip;
     private int btid;
 
     public int getId() {
@@ -68,11 +68,11 @@ public class CrmCustomerFirmViewDto {
         this.mobile = mobile;
     }
 
-    public boolean getVip() {
+    public int getVip() {
         return vip;
     }
 
-    public void setVip(boolean vip) {
+    public void setVip(int vip) {
         this.vip = vip;
     }
 

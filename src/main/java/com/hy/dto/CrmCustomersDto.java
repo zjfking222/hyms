@@ -12,10 +12,10 @@ public class CrmCustomersDto {
     private String email;
     private CrmBusinesstypeDto btid;
     private CrmFirmsFetchDto fid;
-    private boolean vip;
+    private int vip;
     private String remark;
 
-    public CrmCustomersDto(int id, String name, String post, String nationality, String address, String mobile, String phone, String email, CrmBusinesstypeDto btid, CrmFirmsFetchDto fid, boolean vip, String remark) {
+    public CrmCustomersDto(int id, String name, String post, String nationality, String address, String mobile, String phone, String email, CrmBusinesstypeDto btid, CrmFirmsFetchDto fid, int vip, String remark) {
         this.id = id;
         this.name = name;
         this.post = post;
@@ -121,11 +121,11 @@ public class CrmCustomersDto {
         this.fid = fid;
     }
 
-    public boolean getVip() {
+    public int getVip() {
         return vip;
     }
 
-    public void setVip(boolean vip) {
+    public void setVip(int vip) {
         this.vip = vip;
     }
 
