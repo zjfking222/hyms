@@ -37,32 +37,21 @@ var vm = new Vue({
 
                 }],
                 columns: [
-                    {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '300px'},
-                    {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '260px'},
+                    {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "driving", title: "是否自驾",template:'<input type="checkbox" onclick="return false"  #=driving_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "pickup", title: "派车接",template:'<input type="checkbox" onclick="return false"  #=pickup_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "arrivalType", title: "到达地点", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "arrivalDate", title: "到达日期", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "arrivalInfo", title: "到达信息", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "arrivalRemark", title: "到达备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "sendoff", title: "派车送",template:'<input type="checkbox" onclick="return false"  #=sendoff_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "returnType", title: "回程地点", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "departureDate", title: "回程日期", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "departureInfo", title: "回程信息", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "departureRemark", title: "回程备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "uname", title: "负责人", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
+                    {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
+                    {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
+                    {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
+                    {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '70px'},
+                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
+                    {field: "uname", title: "负责人", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "implement", title: "落实情况", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "implement", title: "落实情况", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "modified", title: "修改时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "state", title: "已提交",template:'<input type="checkbox" onclick="return false"  #=state_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "state", title: "已提交",template:'<input type="checkbox" onclick="return false"  #=state_display#/>', headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {
                         command: [{
                             name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -84,7 +73,7 @@ var vm = new Vue({
                 var row = grid.data("kendoGrid").select();
                 var data = grid.data("kendoGrid").dataItem(row);
                 pushRid = data.id;
-                layer.open({
+                this.layItem=layer.open({
                     title: '回执详情',
                     type: 2,
                     area: ['1050px', '650px'],
@@ -94,6 +83,7 @@ var vm = new Vue({
                     end: function () {
                     }
                 });
+                layer.full(this.layItem);
             });
         },
         methods: {
@@ -124,15 +114,15 @@ var vm = new Vue({
                                             // result.data.data[i].sex?
                                             //     result.data.data[i].sex_display = '男':
                                             //     result.data.data[i].sex_display = '女';
-                                            result.data.data[i].sendoff?
-                                                result.data.data[i].sendoff_display = 'checked':
-                                                result.data.data[i].sendoff_display = '';
-                                            result.data.data[i].pickup?
-                                                result.data.data[i].pickup_display ='checked':
-                                                result.data.data[i].pickup_display ='';
-                                            result.data.data[i].driving?
-                                                result.data.data[i].driving_display ='checked':
-                                                result.data.data[i].driving_display ='';
+                                            // result.data.data[i].sendoff?
+                                            //     result.data.data[i].sendoff_display = 'checked':
+                                            //     result.data.data[i].sendoff_display = '';
+                                            // result.data.data[i].pickup?
+                                            //     result.data.data[i].pickup_display ='checked':
+                                            //     result.data.data[i].pickup_display ='';
+                                            // result.data.data[i].driving?
+                                            //     result.data.data[i].driving_display ='checked':
+                                            //     result.data.data[i].driving_display ='';
                                             result.data.data[i].state?
                                                 result.data.data[i].state_display = 'checked':
                                                 result.data.data[i].state_display = '';
@@ -188,17 +178,6 @@ var vm = new Vue({
                                 phone: {type: "string", nullable: false},
                                 vip: {type: "string", nullable: false},
                                 btname: {type: "string", nullable: false},
-                                driving: {type: "string", nullable: false},
-                                pickup: {type: "string", nullable: false},
-                                arrivalType: {type: "string", nullable: false},
-                                arrivalDate: {type: "string", nullable: false},
-                                arrivalInfo: {type: "string", nullable: false},
-                                arrivalRemark: {type: "string", nullable: false},
-                                sendoff: {type: "string", nullable: false},
-                                returnType: {type: "string", nullable: false},
-                                departureDate: {type: "string", nullable: false},
-                                departureInfo: {type: "string", nullable: false},
-                                departureRemark: {type: "string", nullable: false},
                                 uname: {type: "string", nullable: false},
                                 remark: {type: "string", nullable: false},
                                 implement: {type: "string", nullable: false},

@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
-                <label class="control-label col-md-4 col-sm-4  col-xs-4 ">VIP等级</label>
+                <label class="control-label col-md-4 col-sm-4  col-xs-4 ">VIP</label>
                 <div class=" col-md-4 col-sm-4  col-xs-8">
                     <input type="text" name="vip" v-model="receipt.customers.vip" readonly="readonly"
                            class="form-control" style="margin: 0px; width: 40px;">
@@ -235,9 +235,9 @@
         </div>
         <div class="subtb">
             <div class="form-line">
-                <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">自驾</label>
-                    <div class=" col-md-4 col-sm-4  col-xs-8">
+                    <div class=" col-md-4 col-sm-4  col-xs-4">
                         <input type="checkbox" v-model="receipt.driving" name="driving" class="form-control"
                                style="margin: 0px; width: 16px;">
                     </div>
@@ -245,9 +245,9 @@
             </div>
             <div class="form-line">
 
-                <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">派车接</label>
-                    <div class=" col-md-4 col-sm-4  col-xs-8">
+                    <div class=" col-md-4 col-sm-4  col-xs-4">
                         <input type="checkbox" v-model="receipt.pickup" name="pickup" class="form-control"
                                style="margin: 0px; width: 16px;">
                     </div>
@@ -271,14 +271,14 @@
                                style="width: 100%;">
                     </div>
                 </div>
-                <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">到达信息</label>
                     <div class="col-md-8 col-sm-8  col-xs-8">
                         <input type="text" v-model="receipt.arrivalinfo" name="arrivalinfo" class="form-control"
                                style="width: 100%;">
                     </div>
                 </div>
-                <div class="form-group col-md-8 col-sm-8 col-xs-12">
+                <div class="form-group col-md-8 col-sm-8 col-xs-8">
                     <label class="control-label col-md-2 col-sm-2  col-xs-2">到达备注</label>
                     <div class="col-md-10 col-sm-10  col-xs-10">
                         <textarea type="text" v-model="receipt.arrivalremark" name="arrivalremark" class="form-control"
@@ -287,9 +287,9 @@
                 </div>
             </div>
             <div class="form-line">
-                <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">派车送</label>
-                    <div class=" col-md-4 col-sm-4  col-xs-8">
+                    <div class=" col-md-4 col-sm-4  col-xs-4">
                         <input type="checkbox" v-model="receipt.sendoff" name="sendoff" class="form-control"
                                style="margin: 0px; width: 16px;">
                     </div>
@@ -313,24 +313,24 @@
                                style="width: 100%;">
                     </div>
                 </div>
-                <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
                     <label class="control-label col-md-4 col-sm-4  col-xs-4">回程信息</label>
                     <div class="col-md-8 col-sm-8  col-xs-8">
                         <input type="text" v-model="receipt.departureinfo" name="departureinfo" class="form-control"
                                style="width: 100%;">
                     </div>
                 </div>
-                <div class="form-group col-md-8 col-sm-8 col-xs-12">
+                <div class="form-group col-md-8 col-sm-8 col-xs-8">
                     <label class="control-label col-md-2 col-sm-2  col-xs-2">回程备注</label>
                     <div class="col-md-10 col-sm-10  col-xs-10">
                         <textarea type="text" v-model="receipt.departureremark" name="departureremark"
                                   class="form-control" style="resize:none; width: 100%;"></textarea>
                     </div>
                 </div>
-                <div class="form-group col-md-8 col-sm-8 col-xs-12">
+                <div class="form-group col-md-12 col-sm-8 col-xs-12" style="margin-left:-6%;margin-top: 7px">
                     <label class="control-label col-md-2 col-sm-2  col-xs-2">班车提醒</label>
                     <div>
-                        <span  style=" display: block; margin-left: 118px; margin-top: 5px">回程日期：桐乡高铁站请至少提前1小时；杭州萧山机场请至少提前3小时；上海虹桥、浦东机场请至少提前4小时</span>
+                        <span  style=" display: block; margin-left: 118px; margin-top: 5px">&nbsp;&nbsp;&nbsp;&nbsp;回程日期：桐乡高铁站请至少提前1小时；杭州萧山机场请至少提前3小时；上海虹桥、浦东机场请至少提前4小时</span>
                     </div>
                 </div>
             </div>

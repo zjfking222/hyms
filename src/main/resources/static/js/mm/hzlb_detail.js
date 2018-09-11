@@ -17,13 +17,15 @@ new Vue({
     data:{
         agenda:'',
         dines:'',
-        stay:''
+        stay:'',
+        receipt:''
     },
     created:function () {
         var dataSource = FetchData({rid:parent.pushRid},'POST','/receipt/getReceiptDetail',false).data;
         this.dines = dataSource.dines;
         this.agenda = dataSource.agenda;
         this.stay = dataSource.stay;
+        this.receipt = dataSource.receipt;
     }
 });
 
