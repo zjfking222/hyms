@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.CrmCustomersMapper">
+    <insert id="insertCrmCustomer" parameterType="com.hy.model.CrmCustomers">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO crm_customers
+        (name, post, nationality, address, sex, mobile, phone, email, btid, fid, vip, remark, creater, modifier, domain)
+        VALUES
+        (#{name}, #{post}, #{nationality}, #{address}, #{sex}, #{mobile}, #{phone}, #{email}, #{btid}, #{fid},
+        #{vip}, #{remark}, #{creater}, #{modifier}, #{domain})
+    </insert>
+    <update id="updateCrmCustomer" parameterType="com.hy.model.CrmCustomers">
+        UPDATE crm_customers SET
+            name = #{name},
+            post = #{post},
+            nationality = #{nationality},
+            address = #{address},
+            sex = #{sex},
+            mobile = #{mobile},
+            phone = #{phone},
+            email = #{email},
+            btid = #{btid},
+            fid = #{fid},
+            vip = #{vip},
+            remark = #{remark},
+            modifier = #{modifier}
+        where id = #{id}
+    </update>
+    <delete id="deleteCrmCustomer">
+        DELETE FROM crm_customers WHERE id = #{id}
+    </delete>
+    <select id="selectCrmCustomer" resultType="com.hy.model.CrmCustomers">
+        SELECT * FROM crm_customers
+        WHERE EXISTS
+        (select 1 FROM crm_businesstype_user
+        WHERE crm_customers.btid = crm_businesstype_user.btid
+        AND crm_businesstype_user.uid = #{uid}
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR address LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%')
+            OR nationality LIKE concat('%',#{value},'%'))
+        </if>)
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectCrmCustomerTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM crm_customers
+        WHERE EXISTS
+        (SELECT 1 FROM crm_businesstype_user
+        WHERE crm_customers.btid = crm_businesstype_user.btid
+        AND crm_businesstype_user.uid = #{uid}
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR address LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%')
+            OR nationality LIKE concat('%',#{value},'%'))
+        </if>)
+    </select>
+    <select id="seleCrmCustomerById" resultType="com.hy.model.CrmCustomers">
+        SELECT * FROM crm_customers WHERE id = #{id}
+    </select>
+
+
+    <select id="selectCrmCustomerByUid" resultType="com.hy.model.VCrmCustomerFirm">
+        SELECT
+        c.*
+        FROM
+        v_crm_customer_firm c
+        WHERE EXISTS
+        ( SELECT 1 FROM crm_businesstype_user bt WHERE c.btid = bt.btid
+        AND bt.uid = #{uid})
+        AND NOT EXISTS
+        ( SELECT 1 FROM mm_receipt d WHERE d.cid=c.id AND mid = #{mid})
+
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectCrmCustomerByUidTotal" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        v_crm_customer_firm c
+        WHERE EXISTS
+        ( SELECT 1 FROM crm_businesstype_user bt WHERE c.btid = bt.btid
+        AND bt.uid = #{uid})
+        AND NOT EXISTS
+        ( SELECT 1 FROM mm_receipt d WHERE d.cid=c.id AND mid = #{mid})
+
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+    </select>
+</mapper>

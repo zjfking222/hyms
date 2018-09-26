@@ -53,7 +53,7 @@ public interface CanteenService {
      * @param name 关键词
      * @return List<CanteenDto>
      */
-    List<CanteenDto> getCanteenBySearchName(String name);
+    List<CanteenDto> getCanteenBySearchName(String name, String state);
 
     CanteenDto getCanteenById(int id);
 }

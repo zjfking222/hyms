@@ -12,6 +12,10 @@ public class SecurityHelp {
         return hrmResource;
     }
 
+    public static int getDepartmentId(){
+        return getUserInfo().getDepartmentid();
+    }
+
     public static int getUserId() {
         return getUserInfo().getId();
     }

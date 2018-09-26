@@ -48,6 +48,7 @@ var vm = new Vue({
                 area: ['700px', '600px'],
                 fixed: false, //不固定
                 maxmin: true,
+                shadeClose: true,
                 content: '/system/role/roles_update.html',
                 end: function () {
                     vm.data1 = dataSource()
@@ -65,6 +66,7 @@ var vm = new Vue({
                 area: ['700px', '600px'],
                 fixed: false, //不固定
                 maxmin: true,
+                shadeClose: true,
                 content: '/system/role/roles_update.html',
                 end: function () {
                     vm.data1 = dataSource()

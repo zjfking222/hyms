@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.BiHotelMapper">
+    <select id="selectBiHotel" resultType="com.hy.model.BiHotel">
+        SELECT *
+        FROM bi_hotel
+    </select>
+    <insert id="insertBiHotel" parameterType="com.hy.model.BiHotel">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into bi_hotel
+        (id, name, phone, address, contacter, cmobile, cphone, email, star, remark, creater, modifier)
+        values
+            (#{id}, #{name}, #{phone}, #{address}, #{contacter}, #{cmobile}, #{cphone}, #{email}, #{star}, #{remark},
+                    #{creater}, #{modifier})
+    </insert>
+    <select id="selectListBiHotel" resultType="com.hy.model.BiHotel">
+        select *
+        from bi_hotel
+        order by id
+        limit #{startLine}, #{pageSize}
+    </select>
+    <select id="selectCountBiHotel" resultType="java.lang.Integer">
+        select count(1)
+        from bi_hotel
+    </select>
+    <update id="updateBiHotel" parameterType="com.hy.model.BiHotel">
+        update bi_hotel
+        set name = #{name}, phone = #{phone}, address = #{address}, contacter = #{contacter}, cmobile = #{cmobile},
+            cphone = #{cphone}, email = #{email}, star = #{star}, remark = #{remark}, modifier = #{modifier}
+        where id = #{id}
+    </update>
+    <delete id="deleteBiHotel" parameterType="com.hy.model.BiHotel">
+        delete from bi_hotel
+        where id=#{id}
+    </delete>
+    <select id="selectAllBiHotel" resultType="com.hy.model.BiHotel">
+        select *
+        from bi_hotel
+        where 1=1
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR phone LIKE concat('%',#{value},'%')
+            OR address LIKE concat('%',#{value},'%')
+            OR contacter LIKE concat('%',#{value},'%')
+            OR cmobile LIKE concat('%',#{value},'%')
+            OR cphone LIKE concat('%',#{value},'%')
+            OR email LIKE concat('%',#{value},'%')
+            OR star LIKE concat('%',#{value},'%')
+            OR remark LIKE concat('%',#{value},'%'))
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectTotalBiHotel" resultType="java.lang.Integer">
+        select count(1)
+        from bi_hotel
+        where 1=1
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR phone LIKE concat('%',#{value},'%')
+            OR address LIKE concat('%',#{value},'%')
+            OR contacter LIKE concat('%',#{value},'%')
+            OR cmobile LIKE concat('%',#{value},'%')
+            OR cphone LIKE concat('%',#{value},'%')
+            OR email LIKE concat('%',#{value},'%')
+            OR star LIKE concat('%',#{value},'%')
+            OR remark LIKE concat('%',#{value},'%'))
+        </if>
+    </select>
+</mapper>

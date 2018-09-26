@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新用户</title>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 380px ; margin: 10px auto">
+<div id="users">
+    <div class="form-group">
+        <label for="search-info">搜索用户名称</label>
+        <div class="input-group" style="width: 250px!important;text-align: left">
+            <input class="form-control" placeholder="输入搜索信息" style="display:inline-block!important;"
+                   id="search-info">
+            <span class="input-group-addon" style="background: white;">
+              <a style="color: black!important;width: 50px!important;" href="javascript:;" id="search" class="btn-block">搜索</a>
+            </span>
+        </div>
+        <a id="submit" class="btn btn-success" @click="onSubmit()" style="width:80px;position:absolute;right:50px;top:35px;">保&nbsp;&nbsp;&nbsp;存</a>
+    </div>
+    <div class="form-group">
+        <label for="add-pan">已选账号</label>
+        <div class="form-control" style="min-height:34px;height: auto!important;text-align: left" id="add-pan">
+            <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important"
+               v-for="hr in addResult" @click="onDel(hr.id)">{{hr.name}}</a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="search-pan">搜索账号</label>
+        <div style="min-height:34px;height: auto!important;text-align: left" class="form-control" id="search-pan">
+            <a href="javascript:;" class="btn btn-default"
+               style="margin-left: 5px!important;min-width: 70px!important;"
+               v-for="hr in search" @click="onAdd(hr.id,hr.loginid,hr.lastname)">{{hr.lastname}}</a>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/system/role/users_update.js"></script>
+</html>
