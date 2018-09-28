@@ -31,6 +31,7 @@ var vm = new Vue({
                 },
                 toolbar: [{
                     template: '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
+                        '<a role="button" class="k-button k-button-icontext"  href="/files/crm/template/customer.xlsx"><span class="k-icon k-i-download"></span>模板文件</a>' +
                         '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.batchadd()"><span class="k-icon k-i-add"></span>批量添加</a>'+
                     '<input type="text" class="k-input" id="search-input"/>' +
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
@@ -240,7 +241,7 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '批量添加用户',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['700px', '500px'],
                     fixed: false, //不固定
                     maxmin: true,
                     shadeClose: true,
