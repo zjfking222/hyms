@@ -1,0 +1,45 @@
+$(function () {
+    var index = parent.layer.getFrameIndex(window.name);
+
+    $("#input-b1").fileinput({
+        language: 'zh',
+        uploadUrl: '/crm/customer/batchAdd',
+        allowedFileExtensions : ['xlsx'],
+        maxFileCount: 1,
+        // allowedFileTypes: ['xlsx'],
+        //文件名修改
+        slugCallback: function(filename) {
+            var date = new Date();
+            return $.md5(date.toString()) + filename;
+        }
+    }).on("fileuploaded", function (event, data) {
+        $('#excel').attr('value',data.response.data);
+    });
+
+    $("#submit").on("click",function () {
+        //title必须使用push过来的title 否则会提交篡改后html元素
+        if(FetchData({filename:$('#excel').val()},'POST','/crm/customer/batchSubmit',false).code === 0)
+        {
+            parent.layer.msg('添加成功');
+            parent.layer.close(index);
+        }
+        else
+        {
+            parent.layer.msg('添加失败,请重试！');
+            parent.layer.close(index);
+        }
+    })
+});
+var FetchData = function (data, method, param, async) {
+    var response =
+        $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource;
+            }});
+    return response.responseJSON;
+};

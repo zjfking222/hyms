@@ -246,6 +246,7 @@ var vm = new Vue({
                     area: ['1050px', '650px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyhz_update.html',
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -261,6 +262,7 @@ var vm = new Vue({
                     area: ['1050px', '650px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyhz_lb_add.html',
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()

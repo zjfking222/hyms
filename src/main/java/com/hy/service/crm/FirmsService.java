@@ -4,6 +4,7 @@ import com.hy.dto.CrmFirmsDto;
 import com.hy.dto.CrmFirmsFetchDto;
 import com.hy.model.CrmFirms;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface FirmsService {
@@ -15,4 +16,6 @@ public interface FirmsService {
     CrmFirmsFetchDto getCrmFirmById(int id);
     //获取企业列表，不分页
     List<CrmFirmsDto> getCrmFirmByUid();
+    //获取企业字典
+    HashMap<String, Integer> getAllCrmFirm();
 }

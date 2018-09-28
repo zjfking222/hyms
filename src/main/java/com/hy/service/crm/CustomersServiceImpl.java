@@ -5,15 +5,24 @@ import com.hy.common.SecurityHelp;
 import com.hy.dto.CrmCustomerFirmViewDto;
 import com.hy.dto.CrmCustomersDto;
 import com.hy.dto.CrmCustomersFetchDto;
+
 import com.hy.mapper.ms.CrmCustomersMapper;
 import com.hy.model.CrmCustomers;
 import com.hy.model.VCrmCustomerFirm;
 import com.hy.utils.DTOUtil;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @Service
@@ -72,6 +81,75 @@ public class CustomersServiceImpl implements CustomersService{
     @Override
     public boolean delCustomer(int id) {
         return customersMapper.deleteCrmCustomer(id) == 1;
+    }
+
+    private Object getCell(Row row, int index){
+        if(row.getCell(index) == null){
+            return "";
+        }
+        else{
+            switch (row.getCell(index).getCellType()){
+                case STRING:
+                    return row.getCell(index).getStringCellValue().trim();
+                case BLANK:
+                    return "";
+                case NUMERIC:
+                    return ((Double)row.getCell(index).getNumericCellValue()).longValue();
+                case BOOLEAN:
+                    return row.getCell(index).getBooleanCellValue();
+                default:
+                    return "";
+            }
+        }
+
+    }
+
+    @Override
+    public boolean batchAddCustomer(String filepath) {
+        try {
+            InputStream inputStream = new FileInputStream("files" + filepath);
+
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheetAt = workbook.getSheetAt(0);
+            List<CrmCustomers> customers = new ArrayList<>();
+            Map<String, Integer> firmsMap = firmsService.getAllCrmFirm();
+            for(Row row : sheetAt){
+                if(row.getRowNum() != 0 && row.getRowNum() != sheetAt.getLastRowNum()){
+                    String name = String.valueOf(getCell(row, 0));
+                    boolean sex = getCell(row, 1).equals("男");
+                    String nationality = String.valueOf(getCell(row, 2));
+                    String post = String.valueOf(getCell(row, 3));
+                    int fid = firmsMap.getOrDefault(String.valueOf(getCell(row, 4)), -1);
+                    String mobile = String.valueOf(getCell(row, 5));
+                    String phone = String.valueOf(getCell(row, 6));
+                    String email = String.valueOf(getCell(row, 7));
+                    String address = String.valueOf(getCell(row, 8));
+                    int btid;
+
+                    try{
+                        btid = Integer.valueOf(String.valueOf(getCell(row, 9)));
+                    }catch (NumberFormatException e){
+                        btid = -1;
+                    }
+                    int vip;
+                    try{
+                        vip = Integer.valueOf(String.valueOf(getCell(row, 10)));
+                    }catch (NumberFormatException e){
+                        vip = 0;
+                    }
+                    String remark = String.valueOf(getCell(row, 11));
+                    customers.add(new CrmCustomers(name, post, nationality, address, sex, mobile, phone,
+                            email, btid, fid, vip, remark, SecurityHelp.getUserId(), SecurityHelp.getUserId(),
+                            SecurityHelp.getDepartmentId()));
+
+                }
+            }
+            return customersMapper.insertBatchCrmCustomer(customers) == customers.size();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

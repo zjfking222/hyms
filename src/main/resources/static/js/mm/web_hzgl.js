@@ -1,4 +1,4 @@
-const pageSize = 15;
+var pageSize = 15;
 var page = 1;
 
 $(function () {

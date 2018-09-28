@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class FirmsServiceImpl implements FirmsService{
@@ -69,5 +71,15 @@ public class FirmsServiceImpl implements FirmsService{
     @Override
     public List<CrmFirmsDto> getCrmFirmByUid() {
         return DTOUtil.populateList(crmFirmsMapper.selectCrmFirmsByUid(SecurityHelp.getUserId()),CrmFirmsDto.class);
+    }
+
+    @Override
+    public HashMap<String, Integer> getAllCrmFirm() {
+        HashMap<String, Integer> map = new HashMap<>();
+        List<CrmFirmsDto> list = DTOUtil.populateList(crmFirmsMapper.selectAllCrmFirms(),CrmFirmsDto.class);
+        IntStream.range(0, list.size()).forEach(i ->
+            map.put(list.get(i).getName(),list.get(i).getId())
+        );
+        return map;
     }
 }

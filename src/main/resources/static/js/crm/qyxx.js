@@ -182,6 +182,7 @@ var vm = new Vue({
                     area: ['700px', '600px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/crm/qyxx_update.html',
                     end: function () {
                     }
@@ -195,6 +196,7 @@ var vm = new Vue({
                     area: ['700px', '600px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/crm/qyxx_update.html',
                     end: function () {
                     }

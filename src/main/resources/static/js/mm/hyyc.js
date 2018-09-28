@@ -159,6 +159,7 @@ var vm = new Vue({
                     area: ['500px', '360px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyyc_update.html',
                     end: function () {
                     }
@@ -172,6 +173,7 @@ var vm = new Vue({
                     area: ['500px', '360px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyyc_update.html',
                     end: function () {
                     }

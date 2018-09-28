@@ -108,6 +108,7 @@ var vm = new Vue({
                 area: ['700px', '600px'],
                 fixed: false, //不固定
                 maxmin: true,
+                shadeClose: true,
                 content: '/crm/ywlx_user_update.html',
                 end: function () {
                     location.reload()

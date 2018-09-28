@@ -43,6 +43,9 @@
               ORDER BY CONVERT(${sort} USING gbk) ${dir}
           </if>
     </select>
+    <select id="selectAllCrmFirms" resultType="com.hy.model.CrmFirms">
+        SELECT * FROM crm_firms  
+    </select>
     <select id="selectCrmFirmsTotal" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM crm_firms
         WHERE EXISTS
