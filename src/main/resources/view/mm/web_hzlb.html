@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>回执列表</title>
+</head>
+<link rel="stylesheet" href="/plugins/weixin/weui.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.0/style/weui.min.css"/>
+<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css">
+<script type="text/javascript" src="/js/qzgz/web/rem.js"></script>
+<script type="text/javascript" src="/plugins/weixin/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/mm/web_hzlb.js"></script>
+<body>
+<div class="weui-search-bar" id="searchBar">
+    <form class="weui-search-bar__form" action="" onsubmit="return false" id="form_submit">
+        <div class="weui-search-bar__box">
+            <i class="weui-icon-search" style="line-height: 48px"></i>
+            <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="" style="height: 40px;font-size: 16px">
+            <a href="javascript:clear()" class="weui-icon-clear" id="searchClear" style="line-height: 48px"></a>
+        </div>
+    </form>
+</div>
+<!-- 列表 -->
+<div id="list" class="weui-cells">
+
+</div>
+<!-- 加载更多 -->
+<div class="page__bd">
+    <div class="weui-loadmore" id="loading">
+        <i class="weui-loading"></i>
+        <span class="weui-loadmore__tips">正在加载</span>
+    </div>
+    <div class="weui-loadmore" id="info">
+        <span id="tip" style="float: none"></span>
+    </div>
+</div>
+</body>
+</html>
