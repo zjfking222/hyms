@@ -89,7 +89,7 @@ public class CustomersController {
             }
         }catch (Exception e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         map.put("data", customersService.getCrmCustomer(page, pageSize, value, sort, dir));
         map.put("total", customersService.getCrmCustomerTotal(value));
