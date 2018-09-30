@@ -25,7 +25,7 @@ public class DownloadController {
     public void excelStandardTemplateOut(HttpServletRequest request,
                                          HttpServletResponse response, String url) throws IOException {
 
-        String filepath = URLDecoder.decode(url, StandardCharsets.UTF_8);
+        String filepath = URLDecoder.decode(url, "UTF-8");
         String loc = location + filepath;
         File f = new File(loc);
         response.reset();

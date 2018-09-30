@@ -18,6 +18,24 @@ public class CrmFirms {
     private String modified;
     private int domain;
 
+    public CrmFirms() {
+    }
+
+    public CrmFirms(String name, String phone, String address, String contacter, String cmobile, String cphone, String email, int btid, String remark, int creater, int modifier, int domain) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.contacter = contacter;
+        this.cmobile = cmobile;
+        this.cphone = cphone;
+        this.email = email;
+        this.btid = btid;
+        this.remark = remark;
+        this.creater = creater;
+        this.modifier = modifier;
+        this.domain = domain;
+    }
+
     public int getId() {
         return id;
     }

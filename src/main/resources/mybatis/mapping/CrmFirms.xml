@@ -9,42 +9,54 @@
         (name, phone, address, contacter, cmobile, cphone, email, btid, remark, creater, modifier, domain)
         VALUES
         (#{name},#{phone},#{address},#{contacter},#{cmobile},#{cphone},#{email},#{btid},
-            #{remark},#{creater},#{modifier},#{domain})
+        #{remark},#{creater},#{modifier},#{domain})
+    </insert>
+    <insert id="insertBatchCrmFirms" parameterType="com.hy.model.CrmFirms">
+        INSERT INTO crm_firms
+        (name, phone, address, contacter, cmobile, cphone, email, btid, remark, creater, modifier, domain)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name},#{item.phone},#{item.address},#{item.contacter},#{item.cmobile},#{item.cphone},
+            #{item.email},#{item.btid},#{item.remark},#{item.creater},#{item.modifier},#{item.domain})
+        </foreach>
     </insert>
     <update id="updateCrmFirms" parameterType="com.hy.model.CrmFirms">
-        UPDATE crm_firms SET
-          name = #{name},
-          phone = #{phone},
-          address = #{address},
-          contacter = #{contacter},
-          cmobile = #{cmobile},
-          cphone = #{cphone},
-          email = #{email},
-          btid = #{btid},
-          remark = #{remark},
-          modifier = #{modifier}
+        UPDATE crm_firms
+        SET
+            name      = #{name},
+            phone     = #{phone},
+            address   = #{address},
+            contacter = #{contacter},
+            cmobile   = #{cmobile},
+            cphone    = #{cphone},
+            email     = #{email},
+            btid      = #{btid},
+            remark    = #{remark},
+            modifier  = #{modifier}
         WHERE id = #{id}
     </update>
     <delete id="deleteCrmFirms">
-        DELETE FROM crm_firms WHERE id = #{id}
+        DELETE FROM crm_firms
+        WHERE id = #{id}
     </delete>
     <select id="selectCrmFirms" resultType="com.hy.model.CrmFirms">
         SELECT * FROM crm_firms
         WHERE EXISTS
         (SELECT 1 FROM crm_businesstype_user
-          WHERE crm_firms.btid = crm_businesstype_user.btid
-          AND crm_businesstype_user.uid = #{uid}
-          <if test="value != null and '' != value">
+        WHERE crm_firms.btid = crm_businesstype_user.btid
+        AND crm_businesstype_user.uid = #{uid}
+        <if test="value != null and '' != value">
             AND ( name LIKE concat('%',#{value},'%')
             OR address LIKE concat('%',#{value},'%')
             OR contacter LIKE concat('%',#{value},'%'))
-          </if>)
-          <if test="sort != null and '' != sort">
-              ORDER BY CONVERT(${sort} USING gbk) ${dir}
-          </if>
+        </if>)
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
     </select>
     <select id="selectAllCrmFirms" resultType="com.hy.model.CrmFirms">
-        SELECT * FROM crm_firms  
+        SELECT *
+        FROM crm_firms
     </select>
     <select id="selectCrmFirmsTotal" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM crm_firms
@@ -59,13 +71,17 @@
         </if>)
     </select>
     <select id="selectCrmFirmsById" resultType="com.hy.model.CrmFirms">
-        SELECT * FROM crm_firms WHERE id = #{id}
+        SELECT *
+        FROM crm_firms
+        WHERE id = #{id}
     </select>
     <select id="selectCrmFirmsByUid" resultType="com.hy.model.CrmFirms">
-        SELECT * FROM crm_firms
+        SELECT *
+        FROM crm_firms
         WHERE EXISTS
-        (SELECT 1 FROM crm_businesstype_user
-        WHERE crm_firms.btid = crm_businesstype_user.btid
-        AND crm_businesstype_user.uid = #{uid})
+        (SELECT 1
+         FROM crm_businesstype_user
+         WHERE crm_firms.btid = crm_businesstype_user.btid
+               AND crm_businesstype_user.uid = #{uid})
     </select>
 </mapper>

@@ -4,14 +4,14 @@ var vm = new Vue({
         data: {
             dataSource: [],
             activeItem: {id: 0, title: "", content: ""},
-            layItem : null
+            layItem: null
         },
         created: function () {
 
             this.getDataSource();
 
             $("#grid").kendoGrid({
-                selectable:"row",
+                selectable: "row",
                 dataSource: this.dataSource,
                 editable: {
                     confirmation: true,
@@ -30,6 +30,8 @@ var vm = new Vue({
                 },
                 toolbar: [{
                     template: '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
+                    '<a role="button" class="k-button k-button-icontext"  href="/down/excel?url='+ encodeURIComponent('/crm/template/firm.xlsx')+'"><span class="k-icon k-i-download"></span>模板文件</a>' +
+                    '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.batchadd()"><span class="k-icon k-i-add"></span>批量添加</a>' +
                     '<input type="text" class="k-input" id="search-input"/>' +
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
@@ -71,7 +73,8 @@ var vm = new Vue({
                                 vm.edit();
                             }
                         }, {
-                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: " ", width: "240px"
+                            name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"
+                        }], title: " ", width: "240px"
                     }
                 ]
             });
@@ -109,7 +112,7 @@ var vm = new Vue({
                             $.ajax({
                                 url: "/crm/firm/del",
                                 data: {
-                                     'id': options.data.id
+                                    'id': options.data.id
                                 },
                                 method: 'POST',
                                 success: function (result) {
@@ -141,7 +144,7 @@ var vm = new Vue({
                                 cphone: {type: "string", nullable: false},
                                 email: {type: "string", nullable: false},
                                 btname: {type: "string", nullable: false, from: "btid.name"},
-                                btid: {type:"string", nullable: false, from: "btid.id"},
+                                btid: {type: "string", nullable: false, from: "btid.id"},
                                 remark: {type: "string", nullable: false}
                             }
                         }
@@ -174,7 +177,7 @@ var vm = new Vue({
             add: function () {
                 layer.close(vm.layItem)
                 pushData = {
-                    id : 0
+                    id: 0
                 };
                 this.layItem = layer.open({
                     title: '新增信息',
@@ -188,10 +191,10 @@ var vm = new Vue({
                     }
                 });
             },
-            edit:function(){
+            edit: function () {
                 layer.close(vm.layItem)
                 this.layItem = layer.open({
-                    title:'编辑信息',
+                    title: '编辑信息',
                     type: 2,
                     area: ['700px', '600px'],
                     fixed: false, //不固定
@@ -205,6 +208,27 @@ var vm = new Vue({
             search: function () {
                 // vm.dataSource.read()
                 $("#grid").data("kendoGrid").dataSource.read()
+            },
+            savaAsExcel: function () {
+                $("#grid").data("kendoGrid").savaAsExcel();
+            },
+            batchadd:function () {
+                layer.close(vm.layItem);
+                pushData = {
+                    id: 0
+                };
+                this.layItem = layer.open({
+                    title: '批量添加企业',
+                    type: 2,
+                    area: ['700px', '500px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    content: '/crm/qyxx_batch.html',
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
             }
         }
     }

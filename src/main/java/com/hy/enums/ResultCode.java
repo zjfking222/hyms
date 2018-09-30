@@ -13,6 +13,7 @@ public enum ResultCode {
     ERROR_DELETE_FOREIGN(2103, "需要先删除该信息的关联信息"),
     ERROR_DELETE_FAILED(2102, "删除失败"),
     ERROR_UPLOAD_FAILED(2006, "文件上传失败"),
+    ERROR_DATA_FAILED(2007,"文件数据为空或数据已存在")
     ;
 
     private String msg;

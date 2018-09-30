@@ -38,8 +38,17 @@ public class CustomersController {
 
     @PostMapping("/customer/batchSubmit")
     public  ResultObj batchSubmitCustomer(String filename){
-        return customersService.batchAddCustomer(filename)?
-                ResultObj.success():ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        int check = customersService.batchAddCustomer(filename);
+        switch (check) {
+            case 0:
+                return ResultObj.error(ResultCode.ERROR_DATA_FAILED);
+            case -1:
+                return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
+            case -2:
+                return ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+            default:
+                return ResultObj.success();
+        }
     }
 
     @PostMapping("/customer/add")
