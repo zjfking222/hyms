@@ -6,7 +6,7 @@
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="width: 380px; margin: 10px auto">
-<form>
+<form  id="op">
     <div class="form-group">
         <label for="firsttime">首班车时间</label>
         <input type="text" id="firsttime" readonly class="form-control" placeholder="点击选择首班车时间...">
@@ -22,8 +22,7 @@
     <div class="form-group">
         <label for="start">起点</label>
         <select name="start" class="form-control input-sm-8" id="start">
-            <option value="振石大酒店" selected>振石大酒店</option>
-            <option value="新世纪大酒店">新世纪大酒店</option>
+            <option v-for="h in hotel" :value="h.name">{{h.name}}</option>
         </select>
     </div>
     <div class="form-group">
@@ -48,6 +47,7 @@
 </form>
 </body>
 <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/plugins/laydate/laydate.js"></script>
 <script type="text/javascript" src="/js/mm/hybc_update.js"></script>
 </html>
