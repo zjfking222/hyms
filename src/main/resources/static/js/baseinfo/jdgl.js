@@ -166,7 +166,8 @@ var vm = new Vue({
             this.layItem = layer.open({
                 title: '添加酒店',
                 type: 2,
-                area: ['450px', '600px'],
+                shadeClose:true,
+                area: ['450px', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 content: '/baseinfo/jdgl_update.html',
@@ -179,7 +180,8 @@ var vm = new Vue({
             this.layItem = layer.open({
                 title: '编辑酒店',
                 type: 2,
-                area: ['450px', '600px'],
+                shadeClose:true,
+                area: ['450px', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 content: '/baseinfo/jdgl_update.html',

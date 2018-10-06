@@ -204,7 +204,7 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '新增信息',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['700px', '80%'],
                     fixed: false, //不固定
                     maxmin: true,
                     shadeClose: true,
@@ -219,7 +219,7 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title:'编辑信息',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['700px', '80%'],
                     fixed: false, //不固定
                     maxmin: true,
                     shadeClose: true,
@@ -243,7 +243,7 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '批量添加用户',
                     type: 2,
-                    area: ['700px', '500px'],
+                    area: ['700px', '80%'],
                     fixed: false, //不固定
                     maxmin: true,
                     shadeClose: true,
