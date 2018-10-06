@@ -48,7 +48,7 @@ function getNowDate() {
     if (month >= 1 && month <= 9) {
         month = "0" + month;
     }
-    if (day >= 1 && date <= 9) {
+    if (day >= 1 && day <= 9) {
         day = "0" + day;
     }
     if (h >= 1 && h <= 9) {
