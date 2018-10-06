@@ -33,7 +33,8 @@ var vm = new Vue({
                     '<a role="button" class="k-button k-button-icontext"  href="/down/excel?url='+ encodeURIComponent('/crm/template/firm.xlsx')+'"><span class="k-icon k-i-download"></span>模板文件</a>' +
                     '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.batchadd()"><span class="k-icon k-i-add"></span>批量添加</a>' +
                     '<input type="text" class="k-input" id="search-input"/>' +
-                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>' +
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.savaAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
                 }],
                 columns: [
                     {field: "name", title: "企业名称", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
@@ -210,7 +211,7 @@ var vm = new Vue({
                 $("#grid").data("kendoGrid").dataSource.read()
             },
             savaAsExcel: function () {
-                $("#grid").data("kendoGrid").savaAsExcel();
+                $("#grid").data("kendoGrid").saveAsExcel();
             },
             batchadd:function () {
                 layer.close(vm.layItem);

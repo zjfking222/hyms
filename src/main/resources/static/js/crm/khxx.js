@@ -34,7 +34,8 @@ var vm = new Vue({
                         '<a role="button" class="k-button k-button-icontext"  href="/down/excel?url='+ encodeURIComponent('/crm/template/customer.xlsx')+'"><span class="k-icon k-i-download"></span>模板文件</a>' +
                         '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.batchadd()"><span class="k-icon k-i-add"></span>批量添加</a>'+
                     '<input type="text" class="k-input" id="search-input"/>' +
-                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>' +
+                        '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.savaAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
                 }],
                 columns: [
                     {field: "name", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
