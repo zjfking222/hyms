@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.AdStaffMapper">
+    <insert id="insertStaff" parameterType="java.util.List">
+        insert into ad_staff
+        (sid, name, state, email, phone, depid, depname, duty, dn, creater)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.sid}, #{item.name}, #{item.state}, #{item.email}, #{item.phone}, #{item.depid}, #{item.depname},
+            #{item.duty}, #{item.dn}, #{item.creater})
+        </foreach>
+    </insert>
+</mapper>
