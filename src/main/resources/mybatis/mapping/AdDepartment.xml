@@ -3,10 +3,10 @@
 <mapper namespace="com.hy.mapper.ms.AdDepartmentMapper">
     <insert id="insertAdDepartment" parameterType="java.util.List">
         insert into ad_department
-        (did, name, parentid, state, dn, creater)
+        (did, name, parentid, state, dn, creater,modifier)
         values
         <foreach collection="list" item="item" separator=",">
-            (#{item.did}, #{item.name}, #{item.parentid}, #{item.state}, #{item.dn}, #{item.creater})
+            (#{item.did}, #{item.name}, #{item.parentid}, #{item.state}, #{item.dn}, #{item.creater}, #{item.modifier})
         </foreach>
     </insert>
 </mapper>

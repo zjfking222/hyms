@@ -11,6 +11,8 @@ public class AdDepartment {
     private String dn;
     private int creater;
     private Date created;
+    private int modifier;
+    private Date modified;
 
     public int getId() {
         return id;
@@ -74,5 +76,21 @@ public class AdDepartment {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
     }
 }

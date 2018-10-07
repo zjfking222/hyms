@@ -25,6 +25,7 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
         List<AdDepartment> adDepartments = DTOUtil.populateList(adDepartmentDtos, AdDepartment.class);
         IntStream.range(0, adDepartments.size()).forEach(i -> {
             adDepartments.get(i).setCreater(-1);
+            adDepartments.get(i).setModifier(-1);
         });
         return adDepartmentMapper.insertAdDepartment(adDepartments) == adDepartments.size();
     }

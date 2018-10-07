@@ -22,13 +22,11 @@ public class AdStaffServiceImpl implements AdStaffService {
     public boolean addAdStaff(JSONObject adStaffObj) {
         Object jsonArray = adStaffObj.getJSONArray("staff");
         String js = JSONObject.toJSONString(jsonArray);
-//        System.out.println(js);
         List<AdStaffDto> adStaffs = JSONObject.parseArray(js, AdStaffDto.class);
-//        System.out.println(adStaffs.get(0).getSid());
         List<AdStaff> adStaff = DTOUtil.populateList(adStaffs, AdStaff.class);
-//        System.out.println(adStaff.get(0).getSid());
         IntStream.range(0, adStaff.size()).forEach(i -> {
             adStaff.get(i).setCreater(-1);
+            adStaff.get(i).setModifier(-1);
         });
         return adStaffMapper.insertStaff(adStaff) == adStaff.size();
     }

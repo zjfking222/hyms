@@ -3,11 +3,11 @@
 <mapper namespace="com.hy.mapper.ms.AdStaffMapper">
     <insert id="insertStaff" parameterType="java.util.List">
         insert into ad_staff
-        (sid, name, state, email, phone, depid, depname, duty, dn, creater)
+        (sid, name, state, email, phone, depid, depname, duty, dn, creater ,modifier)
         values
         <foreach collection="list" item="item" separator=",">
             (#{item.sid}, #{item.name}, #{item.state}, #{item.email}, #{item.phone}, #{item.depid}, #{item.depname},
-            #{item.duty}, #{item.dn}, #{item.creater})
+            #{item.duty}, #{item.dn}, #{item.creater}, #{item.modifier})
         </foreach>
     </insert>
 </mapper>
