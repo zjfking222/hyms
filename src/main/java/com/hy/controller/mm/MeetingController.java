@@ -20,9 +20,12 @@ public class MeetingController {
 
     @PostMapping("/meeting/add")
     public ResultObj addMeeting(MmMeetingDto mmMeetingDto){
-        return meetingService.addMeeting(mmMeetingDto)?
-                ResultObj.success():
-                ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        try{
+            MmMeetingDto meetingDto = meetingService.addMeeting(mmMeetingDto);
+            return ResultObj.success(meetingDto);
+        }catch (Exception e){
+            return ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        }
     }
 
     @PostMapping("/meeting/set")

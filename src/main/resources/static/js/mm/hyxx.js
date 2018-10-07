@@ -166,7 +166,7 @@ var vm = new Vue({
                             response.type = e.type;
                         }
                     },
-                    pageSize: 15,
+                    pageSize: 6,
                     serverPaging: true,
                     // serverFiltering: true,
                     serverSorting: true
