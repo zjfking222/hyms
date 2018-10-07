@@ -162,6 +162,7 @@ var vm = new Vue({
                     shadeClose: true,
                     content: '/mm/hyyc_update.html',
                     end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
                     }
                 });
             },
@@ -176,6 +177,7 @@ var vm = new Vue({
                     shadeClose: true,
                     content: '/mm/hyyc_update.html',
                     end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
                     }
                 });
             }

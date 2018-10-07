@@ -38,8 +38,9 @@ $(function () {
                remark:$('#remark').val()
            };
            if(data.id === 0){
-               if(FetchData(postData,'POST','/meeting/add',false).code === 0){
-                   parent.vm.dataSource.add(postData);
+               var postback = FetchData(postData,'POST','/meeting/add',false);
+               if(postback.code === 0){
+                   parent.vm.dataSource.add(postback.data);
                    parent.vm.dataSource.sync();
                    parent.layer.msg('添加成功');
                }
