@@ -45,14 +45,14 @@ $(function () {
                     .replace('#runtime#', dataSource.data[i].runtime === null ? "" : dataSource.data[i].interval);
                 $('#list').append(list2);
             }
+            if (dataSource.data.length < pageSize) {
+                $('#tip').html('无更多数据');
+            } else {
+                $('#tip').html('点击加载更多');
+            }
         }
     });
     $('#tip').on("click", function () {
-        // var scrollTop = $(this).scrollTop();
-        // var scrollHeight = $(document).height();
-        // var windowHeight = $(this).height();
-        // var positionValue = (scrollTop + windowHeight) - scrollHeight;
-        // if (positionValue > -1) {
         if (dataSource.data.length === pageSize) {
             $('#loading').fadeIn(0);
             $('#info').fadeOut(0);
@@ -91,11 +91,6 @@ $(function () {
                 }
             }
         }
-
-        // else {
-        //     $('#tip').html('无更多数据');
-        // }
-        // }
     });
 });
 

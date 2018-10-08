@@ -47,14 +47,14 @@ $(function () {
                     .replace('#pushMid#', pushMid);
                 $('#list').append(list2);
             }
+            if (dataSource.data.length < pageSize) {
+                $('#tip').html('无更多数据');
+            } else {
+                $('#tip').html('点击加载更多');
+            }
         }
     });
     $('#tip').on("click", function () {
-        // var scrollTop = $(this).scrollTop();
-        // var scrollHeight = $(document).height();
-        // var windowHeight = $(this).height();
-        // var positionValue = (scrollTop + windowHeight) - scrollHeight;
-        // if (positionValue > -1) {
         if (dataSource.data.length === pageSize) {
             $('#loading').fadeIn(0);
             $('#info').fadeOut(0);
@@ -62,7 +62,7 @@ $(function () {
             dataSource = FetchData({
                 page: page,
                 pageSize: pageSize,
-                mid: window.location.search.substr(4),
+                mid: pushMid,
                 value: $('#searchInput').val()
             }, 'POST', '/receipt/getReceiptInfo', false).data;
             for (var i = 0; i < dataSource.data.length; i++) {
@@ -83,7 +83,7 @@ $(function () {
                 var dataSource1 = FetchData({
                     page: page,
                     pageSize: pageSize,
-                    mid: window.location.search.substr(4),
+                    mid: pushMid,
                     value: $('#searchInput').val()
                 }, 'POST', '/receipt/getReceiptInfo', false).data;
                 if(dataSource1.data.length === 0){
@@ -93,10 +93,6 @@ $(function () {
                 }
             }
         }
-        // else {
-        //     $('#tip').html('无更多数据');
-        // }
-        // }
     });
 
 
