@@ -22,15 +22,21 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
         Object jsonState = adDepartmentObj.get("state");
         String ja = JSONObject.toJSONString(jsonArray);
         String js = JSONObject.toJSONString(jsonState);
-        int state = Integer.parseInt(js);
-        List<AdDepartmentDto> adDepartmentDtos = JSONObject.parseArray(ja, AdDepartmentDto.class);
-        List<AdDepartment> adDepartments = DTOUtil.populateList(adDepartmentDtos, AdDepartment.class);
-        IntStream.range(0, adDepartments.size()).forEach(i -> {
-            adDepartments.get(i).setDid(adDepartmentDtos.get(i).getId());
-            adDepartments.get(i).setState(state);
-            adDepartments.get(i).setCreater(-1);
-            adDepartments.get(i).setModifier(-1);
-        });
-        return adDepartmentMapper.insertAdDepartment(adDepartments) == adDepartments.size();
+        try {
+            int state = Integer.parseInt(js);
+
+            List<AdDepartmentDto> adDepartmentDtos = JSONObject.parseArray(ja, AdDepartmentDto.class);
+            List<AdDepartment> adDepartments = DTOUtil.populateList(adDepartmentDtos, AdDepartment.class);
+            IntStream.range(0, adDepartments.size()).forEach(i -> {
+                adDepartments.get(i).setDid(adDepartmentDtos.get(i).getId());
+                adDepartments.get(i).setState(state);
+                adDepartments.get(i).setCreater(-1);
+                adDepartments.get(i).setModifier(-1);
+            });
+            return adDepartmentMapper.insertAdDepartment(adDepartments) == adDepartments.size();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }
