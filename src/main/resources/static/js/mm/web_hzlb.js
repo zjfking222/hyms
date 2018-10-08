@@ -13,15 +13,15 @@ $(function () {
         var list1 = list.replace('#id#', dataSource.data[i].id)
             .replace('#fname#', dataSource.data[i].fname === null ? "" : dataSource.data[i].fname)
             .replace('#name#', dataSource.data[i].name)
-            .replace('#post#', dataSource.data[i].post)
-            .replace('#mobile#', dataSource.data[i].mobile)
+            .replace('#post#', dataSource.data[i].post === null ? "" : dataSource.data[i].post)
+            .replace('#mobile#', dataSource.data[i].mobile === null ? "" : dataSource.data[i].mobile)
             .replace('#pushMid#', pushMid);
         $('#list').append(list1);
     }
-    if (dataSource.data.length < pageSize+1) {
+    if (dataSource.data.length < pageSize) {
         $('#tip').html('无更多数据');
-    }else {
-        $('#tip').html('向上滑动加载更多');
+    } else {
+        $('#tip').html('点击加载更多');
     }
     $("#form_submit").on("keyup", function (e) {
         if (e.keyCode === 13) {
@@ -49,39 +49,54 @@ $(function () {
             }
         }
     });
-    $(window).on('scroll', function () {
-        var scrollTop = $(this).scrollTop();
-        var scrollHeight = $(document).height();
-        var windowHeight = $(this).height();
-        var positionValue = (scrollTop + windowHeight) - scrollHeight;
-        if (positionValue > -1) {
-            if (page <= Math.ceil(dataSource.data.length / pageSize)) {
-                $('#loading').fadeIn(0);
-                $('#info').fadeOut(0);
-                page++;
-                dataSource = FetchData({
+    $('#tip').on("click", function () {
+        // var scrollTop = $(this).scrollTop();
+        // var scrollHeight = $(document).height();
+        // var windowHeight = $(this).height();
+        // var positionValue = (scrollTop + windowHeight) - scrollHeight;
+        // if (positionValue > -1) {
+        if (dataSource.data.length === pageSize) {
+            $('#loading').fadeIn(0);
+            $('#info').fadeOut(0);
+            page++;
+            dataSource = FetchData({
+                page: page,
+                pageSize: pageSize,
+                mid: window.location.search.substr(4),
+                value: $('#searchInput').val()
+            }, 'POST', '/receipt/getReceiptInfo', false).data;
+            for (var i = 0; i < dataSource.data.length; i++) {
+                var list3 = list.replace('#id#', dataSource.data[i].id)
+                    .replace('#fname#', dataSource.data[i].fname === null ? "" : dataSource.data[i].fname)
+                    .replace('#name#', dataSource.data[i].name)
+                    .replace('#post#', dataSource.data[i].post === null ? "" : dataSource.data[i].post)
+                    .replace('#mobile#', dataSource.data[i].mobile === null ? "" : dataSource.data[i].mobile)
+                    .replace('#pushMid#', pushMid);
+                $('#list').append(list3);
+            }
+            page++;
+            $('#loading').fadeOut(0);
+            $('#info').fadeIn(0);
+            if (dataSource.data.length < pageSize) {
+                $('#tip').html('无更多数据');
+            }else {
+                var dataSource1 = FetchData({
                     page: page,
                     pageSize: pageSize,
                     mid: window.location.search.substr(4),
                     value: $('#searchInput').val()
                 }, 'POST', '/receipt/getReceiptInfo', false).data;
-                for (var i = 0; i < dataSource.data.length; i++) {
-                    var list1 = list.replace('#id#', dataSource.data[i].id)
-                        .replace('#fname#', dataSource.data[i].fname === null ? "" : dataSource.data[i].fname)
-                        .replace('#name#', dataSource.data[i].name)
-                        .replace('#post#', dataSource.data[i].post === null ? "" : dataSource.data[i].post)
-                        .replace('#mobile#', dataSource.data[i].mobile === null ? "" : dataSource.data[i].mobile)
-                        .replace('#pushMid#', pushMid);
-                    $('#list').append(list1);
+                if(dataSource1.data.length === 0){
+                    $('#tip').html('无更多数据');
+                }else {
+                    $('#tip').html('点击加载更多');
                 }
-                page++;
-                $('#loading').fadeOut(0);
-                $('#info').fadeIn(0);
-            }
-            else {
-                $('#tip').html('无更多数据');
             }
         }
+        // else {
+        //     $('#tip').html('无更多数据');
+        // }
+        // }
     });
 
 

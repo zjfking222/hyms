@@ -99,6 +99,7 @@
     .button {
         border-radius: 12px;
         margin-top: 12px;
+        margin-bottom: 10px !important;
         font-size: 18px;
         font-weight: bold;
         background: rgb(68, 157, 56);
@@ -127,7 +128,7 @@
         padding: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        width: 1.8rem !important;
+        width: 2.2rem !important;
         text-align: center;
         -webkit-appearance: none;
     }
@@ -322,7 +323,7 @@
             </div>
         </div>
         <div class="block">
-            <label>提醒</label>
+            <label id="hybus"></label>
             <div style="display: inline">
                 <textarea type="text"
                           style="font-size: 16px;color: red;height: 100px;padding-top: 4px;padding-left: 4px"
@@ -339,20 +340,20 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td scope="col" style="font-size: 15px;width: 42%;font-weight: bold;">名称</td>
-                    <td scope="col" style="font-size: 15px;width: 35%;font-weight: bold;">时间</td>
-                    <td scope="col" style="font-size: 15px;width: 25%;font-weight: bold;">是否出席</td>
+                    <td scope="col" style="font-size: 16px;width: 42%;font-weight: bold;">名称</td>
+                    <td scope="col" style="font-size: 16px;width: 35%;font-weight: bold;">时间</td>
+                    <td scope="col" style="font-size: 16px;width: 25%;font-weight: bold;">是否出席</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="a in agenda">
-                    <td style="font-size: 15px">
+                    <td style="font-size: 16px">
                         <span>{{a.name}}</span>
                     </td>
-                    <td style="font-size: 15px">
+                    <td style="font-size: 16px">
                         <span>{{a.date}}</span>
                     </td>
-                    <td style="font-size: 15px">
+                    <td>
                         <input class="attend" style="width: 20px;" v-model="a.attend" type="checkbox" checked/>
                         <!--<input class="attend" :data-id="a.id" v-else type="checkbox"/>-->
                     </td>
@@ -369,22 +370,22 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td scope="col" rowspan="2" style="width:28%;font-size: 15px;font-weight: bold;">日期</td>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">午餐</td>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">午餐</td>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">晚餐</td>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">晚餐</td>
+                    <td scope="col" rowspan="2" style="width:28%;font-size: 16px;font-weight: bold;">日期</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">午餐</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">午餐</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">晚餐</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">晚餐</td>
                 </tr>
                 <tr>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">自助</td>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">桌餐</td>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">自助</td>
-                    <td scope="col" style="width:18%;font-size: 15px;font-weight: bold;">桌餐</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">自助</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">桌餐</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">自助</td>
+                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">桌餐</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="d in dines">
-                    <td>
+                    <td style="font-size: 15px">
                         <span>{{d.date}}</span>
                     </td>
                     <td>
@@ -412,21 +413,21 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td scope="col" style="width:15%;font-size: 15px;font-weight: bold;">日期</td>
-                    <td scope="col" style="width:38%;font-size: 15px;font-weight: bold;">酒店</td>
-                    <td scope="col" style="width:7%;font-size: 15px;font-weight: bold;">单间</td>
-                    <td scope="col" style="width:7%;font-size: 15px;font-weight: bold;">标间</td>
-                    <td scope="col" style="width:7%;font-size: 15px;font-weight: bold;">套房</td>
+                    <td scope="col" style="width:15%;font-size: 16px;font-weight: bold;">日期</td>
+                    <td scope="col" style="width:30%;font-size: 16px;font-weight: bold;">酒店</td>
+                    <td scope="col" style="width:8%;font-size: 16px;font-weight: bold;">单间</td>
+                    <td scope="col" style="width:8%;font-size: 16px;font-weight: bold;">标间</td>
+                    <td scope="col" style="width:8%;font-size: 16px;font-weight: bold;">套房</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="s in stay">
-                    <td style="font-size: 14px;">
+                    <td style="font-size: 15px;">
                         <span>{{s.date}}</span>
                     </td>
                     <td>
                         <select class="slt_hotel"
-                                style="font-size: 14px;margin-left: 0;width: 100%;text-align: center;margin-top: 0;">
+                                style="font-size: 15px;margin-left: 0;width: 100%;text-align: center;margin-top: 0;">
                             <option v-for="h in hotel" :value="h.id">{{h.name}}</option>
                         </select>
                     </td>

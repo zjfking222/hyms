@@ -52,7 +52,7 @@ var vm = new Vue({
     },
     mounted: function () {
         $('#submit').on('click', function () {
-            if(confirm("确定要提交吗？")) {
+            if (confirm("确定要提交吗？")) {
                 var a = $('#arrivaldate').val();
                 var adate = a.replace("T", " ");
                 var ad = adate + ":00";
@@ -88,7 +88,7 @@ var vm = new Vue({
                 FetchData(JSON.stringify(vm.postData), 'POST', '/mm/receipt/set', false, true).code === 0 ?
                     alert('修改成功') :
                     alert('修改失败');
-            }else{
+            } else {
 
             }
 
@@ -108,4 +108,7 @@ $(function () {
             }
         })
     }
+    var hybus = "<a href='../mm/web_hybc.html?mid=#pushMid#'>查看班车</a>";
+    var bus = hybus.replace('#pushMid#', pushMid);
+    $('#hybus').append(bus);
 });
