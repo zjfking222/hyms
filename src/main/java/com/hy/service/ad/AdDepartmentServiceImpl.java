@@ -19,11 +19,15 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
     @Override
     public boolean addAdDepartment(JSONObject adDepartmentObj) {
         Object jsonArray = adDepartmentObj.getJSONArray("department");
-        System.out.println(jsonArray);
-        String js = JSONObject.toJSONString(jsonArray);
-        List<AdDepartmentDto> adDepartmentDtos = JSONObject.parseArray(js, AdDepartmentDto.class);
+        Object jsonState = adDepartmentObj.get("state");
+        String ja = JSONObject.toJSONString(jsonArray);
+        String js = JSONObject.toJSONString(jsonState);
+        int state = Integer.parseInt(js);
+        List<AdDepartmentDto> adDepartmentDtos = JSONObject.parseArray(ja, AdDepartmentDto.class);
         List<AdDepartment> adDepartments = DTOUtil.populateList(adDepartmentDtos, AdDepartment.class);
         IntStream.range(0, adDepartments.size()).forEach(i -> {
+            adDepartments.get(i).setDid(adDepartmentDtos.get(i).getId());
+            adDepartments.get(i).setState(state);
             adDepartments.get(i).setCreater(-1);
             adDepartments.get(i).setModifier(-1);
         });

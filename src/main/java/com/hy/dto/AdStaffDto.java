@@ -1,7 +1,7 @@
 package com.hy.dto;
 
 public class AdStaffDto {
-    private int sid;
+    private int id;
     private String name;
     private int state;
     private String email;
@@ -10,12 +10,12 @@ public class AdStaffDto {
     private String duty;
     private String dn;
 
-    public int getSid() {
-        return sid;
+    public int getId() {
+        return id;
     }
 
-    public void setSid(int sid) {
-        this.sid = sid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

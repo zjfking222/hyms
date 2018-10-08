@@ -1,18 +1,18 @@
 package com.hy.dto;
 
 public class AdDepartmentDto {
-    private int did;
+    private int id;
     private String name;
     private int parentid;
     private int state;
     private String dn;
 
-    public int getDid() {
-        return did;
+    public int getId() {
+        return id;
     }
 
-    public void setDid(int did) {
-        this.did = did;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

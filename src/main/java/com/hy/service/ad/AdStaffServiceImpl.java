@@ -21,10 +21,15 @@ public class AdStaffServiceImpl implements AdStaffService {
     @Override
     public boolean addAdStaff(JSONObject adStaffObj) {
         Object jsonArray = adStaffObj.getJSONArray("staff");
-        String js = JSONObject.toJSONString(jsonArray);
-        List<AdStaffDto> adStaffs = JSONObject.parseArray(js, AdStaffDto.class);
+        Object jsonState = adStaffObj.get("state");
+        String ja = JSONObject.toJSONString(jsonArray);
+        String js = JSONObject.toJSONString(jsonState);
+        int state = Integer.parseInt(js);
+        List<AdStaffDto> adStaffs = JSONObject.parseArray(ja, AdStaffDto.class);
         List<AdStaff> adStaff = DTOUtil.populateList(adStaffs, AdStaff.class);
         IntStream.range(0, adStaff.size()).forEach(i -> {
+            adStaff.get(i).setSid(adStaffs.get(i).getId());
+            adStaff.get(i).setState(state);
             adStaff.get(i).setCreater(-1);
             adStaff.get(i).setModifier(-1);
         });
