@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.MmReceiptMapper">
+    <select id="selectMeetingView" resultType="com.hy.model.VMmMeetingReceipt">
+        SELECT * FROM v_mm_meeting_receipt
+        WHERE 1 = 1
+        <if test="state != null and '' != state">
+            AND enddate > now()
+        </if>
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectMeetingViewTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM v_mm_meeting_receipt
+        WHERE 1 = 1
+        <if test="state != null and '' != state">
+            AND enddate > now()
+        </if>
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+        </if>
+    </select>
+
+    <select id="selectReceiptView" resultType="com.hy.model.VMmReceiptInfo">
+        SELECT * FROM v_mm_receipt_info
+        WHERE mid = #{mid}
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR uname LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectReceiptViewTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM v_mm_receipt_info
+        WHERE mid = #{mid}
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR uname LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+    </select>
+    <delete id="deleteReceipt" parameterType="java.lang.Integer">
+        DELETE FROM mm_receipt WHERE id = #{id}
+    </delete>
+    <select id="selectReceiptById" resultType="com.hy.model.MmReceipt">
+        SELECT * FROM mm_receipt WHERE id = #{id}
+    </select>
+    <update id="updateReceipt" parameterType="com.hy.model.MmReceipt">
+        UPDATE mm_receipt SET
+            driving = #{driving},
+            pickup = #{pickup},
+            arrivaldate = #{arrivaldate},
+            arrivalinfo = #{arrivalinfo},
+            arrivaltype =#{arrivaltype},
+            arrivalremark = #{arrivalremark},
+            sendoff = #{sendoff},
+            departuredate = #{departuredate},
+            departureinfo = #{departureinfo},
+            departureremark = #{departureremark},
+            returntype = #{returntype},
+            remark = #{remark},
+            implement = #{implement},
+            modifier = #{modifier}
+        WHERE id = #{id}
+    </update>
+    
+    <insert id="insertReceipt" parameterType="com.hy.model.MmReceipt">
+        INSERT INTO mm_receipt (mid, cid, uid, domain, creater, modifier, lastname)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.mid},#{item.cid},#{item.uid},#{item.domain},#{item.creater},#{item.modifier},#{item.lastname})
+        </foreach>
+    </insert>
+    <update id="updateReceiptState" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE mm_receipt
+            <set>
+                state = 1
+            </set>
+            WHERE (id=#{item.id})
+        </foreach>
+    </update>
+
+</mapper>

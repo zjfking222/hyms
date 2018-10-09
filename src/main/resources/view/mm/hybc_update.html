@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新班车信息</title>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 380px; margin: 10px auto">
+<form  id="op">
+    <div class="form-group">
+        <label for="firsttime">首班车时间</label>
+        <input type="text" id="firsttime" readonly class="form-control" placeholder="点击选择首班车时间...">
+    </div>
+    <div class="form-group">
+        <label for="endtime">末班车时间</label>
+        <input type="text" id="endtime" readonly class="form-control" placeholder="点击选择末班车时间...">
+    </div>
+    <div class="form-group">
+        <label for="interval">每班间隔时间</label>
+        <input type="text" id="interval" readonly class="form-control" placeholder="点击选择间隔时间...">
+    </div>
+    <div class="form-group">
+        <label for="start">起点</label>
+        <select name="start" class="form-control input-sm-8" id="start">
+            <option v-for="h in hotel" :value="h.name">{{h.name}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="end">终点</label>
+        <select name="end" class="form-control input-sm-8" id="end">
+            <option value="" selected>-请选择-</option>
+            <option value="桐乡高铁站">桐乡高铁站</option>
+            <option value="上海虹桥机场">上海虹桥机场</option>
+            <option value="上海浦东机场">上海浦东机场</option>
+            <option value="杭州萧山机场">杭州萧山机场</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="runtime">行驶时间</label>
+        <input type="text" id="runtime" readonly class="form-control" placeholder="点击选择行驶时间...">
+    </div>
+    <div class="form-group">
+        <label for="remark">备注</label>
+        <input class="form-control input-sm-8" id="remark" placeholder="输入备注">
+    </div>
+    <a id="submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block">提&nbsp;&nbsp;&nbsp;交</a>
+</form>
+</body>
+<script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/plugins/laydate/laydate.js"></script>
+<script type="text/javascript" src="/js/mm/hybc_update.js"></script>
+</html>

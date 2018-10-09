@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.CrmBusinesstypeUserMapper">
+    <select id="selectBusinesstypeUser" resultType="com.hy.model.CrmBusinesstypeUser">
+        SELECT * FROM crm_businesstype_user
+        WHERE btid = #{btid}
+    </select>
+    <delete id="deleteBusinesstypeUser">
+        DELETE FROM crm_businesstype_user
+        WHERE btid = #{btid} AND uid = #{uid}
+    </delete>
+    <insert id="insertBusinesstypeUser" parameterType="com.hy.model.CrmBusinesstypeUser">
+        INSERT INTO crm_businesstype_user (btid, uid, creater, modifier, loginid, lastname)
+        VALUES (#{btid}, #{uid}, #{creater}, #{modifier}, #{loginid}, #{lastname})
+    </insert>
+</mapper>

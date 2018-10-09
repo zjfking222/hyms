@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>回执编辑</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/plugins/kendo/css/kendo.common.min.css">
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/plugins/laydate/theme/default/laydate.css">
+    <style>
+        .title, .title2 {
+            height: 38px;
+            background: #333;
+            color: #eee;
+            font-size: 14px;
+        }
+
+        .title span, .title2 span {
+            margin-left: 10px;
+            line-height: 40px;
+        }
+
+        .tb1, .tb2, .tb3 {
+            margin-top: 20px;
+        }
+
+        .tb2, .tb3 {
+            display: inline-block;
+        }
+
+        .tb2 {
+            width: 40%;
+        }
+
+        .tb3 {
+            margin-left: 2%;
+            width: 57.5%;
+        }
+
+        label {
+            line-height: 30px;
+            text-align: right;
+        }
+
+        .subtb {
+            padding-bottom: 20px;
+            border: 0.01em solid #333;
+            height: 100%;
+            display: table;
+            padding-top: 20px;
+            width: 100%;
+        }
+
+        .form-line {
+            display: table;
+            width: 100%;
+        }
+
+        .form-num {
+            width: 20px;
+            color: #555;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+        .form-date {
+            width: 100px;
+            color: #555;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+        select {
+            height: 35px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div class="tb1">
+        <div class="title">
+            <span>
+                客户信息
+            </span>
+        </div>
+        <div class="subtb">
+            <div class="form-group  col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">姓名</label>
+                <div class=" col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="name" v-model="receipt.customers.name" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4  col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">国籍</label>
+                <div class="col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="nationality" v-model="receipt.customers.nationality" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">性别</label>
+                <div class=" col-md-4 col-sm-4 col-xs-8">
+                    <input type="text" name="sex" v-model="receipt.customers.sex" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group  col-md-4 col-sm-4  col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">职务</label>
+                <div class="col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="post" v-model="receipt.customers.post" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4 col-xs-4">企业</label>
+                <div class=" col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="fname" v-model="receipt.customers.fid.name" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4 ">VIP</label>
+                <div class=" col-md-4 col-sm-4  col-xs-8">
+                    <input type="text" name="vip" v-model="receipt.customers.vip" readonly="readonly"
+                           class="form-control" style="margin: 0px; width: 40px;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4 col-xs-4">手机</label>
+                <div class=" col-md-8 col-sm-8 col-xs-8">
+                    <input type="text" name="mobile" v-model="receipt.customers.mobile" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">固话</label>
+                <div class=" col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="phone" v-model="receipt.customers.phone" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">邮箱</label>
+                <div class=" col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="email" v-model="receipt.customers.email" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">地址</label>
+                <div class=" col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="address" v-model="receipt.customers.address" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4  col-xs-4">备注</label>
+                <div class=" col-md-8 col-sm-8  col-xs-8">
+                    <input type="text" name="remark" v-model="receipt.customers.remark" readonly="readonly"
+                           class="form-control" style="width: 100%;">
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">负责人</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <input type="text" name="remark" v-model="receipt.lastname" readonly="readonly"
+                               class="form-control" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">回执备注</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <textarea type="text" name="name" v-model="receipt.remark" class="form-control" rows="3"
+                                  style="resize: none; width: 100%;"></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">落实情况</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <textarea type="text" name="name" v-model="receipt.implement" rows="3" class="form-control"
+                                  style="resize: none; width: 100%;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tb1">
+        <div class="title">
+            <span>
+                班车信息
+            </span>
+        </div>
+        <div>
+            <table class="table2 table">
+                <thead>
+                <tr>
+                    <th scope="col">起点</th>
+                    <th scope="col">终点</th>
+                    <th scope="col">行驶时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="b in bus">
+                    <td>
+                        <span>{{b.start}}</span>
+                    </td>
+                    <td>
+                        <span>{{b.end}}</span>
+                    </td>
+                    <td>
+                        <span>{{b.runtime}}</span>
+                    </td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tb1">
+        <div class="title">
+            <span>
+                派车信息
+            </span>
+        </div>
+        <div class="subtb">
+            <div class="form-line">
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">自驾</label>
+                    <div class=" col-md-4 col-sm-4  col-xs-4">
+                        <input type="checkbox" v-model="receipt.driving" name="driving" class="form-control"
+                               style="margin: 0px; width: 16px;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-line">
+
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">派车接</label>
+                    <div class=" col-md-4 col-sm-4  col-xs-4">
+                        <input type="checkbox" v-model="receipt.pickup" name="pickup" class="form-control"
+                               style="margin: 0px; width: 16px;">
+                    </div>
+                </div>
+                <div class="form-group  col-md-4 col-sm-4 ">
+                    <label for="arrivaltype" class="control-label col-md-4 col-sm-4  col-xs-4">到达地点</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <select name="arrivaltype" id="arrivaltype" class="form-control" style="width: 100%;">
+                            <option value="" selected></option>
+                            <option value="桐乡高铁站">桐乡高铁站</option>
+                            <option value="杭州萧山机场">杭州萧山机场</option>
+                            <option value="上海虹桥机场">上海虹桥机场</option>
+                            <option value="上海浦东机场">上海浦东机场</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group  col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">到达日期</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <input type="text" id="arrivaldate" name="arrivaldate" class="form-control"
+                               style="width: 100%;">
+                    </div>
+                </div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">到达信息</label>
+                    <div class="col-md-8 col-sm-8  col-xs-8">
+                        <input type="text" v-model="receipt.arrivalinfo" name="arrivalinfo" class="form-control"
+                               style="width: 100%;">
+                    </div>
+                </div>
+                <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                    <label class="control-label col-md-2 col-sm-2  col-xs-2">到达备注</label>
+                    <div class="col-md-10 col-sm-10  col-xs-10">
+                        <textarea type="text" v-model="receipt.arrivalremark" name="arrivalremark" class="form-control"
+                                  style="width: 100%;resize: none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-line">
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">派车送</label>
+                    <div class=" col-md-4 col-sm-4  col-xs-4">
+                        <input type="checkbox" v-model="receipt.sendoff" name="sendoff" class="form-control"
+                               style="margin: 0px; width: 16px;">
+                    </div>
+                </div>
+                <div class="form-group  col-md-4 col-sm-4 ">
+                    <label for="returntype" class="control-label col-md-4 col-sm-4  col-xs-4">回程地点</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <select name="returntype" id="returntype" class="form-control" style="width: 100%;">
+                            <option value="" selected></option>
+                            <option value="桐乡高铁站">桐乡高铁站</option>
+                            <option value="杭州萧山机场">杭州萧山机场</option>
+                            <option value="上海虹桥机场">上海虹桥机场</option>
+                            <option value="上海浦东机场">上海浦东机场</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group  col-md-4 col-sm-4 ">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">回程日期</label>
+                    <div class=" col-md-8 col-sm-8  col-xs-8">
+                        <input type="text" id="departuredate" name="departuredate" class="form-control"
+                               style="width: 100%;">
+                    </div>
+                </div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4">回程信息</label>
+                    <div class="col-md-8 col-sm-8  col-xs-8">
+                        <input type="text" v-model="receipt.departureinfo" name="departureinfo" class="form-control"
+                               style="width: 100%;">
+                    </div>
+                </div>
+                <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                    <label class="control-label col-md-2 col-sm-2  col-xs-2">回程备注</label>
+                    <div class="col-md-10 col-sm-10  col-xs-10">
+                        <textarea type="text" v-model="receipt.departureremark" name="departureremark"
+                                  class="form-control" style="resize:none; width: 100%;"></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-8 col-xs-12" style="margin-left:-6%;margin-top: 7px">
+                    <label class="control-label col-md-2 col-sm-2  col-xs-2">班车提醒</label>
+                    <div>
+                        <span  style=" display: block; margin-left: 118px; margin-top: 5px">&nbsp;&nbsp;&nbsp;&nbsp;回程日期：桐乡高铁站请至少提前1小时；杭州萧山机场请至少提前3小时；上海虹桥、浦东机场请至少提前4小时</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="tb2">
+        <div class="title">
+            <span>
+                议程详情
+            </span>
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">名称</th>
+                    <th scope="col">时间</th>
+                    <th scope="col">是否出席</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="a in agenda">
+                    <td>
+                        <span>{{a.name}}</span>
+                    </td>
+                    <td>
+                        <span>{{a.date}}</span>
+                    </td>
+                    <td>
+                        <input class="attend" v-model="a.attend" type="checkbox" checked/>
+                        <!--<input class="attend" :data-id="a.id" v-else type="checkbox"/>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tb3">
+        <div class="title">
+            <span>
+                用餐详情
+            </span>
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">日期</th>
+                    <th scope="col">午餐-自助</th>
+                    <th scope="col">午餐-桌餐</th>
+                    <th scope="col">晚餐-自助</th>
+                    <th scope="col">晚餐-桌餐</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="d in dines">
+                    <td>
+                        <!--<input class="form-date" type="text" v-model="d.date">-->
+                        <span>{{d.date}}</span>
+                    </td>
+                    <td>
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.lunch">
+                    </td>
+                    <td>
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.lunchx">
+                    </td>
+                    <td>
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.dinnerx">
+                    </td>
+                    <td>
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="d.dinner">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tb1">
+        <div class="title">
+            <span>
+                住宿详情
+            </span>
+        </div>
+        <div>
+            <table class="table2 table">
+                <thead>
+                <tr>
+                    <th scope="col">日期</th>
+                    <th scope="col">酒店</th>
+                    <th scope="col">单间</th>
+                    <th scope="col">标间</th>
+                    <th scope="col">套房</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="s in stay">
+                    <td>
+                        <span>{{s.date}}</span>
+                    </td>
+                    <td>
+                        <!--<span>{{s.name}}</span>-->
+                        <select class="slt_hotel">
+                            <option v-for="h in hotel" :value="h.id">{{h.name}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.single">
+                    </td>
+                    <td>
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.standard">
+                    </td>
+                    <td>
+                        <input class="form-num" pattern="^\d{1}$" required type="text" v-model="s.suite">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+        <a id="submit" class="btn btn-success" style="width: 320px; margin: 20px auto; display: block">确认提交</a>
+    </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script src="/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+<script src="/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script src="/plugins/laydate/laydate.js"></script>
+<script src="/js/mm/hzlb_update.js"></script>
+</body>
+</html>

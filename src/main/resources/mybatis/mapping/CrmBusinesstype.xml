@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.CrmBusinesstypeMapper">
+    <insert id="insertBusinesstype" parameterType="com.hy.model.CrmBusinesstype">
+        INSERT INTO crm_businesstype
+            (name, creater, modifier)
+        VALUES
+            (#{name}, #{creater}, #{modifier})
+    </insert>
+    <update id="updateBusinesstype" parameterType="com.hy.model.CrmBusinesstype">
+        UPDATE crm_businesstype SET
+            name = #{name},
+            modifier = #{modifier}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteBusinesstype" parameterType="java.lang.Integer">
+        DELETE FROM crm_businesstype
+        WHERE id = #{id}
+    </delete>
+    <select id="selectBusinesstype" resultType="com.hy.model.CrmBusinesstype">
+        SELECT * FROM crm_businesstype
+        ORDER BY CONVERT(name USING gbk)
+    </select>
+    <select id="selectBusinesstypeByName" resultType="com.hy.model.CrmBusinesstype">
+        SELECT * FROM crm_businesstype
+        WHERE name LIKE concat('%',#{name},'%')
+        ORDER BY CONVERT(name USING gbk)
+    </select>
+    <select id="selectBusinesstypeById" resultType="com.hy.model.CrmBusinesstype">
+        SELECT * FROM crm_businesstype WHERE id = #{id}
+    </select>
+    
+    <select id="selectBusinesstypeByUid" resultType="com.hy.model.CrmBusinesstype">
+        SELECT cb.id,cb.name
+        FROM crm_businesstype_user cu, crm_businesstype cb
+        WHERE cu.btid = cb.id
+              AND cu.uid = #{uid}
+    </select>
+</mapper>

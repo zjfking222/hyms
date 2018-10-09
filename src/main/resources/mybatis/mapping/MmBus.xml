@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.MmBusMapper">
+    <select id="selectMmBus" resultType="com.hy.model.MmBus">
+        select *
+        from mm_bus
+    </select>
+    <insert id="insertMmBus" parameterType="com.hy.model.MmBus">
+        insert into mm_bus
+        (firsttime, endtime, `interval`, start, end, runtime, remark, creater, modifier, mid)
+        values (#{firsttime}, #{endtime}, #{interval}, #{start}, #{end}, #{runtime}, #{remark},
+                #{creater}, #{modifier}, #{mid})
+    </insert>
+    <update id="updateMmBus" parameterType="com.hy.model.MmBus">
+        update mm_bus
+        set firsttime = #{firsttime}, endtime = #{endtime}, `interval` = #{interval}, start = #{start}, end = #{end},
+            runtime   = #{runtime}, remark = #{remark}, modifier = #{modifier}
+        where id = #{id}
+    </update>
+    <delete id="deleteMmBus" parameterType="com.hy.model.MmBus">
+        delete from mm_bus
+        where id = #{id}
+    </delete>
+    <select id="selectAllMmBus" resultType="com.hy.model.MmBus">
+        select *
+        from mm_bus
+        where mid = #{mid}
+        <if test="value != null and '' != value">
+            and ( start like concat('%',#{value},'%')
+            or end like concat('%',#{value},'%')
+            or remark like concat('%',#{value},'%'))
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectCountMmBus" resultType="java.lang.Integer">
+        select count(1)
+        from mm_bus
+        where mid = #{mid}
+        <if test="value != null and '' != value">
+            and(  start like concat('%',#{value},'%')
+            or end like concat('%',#{value},'%')
+            or remark like concat('%',#{value},'%'))
+        </if>
+    </select>
+    <select id="selectInfoMmBus" resultType="com.hy.model.MmBus">
+        select distinct start,end,runtime
+        from mm_bus
+        where mid=#{mid}
+    </select>
+</mapper>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>回执列表详情</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
+    <style>
+        .tb {
+            width: 32%;
+            display: inline-block;
+        }
+
+        .table, .title {
+            margin: 0 auto;
+            width: 95%;
+        }
+
+        .title, .title2 {
+            height: 38px;
+            background: #333;
+            color: #eee;
+            font-size: 14px;
+        }
+
+        .title span, .title2 span {
+            margin-left: 10px;
+            line-height: 40px;
+        }
+
+        .col {
+            width: 96.2%;
+            padding-top: 20px;
+            padding-left: 0.8%;
+        }
+
+        label {
+            line-height: 30px;
+            text-align: right;
+        }
+
+        .form-line {
+            display: table;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div class="row">
+        <div class="tb">
+            <div class="title">
+                <span>议程详情</span>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">名称</th>
+                    <th scope="col">时间</th>
+                    <th scope="col">是否出席</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="a in agenda">
+                    <td>
+                        <span>{{a.name}}</span>
+                    </td>
+                    <td>
+                        <span>{{a.date}}</span>
+                    </td>
+                    <td>
+                        <input v-if="a.attend" type="checkbox" onclick="return false" checked/>
+                        <input v-else type="checkbox" onclick="return false"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tb">
+            <div class="title">
+                <span>用餐详情</span>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">日期</th>
+                    <th scope="col">午餐</th>
+                    <th scope="col">晚餐</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="d in dines">
+                    <td>
+                        <span>{{d.date}}</span>
+                    </td>
+                    <td>
+                        <span>{{d.lunch}}</span>
+                    </td>
+                    <td>
+                        <span>{{d.dinner}}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tb">
+            <div class="title2">
+                <span>住宿详情</span>
+            </div>
+            <table class="table2 table">
+                <thead>
+                <tr>
+                    <th scope="col">日期</th>
+                    <th scope="col">人数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="s in stay">
+                    <td>
+                        <span>{{s.date}}</span>
+                    </td>
+                    <td>
+                        <span>{{s.single}}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <div class="title2">
+                <span>派车详情</span>
+            </div>
+            <div class="subtb">
+                <div class="form-line">
+                    <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">自驾</label>
+                        <div class=" col-md-4 col-sm-4  col-xs-8" style="margin-top:6px">
+                            <input type="checkbox" v-model="receipt.driving" name="driving" disabled=false
+                                   class="form-control" style="margin: 0px; width: 16px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-line">
+
+                    <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">派车接</label>
+                        <div class=" col-md-4 col-sm-4  col-xs-8" style="margin-top:6px">
+                            <input type="checkbox" v-model="receipt.pickup" name="pickup" disabled=false
+                                   class="form-control" style="margin: 0px; width: 16px;">
+                        </div>
+                    </div>
+                    <div class="form-group  col-md-4 col-sm-4 ">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">到达地点</label>
+                        <div class=" col-md-8 col-sm-8  col-xs-8" style="margin-top:8px">
+                            <input type="text" v-model="receipt.arrivaltype" name="arrivaltype" readonly="readonly"
+                                   class="form-control" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group  col-md-4 col-sm-4 ">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">到达日期</label>
+                        <div class=" col-md-8 col-sm-8  col-xs-8" style="margin-top:8px">
+                            <input type="text" v-model="receipt.arrivaldate" name="arrivaldate" readonly="readonly"
+                                   class="form-control" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">到达信息</label>
+                        <div class="col-md-8 col-sm-8  col-xs-8" style="margin-top:8px">
+                            <input type="text" v-model="receipt.arrivalinfo" name="arrivalinfo" readonly="readonly"
+                                   class="form-control" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                        <label class="control-label col-md-2 col-sm-2  col-xs-2" style="margin-top:7px">到达备注</label>
+                        <div class="col-md-10 col-sm-10  col-xs-10" style="margin-top:8px">
+                            <textarea type="text" v-model="receipt.arrivalremark" name="arrivalremark"
+                                      readonly="readonly" class="form-control"
+                                      style="width: 100%;resize: none"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-line">
+                    <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">派车送</label>
+                        <div class=" col-md-4 col-sm-4  col-xs-8" style="margin-top:6px">
+                            <input type="checkbox" v-model="receipt.sendoff" name="sendoff" disabled=false
+                                   class="form-control" style="margin: 0px; width: 16px;">
+                        </div>
+                    </div>
+                    <div class="form-group  col-md-4 col-sm-4 ">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">回程地点</label>
+                        <div class=" col-md-8 col-sm-8  col-xs-8" style="margin-top:8px">
+                            <input type="text" v-model="receipt.returntype" name="returntype" readonly="readonly"
+                                   class="form-control" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group  col-md-4 col-sm-4 ">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">回程日期</label>
+                        <div class=" col-md-8 col-sm-8  col-xs-8" style="margin-top:8px">
+                            <input type="text" v-model="receipt.departuredate" name="departuredate" readonly="readonly"
+                                   class="form-control" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px">回程信息</label>
+                        <div class="col-md-8 col-sm-8  col-xs-8" style="margin-top:8px">
+                            <input type="text" v-model="receipt.departureinfo" name="departureinfo" readonly="readonly"
+                                   class="form-control" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-8 col-sm-8 col-xs-8">
+                        <label class="control-label col-md-2 col-sm-2  col-xs-2" style="margin-top:7px">回程备注</label>
+                        <div class="col-md-10 col-sm-10  col-xs-10" style="margin-top:8px">
+                            <textarea type="text" v-model="receipt.departureremark" name="departureremark"
+                                      readonly="readonly" class="form-control"
+                                      style="resize:none; width: 100%;"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12" style="margin-left:-6%;margin-top: 7px">
+                        <label class="control-label col-md-2 col-sm-2  col-xs-2">班车提醒</label>
+                        <div>
+                            <span  style=" display: block; margin-left: 118px; margin-top: 5px">&nbsp;&nbsp;&nbsp;&nbsp;回程日期：桐乡高铁站请至少提前1小时；杭州萧山机场请至少提前3小时；上海虹桥、浦东机场请至少提前4小时</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
+<script src="/js/mm/hyhz_detail.js"></script>
+</body>
+</html>
