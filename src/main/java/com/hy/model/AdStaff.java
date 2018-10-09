@@ -12,7 +12,11 @@ public class AdStaff {
     private int depid;
     private String depname;
     private String duty;
+    private String oldduty;
     private String dn;
+    private String olddn;
+    private String date;
+    private String time;
     private int creater;
     private Date created;
     private int modifier;
@@ -90,12 +94,44 @@ public class AdStaff {
         this.duty = duty;
     }
 
+    public String getOldduty() {
+        return oldduty;
+    }
+
+    public void setOldduty(String oldduty) {
+        this.oldduty = oldduty;
+    }
+
     public String getDn() {
         return dn;
     }
 
     public void setDn(String dn) {
         this.dn = dn;
+    }
+
+    public String getOlddn() {
+        return olddn;
+    }
+
+    public void setOlddn(String olddn) {
+        this.olddn = olddn;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getCreater() {

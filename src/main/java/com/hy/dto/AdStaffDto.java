@@ -1,21 +1,22 @@
 package com.hy.dto;
 
 public class AdStaffDto {
-    private int id;
+    private int sid;
     private String name;
-    private int state;
     private String email;
     private String phone;
     private int depid;
     private String duty;
+    private String oldduty;
     private String dn;
+    private String olddn;
 
-    public int getId() {
-        return id;
+    public int getSid() {
+        return sid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
     public String getName() {
@@ -24,14 +25,6 @@ public class AdStaffDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
     }
 
     public String getEmail() {
@@ -66,11 +59,27 @@ public class AdStaffDto {
         this.duty = duty;
     }
 
+    public String getOldduty() {
+        return oldduty;
+    }
+
+    public void setOldduty(String oldduty) {
+        this.oldduty = oldduty;
+    }
+
     public String getDn() {
         return dn;
     }
 
     public void setDn(String dn) {
         this.dn = dn;
+    }
+
+    public String getOlddn() {
+        return olddn;
+    }
+
+    public void setOlddn(String olddn) {
+        this.olddn = olddn;
     }
 }

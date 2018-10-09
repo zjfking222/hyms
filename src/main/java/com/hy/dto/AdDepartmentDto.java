@@ -1,18 +1,20 @@
 package com.hy.dto;
 
-public class AdDepartmentDto {
-    private int id;
-    private String name;
-    private int parentid;
-    private int state;
-    private String dn;
 
-    public int getId() {
-        return id;
+public class AdDepartmentDto {
+    private int did;
+    private String name;
+    private String oldname;
+    private int parentid;
+    private String dn;
+    private String olddn;
+
+    public int getDid() {
+        return did;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDid(int did) {
+        this.did = did;
     }
 
     public String getName() {
@@ -23,6 +25,14 @@ public class AdDepartmentDto {
         this.name = name;
     }
 
+    public String getOldname() {
+        return oldname;
+    }
+
+    public void setOldname(String oldname) {
+        this.oldname = oldname;
+    }
+
     public int getParentid() {
         return parentid;
     }
@@ -31,19 +41,19 @@ public class AdDepartmentDto {
         this.parentid = parentid;
     }
 
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
-
     public String getDn() {
         return dn;
     }
 
     public void setDn(String dn) {
         this.dn = dn;
+    }
+
+    public String getOlddn() {
+        return olddn;
+    }
+
+    public void setOlddn(String olddn) {
+        this.olddn = olddn;
     }
 }
