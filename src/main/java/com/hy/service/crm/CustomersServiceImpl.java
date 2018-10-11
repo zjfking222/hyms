@@ -2,6 +2,7 @@ package com.hy.service.crm;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
+import com.hy.dto.CrmBusinesstypeDto;
 import com.hy.dto.CrmCustomerFirmViewDto;
 import com.hy.dto.CrmCustomersDto;
 import com.hy.dto.CrmCustomersFetchDto;
@@ -21,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -43,7 +45,7 @@ public class CustomersServiceImpl implements CustomersService{
     private String[] titleRow = {"姓名","性别","国籍","职位","企业名称","手机","固话","邮箱",
             "地址","业务类型","客户等级","备注"};
 
-    private boolean titleFlag = true;
+    private boolean titleFlag;
 
     @Override
     public Integer addCustomer(CrmCustomersFetchDto crmCustomersFetchDto) {
@@ -112,12 +114,16 @@ public class CustomersServiceImpl implements CustomersService{
     @Override
     public Integer batchAddCustomer(String filepath) {
         try {
+            titleFlag = true;
             InputStream inputStream = new FileInputStream("files" + filepath);
 
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheetAt = workbook.getSheetAt(0);
             List<CrmCustomers> customers = new ArrayList<>();
             Map<String, Integer> firmsMap = firmsService.getAllCrmFirm();
+            Map<Integer, CrmBusinesstypeDto> businessTypeMap = new HashMap<>();
+            businessTypeService.getBusinessType().forEach(i -> businessTypeMap.put(i.getId(),i));
+
             IntStream.range(0, titleRow.length).forEach(i -> {
                 try {
                     if(!sheetAt.getRow(0).getCell(i).getStringCellValue().equals(titleRow[i])){
@@ -142,7 +148,11 @@ public class CustomersServiceImpl implements CustomersService{
                         int btid;
 
                         try{
-                            btid = Integer.valueOf(String.valueOf(getCell(row, 9)));
+                            if(businessTypeMap.containsKey(Integer.valueOf(String.valueOf(getCell(row, 9))))){
+                                btid = Integer.valueOf(String.valueOf(getCell(row, 9)));
+                            }else{
+                                btid = -1;
+                            }
                         }catch (NumberFormatException e){
                             btid = -1;
                         }
@@ -167,8 +177,6 @@ public class CustomersServiceImpl implements CustomersService{
 
             }
             return -1;
-
-
         } catch (IOException e) {
             e.printStackTrace();
             return -2;
