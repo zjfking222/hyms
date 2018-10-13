@@ -7,7 +7,6 @@ import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import java.io.Serializable;
 
 public class MySessionIdGenerator implements SessionIdGenerator {
-
     private String name;
 
     public MySessionIdGenerator(String name) {
