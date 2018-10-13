@@ -11,6 +11,16 @@
         (#{name}, #{post}, #{nationality}, #{address}, #{sex}, #{mobile}, #{phone}, #{email}, #{btid}, #{fid},
         #{vip}, #{remark}, #{creater}, #{modifier}, #{domain})
     </insert>
+    <insert id="insertBatchCrmCustomer" parameterType="com.hy.model.CrmCustomers">
+        INSERT INTO crm_customers
+        (name, post, nationality, address, sex, mobile, phone, email, btid, fid, vip, remark, creater, modifier, domain)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name}, #{item.post}, #{item.nationality}, #{item.address}, #{item.sex}, #{item.mobile}, #{item.phone},
+            #{item.email}, #{item.btid}, #{item.fid}, #{item.vip}, #{item.remark}, #{item.creater}, #{item.modifier},
+            #{item.domain})
+        </foreach>
+    </insert>
     <update id="updateCrmCustomer" parameterType="com.hy.model.CrmCustomers">
         UPDATE crm_customers SET
             name = #{name},

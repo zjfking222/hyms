@@ -16,4 +16,6 @@ public interface CrmFirmsMapper {
     Integer selectCrmFirmsTotal(@Param("value") String value, @Param("uid") int uid);
     CrmFirms selectCrmFirmsById(@Param("id") int id);
     List<CrmFirms> selectCrmFirmsByUid(@Param("uid") int uid);
+    List<CrmFirms> selectAllCrmFirms();
+    Integer insertBatchCrmFirms(List<CrmFirms> crmFirms);
 }

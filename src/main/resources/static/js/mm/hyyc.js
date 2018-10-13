@@ -159,8 +159,10 @@ var vm = new Vue({
                     area: ['500px', '360px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyyc_update.html',
                     end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
                     }
                 });
             },
@@ -172,8 +174,10 @@ var vm = new Vue({
                     area: ['500px', '360px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyyc_update.html',
                     end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
                     }
                 });
             }

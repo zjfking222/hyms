@@ -166,7 +166,7 @@ var vm = new Vue({
                             response.type = e.type;
                         }
                     },
-                    pageSize: 15,
+                    pageSize: 6,
                     serverPaging: true,
                     // serverFiltering: true,
                     serverSorting: true
@@ -183,6 +183,7 @@ var vm = new Vue({
                     area: ['500px', '485px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyxx_update.html',
                     end: function () {
                     }
@@ -196,6 +197,7 @@ var vm = new Vue({
                     area: ['500px', '485px'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyxx_update.html',
                     end: function () {
                     }

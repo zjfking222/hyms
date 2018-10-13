@@ -68,6 +68,7 @@ var vm = new Vue({
                 fixed: false, //不固定
                 maxmin: false,
                 resize:false,
+                shadeClose: true,
                 content: '/crm/ywlx_update.html',
                 end: function () {
                     vm.data1 = dataSource()

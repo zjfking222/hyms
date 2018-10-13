@@ -113,7 +113,7 @@ var vm = new Vue({
                 this.layItem=layer.open({
                     title: '回执详情',
                     type: 2,
-                    area: ['1050px', '450px'],
+                    area: ['1050px', '80%'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/mm/hyhz_detail.html',
@@ -243,9 +243,10 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '编辑回执',
                     type: 2,
-                    area: ['1050px', '650px'],
+                    area: ['1050px', '80%'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyhz_update.html',
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -258,14 +259,15 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '添加客户',
                     type: 2,
-                    area: ['1050px', '650px'],
+                    area: ['1050px', '95%'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/mm/hyhz_lb_add.html',
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
                     }
-                })
+                });
             },
             submit:function () {
                 var setList = [];

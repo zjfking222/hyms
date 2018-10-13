@@ -40,7 +40,7 @@ var vm = new Vue({
                     {field: "begindate", title: "开始时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "enddate", title: "结束时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "deadline", title: "提交截止时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "rnum", title: "回执数量", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "rnum", title: "回执数量", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "enddate", title: "状态",template:'<span>#=state#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {

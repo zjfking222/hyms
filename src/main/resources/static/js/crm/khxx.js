@@ -31,8 +31,11 @@ var vm = new Vue({
                 },
                 toolbar: [{
                     template: '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
+                        '<a role="button" class="k-button k-button-icontext"  href="/down/excel?url='+ encodeURIComponent('/crm/template/customer.xlsx')+'"><span class="k-icon k-i-download"></span>模板文件</a>' +
+                        '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.batchadd()"><span class="k-icon k-i-add"></span>批量添加</a>'+
                     '<input type="text" class="k-input" id="search-input"/>' +
-                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>' +
+                        '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.savaAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
                 }],
                 columns: [
                     {field: "name", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -82,6 +85,7 @@ var vm = new Vue({
         },
         methods: {
             getDataSource: function () {
+
                 this.dataSource = new kendo.data.DataSource({
                     transport: {
                         read: function (options) {
@@ -200,9 +204,10 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title: '新增信息',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['700px', '80%'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/crm/khxx_update.html',
                     end: function () {
                     }
@@ -214,9 +219,10 @@ var vm = new Vue({
                 this.layItem = layer.open({
                     title:'编辑信息',
                     type: 2,
-                    area: ['700px', '600px'],
+                    area: ['700px', '80%'],
                     fixed: false, //不固定
                     maxmin: true,
+                    shadeClose: true,
                     content: '/crm/khxx_update.html',
                     end: function () {
                     }
@@ -228,6 +234,24 @@ var vm = new Vue({
             },
             savaAsExcel: function () {
                 $("#grid").data("kendoGrid").saveAsExcel();
+            },
+            batchadd: function () {
+                layer.close(vm.layItem)
+                pushData = {
+                    id : 0
+                };
+                this.layItem = layer.open({
+                    title: '批量添加用户',
+                    type: 2,
+                    area: ['700px', '80%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    content: '/crm/khxx_batch.html',
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
             }
         }
     }

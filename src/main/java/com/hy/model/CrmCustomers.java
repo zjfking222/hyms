@@ -21,6 +21,30 @@ public class CrmCustomers {
     private String modified;
     private int domain;
 
+
+    public CrmCustomers() {
+    }
+
+    public CrmCustomers(String name, String post, String nationality, String address, boolean sex, String mobile,
+                        String phone, String email, int btid, int fid, int vip, String remark, int creater,
+                        int modifier, int domain) {
+        this.name = name;
+        this.post = post;
+        this.nationality = nationality;
+        this.address = address;
+        this.sex = sex;
+        this.mobile = mobile;
+        this.phone = phone;
+        this.email = email;
+        this.btid = btid;
+        this.fid = fid;
+        this.vip = vip;
+        this.remark = remark;
+        this.creater = creater;
+        this.modifier = modifier;
+        this.domain = domain;
+    }
+
     public int getId() {
         return id;
     }

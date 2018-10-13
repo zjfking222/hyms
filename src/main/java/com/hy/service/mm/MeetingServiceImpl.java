@@ -22,7 +22,7 @@ public class MeetingServiceImpl implements MeetingService{
     private MmMeeting meeting;
 
     @Override
-    public boolean addMeeting(MmMeetingDto mmMeetingDto) {
+    public MmMeetingDto addMeeting(MmMeetingDto mmMeetingDto) {
 
 
         meeting = DTOUtil.populate(mmMeetingDto, MmMeeting.class);
@@ -34,7 +34,11 @@ public class MeetingServiceImpl implements MeetingService{
         meeting.setModifier(SecurityHelp.getUserId());
         meeting.setDomain(SecurityHelp.getDepartmentId());
 
-        return mmMeetingMapper.insertMmMeeting(meeting) == 1;
+        mmMeetingMapper.insertMmMeeting(meeting);
+        mmMeetingDto.setId(meeting.getId());
+        mmMeetingDto.setState(DateUtil.getState(DateUtil.translate(mmMeetingDto.getBegindate()),
+                DateUtil.translate(mmMeetingDto.getEnddate())));
+        return mmMeetingDto;
     }
 
     @Override

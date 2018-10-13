@@ -20,4 +20,5 @@ public interface CrmCustomersMapper {
     List<VCrmCustomerFirm> selectCrmCustomerByUid(@Param("uid") int uid, @Param("mid") int mid, @Param("value")String value,
                                             @Param("sort") String sort, @Param("dir")String dir);
     Integer selectCrmCustomerByUidTotal(@Param("uid") int uid, @Param("mid") int mid, @Param("value")String value);
+    Integer insertBatchCrmCustomer(List<CrmCustomers> crmCustomers);
 }

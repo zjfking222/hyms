@@ -4,11 +4,14 @@ import com.hy.common.ResultObj;
 import com.hy.dto.CrmCustomersFetchDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.crm.CustomersService;
+import com.hy.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +22,34 @@ public class CustomersController {
 
     @Autowired
     private CustomersService customersService;
+    @Value("${upload.location}")
+    private String location;
+    private final String UPLOAD_URL;
+
+    public CustomersController() {
+        UPLOAD_URL = "/crm/upload/excel/";
+    }
+
+    @PostMapping("/customer/batchAdd")
+    public ResultObj batchAddCustomer(@RequestParam("file") MultipartFile[] file){
+        String reStr = FileUtil.upload(file, UPLOAD_URL, location);
+        return reStr != null ? ResultObj.success(reStr) : ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
+    }
+
+    @PostMapping("/customer/batchSubmit")
+    public  ResultObj batchSubmitCustomer(String filename){
+        int check = customersService.batchAddCustomer(filename);
+        switch (check) {
+            case 0:
+                return ResultObj.error(ResultCode.ERROR_DATA_FAILED);
+            case -1:
+                return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
+            case -2:
+                return ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+            default:
+                return ResultObj.success();
+        }
+    }
 
     @PostMapping("/customer/add")
     public ResultObj addCustomer(CrmCustomersFetchDto crmCustomersFetchDto){
@@ -67,7 +98,7 @@ public class CustomersController {
             }
         }catch (Exception e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         map.put("data", customersService.getCrmCustomer(page, pageSize, value, sort, dir));
         map.put("total", customersService.getCrmCustomerTotal(value));

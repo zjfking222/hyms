@@ -105,9 +105,10 @@ var vm = new Vue({
             layer.open({
                 title:'编辑人员',
                 type: 2,
-                area: ['700px', '600px'],
+                area: ['700px', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
+                shadeClose: true,
                 content: '/crm/ywlx_user_update.html',
                 end: function () {
                     location.reload()
