@@ -212,6 +212,17 @@ var vm = new Vue({
         refresh: function () {
             var e = this.tabsBody(this.tabsPage.index).find(".layadmin-iframe");
             e[0].contentWindow.location.reload(false);
+        },
+        logout: function () {
+            layer.msg('确定要退出？', {
+                time: 0
+                , btn: ['确定', '取消']
+                , yes: function (index) {
+                    layer.close(index);
+                    window.location.href = '/index/logout';
+                }
+
+            });
         }
     }
 });

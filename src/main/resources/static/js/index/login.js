@@ -5,6 +5,7 @@ function submitLogin() {
     var loginid = $('#loginid').val();
     var password = $('#password').val();
     var res = false;
+
     $.ajax({
         type: "POST",
         contentType: "application/json",
