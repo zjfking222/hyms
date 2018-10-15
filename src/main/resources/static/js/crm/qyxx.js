@@ -49,7 +49,7 @@ var vm = new Vue({
                     {field: "cmobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "cphone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "email", title: "邮箱", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "btname", title: "所属部门", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "btid", headerAttributes: {"class": "grid-algin-center"}, width: '0px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {

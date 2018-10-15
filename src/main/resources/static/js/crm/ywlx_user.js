@@ -28,6 +28,7 @@ var vm = new Vue({
             columns: [
                 {field: "loginid", title: "账户名", headerAttributes: {"class": "grid-algin-center"}},
                 {field: "lastname", title: "姓名", headerAttributes: {"class": "grid-algin-center"},},
+                {field: "",width: '50%'}
                 // {
                 //     command: [ {name: "destroy", text: "删除"}], title: "操作",width:"180px"
                 // }

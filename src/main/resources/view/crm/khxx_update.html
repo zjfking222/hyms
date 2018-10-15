@@ -4,6 +4,77 @@
     <meta charset="UTF-8">
     <title>更新客户信息</title>
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        .search-block{
+            width: 39em;
+            background: #FFF;
+            height: auto;
+            padding-bottom: 5px;
+            box-shadow:0 0 10px #CCC;
+            overflow-y: scroll;
+            max-height: 20em;
+        }
+        .search-title{
+            width: 37.5em;
+            margin:0 auto;
+            background: #FFF;
+            height: 5.7em;
+        }
+        .search-input{
+            height: 2.5em;
+            border: 1px solid #DDD;
+            width: 95%;
+            padding-left: 2%;
+            display: inline-block;
+            margin: 3px 2.5%;
+        }
+        .search-info{
+            height: 2.5em;
+            background: #3875D7;
+            width: 95%;
+            margin: 4px auto;
+        }
+        .search-info span{
+            display: block;
+            margin: 0 13px;
+            line-height: 2.4em;
+            color: #FFF;
+        }
+        ul,li{
+            padding:0;
+            margin:0;
+            list-style:none
+        }
+        .search-result{
+            width: 37.5em;
+            margin:0 auto;
+            background: #FFF;
+            height: auto;
+        }
+        .search-result ul{
+        }
+        .search-result li{
+            margin: 4px auto;
+            width: 95%;
+            border-bottom: 1px solid #DDD;
+        }
+        .search-result span{
+            display: block;
+            margin: 0 13px;
+            line-height: 2.4em;
+            color: #000;
+        }
+        .search-result li:hover{
+            background: #3875D7;
+        }
+        .search-block{
+            position: absolute;
+            z-index: 500;
+        }
+        .search-color:hover  .search-span{
+            color: white;
+        }
+    </style>
 </head>
 <body style="width: 80% ;margin: 10px auto">
 <form>
@@ -44,14 +115,28 @@
         <input class="form-control" id="email" placeholder="输入客户邮箱">
     </div>
     <div class="form-group">
-        <label for="btid">业务类型</label>
+        <label for="btid">所属部门</label>
         <select class="form-control" id="btid">
         </select>
     </div>
     <div class="form-group">
         <label for="fid">企业单位</label>
-        <select class="form-control" id="fid">
-        </select>
+        <input class="form-control" id="fid" data-id="" autocomplete="off">
+        <div class="search-block" id="app">
+            <div class="search-title">
+                <input class="search-input" placeholder="按回车以键入搜索" type="text">
+                <div class="search-info">
+                    <span>请选择企业单位</span>
+                </div>
+            </div>
+            <div class="search-result">
+                <ul>
+                    <li v-for="cn in crm" :data-id="cn.id" @click="onchoose(cn.name,cn.id)" class="search-color">
+                        <span class="search-span">{{cn.name}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label for="vip">贵宾等级</label>
@@ -68,10 +153,11 @@
         <label for="remark">备注</label>
         <textarea class="form-control" id="remark"  style="resize:none" placeholder="输入备注信息"></textarea>
     </div>
-    <button id="submit"  class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</button>
+    <a id="submit"  class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</a>
 </form>
 </body>
 
 <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/js/crm/khxx_update.js"></script>
 </html>

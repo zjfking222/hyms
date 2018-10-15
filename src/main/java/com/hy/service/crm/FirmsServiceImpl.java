@@ -31,7 +31,7 @@ public class FirmsServiceImpl implements FirmsService {
     @Autowired
     private BusinessTypeService businessTypeService;
 
-    private String[] titleRow = {"企业名称", "固话", "地址", "联系人", "手机", "联系人固话", "邮箱", "业务类型", "备注"};
+    private String[] titleRow = {"企业名称", "固话", "地址", "联系人", "手机", "联系人固话", "邮箱", "所属部门", "备注"};
 
     private boolean titleFlag;
 
@@ -123,7 +123,7 @@ public class FirmsServiceImpl implements FirmsService {
                             btid = -1;
                         }
                         String remark = String.valueOf(getCell(row, 7));
-                        if (name != null) {
+                        if (name != null  && !name.equals("")) {
                             firms.add(new CrmFirms(name, phone, address, contacter, cmobile, cphone, email, btid, remark,
                                     SecurityHelp.getUserId(), SecurityHelp.getUserId(), SecurityHelp.getDepartmentId()));
                         }
@@ -170,6 +170,12 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public List<CrmFirmsDto> getCrmFirmByUid() {
         return DTOUtil.populateList(crmFirmsMapper.selectCrmFirmsByUid(SecurityHelp.getUserId()), CrmFirmsDto.class);
+    }
+
+    @Override
+    public List<CrmFirmsDto> getCrmFirmByLike(String value){
+        List<CrmFirms> crmFirms = crmFirmsMapper.selectCrmFirmsByLike(SecurityHelp.getUserId(),value);
+        return DTOUtil.populateList(crmFirms,CrmFirmsDto.class);
     }
 
     @Override

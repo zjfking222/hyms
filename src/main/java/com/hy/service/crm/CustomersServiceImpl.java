@@ -43,7 +43,7 @@ public class CustomersServiceImpl implements CustomersService{
     private String female = "女";
 
     private String[] titleRow = {"姓名","性别","国籍","职位","企业名称","手机","固话","邮箱",
-            "地址","业务类型","客户等级","备注"};
+            "地址","所属部门","客户等级","备注"};
 
     private boolean titleFlag;
 

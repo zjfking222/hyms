@@ -14,6 +14,9 @@ $(function () {
             $('#list').append(list1);
         }
     }
+    if (list1 === undefined ) {
+        $('#tip').html('暂无会议信息');
+    }
 });
 var list = "<a class='weui-cell weui-cell_access' href='web_hzlb.html?id=#id#'>" +
     "<div class='weui-cell__bd'>" +

@@ -54,7 +54,7 @@ var vm = new Vue({
                 }],
                 columns: [
                     { selectable:true, width: '50px'},
-                    {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '250px'},
+                    {field: "fname", title: "来宾单位", headerAttributes: {"class": "grid-algin-center"}, width: '250px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '60px'},
                     {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '60px'},

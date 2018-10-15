@@ -84,4 +84,16 @@
          WHERE crm_firms.btid = crm_businesstype_user.btid
                AND crm_businesstype_user.uid = #{uid})
     </select>
+    <select id="selectCrmFirmsByLike" resultType="com.hy.model.CrmFirms">
+        SELECT *
+        FROM crm_firms
+        WHERE EXISTS
+        (SELECT 1
+         FROM crm_businesstype_user
+         WHERE crm_firms.btid = crm_businesstype_user.btid
+               AND crm_businesstype_user.uid = #{uid}
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%'))
+        </if>)
+    </select>
 </mapper>

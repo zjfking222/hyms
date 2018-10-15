@@ -37,7 +37,7 @@ var vm = new Vue({
 
                 }],
                 columns: [
-                    {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '260px'},
+                    {field: "fname", title: "来宾单位", headerAttributes: {"class": "grid-algin-center"}, width: '260px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
@@ -46,8 +46,8 @@ var vm = new Vue({
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "vip", title: "VIP", headerAttributes: {"class": "grid-algin-center"}, width: '70px'},
-                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
-                    {field: "uname", title: "负责人", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "btname", title: "所属部门", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
+                    {field: "uname", title: "对接人", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "implement", title: "落实情况", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "modified", title: "修改时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
