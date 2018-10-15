@@ -67,12 +67,14 @@ var vm = new Vue({
                     driving:vm.receipt.driving,
                     pickup:vm.receipt.pickup,
                     arrivaltype:$('#arrivaltype').val(),
+                    arrivalfollower:$('#arrivalfollower').val(),
                     // arrivaldate:vm.receipt.arrivaldate,
                     arrivaldate:$('#arrivaldate').val(),
                     arrivalinfo:vm.receipt.arrivalinfo,
                     arrivalremark:vm.receipt.arrivalremark,
                     sendoff:vm.receipt.sendoff,
                     returntype:$('#returntype').val(),
+                    returnfollower:$('#returnfollower').val(),
                     // departuredate:vm.receipt.departuredate,
                     departuredate:$('#departuredate').val(),
                     departureinfo:vm.receipt.departureinfo,
@@ -115,5 +117,7 @@ $(function () {
     $('#arrivaltype').val(vm.receipt.arrivaltype);
 
     $('#returntype').val(vm.receipt.returntype);
+    $('#arrivalfollower').val(vm.receipt.arrivalfollower);
+    $('#returnfollower').val(vm.receipt.returnfollower);
 
 });

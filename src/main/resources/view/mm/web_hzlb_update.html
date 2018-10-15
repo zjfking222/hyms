@@ -128,7 +128,7 @@
         padding: 0 !important;
         margin-left: 0 !important;
         margin-top: 0 !important;
-        width: 2.2rem !important;
+        width: 3.2rem !important;
         text-align: center;
         -webkit-appearance: none;
     }
@@ -161,7 +161,7 @@
             </div>
         </div>
         <div class="block">
-            <label>企业</label>
+            <label>来宾单位</label>
             <div style="display: inline">
                 <textarea type="text" name="fname" v-model="receipt.customers.fid.name" readonly="readonly"
                           onfocus=this.blur()></textarea>
@@ -217,7 +217,7 @@
             </div>
         </div>
         <div class="block">
-            <label>负责人</label>
+            <label>对接人</label>
             <div style="display: inline">
                 <input type="text" name="lastname" v-model="receipt.customers.lastname" readonly="readonly" class="form-control"
                        onfocus=this.blur()>
@@ -255,6 +255,13 @@
             </div>
         </div>
         <div class="block">
+            <label>随从人数</label>
+            <div style="display: inline">
+                <input type="text" id="arrivalfollower" name="arrivalfollower"
+                       style="width: 65%;background: transparent;-webkit-appearance: none;">
+            </div>
+        </div>
+        <div class="block">
             <label>到达地点</label>
             <select name="arrivaltype" id="arrivaltype">
                 <option value="" selected>请选择...</option>
@@ -274,7 +281,7 @@
         <div class="block">
             <label>到达信息</label>
             <div style="display: inline">
-                <textarea type="text" v-model="receipt.arrivalinfo" name="arrivalinfo"></textarea>
+                <textarea type="text" v-model="receipt.arrivalinfo" name="arrivalinfo"  placeholder="请填写航站楼、航班号或车次"></textarea>
             </div>
         </div>
         <div class="block">
@@ -292,6 +299,13 @@
             </div>
         </div>
         <div class="block">
+            <label>随从人数</label>
+            <div style="display: inline">
+                <input type="text" id="returnfollower" name="returnfollower"
+                       style="width: 65%;background: transparent;-webkit-appearance: none;">
+            </div>
+        </div>
+        <div class="block">
             <label>回程地点</label>
             <select name="returntype" id="returntype">
                 <option value="" selected>请选择...</option>
@@ -305,20 +319,20 @@
             <label>回程日期</label>
             <div style="display: inline">
                 <input id="departuredate" name="departuredate" class="weui-input" type="datetime-local"
-                       style="width: 65%;background: transparent;">
+                       style="width: 65%;background: transparent;" placeholder="填写酒店出发时间">
             </div>
         </div>
         <div class="block">
             <label>回程信息</label>
             <div style="display: inline">
                 <textarea type="text" v-model="receipt.departureinfo"
-                          name="departureinfo"></textarea>
+                          name="departureinfo" placeholder="请填写航站楼、航班号或车次"></textarea>
             </div>
         </div>
         <div class="block">
             <label>回程备注</label>
             <div style="display: inline">
-            <textarea type="text" v-model="receipt.departureremark"
+            <textarea type="text" v-model="receipt.departureremark" placeholder="填写票面起飞或者发车时间"
                       name="departureremark"></textarea>
             </div>
         </div>
@@ -328,7 +342,7 @@
                 <textarea type="text"
                           style="font-size: 16px;color: red;height: 100px;padding-top: 4px;padding-left: 4px"
                           readonly="readonly"
-                          onfocus=this.blur()>回程日期：桐乡高铁站请至少提前1小时；杭州萧山机场请至少提前3小时；上海虹桥和浦东机场请至少提前4小时！</textarea>
+                          onfocus=this.blur()>回程日期计算方式：桐乡高铁站请至少提前50分钟；杭州萧山机场请至少提前3.5小时；上海虹桥、浦东机场请至少提前4小时</textarea>
             </div>
         </div>
     </form>
@@ -370,17 +384,9 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td scope="col" rowspan="2" style="width:28%;font-size: 16px;font-weight: bold;">日期</td>
-                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">午餐</td>
+                    <td scope="col" style="width:28%;font-size: 16px;font-weight: bold;">日期</td>
                     <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">午餐</td>
                     <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">晚餐</td>
-                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">晚餐</td>
-                </tr>
-                <tr>
-                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">自助</td>
-                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">桌餐</td>
-                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">自助</td>
-                    <td scope="col" style="width:18%;font-size: 16px;font-weight: bold;">桌餐</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -390,12 +396,6 @@
                     </td>
                     <td>
                         <input pattern="^\d{1}$" class="form-num" required type="number" v-model="d.lunch">
-                    </td>
-                    <td>
-                        <input pattern="^\d{1}$" class="form-num" required type="number" v-model="d.lunchx">
-                    </td>
-                    <td>
-                        <input pattern="^\d{1}$" class="form-num" required type="number" v-model="d.dinnerx">
                     </td>
                     <td>
                         <input pattern="^\d{1}$" class="form-num" required type="number" v-model="d.dinner">
@@ -413,11 +413,8 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td scope="col" style="width:15%;font-size: 16px;font-weight: bold;">日期</td>
-                    <td scope="col" style="width:30%;font-size: 16px;font-weight: bold;">酒店</td>
-                    <td scope="col" style="width:8%;font-size: 16px;font-weight: bold;">单间</td>
-                    <td scope="col" style="width:8%;font-size: 16px;font-weight: bold;">标间</td>
-                    <td scope="col" style="width:8%;font-size: 16px;font-weight: bold;">套房</td>
+                    <td scope="col" style="width:23%;font-size: 16px;font-weight: bold;">日期</td>
+                    <td scope="col" style="width:30%;font-size: 16px;font-weight: bold;">人数</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -426,19 +423,7 @@
                         <span>{{s.date}}</span>
                     </td>
                     <td>
-                        <select class="slt_hotel"
-                                style="font-size: 15px;margin-left: 0;width: 100%;text-align: center;margin-top: 0;">
-                            <option v-for="h in hotel" :value="h.id">{{h.name}}</option>
-                        </select>
-                    </td>
-                    <td>
                         <input class="form-num" pattern="^\d{1}$" required type="number" v-model="s.single">
-                    </td>
-                    <td>
-                        <input class="form-num" pattern="^\d{1}$" required type="number" v-model="s.standard">
-                    </td>
-                    <td>
-                        <input class="form-num" pattern="^\d{1}$" required type="number" v-model="s.suite">
                     </td>
                 </tr>
                 </tbody>

@@ -1,6 +1,63 @@
 var data;
 var index = parent.layer.getFrameIndex(window.name);
+
+var FetchData = function (data, method, param, async) {
+    var response =
+        $.ajax({
+            async: async,
+            url: "/crm"+param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource;
+            }});
+    return response.responseJSON;
+};
+
+var vm = new Vue({
+    el: "#app",
+    data: {
+        crm : []
+    },
+    created : function () {},
+    methods:{
+        click : function () {
+            this.crm =  FetchData({value:$('.search-input').val()}, 'POST','/firm/getByLike',false).data;
+        },
+        onchoose:function (name, id) {
+            $('#fid').val(name).attr("data-id",id);
+            $('.search-block').fadeOut(0);
+        },
+
+    }
+});
+
 $(function () {
+
+    $('.search-block').fadeOut(0);
+    $('#fid').on('click',function () {
+        $('.search-block').fadeIn(500);
+    });
+    $('.form-control').click(function () {
+        if($(this).attr('id') !== 'fid'){
+            $('.search-block').fadeOut(500);
+        }
+    });
+
+    // $("body :not(input)").click(function () {
+    //     if($(this).attr('id') !== 'fid'){
+    //         $('.search-block').fadeOut(500);
+    //     }
+    // });
+
+    $("body").on("keyup",function (e) {
+        if (e.keyCode === 13){
+            vm.click();
+        }
+    });
+
+    
     data = parent.pushData;
     var optionList = FetchData(null,'POST','/business/getByUid',false).data;
 
@@ -9,12 +66,20 @@ $(function () {
         $('#btid').append(temp0);
     }
 
-    var optionList0 = FetchData(null,'POST','/firm/getByUid',false).data;
-    for(var j = 0 ; j < optionList0.length; j++){
-        var temp1 = temp.replace('@btid',optionList0[j].id).replace('@btname',optionList0[j].name);
-        $('#fid').append(temp1);
-    }
+    // var optionList0 = FetchData(null,'POST','/firm/getByUid',false).data;
+    // for(var j = 0 ; j < optionList0.length; j++){
+    //     var temp1 = temp.replace('@btid',optionList0[j].id).replace('@btname',optionList0[j].name);
+    //     $('#fid').append(temp1);
+    // }
 
+    var crm1 = FetchData({value:$('.search-input').val()}, 'POST','/firm/getByLike',false).data;
+    var fname = '';
+    for(var j = 0; j < crm1.length; j++){
+        if(data.fid == crm1[j].id ){
+             fname = crm1[j].name;
+        }
+    }
+    console.log(fname);
     if(data.id !== 0){
         $('#name').val(data.name);
         $('#post').val(data.post);
@@ -25,7 +90,7 @@ $(function () {
         $('#phone').val(data.phone);
         $('#email').val(data.email);
         $('#btid').val(data.btid);
-        $('#fid').val(data.fid);
+        $('#fid').val(fname);
         $('#vip').val(data.vip);
         $('#remark').val(data.remark);
     }else {
@@ -43,7 +108,7 @@ $(function () {
                 phone: $('#phone').val(),
                 email: $('#email').val(),
                 btid: $('#btid').val(),
-                fid: $('#fid').val() === '' || $('#fid').val() === null ? 0:$('#fid').val(),
+                fid: $('#fid').val() === '' || $('#fid').val() === null ? 0:$('#fid').attr("data-id"),
                 vip: $('#vip').val(),
                 remark: $('#remark').val()
             };
@@ -54,7 +119,7 @@ $(function () {
                 parent.layer.close(index);
                 postData.id = request.data;
                 postData.btname = $("#btid").find("option:selected").text();
-                postData.fname = $("#fid").find("option:selected").text();
+                postData.fname = $("#fid").val();
 
                 // //对vip与性别显示修改
                 // if($('#sex').val() === 'true'){
@@ -92,7 +157,7 @@ $(function () {
                 phone: $('#phone').val(),
                 email: $('#email').val(),
                 btid: $('#btid').val(),
-                fid: $('#fid').val() === ''|| $('#fid').val() === null? 0:$('#fid').val(),
+                fid: $('#fid').val() === ''|| $('#fid').val() === null? 0:$('#fid').attr("data-id"),
                 vip: $('#vip').val(),
                 remark: $('#remark').val()
             };
@@ -100,7 +165,7 @@ $(function () {
                 parent.layer.msg('修改成功');
                 parent.layer.close(index);
                 postData.btname = $("#btid").find("option:selected").text();
-                postData.fname = $("#fid").find("option:selected").text();
+                postData.fname = $("#fid").val();
 
                 // //对vip与性别显示修改
                 // if($('#sex').val() === 'true'){
@@ -120,19 +185,8 @@ $(function () {
 
     })
 });
-
 var temp = "<option value='@btid'>@btname</option>";
 
-var FetchData = function (data, method, param, async) {
-    var response =
-        $.ajax({
-            async: async,
-            url: "/crm"+param,
-            type: method,
-            dataType: 'json',
-            data: data,
-            success: function (dataSource) {
-                return dataSource;
-            }});
-    return response.responseJSON;
-};
+
+
+

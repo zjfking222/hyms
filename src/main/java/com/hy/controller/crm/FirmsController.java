@@ -99,4 +99,9 @@ public class FirmsController {
         return ResultObj.success(firmsService.getCrmFirmByUid());
     }
 
+    @PostMapping("/firm/getByLike")
+    public ResultObj getCrmFirmByLike(String value){
+        return ResultObj.success(firmsService.getCrmFirmByLike(value));
+    }
+
 }

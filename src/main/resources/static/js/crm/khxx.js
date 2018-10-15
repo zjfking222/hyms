@@ -48,7 +48,7 @@ var vm = new Vue({
                     {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "email", title: "邮箱", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "btid", headerAttributes: {"class": "grid-algin-center"}, width: '0px'},
-                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "btname", title: "所属部门", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "fid", headerAttributes: {"class": "grid-algin-center"}, width: '0px'},
                     {field: "fname", title: "企业单位", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
