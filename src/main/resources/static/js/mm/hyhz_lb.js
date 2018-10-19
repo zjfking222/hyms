@@ -52,7 +52,9 @@ var vm = new Vue({
                     template: '<input type="text" class="k-input" id="search-input"/>' +
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加客户</a>'+
-                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.submit()"><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
+                    // '# if( ){ #' +
+                    '<a role="button" id="btnSubmit" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.submit()"><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
+                        // '# } #'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.saveAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
 
                 }],
@@ -297,11 +299,11 @@ var vm = new Vue({
                             success: function (result) {
                                 if (result.code === 0) {
                                     layer.msg('删除成功！', {time: 1000, icon: 1});
+                                    $("#grid").data("kendoGrid").dataSource.read();
                                 }
                                 else{
                                     layer.msg('删除失败！（'+result.code+result.msg+'）', {time: 2300, icon: 2});
                                 }
-                                location.reload()
                             }
                         });
                     },
@@ -311,4 +313,9 @@ var vm = new Vue({
         }
     }
 );
+$(function () {
+    if(FetchData({id : window.location.search.substr(4)},'POST','/mm/meeting/getState',false, false).data == '1'){
+        $('#btnSubmit').fadeOut(0);
+    }
+});
 

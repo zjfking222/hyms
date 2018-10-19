@@ -12,4 +12,5 @@ public interface MeetingService {
     List<MmMeetingDto> getMeeting(int pageNum, int pageSize, String value, String sort, String dir);
     int getMeetingTotal(String value);
     MmMeeting getMeetingByRid(int rid);
+    Integer getState(int id);
 }
