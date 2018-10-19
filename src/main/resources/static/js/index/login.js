@@ -14,6 +14,7 @@ function submitLogin() {
         async: false,
         success: function (data, textStatus) {
             if (data.code == 0) {
+                goPAGE();
                 res = true;
             } else {
                 $('.alert-danger').removeClass('display-hide');
@@ -40,4 +41,10 @@ function submitLogin() {
 
     });
     return res;
+}
+
+function goPAGE() {
+    if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+        $(".login-form").attr("action", "/m/index.html")
+    }
 }
