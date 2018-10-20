@@ -1,5 +1,5 @@
 $(function () {
-    var index = parent.layer.getFrameIndex();
+    var index = parent.layer.getFrameIndex(window.name);
 
     $("#input-b1").fileinput({
         language: 'zh',
