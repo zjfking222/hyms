@@ -1,0 +1,10 @@
+.menu-position-menu{
+    position: absolute;
+    top: 25%;
+    width: 100%;
+}
+.menu-position-footer{
+    position: absolute;
+    top: 90%;
+    margin-left: 5%;
+}
