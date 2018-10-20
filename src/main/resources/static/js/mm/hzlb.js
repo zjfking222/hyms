@@ -49,6 +49,7 @@ var vm = new Vue({
                 toolbar: [{
                     template: '<input type="text" class="k-input" id="search-input"/>' +
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
+                        '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加客户</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.savaAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
 
                 }],
@@ -88,7 +89,7 @@ var vm = new Vue({
                             '<span class="k-icon k-i-delete"></span>删除</a>' +
                             '# if (state == "false") { #'+
                             '<a role="butto" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.submit('+'#=id #'+')">' +
-                            '<span class="k-icon k-i-delete"></span>提交</a>' +
+                            '<span class="k-icon k-i-arrow-chevron-right"></span>提交</a>' +
                             '# } #',
                         title: " ",
                         width: "240px"
@@ -280,6 +281,21 @@ var vm = new Vue({
                     },
                     function () {
                     });
+            },
+            add:function () {
+                pushMid = window.location.search.substr(4);
+                this.layItem = layer.open({
+                    title: '添加客户',
+                    type: 2,
+                    area: ['1050px', '95%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    content: '/mm/hyhz_lb_add.html',
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
             },
             delete:function (id) {
                 layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},

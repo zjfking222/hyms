@@ -132,7 +132,7 @@ var vm = new Vue({
                     transport: {
                         read: function (options) {
                             $.ajax({
-                                url: "/mm/receipt/getReceiptInfo",
+                                url: "/mm/receipt/getReceiptInfoInBtid",
                                 data: {
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                         undefined : options.data.sort[0].field,

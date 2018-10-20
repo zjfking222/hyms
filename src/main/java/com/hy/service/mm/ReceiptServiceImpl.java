@@ -7,6 +7,7 @@ import com.hy.mapper.ms.MmReceiptMapper;
 import com.hy.model.MmReceipt;
 import com.hy.model.VMmMeetingReceipt;
 import com.hy.model.VMmReceiptInfo;
+import com.hy.service.crm.BusinessTypeService;
 import com.hy.service.crm.CustomersService;
 import com.hy.utils.DTOUtil;
 import com.hy.utils.DateUtil;
@@ -14,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -24,6 +27,9 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Autowired
     private MmReceiptMapper mmReceiptMapper;
+
+    @Autowired
+    private BusinessTypeService businessTypeService;
 
     @Autowired
     private ReceiptAgendaService agendaService;
@@ -68,7 +74,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         return mmReceiptMapper.selectMeetingViewTotal(value, state);
     }
 
-
+    //回执管理获取信息
     @Override
     public List<MmReceiptInfoViewDto> getReceiptView(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
         PageHelper.startPage(pageNum, pageSize);
@@ -90,6 +96,40 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public Integer getReceiptViewTotal(String value , int mid) {
         return mmReceiptMapper.selectReceiptViewTotal(value, mid);
+    }
+
+    //会议回执获取信息
+    @Override
+    public List<MmReceiptInfoViewDto> getReceiptViewInBtid(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<CrmBusinesstypeDto> bsTypes = businessTypeService.getBusinessTypeByUid();
+        List<Integer> btid = new LinkedList<>();
+        IntStream.range(0, bsTypes.size()).forEach(i ->
+                btid.add(bsTypes.get(i).getId()));
+        List<VMmReceiptInfo> vMmReceiptInfos = mmReceiptMapper.selectReceiptViewInBtid(value, sort, dir, mid, btid);
+
+        List<MmReceiptInfoViewDto> mmReceiptInfoViewDtos = DTOUtil.populateList(vMmReceiptInfos,MmReceiptInfoViewDto.class);
+        for (int i = 0 ; i < vMmReceiptInfos.size() ; i++){
+            if(vMmReceiptInfos.get(i).getSex()){
+                mmReceiptInfoViewDtos.get(i).setSex("男");
+            }
+            else {
+                mmReceiptInfoViewDtos.get(i).setSex("女");
+            }
+        }
+
+        return mmReceiptInfoViewDtos;
+    }
+
+    @Override
+    public Integer getReceiptViewInBtidTotal(String value , int mid) {
+        List<CrmBusinesstypeDto> bsTypes = businessTypeService.getBusinessTypeByUid();
+        List<Integer> btid = new LinkedList<>();
+        IntStream.range(0, bsTypes.size()).forEach(i ->
+                btid.add(bsTypes.get(i).getId()));
+        return mmReceiptMapper.selectReceiptViewInBtidTotal(value, mid, btid);
     }
 
     @Override
@@ -127,7 +167,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     public boolean setReceipt(MmReceiptFetchDto mmReceiptFetchDto) {
         try {
             //更新receipt
-            MmReceipt mmReceipt = DTOUtil.populate(mmReceiptFetchDto.getReceipt(),MmReceipt.class);
+            MmReceipt mmReceipt = DTOUtil.populate(mmReceiptFetchDto.getReceipt(), MmReceipt.class);
             //判断空值
             if(mmReceiptFetchDto.getReceipt().getArrivaldate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getArrivaldate())){
                 mmReceipt.setArrivaldate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getArrivaldate()));

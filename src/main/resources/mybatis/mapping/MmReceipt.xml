@@ -48,6 +48,37 @@
             OR post LIKE concat('%',#{value},'%'))
         </if>
     </select>
+
+    <select id="selectReceiptViewInBtid" resultType="com.hy.model.VMmReceiptInfo">
+        SELECT * FROM v_mm_receipt_info
+        WHERE mid = #{mid} AND btid in
+        <foreach collection="btid" index="index" item="btid" open="(" separator="," close=")">
+            #{btid}
+        </foreach>
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR uname LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+    </select>
+    <select id="selectReceiptViewInBtidTotal" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM v_mm_receipt_info
+        WHERE mid = #{mid} AND btid in
+        <foreach collection="btid" index="index" item="btid" open="(" separator="," close=")">
+            #{btid}
+        </foreach>
+        <if test="value != null and '' != value">
+            AND ( name LIKE concat('%',#{value},'%')
+            OR uname LIKE concat('%',#{value},'%')
+            OR fname LIKE concat('%',#{value},'%')
+            OR post LIKE concat('%',#{value},'%'))
+        </if>
+    </select>
+
     <delete id="deleteReceipt" parameterType="java.lang.Integer">
         DELETE FROM mm_receipt WHERE id = #{id}
     </delete>
