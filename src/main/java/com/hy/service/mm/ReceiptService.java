@@ -22,7 +22,8 @@ public interface ReceiptService {
     /**
      * 会议回执获取列表接口（通过btid控制）
      */
-    List<MmReceiptInfoViewDto> getReceiptViewInBtid(int pageNum, int pageSize, String value, String sort, String dir, int mid);
+    List<MmReceiptInfoViewDto> getReceiptViewInBtid(int pageNum, int pageSize, String value, String sort, String dir,
+                                                    int mid);
 
     Integer getReceiptViewInBtidTotal(String value, int mid);
 

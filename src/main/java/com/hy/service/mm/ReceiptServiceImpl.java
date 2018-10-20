@@ -102,12 +102,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public List<MmReceiptInfoViewDto> getReceiptViewInBtid(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
 
-        PageHelper.startPage(pageNum, pageSize);
-
         List<CrmBusinesstypeDto> bsTypes = businessTypeService.getBusinessTypeByUid();
         List<Integer> btid = new LinkedList<>();
         IntStream.range(0, bsTypes.size()).forEach(i ->
                 btid.add(bsTypes.get(i).getId()));
+        PageHelper.startPage(pageNum, pageSize);
+
         List<VMmReceiptInfo> vMmReceiptInfos = mmReceiptMapper.selectReceiptViewInBtid(value, sort, dir, mid, btid);
 
         List<MmReceiptInfoViewDto> mmReceiptInfoViewDtos = DTOUtil.populateList(vMmReceiptInfos,MmReceiptInfoViewDto.class);
