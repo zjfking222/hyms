@@ -50,6 +50,16 @@ public class SysUsersServiceImpl implements SysUsersService {
     }
 
     @Override
+    public List<SysUsersDto> getUsersByLoginid(String loginid){
+        List<SysUsersDto> sysUsersDto=new ArrayList<>();
+        List<SysUsers> sysUsers = sysUsersMapper.selectByLoginid(loginid);
+        for(SysUsers su:sysUsers){
+            sysUsersDto.add(new SysUsersDto(su.getOauserid(),su.getOaloginid(),su.getName()));
+        }
+        return sysUsersDto;
+    }
+
+    @Override
     public List<SysUsersDto> getUsersByLike(String lastname){
         return DTOUtil.populateList(sysUsersMapper.selectUsersByLike(lastname),SysUsersDto.class);
     }

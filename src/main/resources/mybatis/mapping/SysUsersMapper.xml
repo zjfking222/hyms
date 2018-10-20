@@ -186,6 +186,12 @@
     from sys_users
     where oauserid = #{oauserid}
   </select>
+  <select id="selectByLoginid" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from sys_users
+    where oaloginid = #{oaloginid}
+  </select>
   <delete id="deleteByUid" parameterType="com.hy.model.SysUsers">
     DELETE FROM sys_users
     WHERE oauserid=#{oauserid}

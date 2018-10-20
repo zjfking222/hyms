@@ -27,6 +27,7 @@ var vm = new Vue({
                 {field: "sort", title: "排序", width: "100px"},
                 {field: "parentid", title: "父菜单", width: "120px", values: this.parentmenus},// editor: workersCapStatusDropDownEditor, template: workersCapStatusText
                 {field: "enable", title: "启用", values: [{text: "启用", value: true}, {text: "禁用", value: false}]},
+                {field: "fieldType", title: "域类型", width: "60px", values: [{text: "PC", value: 0}, {text: "mobile", value: 1}, {text: "兼容", value: 2}]},
                 {field: "icon", title: "图标"},
                 {field: "permission", title: "权限标识", width: "120px"},
                 {
@@ -155,6 +156,7 @@ var vm = new Vue({
                             sort: {type: "number", nullable: true, defaultValue: 0},
                             parentid: {type: "number", nullable: false, defaultValue: 0},
                             enable: {nullable: false, defaultValue: true},
+                            fieldType: {type: "number", nullable: false, defaultValue: 0},
                             icon: {type: "string", nullable: true},
                             permission: {type: "string", nullable: true},
                         }

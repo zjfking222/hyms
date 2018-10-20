@@ -29,6 +29,8 @@ public class SysPermission {
 
     private String permission;
 
+    private String fieldType;
+
     public Integer getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class SysPermission {
 
     public void setPermission(String permission) {
         this.permission = permission == null ? null : permission.trim();
+    }
+
+    public String getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(String fieldType) {
+        this.fieldType = fieldType;
     }
 }

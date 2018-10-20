@@ -57,9 +57,18 @@ public class IndexController {
 
 
     @RequestMapping(value = "/index/config", method = RequestMethod.POST)
-    public ResultObj getMenus() {
+    public ResultObj getMenus(@RequestBody Map<String, String> info) {
         Subject subject = SecurityUtils.getSubject();
-        List<PermissionDto> list = permissionService.getUserMenus(SecurityHelp.getUserId());
+        List<PermissionDto> list = null;
+        //根据传入的参数判断当前请求是否为手机端传入，若是则获取手机端或兼容的菜单，若否，则获取web端与兼容的菜单
+        String fieldType = info.get("fieldType");
+        if("0".equals(fieldType)){
+            list = permissionService.getUserMenus(SecurityHelp.getUserId(), 0);
+        }else if("1".equals(fieldType)){
+            list = permissionService.getUserMenus(SecurityHelp.getUserId(), 1);
+        }else{
+            //未知参数
+        }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("username", SecurityHelp.getUserName());
         map.put("menus", list);

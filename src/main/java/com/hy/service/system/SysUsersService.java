@@ -8,6 +8,7 @@ import java.util.List;
 public interface SysUsersService {
     List<SysUsersDto> getUsers();
     List<SysUsersDto> getUsersByUid(int oauserid);
+    List<SysUsersDto> getUsersByLoginid(String oaloginid);
     List<SysUsersDto> getUsersByLike(String name);
     boolean addUsers(SysUsersNewDto sysUsersNewDto);
     boolean deleteUsers(int id);

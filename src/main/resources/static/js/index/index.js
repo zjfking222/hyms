@@ -12,6 +12,8 @@ var vm = new Vue({
         $.ajax({
             url: "/index/config",
             type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({"fieldType": "0"}),
             async: false,
             success: function (data, state) {
                 if (data.code == 0) {
