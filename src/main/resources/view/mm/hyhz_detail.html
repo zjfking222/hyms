@@ -10,7 +10,7 @@
     <link href="/css/qzgz/admin/dashboard.css" rel="stylesheet">
     <style>
         .tb {
-            width: 32%;
+            width: 29%;
             display: inline-block;
         }
 
@@ -49,10 +49,10 @@
     </style>
 </head>
 
-<body>
+<body style="padding-top: 0px;">
 <div id="app">
     <div class="row">
-        <div class="tb">
+        <div class="tb" style="width: 36%">
             <div class="title">
                 <span>议程详情</span>
             </div>
@@ -152,7 +152,7 @@
                             <input type="checkbox" v-model="receipt.pickup" name="pickup" disabled=false
                                    class="form-control" style="margin: 0px; width: 16px;">
                         </div>
-                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px;margin-left: -80px;">随从人数</label>
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px;margin-left: -66px;">随从人数</label>
                             <input type="text" v-model="receipt.arrivalfollower" name="arrivalfollower" readonly="readonly"
                                    class="form-control" style="width: 50px; margin-top:8px">
                     </div>
@@ -193,7 +193,7 @@
                             <input type="checkbox" v-model="receipt.sendoff" name="sendoff" disabled=false
                                    class="form-control" style="margin: 0px; width: 16px;">
                         </div>
-                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px;margin-left: -80px;">随从人数</label>
+                        <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-top:7px;margin-left: -66px;">随从人数</label>
                         <div  style="margin-top:8px">
                             <input type="text" v-model="receipt.returnfollower" name="returnfollower" readonly="readonly"
                                    class="form-control" style="width: 50px;">

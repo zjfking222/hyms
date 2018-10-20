@@ -62,7 +62,17 @@ var vm = new Vue({
             ,type: 'datetime'
         });
 
-        $('#submit').on('click',function () {
+        if (this.receipt.customers.vip == 1) {
+            this.receipt.customers.vip = '非常重要'
+        } else if (this.receipt.customers.vip == 2) {
+            this.receipt.customers.vip = '重要'
+        } else if (this.receipt.customers.vip == 3) {
+            this.receipt.customers.vip = '一般'
+        } else {
+            this.receipt.customers.vip = ''
+        }
+
+        $('#submit').one('click',function () {
             vm.postData = {
                 receipt:{
                     id:vm.receipt.id,

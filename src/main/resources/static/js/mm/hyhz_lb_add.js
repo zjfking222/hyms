@@ -56,8 +56,8 @@ var vm = new Vue({
                     { selectable:true, width: '50px'},
                     {field: "fname", title: "来宾单位", headerAttributes: {"class": "grid-algin-center"}, width: '250px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '60px'},
-                    {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '60px'},
+                    {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
+                    {field: "nationality", title: "国籍", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
@@ -92,6 +92,17 @@ var vm = new Vue({
                                         //         result.data.data[i].vip_display = '';
                                         // }
 
+                                        for (var i=0;i < result.data.data.length;i++) {
+                                            if (result.data.data[i].vip == 1) {
+                                                result.data.data[i].vip = '非常重要'
+                                            } else if (result.data.data[i].vip == 2) {
+                                                result.data.data[i].vip = '重要'
+                                            } else if (result.data.data[i].vip == 3) {
+                                                result.data.data[i].vip = '一般'
+                                            }else {
+                                                result.data.data[i].vip = ''
+                                            }
+                                        }
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else

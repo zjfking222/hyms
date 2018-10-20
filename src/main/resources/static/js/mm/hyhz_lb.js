@@ -70,7 +70,7 @@ var vm = new Vue({
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "vip", title: "VIP", headerAttributes: {"class": "grid-algin-center"}, width: '70px'},
+                    {field: "vip", title: "VIP", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {field: "btname", title: "所属部门", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "uname", title: "对接人", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -164,7 +164,17 @@ var vm = new Vue({
                                                 result.data.data[i].state_display = 'checked':
                                                 result.data.data[i].state_display = '';
                                         }
-
+                                        for (var i=0;i < result.data.data.length;i++) {
+                                            if (result.data.data[i].vip == 1) {
+                                                result.data.data[i].vip = '非常重要'
+                                            } else if (result.data.data[i].vip == 2) {
+                                                result.data.data[i].vip = '重要'
+                                            } else if (result.data.data[i].vip == 3) {
+                                                result.data.data[i].vip = '一般'
+                                            }else {
+                                                result.data.data[i].vip = ''
+                                            }
+                                        }
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else

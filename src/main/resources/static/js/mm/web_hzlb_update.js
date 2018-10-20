@@ -51,6 +51,15 @@ var vm = new Vue({
         this.bus = FetchData({mid: pushMid}, 'POST', '/mm/bus/getInfo', false).data;
     },
     mounted: function () {
+        if (this.receipt.customers.vip == 1) {
+            this.receipt.customers.vip = '非常重要'
+        } else if (this.receipt.customers.vip == 2) {
+            this.receipt.customers.vip = '重要'
+        } else if (this.receipt.customers.vip == 3) {
+            this.receipt.customers.vip = '一般'
+        } else {
+            this.receipt.customers.vip = ''
+        }
         $('#submit').on('click', function () {
             if (confirm("确定要提交吗？")) {
                 var a = $('#arrivaldate').val();
@@ -115,4 +124,5 @@ $(function () {
     var hybus = "<a href='../mm/web_hybc.html?mid=#pushMid#'>查看班车</a>";
     var bus = hybus.replace('#pushMid#', pushMid);
     $('#hybus').append(bus);
+
 });

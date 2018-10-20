@@ -122,7 +122,7 @@ public class FirmsServiceImpl implements FirmsService {
                         }catch (NumberFormatException e){
                             btid = -1;
                         }
-                        String remark = String.valueOf(getCell(row, 7));
+                        String remark = String.valueOf(getCell(row, 8));
                         if (name != null  && !name.equals("")) {
                             firms.add(new CrmFirms(name, phone, address, contacter, cmobile, cphone, email, btid, remark,
                                     SecurityHelp.getUserId(), SecurityHelp.getUserId(), SecurityHelp.getDepartmentId()));
