@@ -14,4 +14,6 @@ public interface SysUsersService {
     boolean deleteUsers(int id);
     List<SysUsersDto> getAllUsers(int pageNum,int pageSize, String value, String sort, String dir);
     int getTotalUsers(String value);
+
+
 }

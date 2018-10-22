@@ -61,6 +61,7 @@ public class ShiroRealm extends AuthorizingRealm {
         if(users == null || users.size() == 0){//未在本系统中存在账号时不予以等乐居
             throw new IncorrectCredentialsException();
         }
+
         LOGGER.debug(hrmResource.getPassword().toLowerCase());
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 hrmResource, hrmResource.getPassword().toLowerCase(), getName());

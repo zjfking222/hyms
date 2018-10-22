@@ -27,6 +27,7 @@ public class PermissionDto {
     private String fieldType;
 
     private List<PermissionDto> PermissionDtoList;
+
     public List<PermissionDto> getPermissionDtoList() {
         return PermissionDtoList;
     }
@@ -34,7 +35,6 @@ public class PermissionDto {
     public void setPermissionDtoList(List<PermissionDto> permissionDtoList) {
         this.PermissionDtoList = permissionDtoList;
     }
-
 
     public Integer getId() {
         return id;

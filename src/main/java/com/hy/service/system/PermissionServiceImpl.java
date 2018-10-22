@@ -123,4 +123,6 @@ public class PermissionServiceImpl implements PermissionService {
     public int deleteById(int id) {
         return sysPermissionMapper.deleteByPrimaryKey(id);
     }
+
+
 }

@@ -142,4 +142,5 @@ public class SysPermission {
     public void setFieldType(String fieldType) {
         this.fieldType = fieldType;
     }
+
 }

@@ -67,7 +67,7 @@ public class IndexController {
         }else if("1".equals(fieldType)){
             list = permissionService.getUserMenus(SecurityHelp.getUserId(), 1);
         }else{
-            //未知参数
+            //未知参数，待添加
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("username", SecurityHelp.getUserName());
