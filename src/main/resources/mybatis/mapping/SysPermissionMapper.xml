@@ -15,10 +15,11 @@
     <result column="icon" property="icon" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="BIT" />
     <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="fieldType" property="fieldType" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, url, sort, parentId, enable, creater, created, modifier, modified, icon, 
-    type, permission
+    type, permission, fieldType
   </sql>
   <select id="selectAll" resultMap="BaseResultMap" >
   select
@@ -65,6 +66,16 @@
     and sys_role_permission.mid=sys_permission.id and sys_role_user.uid=#{userId,jdbcType=INTEGER})
     order by sort desc
   </select>
+  <select id="selectUserFieldMenus" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_permission
+    where type=0 and enable=1 and (fieldType=#{ftype,jdbcType=INTEGER} or fieldType=2)
+    and exists(select 1 from sys_role_user JOIN sys_role_permission
+    where sys_role_user.rid=sys_role_permission.rid
+    and sys_role_permission.mid=sys_permission.id and sys_role_user.uid=#{userId,jdbcType=INTEGER})
+    order by sort desc
+  </select>
   <select id="selectRoleMenus" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
@@ -81,12 +92,12 @@
       sort, parentId, enable, 
       creater, created, modifier, 
       modified, icon, type, 
-      permission)
+      permission, fieldType)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{sort,jdbcType=TINYINT}, #{parentid,jdbcType=INTEGER}, #{enable,jdbcType=BIT}, 
       #{creater,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, 
       #{modified,jdbcType=TIMESTAMP}, #{icon,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, 
-      #{permission,jdbcType=VARCHAR})
+      #{permission,jdbcType=VARCHAR}, #{fieldType,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysPermission" >
     <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
@@ -133,6 +144,9 @@
       <if test="permission != null" >
         permission,
       </if>
+      <if test="fieldType != null" >
+        fieldType,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -173,6 +187,9 @@
       </if>
       <if test="permission != null" >
         #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldType != null" >
+        #{fieldType,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -215,6 +232,9 @@
       <if test="permission != null" >
         permission = #{permission,jdbcType=VARCHAR},
       </if>
+      <if test="fieldType != null" >
+        fieldType = #{fieldType,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -231,7 +251,9 @@
       modified = #{modified,jdbcType=TIMESTAMP},
       icon = #{icon,jdbcType=VARCHAR},
       type = #{type,jdbcType=BIT},
-      permission = #{permission,jdbcType=VARCHAR}
+      permission = #{permission,jdbcType=VARCHAR},
+      fieldType = #{fieldType,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
+

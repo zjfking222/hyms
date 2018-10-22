@@ -51,6 +51,15 @@ var vm = new Vue({
         this.bus = FetchData({mid: pushMid}, 'POST', '/mm/bus/getInfo', false).data;
     },
     mounted: function () {
+        if (this.receipt.customers.vip == 1) {
+            this.receipt.customers.vip = '非常重要'
+        } else if (this.receipt.customers.vip == 2) {
+            this.receipt.customers.vip = '重要'
+        } else if (this.receipt.customers.vip == 3) {
+            this.receipt.customers.vip = '一般'
+        } else {
+            this.receipt.customers.vip = ''
+        }
         $('#submit').on('click', function () {
             if (confirm("确定要提交吗？")) {
                 var a = $('#arrivaldate').val();
@@ -66,11 +75,13 @@ var vm = new Vue({
                         driving: vm.receipt.driving,
                         pickup: vm.receipt.pickup,
                         arrivaltype: $('#arrivaltype').val(),
+                        arrivalfollower: $('#arrivalfollower').val(),
                         arrivaldate: ad,
                         arrivalinfo: vm.receipt.arrivalinfo,
                         arrivalremark: vm.receipt.arrivalremark,
                         sendoff: vm.receipt.sendoff,
                         returntype: $('#returntype').val(),
+                        returnfollower: $('#returnfollower').val(),
                         departuredate: dd,
                         departureinfo: vm.receipt.departureinfo,
                         departureremark: vm.receipt.departureremark,
@@ -81,8 +92,8 @@ var vm = new Vue({
                     agenda: vm.agenda,
                     stay: vm.stay
                 };
-                for (var i = 0; i < $('.slt_hotel').length; i++) {
-                    vm.stay[i].hid = $('.slt_hotel').eq(i).val();
+                for (var i = 0 ; i < vm.stay.length ; i++) {
+                    vm.stay[i].hid = vm.hotel[0].id;
                 }
 
                 FetchData(JSON.stringify(vm.postData), 'POST', '/mm/receipt/set', false, true).code === 0 ?
@@ -101,14 +112,17 @@ $(function () {
     $('#departuredate').val(vm.receipt.departuredate);
     $('#arrivaltype').val(vm.receipt.arrivaltype);
     $('#returntype').val(vm.receipt.returntype);
-    for (var i = 0; i < $('.slt_hotel').length; i++) {
-        $('.slt_hotel').eq(i).children('option').each(function () {
-            if ($(this).text() === vm.stay[i].name) {
-                $(this).prop("selected", true);
-            }
-        })
-    }
+    $('#arrivalfollower').val(vm.receipt.arrivalfollower);
+    $('#returnfollower').val(vm.receipt.returnfollower);
+    // for (var i = 0; i < $('.slt_hotel').length; i++) {
+    //     $('.slt_hotel').eq(i).children('option').each(function () {
+    //         if ($(this).text() === vm.stay[i].name) {
+    //             $(this).prop("selected", true);
+    //         }
+    //     })
+    // }
     var hybus = "<a href='../mm/web_hybc.html?mid=#pushMid#'>查看班车</a>";
     var bus = hybus.replace('#pushMid#', pushMid);
     $('#hybus').append(bus);
+
 });

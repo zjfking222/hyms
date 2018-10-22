@@ -1,6 +1,8 @@
 package com.hy.model;
 
-public class HrmResource {
+import java.io.Serializable;
+
+public class HrmResource implements Serializable {
     private Integer id;
 
     private String loginid;

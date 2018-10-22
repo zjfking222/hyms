@@ -59,7 +59,17 @@ var vm = new Vue({
             ,type: 'datetime'
         });
 
-        $('#submit').on('click',function () {
+        if (this.receipt.customers.vip == 1) {
+            this.receipt.customers.vip = '非常重要'
+        } else if (this.receipt.customers.vip == 2) {
+            this.receipt.customers.vip = '重要'
+        } else if (this.receipt.customers.vip == 3) {
+            this.receipt.customers.vip = '一般'
+        } else {
+            this.receipt.customers.vip = ''
+        }
+
+        $('#submit').one('click',function () {
             vm.postData = {
                 receipt:{
                     id:vm.receipt.id,
@@ -67,12 +77,14 @@ var vm = new Vue({
                     driving:vm.receipt.driving,
                     pickup:vm.receipt.pickup,
                     arrivaltype:$('#arrivaltype').val(),
+                    arrivalfollower:$('#arrivalfollower').val(),
                     // arrivaldate:vm.receipt.arrivaldate,
                     arrivaldate:$('#arrivaldate').val(),
                     arrivalinfo:vm.receipt.arrivalinfo,
                     arrivalremark:vm.receipt.arrivalremark,
                     sendoff:vm.receipt.sendoff,
                     returntype:$('#returntype').val(),
+                    returnfollower:$('#returnfollower').val(),
                     // departuredate:vm.receipt.departuredate,
                     departuredate:$('#departuredate').val(),
                     departureinfo:vm.receipt.departureinfo,
@@ -115,5 +127,7 @@ $(function () {
     $('#arrivaltype').val(vm.receipt.arrivaltype);
 
     $('#returntype').val(vm.receipt.returntype);
+    $('#arrivalfollower').val(vm.receipt.arrivalfollower);
+    $('#returnfollower').val(vm.receipt.returnfollower);
 
 });

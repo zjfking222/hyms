@@ -17,6 +17,7 @@ public interface FirmsService {
     CrmFirmsFetchDto getCrmFirmById(int id);
     //获取企业列表，不分页
     List<CrmFirmsDto> getCrmFirmByUid();
+    List<CrmFirmsDto> getCrmFirmByLike(String value);
     //获取企业字典
     HashMap<String, Integer> getAllCrmFirm();
 }

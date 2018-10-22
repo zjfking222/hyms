@@ -2,6 +2,7 @@ package com.hy.service.crm;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityHelp;
+import com.hy.dto.CrmBusinesstypeDto;
 import com.hy.dto.CrmFirmsDto;
 import com.hy.dto.CrmFirmsFetchDto;
 import com.hy.mapper.ms.CrmFirmsMapper;
@@ -19,6 +20,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @Service
@@ -29,9 +31,9 @@ public class FirmsServiceImpl implements FirmsService {
     @Autowired
     private BusinessTypeService businessTypeService;
 
-    private String[] titleRow = {"企业名称", "固话", "地址", "联系人", "手机", "联系人固话", "邮箱", "业务类型", "备注"};
+    private String[] titleRow = {"企业名称", "固话", "地址", "联系人", "手机", "联系人固话", "邮箱", "所属部门", "备注"};
 
-    private boolean titleFlag = true;
+    private boolean titleFlag;
 
     @Override
     public Integer addCrmFirm(CrmFirmsFetchDto crmFirmsDto) {
@@ -77,12 +79,16 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public Integer batchAddFirm(String filepath) {
         try {
+            titleFlag = true;
             InputStream inputStream = new FileInputStream("files" + filepath);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheetAt = workbook.getSheetAt(0);
             List<CrmFirms> firms = new ArrayList<>();
             List<CrmFirmsDto> list = DTOUtil.populateList(crmFirmsMapper.selectAllCrmFirms(), CrmFirmsDto.class);
             HashMap<String, String> firmsMap = new HashMap<>();
+            Map<Integer, CrmBusinesstypeDto> businessTypeMap = new HashMap<>();
+            businessTypeService.getBusinessType().forEach(i -> businessTypeMap.put(i.getId(),i));
+
             IntStream.range(0, list.size()).forEach(i ->
                     firmsMap.put(list.get(i).getName(), list.get(i).getName())
             );
@@ -107,13 +113,17 @@ public class FirmsServiceImpl implements FirmsService {
                         String cphone = String.valueOf(getCell(row, 5));
                         String email = String.valueOf(getCell(row, 6));
                         int btid;
-                        try {
-                            btid = Integer.valueOf(String.valueOf(getCell(row, 7)));
-                        } catch (NumberFormatException e) {
+                        try{
+                            if(businessTypeMap.containsKey(Integer.valueOf(String.valueOf(getCell(row, 7))))){
+                                btid = Integer.valueOf(String.valueOf(getCell(row, 7)));
+                            }else{
+                                btid = -1;
+                            }
+                        }catch (NumberFormatException e){
                             btid = -1;
                         }
-                        String remark = String.valueOf(getCell(row, 7));
-                        if (name != null) {
+                        String remark = String.valueOf(getCell(row, 8));
+                        if (name != null  && !name.equals("")) {
                             firms.add(new CrmFirms(name, phone, address, contacter, cmobile, cphone, email, btid, remark,
                                     SecurityHelp.getUserId(), SecurityHelp.getUserId(), SecurityHelp.getDepartmentId()));
                         }
@@ -160,6 +170,12 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public List<CrmFirmsDto> getCrmFirmByUid() {
         return DTOUtil.populateList(crmFirmsMapper.selectCrmFirmsByUid(SecurityHelp.getUserId()), CrmFirmsDto.class);
+    }
+
+    @Override
+    public List<CrmFirmsDto> getCrmFirmByLike(String value){
+        List<CrmFirms> crmFirms = crmFirmsMapper.selectCrmFirmsByLike(SecurityHelp.getUserId(),value);
+        return DTOUtil.populateList(crmFirms,CrmFirmsDto.class);
     }
 
     @Override

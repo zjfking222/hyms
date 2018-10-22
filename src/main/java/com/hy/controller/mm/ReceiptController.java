@@ -41,6 +41,17 @@ public class ReceiptController {
         return ResultObj.success(map);
     }
 
+    @PostMapping("/receipt/getReceiptInfoInBtid")
+    public ResultObj getReceiptInfoViewInBtid(int page, int pageSize, @RequestParam(required = false) String value,
+                                        @RequestParam(required = false) String sort,
+                                        @RequestParam(required = false) String dir,
+                                        int mid){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("data", receiptService.getReceiptViewInBtid(page, pageSize, value, sort, dir, mid));
+        map.put("total", receiptService.getReceiptViewInBtidTotal(value , mid));
+        return ResultObj.success(map);
+    }
+
     @PostMapping("/receipt/getReceiptDetail")
     public ResultObj getReceiptDetail(int rid){
         return ResultObj.success(receiptService.getReceiptDetail(rid));

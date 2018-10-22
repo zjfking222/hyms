@@ -10,11 +10,13 @@ public class MmReceiptDto {
     private String arrivaldate;
     private String arrivalinfo;
     private String arrivaltype;
+    private int arrivalfollower;
     private String arrivalremark;
     private boolean sendoff;
     private String departuredate;
     private String departureinfo;
     private String returntype;
+    private int returnfollower;
     private String departureremark;
     private int uid;
     private String remark;
@@ -86,6 +88,14 @@ public class MmReceiptDto {
         this.arrivaltype = arrivaltype;
     }
 
+    public int getArrivalfollower() {
+        return arrivalfollower;
+    }
+
+    public void setArrivalfollower(int arrivalfollower) {
+        this.arrivalfollower = arrivalfollower;
+    }
+
     public String getArrivalremark() {
         return arrivalremark;
     }
@@ -124,6 +134,14 @@ public class MmReceiptDto {
 
     public void setReturntype(String returntype) {
         this.returntype = returntype;
+    }
+
+    public int getReturnfollower() {
+        return returnfollower;
+    }
+
+    public void setReturnfollower(int returnfollower) {
+        this.returnfollower = returnfollower;
     }
 
     public String getDepartureremark() {

@@ -25,10 +25,12 @@
 /.nb-gradle/
 /src/test/
 /src/main/resources/generator/
-/src/main/resources/application-dev.properties
-/src/main/resources/application.properties
 /src/main/resources/application-prod.properties
 /src/main/resources/generator/generatorConfig.xml
 /logs/
 /logs/springboot.log
 /files/
+/src/main/java/META-INF/
+/src/main/resources/application-dev.properties
+/src/main/java/com/hy/config/shiro/
+/src/main/java/com/hy/config/redis/
