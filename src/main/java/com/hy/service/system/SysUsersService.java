@@ -6,6 +6,7 @@ import com.hy.dto.SysUsersNewDto;
 import java.util.List;
 
 public interface SysUsersService {
+
     List<SysUsersDto> getUsers();
     List<SysUsersDto> getUsersByUid(int oauserid);
     List<SysUsersDto> getUsersByLoginid(String oaloginid);

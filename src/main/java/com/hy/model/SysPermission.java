@@ -143,4 +143,5 @@ public class SysPermission {
         this.fieldType = fieldType;
     }
 
+
 }
