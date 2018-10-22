@@ -28,15 +28,6 @@ public interface PermissionService {
     List<PermissionDto> getUserMenus(int userId);
 
     /**
-     * @Author 钱敏杰
-     * @Description 根据域类型获取用户的菜单权限列表
-     * @Date 2018/10/17 7:50
-     * @Param [userId, fieldType]
-     * @return java.util.List<com.hy.dto.PermissionDto>
-     **/
-    List<PermissionDto> getUserMenus(int userId, int fieldType);
-
-    /**
      * 获取菜单 用于角色管理
      * @param
      * @return
@@ -85,4 +76,12 @@ public interface PermissionService {
      */
     int  deleteById(int id);
 
+    /**
+     * @Author 钱敏杰
+     * @Description 根据域类型获取用户的菜单权限列表
+     * @Date 2018/10/17 7:50
+     * @Param [userId, fieldType]
+     * @return java.util.List<com.hy.dto.PermissionDto>
+     **/
+    List<PermissionDto> getUserMenus(int userId, int fieldType);
 }

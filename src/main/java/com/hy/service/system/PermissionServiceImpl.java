@@ -52,33 +52,6 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDto> getUserMenus(int userId, int fieldType) {
-        // 查询数据库
-        List<SysPermission> list = sysPermissionMapper.selectUserFieldMenus(userId, fieldType);
-
-        Map<Integer, PermissionDto> map = new LinkedHashMap<Integer, PermissionDto>();
-        for (int i = 0; i < list.size(); i++) {
-            PermissionDto dto = DTOUtil.populate(list.get(i), PermissionDto.class);
-            map.put(dto.getId(), dto);
-        }
-        for (PermissionDto d : map.values()) {
-            if (map.containsKey(d.getParentid())) {
-                PermissionDto parent = map.get(d.getParentid());
-                if (parent.getPermissionDtoList() == null) {
-                    parent.setPermissionDtoList(new ArrayList<PermissionDto>());
-                }
-                parent.getPermissionDtoList().add(d);
-            }
-        }
-        List<PermissionDto> listdto = new ArrayList<PermissionDto>();
-        for (PermissionDto d : map.values()) {
-            if (d.getPermissionDtoList() != null)
-                listdto.add(d);
-        }
-        return listdto;
-    }
-
-    @Override
     public List<SysPermissionDto> getRoleMenus() {
         return DTOUtil.populateList(sysPermissionMapper.selectRoleMenus(), SysPermissionDto.class);
     }
@@ -124,5 +97,30 @@ public class PermissionServiceImpl implements PermissionService {
         return sysPermissionMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public List<PermissionDto> getUserMenus(int userId, int fieldType) {
+        // 查询数据库
+        List<SysPermission> list = sysPermissionMapper.selectUserFieldMenus(userId, fieldType);
 
+        Map<Integer, PermissionDto> map = new LinkedHashMap<Integer, PermissionDto>();
+        for (int i = 0; i < list.size(); i++) {
+            PermissionDto dto = DTOUtil.populate(list.get(i), PermissionDto.class);
+            map.put(dto.getId(), dto);
+        }
+        for (PermissionDto d : map.values()) {
+            if (map.containsKey(d.getParentid())) {
+                PermissionDto parent = map.get(d.getParentid());
+                if (parent.getPermissionDtoList() == null) {
+                    parent.setPermissionDtoList(new ArrayList<PermissionDto>());
+                }
+                parent.getPermissionDtoList().add(d);
+            }
+        }
+        List<PermissionDto> listdto = new ArrayList<PermissionDto>();
+        for (PermissionDto d : map.values()) {
+            if (d.getPermissionDtoList() != null)
+                listdto.add(d);
+        }
+        return listdto;
+    }
 }
