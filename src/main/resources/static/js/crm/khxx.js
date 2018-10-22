@@ -51,7 +51,7 @@ var vm = new Vue({
                     {field: "btname", title: "所属部门", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "fid", headerAttributes: {"class": "grid-algin-center"}, width: '0px'},
                     {field: "fname", title: "企业单位", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "vip", title: "客户等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {
                         command: [{
