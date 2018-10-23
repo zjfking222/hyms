@@ -10,6 +10,7 @@ import com.hy.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -95,5 +96,16 @@ public class MeetingServiceImpl implements MeetingService{
     @Override
     public MmMeeting getMeetingByRid(int rid) {
         return mmMeetingMapper.selectMeetingByRid(rid);
+    }
+
+    //返回状态，给会议回执使用,当返回1时不显示提交按钮
+    @Override
+    public Integer getState(int id) {
+        MmMeeting mmMeeting = mmMeetingMapper.selectMeetingById(id);
+        if( new Date().after(mmMeeting.getDeadline()) ){
+            return 1;
+        }else {
+            return 0;
+        }
     }
 }

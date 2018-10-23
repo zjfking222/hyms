@@ -51,7 +51,7 @@ var vm = new Vue({
                     {field: "btname", title: "所属部门", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "fid", headerAttributes: {"class": "grid-algin-center"}, width: '0px'},
                     {field: "fname", title: "企业单位", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
-                    {field: "vip", title: "贵宾等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "vip", title: "客户等级", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {
                         command: [{
@@ -112,6 +112,17 @@ var vm = new Vue({
                                             //     result.data.data[i].sex_display = '男':
                                             //     result.data.data[i].sex_display = '女';
                                         // }
+                                        for (var i=0;i < result.data.data.length;i++) {
+                                            if (result.data.data[i].vip == 1) {
+                                                result.data.data[i].vip = '非常重要'
+                                            } else if (result.data.data[i].vip == 2) {
+                                                result.data.data[i].vip = '重要'
+                                            } else if (result.data.data[i].vip == 3) {
+                                                result.data.data[i].vip = '一般'
+                                            }else {
+                                                result.data.data[i].vip = ''
+                                            }
+                                        }
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else
@@ -215,7 +226,6 @@ var vm = new Vue({
             },
             edit:function(){
                 layer.close(vm.layItem)
-                console.log(pushData)
                 this.layItem = layer.open({
                     title:'编辑信息',
                     type: 2,

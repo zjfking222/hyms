@@ -83,7 +83,7 @@
     </style>
 </head>
 
-<body>
+<body style="padding-top: 0px;">
 <div id="app">
     <div class="tb1">
         <div class="title">
@@ -129,9 +129,9 @@
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label class="control-label col-md-4 col-sm-4  col-xs-4 ">VIP</label>
-                <div class=" col-md-4 col-sm-4  col-xs-8">
+                <div class=" col-md-8 col-sm-8  col-xs-8">
                     <input type="text" name="vip" v-model="receipt.customers.vip" readonly="readonly"
-                           class="form-control" style="margin: 0px; width: 40px;">
+                           class="form-control" style="width: 100%;">
                 </div>
             </div>
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
@@ -251,7 +251,7 @@
                         <input type="checkbox" v-model="receipt.pickup" name="pickup" class="form-control"
                                style="margin: 0px; width: 16px;">
                     </div>
-                    <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-left: -80px;">随从人数</label>
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-left: -66px;">随从人数</label>
                     <input type="text" id="arrivalfollower" name="arrivalfollower" class="form-control" style="width: 50px;">
                 </div>
                 <!--<div class="form-group  col-md-4 col-sm-4 ">-->
@@ -269,6 +269,7 @@
                             <option value="杭州萧山机场">杭州萧山机场</option>
                             <option value="上海虹桥机场">上海虹桥机场</option>
                             <option value="上海浦东机场">上海浦东机场</option>
+                            <option value="其它">其它</option>
                         </select>
                     </div>
                 </div>
@@ -301,7 +302,7 @@
                         <input type="checkbox" v-model="receipt.sendoff" name="sendoff" class="form-control"
                                style="margin: 0px; width: 16px;">
                     </div>
-                    <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-left: -80px;">随从人数</label>
+                    <label class="control-label col-md-4 col-sm-4  col-xs-4" style="margin-left: -66px;">随从人数</label>
                     <input input type="text" id="returnfollower" name="returnfollower" class="form-control" style="width: 50px;">
                 </div>
                 <!--<div class="form-group  col-md-4 col-sm-4 ">-->
@@ -319,6 +320,7 @@
                             <option value="杭州萧山机场">杭州萧山机场</option>
                             <option value="上海虹桥机场">上海虹桥机场</option>
                             <option value="上海浦东机场">上海浦东机场</option>
+                            <option value="其它">其它</option>
                         </select>
                     </div>
                 </div>
