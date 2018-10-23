@@ -35,4 +35,4 @@
 /src/main/java/com/hy/config/shiro/
 /src/main/java/com/hy/config/redis/
 /out/
-/pom.xml
+/src/main/resources/application.properties
