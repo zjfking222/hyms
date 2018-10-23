@@ -4,7 +4,7 @@ var index = parent.layer.getFrameIndex(window.name);
 var postData;
 $(function () {
     function dataSearch(search) {
-        return FetchData({search:search},'POST','/oa/hr/getSearch',false).data;
+        return FetchData({value:search},'POST','/system/users/search',false).data;
     }
     function dataSource(rid) {
         return FetchData({btid:rid},'POST','/crm/businessUser/get',false).data;

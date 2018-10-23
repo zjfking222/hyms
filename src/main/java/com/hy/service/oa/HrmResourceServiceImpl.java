@@ -43,18 +43,17 @@ public class HrmResourceServiceImpl implements HrmResourceService {
         HashMap<String, SysUsersDto> map = new HashMap<>();
         List<HrmResource> list = hrmResourceMapper.selectHrByLike(loginid, lastname);
         List<SysUsersDto> dto = sysUsersService.getUsers();
-        List<HrmResource> newList=new ArrayList<>();
+        List<HrmResource> newList = new ArrayList<>();
         IntStream.range(0, dto.size()).forEach(i ->
                 map.put(dto.get(i).getOaloginid(), dto.get(i))
         );
-        IntStream.range(0, list.size()).forEachOrdered(i->{
+        IntStream.range(0, list.size()).forEachOrdered(i -> {
             if (map.containsKey(list.get(i).getLoginid())){
 
             }else {
                 newList.add(list.get(i));
             }
         });
-        System.out.println(list.size());
         return newList;
     }
 
