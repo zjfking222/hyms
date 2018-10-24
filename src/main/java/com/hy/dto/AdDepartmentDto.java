@@ -1,6 +1,8 @@
 package com.hy.dto;
 
 
+import java.util.List;
+
 public class AdDepartmentDto {
     private int did;
     private String name;
@@ -8,6 +10,42 @@ public class AdDepartmentDto {
     private int parentid;
     private String dn;
     private String olddn;
+    private List<AdDepartmentDto> children;
+    private int state;
+    private String date;
+    private String time;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public List<AdDepartmentDto> getChild() {
+        return children;
+    }
+
+    public void setChild(List<AdDepartmentDto> child) {
+        this.children = child;
+    }
 
     public int getDid() {
         return did;

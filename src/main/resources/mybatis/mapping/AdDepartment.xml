@@ -10,4 +10,18 @@
             #{item.date}, #{item.time},#{item.creater}, #{item.modifier})
         </foreach>
     </insert>
+    <select id="selectAdDepartment"  resultType="com.hy.model.AdDepartment">
+        select *
+        from ad_department
+        where date=#{date} and time=#{time}
+    </select>
+    <select id="getTime" resultType="com.hy.model.AdDepartment">
+        select distinct time
+        from ad_department
+        where date=#{date}
+    </select>
+    <select id="getChangeDep" resultType="com.hy.model.AdDepartment">
+        select * from ad_department
+        where state!=-1 and date=#{date} and time=#{time}
+    </select>
 </mapper>
