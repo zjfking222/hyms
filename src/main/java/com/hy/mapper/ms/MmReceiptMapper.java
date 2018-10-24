@@ -17,6 +17,13 @@ public interface MmReceiptMapper {
 
     Integer selectReceiptViewTotal(@Param("value") String value, @Param("mid")int mid);
 
+    List<VMmReceiptInfo> selectReceiptViewInBtid(@Param("value") String value, @Param("sort") String sort,
+                                                 @Param("dir") String dir, @Param("mid") int mid,
+                                                 @Param("btid")List<Integer> btid);
+
+    Integer selectReceiptViewInBtidTotal(@Param("value") String value, @Param("mid") int mid,
+                                         @Param("btid")List<Integer> btid);
+
     Integer deleteReceipt(@Param("id") int id);
 
     MmReceipt selectReceiptById(@Param("id")int id);

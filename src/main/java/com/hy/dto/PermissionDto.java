@@ -24,7 +24,10 @@ public class PermissionDto {
 
     private String permission;
 
+    private String fieldType;
+
     private List<PermissionDto> PermissionDtoList;
+
     public List<PermissionDto> getPermissionDtoList() {
         return PermissionDtoList;
     }
@@ -32,7 +35,6 @@ public class PermissionDto {
     public void setPermissionDtoList(List<PermissionDto> permissionDtoList) {
         this.PermissionDtoList = permissionDtoList;
     }
-
 
     public Integer getId() {
         return id;
@@ -104,5 +106,13 @@ public class PermissionDto {
 
     public void setPermission(String permission) {
         this.permission = permission == null ? null : permission.trim();
+    }
+
+    public String getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(String fieldType) {
+        this.fieldType = fieldType;
     }
 }

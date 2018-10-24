@@ -59,4 +59,13 @@ public class SysUsersController {
         map.put("total", sysUsersService.getTotalUsers(value));
         return ResultObj.success(map);
     }
+
+    @PostMapping("users/search")
+    public ResultObj getUserSearch(@RequestParam(required = false) String value){
+        try {
+            return ResultObj.success(sysUsersService.getUsersBySearch(value));
+        }catch (Exception e){
+            return ResultObj.error(ResultCode.ERROR_UNKNOWN);
+        }
+    }
 }

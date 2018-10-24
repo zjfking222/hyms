@@ -44,4 +44,7 @@
         WHERE mt.id = rc.mid
         AND rc.id = #{rid}
     </select>
+    <select id="selectMeetingById" resultType="com.hy.model.MmMeeting">
+        SELECT * FROM mm_meeting WHERE id = #{id}
+    </select>
 </mapper>

@@ -13,11 +13,13 @@ public class MmReceipt {
     private String arrivalinfo;
     private String arrivalremark;
     private String arrivaltype;
+    private int arrivalfollower;
     private boolean sendoff;
     private Date departuredate;
     private String departureinfo;
     private String departureremark;
     private String returntype;
+    private int returnfollower;
     private int uid;
     private String remark;
     private String implement;
@@ -101,6 +103,14 @@ public class MmReceipt {
         this.arrivaltype = arrivaltype;
     }
 
+    public int getArrivalfollower() {
+        return arrivalfollower;
+    }
+
+    public void setArrivalfollower(int arrivalfollower) {
+        this.arrivalfollower = arrivalfollower;
+    }
+
     public String getReturntype() {
         return returntype;
     }
@@ -131,6 +141,14 @@ public class MmReceipt {
 
     public void setDepartureinfo(String departureinfo) {
         this.departureinfo = departureinfo;
+    }
+
+    public int getReturnfollower() {
+        return returnfollower;
+    }
+
+    public void setReturnfollower(int returnfollower) {
+        this.returnfollower = returnfollower;
     }
 
     public String getDepartureremark() {

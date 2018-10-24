@@ -22,16 +22,17 @@ var vm = new Vue({
             pageable: true,
             toolbar: ["create"],
             columns: [
-                {field: "name", title: "名称", width: "140px", headerAttributes: {"class": "grid-algin-center"}},
-                {field: "url", title: "URL", width: "260px"},
-                {field: "sort", title: "排序", width: "100px"},
-                {field: "parentid", title: "父菜单", width: "120px", values: this.parentmenus},// editor: workersCapStatusDropDownEditor, template: workersCapStatusText
-                {field: "enable", title: "启用", values: [{text: "启用", value: true}, {text: "禁用", value: false}]},
-                {field: "icon", title: "图标"},
-                {field: "permission", title: "权限标识", width: "120px"},
+                {field: "name", title: "名称", width: "10%", headerAttributes: {"class": "grid-algin-center"}},
+                {field: "url", title: "URL", width: "20%"},
+                {field: "sort", title: "排序", width: "8%"},
+                {field: "parentid", title: "父菜单", width: "10%", values: this.parentmenus},// editor: workersCapStatusDropDownEditor, template: workersCapStatusText
+                {field: "enable", title: "启用", width: "8%", values: [{text: "启用", value: true}, {text: "禁用", value: false}]},
+                {field: "fieldType", title: "域类型", width: "10%", values: [{text: "PC", value: 0}, {text: "mobile", value: 1}, {text: "兼容", value: 2}]},
+                {field: "icon",width: "8%", title: "图标"},
+                {field: "permission", title: "权限标识", width: "10%"},
                 {
                     command: [{name: "edit", text: {edit: "编辑", cancel: "取消", update: "更新"}},
-                        {name: "destroy", text: "删除"}], title: " ", width: "180px"
+                        {name: "destroy", text: "删除"}], title: " ", width: "15%"
                 }
             ],
             edit: function (e) {
@@ -155,6 +156,7 @@ var vm = new Vue({
                             sort: {type: "number", nullable: true, defaultValue: 0},
                             parentid: {type: "number", nullable: false, defaultValue: 0},
                             enable: {nullable: false, defaultValue: true},
+                            fieldType: {type: "number", nullable: false, defaultValue: 0},
                             icon: {type: "string", nullable: true},
                             permission: {type: "string", nullable: true},
                         }
@@ -187,3 +189,4 @@ var vm = new Vue({
         }
     }
 });
+

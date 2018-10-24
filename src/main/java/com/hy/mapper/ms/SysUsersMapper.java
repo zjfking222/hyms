@@ -11,8 +11,11 @@ public interface SysUsersMapper extends BaseMapper<Integer,SysUsers> {
 
     List<SysUsers> selectUsers();
     List<SysUsers> selectByUid(@Param("oauserid")int oauserid);
+    List<SysUsers> selectByLoginid(@Param("oaloginid")String oauserid);
     List<SysUsers> selectUsersByLike(@Param("name")String name);
     List<SysUsers> selectAllUsers(@Param("value") String value, @Param("sort") String sort,
                                   @Param("dir") String dir);
     Integer selectTotalUsers(@Param("value")String value);
+
+
 }

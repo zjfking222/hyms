@@ -51,4 +51,8 @@ public class MeetingController {
         map.put("total",meetingService.getMeetingTotal(value));
         return ResultObj.success(map);
     }
+    @PostMapping("/meeting/getState")
+    public ResultObj getMeetingState(int id){
+        return ResultObj.success(meetingService.getState(id));
+    }
 }

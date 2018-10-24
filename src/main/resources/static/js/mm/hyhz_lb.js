@@ -52,7 +52,9 @@ var vm = new Vue({
                     template: '<input type="text" class="k-input" id="search-input"/>' +
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加客户</a>'+
-                    '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.submit()"><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
+                    // '# if( ){ #' +
+                    '<a role="button" id="btnSubmit" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.submit()"><span class="k-icon k-i-arrow-chevron-right"></span>提交</a>'+
+                        // '# } #'+
                     '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.saveAsExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>'
 
                 }],
@@ -60,7 +62,7 @@ var vm = new Vue({
                     { selectable:true, width: '50px'},
                     {field: "id", headerAttributes: {"class": "grid-algin-center"}, width: '0', hidden:'true'},
 
-                    {field: "fname", title: "单位名称", headerAttributes: {"class": "grid-algin-center"}, width: '260px'},
+                    {field: "fname", title: "来宾单位", headerAttributes: {"class": "grid-algin-center"}, width: '260px'},
                     {field: "name", title: "客户姓名", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     // {field: "sex", title: "性别",template:'<span>#=sex_display#</span>', headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "sex", title: "性别", headerAttributes: {"class": "grid-algin-center"}, width: '80px'},
@@ -68,9 +70,9 @@ var vm = new Vue({
                     {field: "post", title: "职位", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "mobile", title: "手机", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "phone", title: "固话", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "vip", title: "VIP", headerAttributes: {"class": "grid-algin-center"}, width: '70px'},
-                    {field: "btname", title: "业务类型", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
-                    {field: "uname", title: "负责人", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "vip", title: "VIP", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "btname", title: "所属部门", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
+                    {field: "uname", title: "对接人", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {field: "remark", title: "备注", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "implement", title: "落实情况", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
                     {field: "modified", title: "修改时间", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -130,7 +132,7 @@ var vm = new Vue({
                     transport: {
                         read: function (options) {
                             $.ajax({
-                                url: "/mm/receipt/getReceiptInfo",
+                                url: "/mm/receipt/getReceiptInfoInBtid",
                                 data: {
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                         undefined : options.data.sort[0].field,
@@ -162,7 +164,17 @@ var vm = new Vue({
                                                 result.data.data[i].state_display = 'checked':
                                                 result.data.data[i].state_display = '';
                                         }
-
+                                        for (var i=0;i < result.data.data.length;i++) {
+                                            if (result.data.data[i].vip == 1) {
+                                                result.data.data[i].vip = '非常重要'
+                                            } else if (result.data.data[i].vip == 2) {
+                                                result.data.data[i].vip = '重要'
+                                            } else if (result.data.data[i].vip == 3) {
+                                                result.data.data[i].vip = '一般'
+                                            }else {
+                                                result.data.data[i].vip = ''
+                                            }
+                                        }
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else
@@ -297,11 +309,11 @@ var vm = new Vue({
                             success: function (result) {
                                 if (result.code === 0) {
                                     layer.msg('删除成功！', {time: 1000, icon: 1});
+                                    $("#grid").data("kendoGrid").dataSource.read();
                                 }
                                 else{
                                     layer.msg('删除失败！（'+result.code+result.msg+'）', {time: 2300, icon: 2});
                                 }
-                                location.reload()
                             }
                         });
                     },
@@ -311,4 +323,9 @@ var vm = new Vue({
         }
     }
 );
+$(function () {
+    if(FetchData({id : window.location.search.substr(4)},'POST','/mm/meeting/getState',false, false).data == '1'){
+        $('#btnSubmit').fadeOut(0);
+    }
+});
 

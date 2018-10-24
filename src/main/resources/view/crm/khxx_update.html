@@ -4,74 +4,182 @@
     <meta charset="UTF-8">
     <title>更新客户信息</title>
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="width: 80% ;margin: 10px auto">
-<form>
-    <div class="form-group">
-        <label for="name">姓名</label>
-        <input class="form-control" id="name" placeholder="输入客户姓名">
-    </div>
-    <div class="form-group">
-        <label for="post">职位</label>
-        <input class="form-control" id="post" placeholder="输入客户职位">
-    </div>
-    <div class="form-group">
-        <label for="nationality">国籍</label>
-        <input class="form-control" id="nationality" placeholder="输入客户国籍">
-    </div>
-    <div class="form-group">
-        <label for="address">地址</label>
-        <input class="form-control" id="address" placeholder="输入客户所在地址">
+    <style type="text/css">
+        .search-block {
+            width: 39em;
+            background: #FFF;
+            height: auto;
+            padding-bottom: 5px;
+            box-shadow: 0 0 10px #CCC;
+            overflow-y: scroll;
+            max-height: 20em;
+        }
 
-    </div>
-    <div class="form-group">
-        <label for="sex">性别</label>
-        <select class="form-control" id="sex">
-            <option value="男">男</option>
-            <option value="女">女</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="mobile">手机</label>
-        <input class="form-control" id="mobile" placeholder="输入客户手机号">
-    </div>
-    <div class="form-group">
-        <label for="phone">固话</label>
-        <input class="form-control" id="phone" placeholder="输入固话">
-    </div>
-    <div class="form-group">
-        <label for="email">邮箱</label>
-        <input class="form-control" id="email" placeholder="输入客户邮箱">
-    </div>
-    <div class="form-group">
-        <label for="btid">业务类型</label>
-        <select class="form-control" id="btid">
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="fid">企业单位</label>
-        <select class="form-control" id="fid">
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="vip">贵宾等级</label>
-        <select class="form-control" id="vip">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="remark">备注</label>
-        <textarea class="form-control" id="remark"  style="resize:none" placeholder="输入备注信息"></textarea>
-    </div>
-    <button id="submit"  class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</button>
-</form>
+        .search-title {
+            width: 37.5em;
+            margin: 0 auto;
+            background: #FFF;
+            height: 5.7em;
+        }
+
+        .search-input {
+            height: 2.5em;
+            border: 1px solid #DDD;
+            width: 95%;
+            padding-left: 2%;
+            display: inline-block;
+            margin: 3px 2.5%;
+        }
+
+        .search-info {
+            height: 2.5em;
+            background: #3875D7;
+            width: 95%;
+            margin: 4px auto;
+        }
+
+        .search-info span {
+            display: block;
+            margin: 0 13px;
+            line-height: 2.4em;
+            color: #FFF;
+        }
+
+        ul, li {
+            padding: 0;
+            margin: 0;
+            list-style: none
+        }
+
+        .search-result {
+            width: 37.5em;
+            margin: 0 auto;
+            background: #FFF;
+            height: auto;
+        }
+
+        .search-result ul {
+        }
+
+        .search-result li {
+            margin: 4px auto;
+            width: 95%;
+            border-bottom: 1px solid #DDD;
+        }
+
+        .search-result span {
+            display: block;
+            margin: 0 13px;
+            line-height: 2.4em;
+            color: #000;
+        }
+
+        .search-result li:hover {
+            background: #3875D7;
+        }
+
+        .search-block {
+            position: absolute;
+            z-index: 500;
+        }
+
+        .search-color:hover .search-span {
+            color: white;
+        }
+
+        #mask {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            background: transparent;
+            z-index: 300;
+        }
+    </style>
+</head>
+<body>
+<div id="mask">
+
+</div>
+<div style="width: 80% ;margin: 10px auto">
+    <form>
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <input class="form-control" id="name" placeholder="输入客户姓名">
+        </div>
+        <div class="form-group">
+            <label for="post">职位</label>
+            <input class="form-control" id="post" placeholder="输入客户职位">
+        </div>
+        <div class="form-group">
+            <label for="nationality">国籍</label>
+            <input class="form-control" id="nationality" placeholder="输入客户国籍">
+        </div>
+        <div class="form-group">
+            <label for="address">地址</label>
+            <input class="form-control" id="address" placeholder="输入客户所在地址">
+
+        </div>
+        <div class="form-group">
+            <label for="sex">性别</label>
+            <select class="form-control" id="sex">
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="mobile">手机</label>
+            <input class="form-control" id="mobile" placeholder="输入客户手机号">
+        </div>
+        <div class="form-group">
+            <label for="phone">固话</label>
+            <input class="form-control" id="phone" placeholder="输入固话">
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            <input class="form-control" id="email" placeholder="输入客户邮箱">
+        </div>
+        <div class="form-group">
+            <label for="btid">所属部门</label>
+            <select class="form-control" id="btid">
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fid">企业单位</label>
+            <input class="form-control" id="fid" data-id="" autocomplete="off">
+            <div class="search-block" id="app">
+                <div class="search-title">
+                    <input class="search-input" placeholder="按回车键搜索" type="text">
+                    <div class="search-info">
+                        <span>请选择企业单位</span>
+                    </div>
+                </div>
+                <div class="search-result">
+                    <ul>
+                        <li v-for="cn in crm" :data-id="cn.id" @click="onchoose(cn.name,cn.id)" class="search-color">
+                            <span class="search-span">{{cn.name}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="vip">客户等级</label>
+            <select class="form-control" id="vip">
+                <option value="3" selected>一般</option>
+                <option value="2">重要</option>
+                <option value="1">非常重要</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="remark">备注</label>
+            <textarea class="form-control" id="remark" style="resize:none" placeholder="输入备注信息"></textarea>
+        </div>
+        <a id="submit" class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</a>
+    </form>
+</div>
 </body>
 
 <script type="text/javascript" src="/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/js/crm/khxx_update.js"></script>
 </html>
