@@ -37,6 +37,9 @@
         <if test="sort != null and '' != sort">
             ORDER BY CONVERT(${sort} USING gbk) ${dir}
         </if>
+        <if test="sort == null or '' != sort">
+            ORDER BY modified desc
+        </if>
     </select>
     <select id="selectReceiptViewTotal" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM v_mm_receipt_info
@@ -63,6 +66,9 @@
         </if>
         <if test="sort != null and '' != sort">
             ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+        <if test="sort == null or '' != sort">
+            ORDER BY modified desc
         </if>
     </select>
     <select id="selectReceiptViewInBtidTotal" resultType="java.lang.Integer">
