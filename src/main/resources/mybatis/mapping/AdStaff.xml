@@ -10,4 +10,16 @@
             #{item.duty}, #{item.oldduty}, #{item.dn}, #{item.olddn}, #{item.date}, #{item.time}, #{item.creater}, #{item.modifier})
         </foreach>
     </insert>
+
+    <select id="selectAdStaff" resultType="com.hy.model.AdStaff">
+        select *
+        from ad_staff
+        where date=#{date} and time=#{time}
+        limit #{page},#{limit}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1)
+        from ad_staff
+        where date=#{date} and time=#{time}
+    </select>
 </mapper>

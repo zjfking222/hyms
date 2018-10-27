@@ -1,5 +1,7 @@
 $(document).ready(function(){
-    mui.init();
+    mui.init({
+
+    });
     mui.ajax('/index/config',{
         data:{
             fieldType:'1'
@@ -20,12 +22,12 @@ $(document).ready(function(){
                         var menustr = "";
                         mui.each(menus, function (index, item) {
                             menustr +='<li class=\"mui-table-view-cell mui-collapse\">';
-                            menustr += '<a class="mui-navigate-right" href="#">' + item.name + '</a>';
+                            menustr += '<a class="mui-navigate-right" style="font-size: large;" href="#">' + item.name + '</a>';
                             if(item.permissionDtoList){
                                 menustr += '<ul class="mui-table-view mui-table-view-chevron">';
                                 mui.each(item.permissionDtoList, function (pindex, pitem) {
                                     menustr += '<li class="mui-table-view-cell" urltext="' + pitem.url + '" liname="'+ pitem.name +'">';
-                                    menustr += '<a class="mui-navigate-right" href="javascript:void(0);">' + pitem.name + '</a>';
+                                    menustr += '<a class="mui-navigate-right" style="font-size: large;" href="javascript:void(0);">' + pitem.name + '</a>';
                                     menustr += '</li>';
                                 });
                                 menustr += '</ul>';
@@ -55,7 +57,28 @@ $(document).ready(function(){
         $("#appmaintitle").text(title);
         //隐藏菜单页面
         mui('.mui-off-canvas-wrap').offCanvas().close();
-    })
+    });
+
+    //退出登录状态
+    $('.appexit').on('tap', function() {
+        mui.confirm('确定退出登录？', '提示', ['确定', '取消'], function(e) {
+            if(e.index == 0) {
+                localStorage.clear();
+                window.location.href = '/index/logout';
+            }
+        }, 'div');
+    });
 });
+
+var iframeParam;
+//提供子页面调用切换新iframe子页面
+function loadIframe(title, url, param){
+    //新页面标题
+    $("#appmaintitle").text(title);
+    //新页面url
+    $("#appmaincontent")[0].src = url;
+    //新页面参数
+    iframeParam = param;
+}
 
 

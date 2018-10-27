@@ -8,6 +8,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 
@@ -33,8 +35,16 @@ public class ShiroConfiguration {
     @Value("${spring.shiro.session.expire:1800}")
     private int sessionExpire;
 
+    @Resource
+    private ShiroSessionDAO sessionDAO;
+
     @Autowired
     private PermissionService permissionService;
+
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
 
     @Bean
     public ShiroRealm myShiroRealm() {
@@ -75,7 +85,7 @@ public class ShiroConfiguration {
         listeners.add(sessionListener());
         sessionManager.setSessionListeners(listeners);
         sessionManager.setSessionIdCookie(sessionIdCookie());
-        sessionManager.setSessionDAO(sessionDAO());
+        sessionManager.setSessionDAO(this.sessionDAO);
         sessionManager.setCacheManager(redisCacheManager());
         sessionManager.setSessionFactory(sessionFactory());
         //全局会话超时时间（单位毫秒），默认30分钟
@@ -169,6 +179,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/plugins/**", "anon");
+        filterChainDefinitionMap.put("/api/**", "anon");
         filterChainDefinitionMap.put("/qzgz/web/**", "anon");
         filterChainDefinitionMap.put("/qzgz/upload/**", "anon");
         //AJAX登录判断
@@ -209,8 +220,8 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setLoginUrl("/index/login.html");
         shiroFilterFactoryBean.setSuccessUrl("/index/index.html");
         shiroFilterFactoryBean.setUnauthorizedUrl("/public/403.html");
-        //AuthcFilter自定义拦截
-//        shiroFilterFactoryBean.getFilters().put("authFilter",new AuthcFilter());
+        //logout自定义拦截
+        shiroFilterFactoryBean.getFilters().put("logout", new ShiroLogoutFilter(this.sessionDAO));
         this.loadShiroFilterChain(shiroFilterFactoryBean);
         return shiroFilterFactoryBean;
     }
