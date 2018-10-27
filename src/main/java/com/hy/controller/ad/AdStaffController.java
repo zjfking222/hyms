@@ -28,7 +28,6 @@ public class AdStaffController {
             return ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
         }
     }
-
     @PostMapping("/staff/select")
     public Map<String, Object> selectAdStaff(int page, int limit, String date, String time) {
         Map<String, Object> map = new HashMap<>();

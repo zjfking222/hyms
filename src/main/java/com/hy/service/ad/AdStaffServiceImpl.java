@@ -2,22 +2,19 @@ package com.hy.service.ad;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
 import com.hy.dto.AdStaffDto;
 import com.hy.mapper.ms.AdStaffMapper;
-
-import com.hy.model.AdDepartment;
 import com.hy.model.AdStaff;
 import com.hy.utils.DTOUtil;
+import com.hy.utils.DataProvider;
+import com.sap.conn.jco.*;
+import com.sap.conn.jco.ext.DestinationDataProvider;
+import com.sap.conn.jco.ext.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
@@ -25,6 +22,50 @@ public class AdStaffServiceImpl implements AdStaffService {
     @Autowired
     private AdStaffMapper adStaffMapper;
 
+    private void getProvider(){
+        // 获取单例
+        DataProvider myProvider = DataProvider.getInstance();
+        Environment.registerDestinationDataProvider(myProvider);
+        Properties connectProperties = new Properties();
+        connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, "192.168.100.152");
+        connectProperties.setProperty(DestinationDataProvider.JCO_SYSNR, "00");
+        connectProperties.setProperty(DestinationDataProvider.JCO_CLIENT, "800");
+        connectProperties.setProperty(DestinationDataProvider.JCO_USER, "BG_OA");
+        connectProperties.setProperty(DestinationDataProvider.JCO_PASSWD, "Huay20180401");
+        connectProperties.setProperty(DestinationDataProvider.JCO_LANG, "zh");
+        String destinationName = "ABAP_AS";
+        myProvider.addDestination(destinationName, connectProperties);
+    }
+    //sap端获取人员和部门
+    @Override
+    public List<AdStaff> getSapStaff(){
+        getProvider();
+        try {
+            JCoDestination destination = JCoDestinationManager.getDestination("ABAP_AS");
+            List<AdStaff> staffList = new ArrayList<>();
+            JCoFunction function = destination.getRepository().getFunction("ZHR_AD002_PERSON_INFO");//从对象仓库中获取 RFM 函数：获取公司列表
+            if (function == null)
+                throw new RuntimeException("ZHR_AD002_PERSON_INFO not found in SAP.");
+            try {
+                function.execute(destination);
+            } catch (AbapException e) {
+                System.out.println(e.toString());
+            }
+            JCoTable codes = function.getTableParameterList().getTable("ZHRS_PERNR");
+
+            IntStream.range(0, codes.getNumRows()).forEach(i -> {
+                codes.setRow(i);
+                staffList.add(new AdStaff(Integer.valueOf(codes.getString("ZPERNR")),codes.getString("ZNACHN"),
+                        codes.getString("ZYX"),codes.getString("ZDH"),Integer.valueOf(codes.getString("SBMID")),
+                        codes.getString("SBMTX"), codes.getString("SGWTX")));
+            });
+            return staffList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     @Override
     public boolean addAdStaff(JSONObject adStaffObj) {
         Object jsonArray = adStaffObj.getJSONArray("staff");
