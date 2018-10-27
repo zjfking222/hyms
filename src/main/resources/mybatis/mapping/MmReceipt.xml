@@ -37,7 +37,7 @@
         <if test="sort != null and '' != sort">
             ORDER BY CONVERT(${sort} USING gbk) ${dir}
         </if>
-        <if test="sort == null or '' != sort">
+        <if test="sort == null or '' == sort">
             ORDER BY modified desc
         </if>
     </select>
@@ -67,7 +67,7 @@
         <if test="sort != null and '' != sort">
             ORDER BY CONVERT(${sort} USING gbk) ${dir}
         </if>
-        <if test="sort == null or '' != sort">
+        <if test="sort == null or '' == sort">
             ORDER BY modified desc
         </if>
     </select>
