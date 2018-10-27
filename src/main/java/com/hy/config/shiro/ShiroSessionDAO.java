@@ -73,6 +73,16 @@ public class ShiroSessionDAO extends AbstractSessionDAO implements CacheManagerA
         }
     }
 
+
+    private void expire(Serializable sessionId) throws UnknownSessionException {
+        if (sessionId == null)
+            return;
+        ShiroCache<Serializable, Session> cache = (ShiroCache) this.getActiveSessionsCacheLazy();
+        if (cache != null) {
+            cache.expire(sessionId);
+        }
+    }
+
     protected void uncache(Session session) {
         if (session == null || session.getId() == null)
             return;
@@ -103,9 +113,10 @@ public class ShiroSessionDAO extends AbstractSessionDAO implements CacheManagerA
             return;
         }
         if (session instanceof ShiroSession) {
-            // 如果没有主要字段(除lastAccessTime以外其他字段)发生改变
+            // 如果没有主要字段(除lastAccessTime以外其他字段)发生改变,刷新缓存
             ShiroSession ss = (ShiroSession) session;
             if (!ss.isChanged()) {
+                this.expire(session.getId());
                 return;
             }
             //如果没有返回 证明有调用 setAttribute往redis 放的时候永远设置为false

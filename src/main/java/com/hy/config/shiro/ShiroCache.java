@@ -6,7 +6,9 @@ import org.apache.shiro.cache.CacheException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class ShiroCache<K, V> implements Cache<K, V> {
 
@@ -22,7 +24,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
     public ShiroCache(RedisTemplate redisTemplate, String name, int expire) {
         this.redisTemplate = redisTemplate;
         if (!StringUtil.isNullOrEmpty(name))
-            this.keyPrefix += name;
+            this.keyPrefix += name + ":";
         this.expire = expire;
     }
 
@@ -32,11 +34,22 @@ public class ShiroCache<K, V> implements Cache<K, V> {
         return redisTemplate.opsForValue().get(getkeyPrefix(k));
     }
 
+    /***
+     * 设置过期时间
+     * @param k
+     */
+    public void expire(K k) {
+        logger.debug("更新缓存时间:{}", k);
+        if (redisTemplate.hasKey(getkeyPrefix(k))) {
+            redisTemplate.expire(getkeyPrefix(k), this.expire, TimeUnit.SECONDS);
+        }
+    }
+
     @Override
     public V put(K k, V v) throws CacheException {
         logger.debug("创建缓存:{}", k);
         V old = get(k);
-        redisTemplate.opsForValue().set(getkeyPrefix(k), v);
+        redisTemplate.opsForValue().set(getkeyPrefix(k), v, this.expire, TimeUnit.SECONDS);
         return old;
     }
 

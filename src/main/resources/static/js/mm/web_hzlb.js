@@ -8,7 +8,7 @@ $(function () {
         page: page,
         pageSize: pageSize,
         mid: pushMid
-    }, 'POST', '/receipt/getReceiptInfo', false).data;
+    }, 'POST', '/receipt/getReceiptInfoInBtid', false).data;
     for (var i = 0; i < dataSource.data.length; i++) {
         var list1 = list.replace('#id#', dataSource.data[i].id)
             .replace('#fname#', dataSource.data[i].fname === null ? "" : dataSource.data[i].fname)
@@ -37,7 +37,7 @@ $(function () {
                 pageSize: pageSize,
                 mid: pushMid,
                 value: $('#searchInput').val()
-            }, 'POST', '/receipt/getReceiptInfo', false).data;
+            }, 'POST', '/receipt/getReceiptInfoInBtid', false).data;
             for (var i = 0; i < dataSource.data.length; i++) {
                 var list2 = list.replace('#id#', dataSource.data[i].id)
                     .replace('#fname#', dataSource.data[i].fname === null ? "" : dataSource.data[i].fname)
@@ -64,7 +64,7 @@ $(function () {
                 pageSize: pageSize,
                 mid: pushMid,
                 value: $('#searchInput').val()
-            }, 'POST', '/receipt/getReceiptInfo', false).data;
+            }, 'POST', '/receipt/getReceiptInfoInBtid', false).data;
             for (var i = 0; i < dataSource.data.length; i++) {
                 var list3 = list.replace('#id#', dataSource.data[i].id)
                     .replace('#fname#', dataSource.data[i].fname === null ? "" : dataSource.data[i].fname)
@@ -85,7 +85,7 @@ $(function () {
                     pageSize: pageSize,
                     mid: pushMid,
                     value: $('#searchInput').val()
-                }, 'POST', '/receipt/getReceiptInfo', false).data;
+                }, 'POST', '/receipt/getReceiptInfoInBtid', false).data;
                 if(dataSource1.data.length === 0){
                     $('#tip').html('无更多数据');
                 }else {

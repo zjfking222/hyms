@@ -34,5 +34,6 @@
 /src/main/resources/application-dev.properties
 /src/main/java/com/hy/config/shiro/
 /src/main/java/com/hy/config/redis/
-/src/main/resources/application.properties
 /out/
+/pom.xml
+/src/main/resources/application.properties
