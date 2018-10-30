@@ -132,7 +132,7 @@ var vm = new Vue({
             this.layItem = layer.open({
                 title: '添加系统用户',
                 type: 2,
-                area: ['450px', '600px'],
+                area: ['450px', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 shadeClose: true,

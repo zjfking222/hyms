@@ -162,7 +162,7 @@ var vm = new Vue({
             this.layItem = layer.open({
                 title: '添加班车',
                 type: 2,
-                area: ['450px', '600px'],
+                area: ['450px', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 content: '/mm/hybc_update.html',
@@ -177,7 +177,7 @@ var vm = new Vue({
             this.layItem = layer.open({
                 title: '编辑班车',
                 type: 2,
-                area: ['450px', '600px'],
+                area: ['450px', '80%'],
                 fixed: false, //不固定
                 maxmin: true,
                 content: '/mm/hybc_update.html',
