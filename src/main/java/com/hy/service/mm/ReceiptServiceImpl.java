@@ -172,7 +172,7 @@ public class ReceiptServiceImpl implements ReceiptService {
             if(mmReceiptFetchDto.getReceipt().getArrivaldate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getArrivaldate())){
                 mmReceipt.setArrivaldate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getArrivaldate()));
             }
-            if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getArrivaldate())){
+            if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getDeparturedate())){
                 mmReceipt.setDeparturedate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getDeparturedate()));
             }
             mmReceipt.setModifier(SecurityHelp.getUserId());
