@@ -1,6 +1,5 @@
 .menu-position-menu{
     position: absolute;
-    top: 10%;
     width: 100%;
 }
 .menu-position-footer{
@@ -16,4 +15,21 @@
 .app-scroll-wrapper iframe {
     width: 100%;
     height: 100%;
+}
+.content-cell-p{
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #8f8f94;
+    float: left;
+    border-bottom: 1px solid #efeff4;
+}
+.mui-scroll-wrapper-menu{
+    overflow:auto !important;
+    top: 10%;
+    bottom: 11%;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    width: 100%;
 }
