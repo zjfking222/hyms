@@ -23,6 +23,19 @@ public class AdStaff {
     private Date modified;
     private int count;
 
+    public AdStaff(int id, String name, String email, String phone, int depid, String depname, String duty) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.depid = depid;
+        this.depname = depname;
+        this.duty = duty;
+    }
+
+    public AdStaff() {
+    }
+
     public int getCount() {
         return count;
     }

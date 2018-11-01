@@ -1,36 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8" />
     <title>华友管理系统</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link rel="stylesheet" type="text/css" href="/plugins/mui/css/mui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/m/app.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/m/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="/statics/plugins/mui/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/statics/css/m/app.css"/>
+    <link rel="stylesheet" type="text/css" href="/statics/css/m/reset.css"/>
 </head>
 <body>
     <!-- 主界面移动、菜单不动 -->
     <div class="mui-off-canvas-wrap mui-draggable">
         <!-- 菜单容器 -->
         <aside class="mui-off-canvas-left" id="offCanvasSide">
-            <div class="mui-scroll-wrapper">
+            <div class="mui-icon" style="padding-top: 10px;">
+                <img src="/statics/img/common/hylog-login.png" />
+            </div>
+            <div class="mui-scroll-wrapper mui-scroll-wrapper-menu">
                 <div class="mui-scroll" style="position: initial;">
                     <!-- 菜单具体展示内容 -->
-                    <div class="mui-icon" style="padding-top: 10px;">
-                        <img src="/img/common/hylog-login.png" />
-                        <!--<div class="mui-icon-contact">
-                            <label id="usernamelabel"></label>
-                        </div>-->
-                    </div>
-                    <div class="menu-position-menu">
-                        <ul id="appmenulist" class="mui-table-view mui-table-view-chevron">
-                            <!--以下需要使用js拼接生成列表，病使用append的模式添加到menulist中-->
+                    <div id="appmenulist" class="menu-position-menu">
+                        <ul class="mui-table-view mui-table-view-chevron">
+                            <!--以下使用vue绑定-->
+                            <li v-for="item in menus" class="mui-table-view-cell mui-collapse">
+                                <a class="mui-navigate-right" style="font-size: large;" href="#">{{ item.name }}</a>
+                                <ul v-for="itemchild in item.permissionDtoList" class="mui-table-view mui-table-view-chevron">
+                                    <li class="mui-table-view-cell" v-bind:urltext="itemchild.url" v-bind:liname="itemchild.name">
+                                        <a class="mui-navigate-right" style="font-size: large;" href="javascript:void(0);">{{ itemchild.name }}</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
-                    <div class="menu-position-footer">
-                        <button type="button" class='mui-btn mui-btn-danger appexit'>退出</button>
-                    </div>
+
                 </div>
+            </div>
+            <div class="menu-position-footer">
+                <button type="button" class='mui-btn mui-btn-danger appexit'>退出</button>
             </div>
         </aside>
         <!-- 主页面容器 -->
@@ -40,17 +46,9 @@
                 <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"  href="#offCanvasSide" style="top: 4%;"></a>
                 <h1 class="mui-title" id="appmaintitle" style="top: 4%;"></h1>
             </header>
-            <!-- 主页面底部按钮
-            <nav class="mui-bar mui-bar-tab">
-                <a class="mui-tab-item mui-active">
-                    <span class="mui-icon mui-icon-home"></span>
-                    <span class="mui-tab-label" >aa</span>
-                </a>
-            </nav>
-            -->
 
             <div class="mui-content mui-scroll-wrapper" style="background-color: #fff;">
-                <div class="mui-scroll app-scroll-wrapper" style="height: 92%;">
+                <div class="mui-scroll app-scroll-wrapper" style="height: 92%;overflow-y: unset;">
                     <!-- 主界面具体展示内容，此处需要菜单点击事件后加载进来 -->
                     <iframe id="appmaincontent" style="width: 100%;height: 100%"></iframe>
                 </div>
@@ -59,10 +57,9 @@
         </div>
     </div>
 
-    <script src="/plugins/jquery/jquery.min.js"></script>
-    <script src="/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/js/m/app.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/js/m/app.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
-
-

@@ -175,11 +175,13 @@ public class ShiroConfiguration {
 
     private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean) {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/img/**", "anon");
-        filterChainDefinitionMap.put("/plugins/**", "anon");
+        filterChainDefinitionMap.put("/statics/**", "anon");
+//        filterChainDefinitionMap.put("/js/**", "anon");
+//        filterChainDefinitionMap.put("/css/**", "anon");
+//        filterChainDefinitionMap.put("/img/**", "anon");
+//        filterChainDefinitionMap.put("/plugins/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
+        filterChainDefinitionMap.put("/ad/**", "anon");
         filterChainDefinitionMap.put("/qzgz/web/**", "anon");
         filterChainDefinitionMap.put("/qzgz/upload/**", "anon");
         //AJAX登录判断

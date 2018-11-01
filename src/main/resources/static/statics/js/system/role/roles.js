@@ -45,7 +45,7 @@ var vm = new Vue({
             layer.open({
                 title:'新增角色信息',
                 type: 2,
-                area: ['700px', '600px'],
+                area: ['700px', '85%'],
                 fixed: false, //不固定
                 maxmin: true,
                 shadeClose: true,
@@ -63,7 +63,7 @@ var vm = new Vue({
             layer.open({
                 title:'修改角色信息',
                 type: 2,
-                area: ['700px', '600px'],
+                area: ['700px', '85%'],
                 fixed: false, //不固定
                 maxmin: true,
                 shadeClose: true,
