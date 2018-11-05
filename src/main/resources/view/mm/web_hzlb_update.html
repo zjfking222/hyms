@@ -250,7 +250,7 @@
         <div class="block">
             <label>派车接</label>
             <div style="display: inline">
-                <input type="checkbox" name="pickup" v-model="receipt.pickup"
+                <input type="checkbox" name="pickup" v-model="receipt.pickup" disabled="disabled"
                        style="margin-left: 0.4rem;margin-top: 5.8px;width: 20px;">
             </div>
         </div>
@@ -258,12 +258,13 @@
             <label>随从人数</label>
             <div style="display: inline">
                 <input type="text" id="arrivalfollower" name="arrivalfollower"
-                       style="width: 65%;background: transparent;-webkit-appearance: none;">
+                       style="width: 65%;background: transparent;-webkit-appearance: none;" readonly="readonly">
+
             </div>
         </div>
         <div class="block">
             <label>到达地点</label>
-            <select name="arrivaltype" id="arrivaltype">
+            <select name="arrivaltype" id="arrivaltype" disabled="disabled">
                 <option value="" selected>请选择...</option>
                 <option value="桐乡高铁站">桐乡高铁站</option>
                 <option value="杭州萧山机场">杭州萧山机场</option>
@@ -276,20 +277,20 @@
             <label>到达日期</label>
             <div style="display: inline">
                 <input type="datetime-local" id="arrivaldate" name="arrivaldate" class="weui-input"
-                       style="width: 65%;background: transparent;">
+                       style="width: 65%;background: transparent;" disabled="disabled">
             </div>
         </div>
         <div class="block">
             <label>到达信息</label>
             <div style="display: inline">
-                <textarea type="text" v-model="receipt.arrivalinfo" name="arrivalinfo"  placeholder="请填写航站楼、航班号或车次"></textarea>
+                <textarea type="text" v-model="receipt.arrivalinfo" name="arrivalinfo"  placeholder="请填写航站楼、航班号或车次" readonly="readonly"></textarea>
             </div>
         </div>
         <div class="block">
             <label>到达备注</label>
             <div style="display: inline">
                 <textarea type="text" v-model="receipt.arrivalremark"
-                          name="arrivalremark"></textarea>
+                          name="arrivalremark" readonly="readonly"></textarea>
             </div>
         </div>
         <div class="block">
@@ -370,7 +371,8 @@
                         <span>{{a.date}}</span>
                     </td>
                     <td>
-                        <input class="attend" style="width: 20px;" v-model="a.attend" type="checkbox" checked/>
+                        <input class="attend" style="width: 20px;" v-if="a.attend" type="checkbox" onclick="return false" checked/>
+                        <input v-else type="checkbox" onclick="return false"/>
                         <!--<input class="attend" :data-id="a.id" v-else type="checkbox"/>-->
                     </td>
                 </tr>
@@ -397,10 +399,10 @@
                         <span>{{d.date}}</span>
                     </td>
                     <td>
-                        <input pattern="^\d{1}$" class="form-num" required type="number" v-model="d.lunch">
+                        <input class="form-num" :value="d.lunch" readonly="readonly">
                     </td>
                     <td>
-                        <input pattern="^\d{1}$" class="form-num" required type="number" v-model="d.dinner">
+                        <input class="form-num" :value="d.dinner" readonly="readonly">
                     </td>
                 </tr>
                 </tbody>
@@ -425,7 +427,7 @@
                         <span>{{s.date}}</span>
                     </td>
                     <td>
-                        <input class="form-num" pattern="^\d{1}$" required type="number" v-model="s.single">
+                        <input class="form-num" :value="s.single" readonly="readonly">
                     </td>
                 </tr>
                 </tbody>
