@@ -27,6 +27,7 @@ public class DataSourceConfig {
         return dataSourcePropertiesDefault().initializeDataSourceBuilder().build();
     }
 
+    /**OA数据源*/
     @Bean(name = "oaDSProperties")
     @ConfigurationProperties(prefix = "spring.datasource.oa")
     public DataSourceProperties dataSourcePropertiesOA() {
@@ -37,5 +38,18 @@ public class DataSourceConfig {
     @ConfigurationProperties(prefix = "spring.datasource.oa")
     public DataSource dataSourceOA() {
         return dataSourcePropertiesOA().initializeDataSourceBuilder().build();
+    }
+
+    /**中控数据源*/
+    @Bean(name = "zkDSProperties")
+    @ConfigurationProperties(prefix = "spring.datasource.zk")
+    public DataSourceProperties dataSourcePropertiesZK() {
+        return new DataSourceProperties();
+    }
+
+    @Bean(name = "zkDS")
+    @ConfigurationProperties(prefix = "spring.datasource.zk")
+    public DataSource dataSourceZK() {
+        return dataSourcePropertiesZK().initializeDataSourceBuilder().build();
     }
 }
