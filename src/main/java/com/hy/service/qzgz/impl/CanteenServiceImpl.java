@@ -1,6 +1,6 @@
 package com.hy.service.qzgz.impl;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.CanteenDto;
 import com.hy.dto.CanteenWithTotalPageDto;
 import com.hy.mapper.ms.QzgzCanteenMapper;
@@ -44,8 +44,8 @@ public class CanteenServiceImpl implements CanteenService{
         QzgzCanteen qzgzCanteen = new QzgzCanteen();
         qzgzCanteen.setName(name);
         qzgzCanteen.setType(type);
-        qzgzCanteen.setModifier(SecurityHelp.getUserId());
-        qzgzCanteen.setCreater(SecurityHelp.getUserId());
+        qzgzCanteen.setModifier(SecurityUtil.getUserId());
+        qzgzCanteen.setCreater(SecurityUtil.getUserId());
         return canteenMapper.insertCanteen(qzgzCanteen) == 1;
     }
 
@@ -55,7 +55,7 @@ public class CanteenServiceImpl implements CanteenService{
         qzgzCanteen.setId(id);
         qzgzCanteen.setType(type);
         qzgzCanteen.setName(name);
-        qzgzCanteen.setModifier(SecurityHelp.getUserId());
+        qzgzCanteen.setModifier(SecurityUtil.getUserId());
         return canteenMapper.updateCanteenById(qzgzCanteen) == 1;
     }
 
@@ -64,7 +64,7 @@ public class CanteenServiceImpl implements CanteenService{
         QzgzCanteen qzgzCanteen = new QzgzCanteen();
         qzgzCanteen.setId(id);
         qzgzCanteen.setState(state);
-        qzgzCanteen.setModifier(SecurityHelp.getUserId());
+        qzgzCanteen.setModifier(SecurityUtil.getUserId());
         return canteenMapper.updateCanteenState(qzgzCanteen) == 1;
     }
 

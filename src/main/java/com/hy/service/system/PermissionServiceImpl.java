@@ -1,7 +1,7 @@
 package com.hy.service.system;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.PermissionDto;
 import com.hy.dto.SysPermissionDto;
 import com.hy.mapper.ms.SysPermissionMapper;
@@ -78,8 +78,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public PermissionDto addMenus(PermissionDto dto) {
         SysPermission sysPermission = DTOUtil.populate(dto, SysPermission.class);
-        sysPermission.setCreater(SecurityHelp.getUserId());
-        sysPermission.setModifier(SecurityHelp.getUserId());
+        sysPermission.setCreater(SecurityUtil.getUserId());
+        sysPermission.setModifier(SecurityUtil.getUserId());
         int id = sysPermissionMapper.insertSelective(sysPermission);
         sysPermission = sysPermissionMapper.selectByPrimaryKey(sysPermission.getId());
         return DTOUtil.populate(sysPermission, PermissionDto.class);
@@ -88,7 +88,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public int updateMenus(PermissionDto dto) {
         SysPermission sysPermission = DTOUtil.populate(dto, SysPermission.class);
-        sysPermission.setModifier(SecurityHelp.getUserId());
+        sysPermission.setModifier(SecurityUtil.getUserId());
         return sysPermissionMapper.updateByPrimaryKeySelective(sysPermission);
     }
 

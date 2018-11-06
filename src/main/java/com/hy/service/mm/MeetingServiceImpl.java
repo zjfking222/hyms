@@ -1,7 +1,7 @@
 package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.MmMeetingDto;
 import com.hy.mapper.ms.MmMeetingMapper;
 import com.hy.model.MmMeeting;
@@ -31,9 +31,9 @@ public class MeetingServiceImpl implements MeetingService{
         meeting.setEnddate(DateUtil.translate(mmMeetingDto.getEnddate()));
         meeting.setDeadline(DateUtil.translate(mmMeetingDto.getDeadline()));
 
-        meeting.setCreater(SecurityHelp.getUserId());
-        meeting.setModifier(SecurityHelp.getUserId());
-        meeting.setDomain(SecurityHelp.getDepartmentId());
+        meeting.setCreater(SecurityUtil.getUserId());
+        meeting.setModifier(SecurityUtil.getUserId());
+        meeting.setDomain(SecurityUtil.getDepartmentId());
 
         mmMeetingMapper.insertMmMeeting(meeting);
         mmMeetingDto.setId(meeting.getId());
@@ -50,7 +50,7 @@ public class MeetingServiceImpl implements MeetingService{
         meeting.setEnddate(DateUtil.translate(mmMeetingDto.getEnddate()));
         meeting.setDeadline(DateUtil.translate(mmMeetingDto.getDeadline()));
 
-        meeting.setModifier(SecurityHelp.getUserId());
+        meeting.setModifier(SecurityUtil.getUserId());
 
         return mmMeetingMapper.updateMmMeeting(meeting) == 1;
     }

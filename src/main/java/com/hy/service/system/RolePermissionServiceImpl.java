@@ -1,6 +1,6 @@
 package com.hy.service.system;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.*;
 import com.hy.mapper.ms.SysRolePermissionMapper;
 import com.hy.model.SysRolePermission;
@@ -123,8 +123,8 @@ public class RolePermissionServiceImpl implements RolePermissionService{
 
             List<SysRolePermission> sysRolePermissions = DTOUtil.populateList(sysRolePermissionDtos,SysRolePermission.class);
             for (SysRolePermission s: sysRolePermissions){
-                s.setCreater(SecurityHelp.getUserId());
-                s.setModifier(SecurityHelp.getUserId());
+                s.setCreater(SecurityUtil.getUserId());
+                s.setModifier(SecurityUtil.getUserId());
                 rolePermissionMapper.insertSelective(s);
             }
             return true;

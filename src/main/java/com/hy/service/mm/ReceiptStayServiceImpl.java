@@ -1,7 +1,6 @@
 package com.hy.service.mm;
 
-import com.hy.common.SecurityHelp;
-import com.hy.dto.MmReceiptStayDto;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.MmReceiptStayFetchDto;
 import com.hy.dto.MmReceiptStayViewDto;
 import com.hy.mapper.ms.MmReceiptStayMapper;
@@ -54,7 +53,7 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
         List<MmReceiptStay> mmReceiptStays = DTOUtil.populateList(mmReceiptStayFetchDtos, MmReceiptStay.class);
 
         IntStream.range(0, mmReceiptStays.size()).forEach(i -> {
-            mmReceiptStays.get(i).setModifier(SecurityHelp.getUserId());
+            mmReceiptStays.get(i).setModifier(SecurityUtil.getUserId());
             mmReceiptStays.get(i).setDate(DateUtil.breviary(mmReceiptStayFetchDtos.get(i).getDate()));
         });
 
@@ -68,9 +67,9 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
 
         IntStream.range(0, mmReceiptStays.size()).forEach(i -> {
             mmReceiptStays.get(i).setDate(DateUtil.breviary(mmReceiptStayFetchDtos.get(i).getDate()));
-            mmReceiptStays.get(i).setModifier(SecurityHelp.getUserId());
-            mmReceiptStays.get(i).setCreater(SecurityHelp.getUserId());
-            mmReceiptStays.get(i).setDomain(SecurityHelp.getDepartmentId());
+            mmReceiptStays.get(i).setModifier(SecurityUtil.getUserId());
+            mmReceiptStays.get(i).setCreater(SecurityUtil.getUserId());
+            mmReceiptStays.get(i).setDomain(SecurityUtil.getDepartmentId());
         });
 
         return mmReceiptStayMapper.insertReceiptStay(mmReceiptStays) == mmReceiptStays.size();

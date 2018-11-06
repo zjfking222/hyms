@@ -1,6 +1,6 @@
 package com.hy.service.qzgz.impl;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.OpinionDto;
 import com.hy.dto.OpinionForAdminDto;
 import com.hy.dto.OpinionForAdminWithPageDto;
@@ -52,7 +52,7 @@ public class OpinionServiceImpl implements OpinionService{
         QzgzOpinion opinion = new QzgzOpinion();
         opinion.setId(id);
         opinion.setState(state);
-        opinion.setModifier(SecurityHelp.getUserId());
+        opinion.setModifier(SecurityUtil.getUserId());
         return opinionMapper.updateStateOfOpinion(opinion) == 1;
     }
 

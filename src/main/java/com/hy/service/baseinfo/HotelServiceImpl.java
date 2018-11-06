@@ -1,7 +1,7 @@
 package com.hy.service.baseinfo;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.BiHotelDto;
 import com.hy.dto.BiHotelWithPageDto;
 import com.hy.mapper.ms.BiHotelMapper;
@@ -26,8 +26,8 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public int addHotel(BiHotelDto biHotelDto) {
         BiHotel hotel = DTOUtil.populate(biHotelDto, BiHotel.class);
-        hotel.setCreater(SecurityHelp.getUserId());//创建人
-        hotel.setModifier(SecurityHelp.getUserId());//最后修改人
+        hotel.setCreater(SecurityUtil.getUserId());//创建人
+        hotel.setModifier(SecurityUtil.getUserId());//最后修改人
         biHotelMapper.insertBiHotel(hotel);
         return hotel.getId();
     }
@@ -42,14 +42,14 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public boolean updateHotel(BiHotelDto biHotelDto){
         BiHotel update=DTOUtil.populate(biHotelDto,BiHotel.class);
-        update.setModifier(SecurityHelp.getUserId());
+        update.setModifier(SecurityUtil.getUserId());
         return biHotelMapper.updateBiHotel(update)==1;
     }
 
     @Override
     public boolean deleteHotel(BiHotelDto biHotelDto){
         BiHotel delete=DTOUtil.populate(biHotelDto,BiHotel.class);
-        delete.setModifier(SecurityHelp.getUserId());
+        delete.setModifier(SecurityUtil.getUserId());
         return biHotelMapper.deleteBiHotel(delete)==1;
     }
 

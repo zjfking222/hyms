@@ -54,6 +54,7 @@ function getMenuList() {
             console.log(type);
         }
     });
+    //genggai
     return result;
 }
 

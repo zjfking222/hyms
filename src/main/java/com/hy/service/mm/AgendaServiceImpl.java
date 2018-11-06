@@ -1,7 +1,7 @@
 package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.MmAgendaDto;
 import com.hy.mapper.ms.MmAgendaMapper;
 import com.hy.model.MmAgenda;
@@ -35,9 +35,9 @@ public class AgendaServiceImpl implements AgendaService {
         try{
             tempDate = sdf.parse(mmAgendaDto.getDate());
             mmAgenda = DTOUtil.populate(mmAgendaDto,MmAgenda.class);
-            mmAgenda.setCreater(SecurityHelp.getUserId());
-            mmAgenda.setModifier(SecurityHelp.getUserId());
-            mmAgenda.setDomain(SecurityHelp.getDepartmentId());
+            mmAgenda.setCreater(SecurityUtil.getUserId());
+            mmAgenda.setModifier(SecurityUtil.getUserId());
+            mmAgenda.setDomain(SecurityUtil.getDepartmentId());
             mmAgenda.setDate(tempDate);
         }catch (ParseException e){
             return false;
@@ -50,7 +50,7 @@ public class AgendaServiceImpl implements AgendaService {
         try{
             tempDate = sdf.parse(mmAgendaDto.getDate());
             mmAgenda = DTOUtil.populate(mmAgendaDto,MmAgenda.class);
-            mmAgenda.setModifier(SecurityHelp.getUserId());
+            mmAgenda.setModifier(SecurityUtil.getUserId());
             mmAgenda.setDate(tempDate);
         }catch (ParseException e){
             return false;

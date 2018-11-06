@@ -133,7 +133,7 @@
         -webkit-appearance: none;
     }
 </style>
-<body>
+<body style="padding-bottom: 40px;">
 <div id="mobile">
     <form>
         <div class="title">
@@ -440,5 +440,9 @@
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/weixin/weui.min.js"></script>
 <script type="text/javascript" src="/statics/js/mm/web_hzlb_update.js"></script>
+<script>
+    document.body.style.position='fixed'; //防止iframe页上下滚动时带动本页移动
+    document.body.style.position='static';//取消禁止滚动
+</script>
 </body>
 </html>

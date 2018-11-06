@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="/statics/plugins/mui/css/mui.min.css"/>
 	</head>
 	<body style="background-color: #fff;">
-		<form class="mui-input-group" style="position:absolute;top: 20%;width: 100%;">
+		<form class="mui-input-group" style="position:absolute;top: 20%;width: 100%;" id="salary_check">
 			<div class="mui-input-row" style="text-align: center;padding-top: 9px;">
 				<div class="mui-icon mui-icon-person" style="width: 100%;">
 					<span>身份验证</span>
@@ -19,16 +19,18 @@
 		    </div>
 		    <div class="mui-input-row">
 		        <label>验证码</label>
-		    	<input type="text" class="mui-input-clear" placeholder="请输入验证码">
+		    	<input type="text" class="mui-input-clear" style="width: 35%;float: left;" placeholder="请输入验证码">
+				<img :src="codeImg" class="code-icon-img" style="width: 29%" @click="changeCodeImg()"/>
 		    </div>
 		    <div class="mui-button-row">
-		        <button type="button" class="mui-btn mui-btn-primary" >确认</button>
-		        <button type="button" class="mui-btn mui-btn-danger" >清除</button>
+		        <button type="button" class="mui-btn mui-btn-primary" @click="submitCheck()">确认</button>
+		        <button type="button" class="mui-btn mui-btn-danger" @click="clearPassword()">清除</button>
 		    </div>
 		</form>
 		
 		<script src="/statics/plugins/jquery/jquery.min.js"></script>
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/js/m/selfhelp/salary_check.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>

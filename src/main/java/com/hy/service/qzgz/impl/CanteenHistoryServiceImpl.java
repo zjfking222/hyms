@@ -1,6 +1,6 @@
 package com.hy.service.qzgz.impl;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.CanteenHistoryDto;
 import com.hy.mapper.ms.QzgzCanteenHistoryMapper;
 import com.hy.model.QzgzCanteenHistory;
@@ -24,8 +24,8 @@ public class CanteenHistoryServiceImpl implements CanteenHistoryService{
     public boolean addTodaysCanteen(int canteenId ,int meal, int plusDay) {
         QzgzCanteenHistory canteenHistory = new QzgzCanteenHistory();
         canteenHistory.setCanteen_id(canteenId);
-        canteenHistory.setCreater(SecurityHelp.getUserId());
-        canteenHistory.setModifier(SecurityHelp.getUserId());
+        canteenHistory.setCreater(SecurityUtil.getUserId());
+        canteenHistory.setModifier(SecurityUtil.getUserId());
         canteenHistory.setMeal(meal);
         return qzgzCanteenHistoryMapper
                 .insertCanteenHistory(canteenHistory, plusDay) == 1;
