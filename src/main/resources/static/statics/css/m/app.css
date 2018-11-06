@@ -10,7 +10,7 @@
 .app-scroll-wrapper{
     position: fixed;
     -webkit-overflow-scrolling: touch;
-    overflow-y: scroll;
+    overflow-y: auto!important;
 }
 .app-scroll-wrapper iframe {
     width: 100%;

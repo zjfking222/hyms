@@ -1,22 +1,22 @@
-package com.hy.utils;
+package com.hy.config.jco;
 
 import com.sap.conn.jco.ext.DestinationDataEventListener;
 import com.sap.conn.jco.ext.DestinationDataProvider;
-
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class DataProvider implements DestinationDataProvider {
+public class JcoDestinationDataProvider implements DestinationDataProvider {
     private DestinationDataEventListener el;
-    private HashMap<String, Properties> destinations;
-    private static DataProvider provider = new DataProvider();
+    private Map<String, Properties> destinations;
+    private static JcoDestinationDataProvider provider = new JcoDestinationDataProvider();
 
-    private DataProvider() {
+    private JcoDestinationDataProvider() {
         if (provider == null)
-            destinations = new HashMap<>();
+            destinations = new ConcurrentHashMap<>();
     }
 
-    public static DataProvider getInstance() {
+    public static JcoDestinationDataProvider getInstance() {
         return provider;
     }
 
