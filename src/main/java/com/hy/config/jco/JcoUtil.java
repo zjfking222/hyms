@@ -6,7 +6,10 @@ import com.sap.conn.jco.ext.Environment;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,37 +20,54 @@ import java.util.Properties;
  * @Date: 2018/11/1 8:57
  * @Description:jco公用方法
  */
+@Component
 public class JcoUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(JcoUtil.class);
+    private static JcoConfig jcoConfig;
+
+    @Autowired
+    public void setJcoConfig(JcoConfig config){
+        jcoConfig=config;
+    }
+
+   @PostConstruct
+    public void init() {
+       //环境注册
+       Environment.registerDestinationDataProvider(JcoDestinationDataProvider.getInstance());
+    }
 
     /**
      * @Author 钱敏杰
      * @Description 获取jco操作对象
      * @Date 2018/11/2 8:24
-     * @Param [config]
+     * @Param [destinationName：建立的连接名称，需要控制连接数，不能建立过多，此处一般为null]
      * @return com.sap.conn.jco.JCoDestination
      **/
-    public static JCoDestination getInstance(JcoConfig config){
+    public static JCoDestination getInstance(String destinationName){
         JCoDestination destination = null;
-        //判断环境是否已注册，若已注册则不需要重复注册
-        if(!Environment.isDestinationDataProviderRegistered()){
+        //名称若为空则使用默认值（即使用默认连接）
+        if(StringUtils.isEmpty(destinationName)){
+            destinationName = jcoConfig.getDestinationName();
+        }
+        //判断是否有当前名称的属性配置，若无，则添加
+        if(!JcoDestinationDataProvider.getInstance().isExist(destinationName)){
             //配置属性
             Properties connectProperties = new Properties();
-            connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, config.getAshost());
-            connectProperties.setProperty(DestinationDataProvider.JCO_SYSNR, config.getSysnr());
-            connectProperties.setProperty(DestinationDataProvider.JCO_CLIENT, config.getClient());
-            connectProperties.setProperty(DestinationDataProvider.JCO_USER, config.getUser());
-            connectProperties.setProperty(DestinationDataProvider.JCO_PASSWD, config.getPasswd());
-            connectProperties.setProperty(DestinationDataProvider.JCO_LANG, config.getLang());
-            //添加供应商信息
-            JcoDestinationDataProvider provider = JcoDestinationDataProvider.getInstance();
-            provider.addDestination(config.getDestinationName(), connectProperties);
-            //环境注册
-            Environment.registerDestinationDataProvider(provider);
+            connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, jcoConfig.getAshost());
+            connectProperties.setProperty(DestinationDataProvider.JCO_SYSNR, jcoConfig.getSysnr());
+            connectProperties.setProperty(DestinationDataProvider.JCO_CLIENT, jcoConfig.getClient());
+            connectProperties.setProperty(DestinationDataProvider.JCO_USER, jcoConfig.getUser());
+            connectProperties.setProperty(DestinationDataProvider.JCO_PASSWD, jcoConfig.getPasswd());
+            connectProperties.setProperty(DestinationDataProvider.JCO_LANG, jcoConfig.getLang());
+            JcoDestinationDataProvider.getInstance().addDestination(destinationName, connectProperties);
+        }
+        //判断环境是否已注册，若未注册则注册
+        if(!Environment.isDestinationDataProviderRegistered() ){
+            Environment.registerDestinationDataProvider(JcoDestinationDataProvider.getInstance());
         }
         try {
-            destination = JCoDestinationManager.getDestination(config.getDestinationName());
+            destination = JCoDestinationManager.getDestination(destinationName);
         } catch (JCoException e) {
             logger.error("连接jco异常！", e);
             throw new RuntimeException("连接jco异常！");

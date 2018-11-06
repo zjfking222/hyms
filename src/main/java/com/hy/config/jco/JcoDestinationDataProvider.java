@@ -45,4 +45,20 @@ public class JcoDestinationDataProvider implements DestinationDataProvider {
     public void addDestination(String destinationName, Properties properties) {
         destinations.put(destinationName, properties);
     }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 判断当前名称的连接是否已存在
+     * @Date 2018/11/6 10:33
+     * @Param [destinationName]
+     * @return boolean
+     **/
+    public boolean isExist(String destinationName){
+        //判断当前key是否存在属性对象是否存在
+        if(destinations.containsKey(destinationName) && destinations.get(destinationName) != null){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
