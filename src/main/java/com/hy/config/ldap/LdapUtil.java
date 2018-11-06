@@ -288,6 +288,37 @@ public class LdapUtil {
         return resultList;
     }
 
+    /**
+     *  通过员工号获取员工信息
+     */
+    public static LdapStaff getStaffByUid(String uid){
+
+        Filter filter = Filter.createEqualityFilter("sAMAccountName", uid);
+        SearchRequest searchRequest = new SearchRequest(baseDn,SearchScope.SUB,filter);
+        SearchResultEntry searchResultEntry;
+        SearchResult searchResult;
+        LdapStaff ldapStaff = null;
+        try {
+            searchResult=connection.search(searchRequest);
+            if (null != searchResult && searchResult.getEntryCount() > 0) {
+                for (SearchResultEntry entry : searchResult.getSearchEntries()) {
+                    ldapStaff = new LdapStaff(entry.getAttributeValue("sAMAccountName"),
+                            entry.getAttributeValue("sn"),
+                            "",
+                            entry.getAttributeValue("mail"),
+                            entry.getAttributeValue("mobile"),
+                            "",
+                            "",
+                            entry.getAttributeValue("title"),
+                            entry.getAttributeValue("distinguishedName"));
+                }
+            }
+        } catch (LDAPSearchException e) {
+            e.printStackTrace();
+        }
+        return ldapStaff;
+    }
+
     public static String getBaseDn() {
         return baseDn;
     }
