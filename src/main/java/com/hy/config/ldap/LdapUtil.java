@@ -271,13 +271,14 @@ public class LdapUtil {
             searchResult=connection.search(searchRequest);
             if (null != searchResult && searchResult.getEntryCount() > 0) {
                 for (SearchResultEntry entry : searchResult.getSearchEntries()) {
+                    String[] depStr = entry.getAttributeValue("distinguishedName").split("OU=");
                     resultList.add(new LdapStaff(entry.getAttributeValue("sAMAccountName"),
                             entry.getAttributeValue("sn"),
                             "",
                             entry.getAttributeValue("mail"),
                             entry.getAttributeValue("mobile"),
                             "",
-                            "",
+                            depStr[1].substring(0,depStr[1].length()-1),
                             entry.getAttributeValue("title"),
                             entry.getAttributeValue("distinguishedName")));
                 }
@@ -302,13 +303,14 @@ public class LdapUtil {
             searchResult=connection.search(searchRequest);
             if (null != searchResult && searchResult.getEntryCount() > 0) {
                 for (SearchResultEntry entry : searchResult.getSearchEntries()) {
+                    String[] depStr = entry.getAttributeValue("distinguishedName").split("OU=");
                     ldapStaff = new LdapStaff(entry.getAttributeValue("sAMAccountName"),
                             entry.getAttributeValue("sn"),
                             "",
                             entry.getAttributeValue("mail"),
                             entry.getAttributeValue("mobile"),
                             "",
-                            "",
+                            depStr[1].substring(0,depStr[1].length()-1),
                             entry.getAttributeValue("title"),
                             entry.getAttributeValue("distinguishedName"));
                 }

@@ -48,6 +48,7 @@ public class AdStaffController {
         }
     }
     @PostMapping("/staff/search")
+    @CrossOrigin("*")
     public ResultObj searchAdStaff(String name){
         try{
             return ResultObj.success(LdapUtil.searchStaffByName(name));
