@@ -1,7 +1,7 @@
 package com.hy.service.qzgz.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.QzgzNoticeDto;
 import com.hy.mapper.ms.QzgzNoticeMapper;
 import com.hy.model.QzgzNotice;
@@ -49,10 +49,10 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public QzgzNoticeDto add(QzgzNoticeDto dto) {
         QzgzNotice qzgzNotice = DTOUtil.populate(dto, QzgzNotice.class);
-        qzgzNotice.setCreater(SecurityHelp.getUserId());
-        qzgzNotice.setCreatername(SecurityHelp.getUserName());
-        qzgzNotice.setModifier(SecurityHelp.getUserId());
-        qzgzNotice.setModifiername(SecurityHelp.getUserName());
+        qzgzNotice.setCreater(SecurityUtil.getUserId());
+        qzgzNotice.setCreatername(SecurityUtil.getUserName());
+        qzgzNotice.setModifier(SecurityUtil.getUserId());
+        qzgzNotice.setModifiername(SecurityUtil.getUserName());
         int id = qzgzNoticeMapper.insertSelective(qzgzNotice);
         return this.getNotice(qzgzNotice.getId());
     }
@@ -60,8 +60,8 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public int update(QzgzNoticeDto dto) {
         QzgzNotice qzgzNotice = DTOUtil.populate(dto, QzgzNotice.class);
-        qzgzNotice.setModifier(SecurityHelp.getUserId());
-        qzgzNotice.setModifiername(SecurityHelp.getUserName());
+        qzgzNotice.setModifier(SecurityUtil.getUserId());
+        qzgzNotice.setModifiername(SecurityUtil.getUserName());
         return qzgzNoticeMapper.updateByPrimaryKeySelective(qzgzNotice);
     }
 

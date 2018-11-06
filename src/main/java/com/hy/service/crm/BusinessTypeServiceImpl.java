@@ -1,6 +1,6 @@
 package com.hy.service.crm;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.CrmBusinesstypeDto;
 import com.hy.mapper.ms.CrmBusinesstypeMapper;
 import com.hy.model.CrmBusinesstype;
@@ -19,8 +19,8 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
     @Override
     public boolean addBusinessType(CrmBusinesstypeDto businesstypeDto) {
         CrmBusinesstype crmBusinesstype = DTOUtil.populate(businesstypeDto, CrmBusinesstype.class);
-        crmBusinesstype.setCreater(SecurityHelp.getUserId());
-        crmBusinesstype.setModifier(SecurityHelp.getUserId());
+        crmBusinesstype.setCreater(SecurityUtil.getUserId());
+        crmBusinesstype.setModifier(SecurityUtil.getUserId());
         return crmBusinesstypeMapper.insertBusinesstype(crmBusinesstype) == 1;
     }
 
@@ -32,7 +32,7 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
     @Override
     public boolean setBusinessType(CrmBusinesstypeDto businesstypeDto) {
         CrmBusinesstype crmBusinesstype = DTOUtil.populate(businesstypeDto, CrmBusinesstype.class);
-        crmBusinesstype.setModifier(SecurityHelp.getUserId());
+        crmBusinesstype.setModifier(SecurityUtil.getUserId());
         return crmBusinesstypeMapper.updateBusinesstype(crmBusinesstype) == 1;
     }
 
@@ -53,6 +53,6 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 
     @Override
     public List<CrmBusinesstypeDto> getBusinessTypeByUid() {
-        return DTOUtil.populateList(crmBusinesstypeMapper.selectBusinesstypeByUid(SecurityHelp.getUserId()),CrmBusinesstypeDto.class);
+        return DTOUtil.populateList(crmBusinesstypeMapper.selectBusinesstypeByUid(SecurityUtil.getUserId()),CrmBusinesstypeDto.class);
     }
 }

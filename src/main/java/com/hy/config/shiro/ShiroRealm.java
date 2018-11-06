@@ -1,7 +1,7 @@
 package com.hy.config.shiro;
 
 import com.github.pagehelper.util.StringUtil;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.SysUsersDto;
 import com.hy.model.HrmResource;
 import com.hy.model.SysPermission;
@@ -37,7 +37,7 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        List<SysPermission> list = permissionService.getByUserId(SecurityHelp.getUserId());
+        List<SysPermission> list = permissionService.getByUserId(SecurityUtil.getUserId());
         for (SysPermission permission : list) {
             if (StringUtil.isNotEmpty(permission.getPermission())) {
                 authorizationInfo.addStringPermission(permission.getPermission());

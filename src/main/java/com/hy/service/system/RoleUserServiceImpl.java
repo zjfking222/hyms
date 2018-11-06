@@ -1,6 +1,6 @@
 package com.hy.service.system;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.HrmResourceDto;
 import com.hy.dto.SysRolesUserDelDto;
 import com.hy.dto.SysRolesUserDto;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -33,7 +32,7 @@ public class RoleUserServiceImpl implements RoleUserService{
 
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setModifier(SecurityHelp.getUserId());
+            sysRoles.setModifier(SecurityUtil.getUserId());
             sysRoles.setName(sysRolesUserDto.getName());
             sysRoles.setEnable(true);
             sysRoles.setId(sysRolesUserDto.getRid());
@@ -44,7 +43,7 @@ public class RoleUserServiceImpl implements RoleUserService{
             }
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityHelp.getUserId(),SecurityHelp.getUserId(),sysRolesUserDto.getRid(),
+                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId(), SecurityUtil.getUserId(),sysRolesUserDto.getRid(),
                         hr.getId(),hr.getLoginid(),hr.getLastname()));
             }
             return true;
@@ -60,15 +59,15 @@ public class RoleUserServiceImpl implements RoleUserService{
     public boolean addRoleUser(SysRolesUserDto sysRolesUserDto) {
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setCreater(SecurityHelp.getUserId());
-            sysRoles.setModifier(SecurityHelp.getUserId());
+            sysRoles.setCreater(SecurityUtil.getUserId());
+            sysRoles.setModifier(SecurityUtil.getUserId());
             sysRoles.setEnable(true);
             sysRoles.setName(sysRolesUserDto.getName());
             sysRolesMapper.insertSelective(sysRoles);
             System.out.println(sysRoles.getId());
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityHelp.getUserId(),SecurityHelp.getUserId(),sysRoles.getId(),
+                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId(), SecurityUtil.getUserId(),sysRoles.getId(),
                         hr.getId(),hr.getLoginid(),hr.getLastname()));
             }
             return true;

@@ -8,191 +8,197 @@
 		<link rel="stylesheet" type="text/css" href="/statics/css/m/app.css"/>
 	</head>
 	<body style="background-color: #fff;">
-	    <ul class="mui-table-view">
+	    <ul class="mui-table-view" id="salaryData">
 		    <li class="mui-table-view-cell mui-collapse">
-		        <span >实发合计：10000</span>
+		        <span >实发合计：{{ zwt032 }}</span>
 		    </li>
 			<li class="mui-table-view-cell mui-collapse mui-active">
-				<a class="mui-navigate-right" href="#">应发合计：10000</a>
+				<a class="mui-navigate-right" href="#">应发合计：{{ zwt021 }}</a>
 				<div class="mui-collapse-content">
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>月工资标准</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>10000</span>
+						<span>{{ zwt001 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>岗位工资</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>10000</span>
+						<span>{{ zwt002 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>绩效工资</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt003 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>技能津贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt004 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>管理津贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt005 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>绩效奖金</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt006 }}</span>
 					</div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>标准假日</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ zwt007 }}</span>
+                    </div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>法定加班</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt008 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>计薪假工资</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt009 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>工伤工资</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt010 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>司龄补贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt011 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>高温补贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt012 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>其他补贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt013 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>岗位津贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt014 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>夜班补贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt015 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>生育津贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt016 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>现场津贴</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt017 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>缺勤扣款</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt018 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>其他增</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt019 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>其他减</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt020 }}</span>
 					</div>
 				</div>
 			</li>
 			<li class="mui-table-view-cell mui-collapse mui-active">
-				<a class="mui-navigate-right" href="#">代扣合计：200</a>
+				<a class="mui-navigate-right" href="#">代扣合计：{{ dkhj }}</a>
 				<div class="mui-collapse-content">
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>代付款</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt022 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>公积金</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt023 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>养老</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt024 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>医疗</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt025 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>失业</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt026 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>代扣税</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt027 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>其它扣款</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt028 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>房租物业</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>100</span>
+						<span>{{ zwt029 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>餐费</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>100</span>
+						<span>{{ zwt030 }}</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
 						<span>工会费</span>
 					</div>
 					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-						<span>0</span>
+						<span>{{ zwt031 }}</span>
 					</div>
 				</div>
 			</li>
@@ -200,6 +206,28 @@
 
 		<script src="/statics/plugins/jquery/jquery.min.js"></script>
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/statics/js/m/selfhelp/salary.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+            document.body.style.position='fixed'; //防止iframe页上下滚动时带动本页移动
+            document.body.style.position='static';//取消禁止滚动
+            //初始化vue对象
+            var vm = new Vue({
+                el:"#salaryData",
+                data:getSalaryData(),
+                mounted (){
+                    mui.init();
+                }
+            });
+            //从上一个页面获取返回值展示到此页面中
+            function getSalaryData() {
+                var result = [];
+                if(parent){
+                    result = parent.iframeParam;
+                }else{
+
+                }
+                return result;
+            }
+		</script>
 	</body>
 </html>

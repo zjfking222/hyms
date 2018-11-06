@@ -1,6 +1,6 @@
 package com.hy.service.mm;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.MmReceiptAgendaFetchDto;
 import com.hy.dto.MmReceiptAgendaViewDto;
 import com.hy.mapper.ms.MmReceiptAgendaMapper;
@@ -44,7 +44,7 @@ public class ReceiptAgendaServiceImpl implements ReceiptAgendaService {
     public boolean setReceiptAgenda(List<MmReceiptAgendaFetchDto> mmReceiptAgendaFetchDtos) {
         List<MmReceiptAgenda> mmReceiptAgenda =  DTOUtil.populateList(mmReceiptAgendaFetchDtos, MmReceiptAgenda.class);
         for (MmReceiptAgenda ra : mmReceiptAgenda){
-            ra.setModifier(SecurityHelp.getUserId());
+            ra.setModifier(SecurityUtil.getUserId());
         }
         return mmReceiptAgendaMapper.updateReceiptAgenda(mmReceiptAgenda) == mmReceiptAgenda.size();
     }
@@ -53,9 +53,9 @@ public class ReceiptAgendaServiceImpl implements ReceiptAgendaService {
     public boolean addReceiptAgenda(List<MmReceiptAgendaFetchDto> mmReceiptAgendaFetchDtos) {
         List<MmReceiptAgenda> mmReceiptAgenda = DTOUtil.populateList(mmReceiptAgendaFetchDtos, MmReceiptAgenda.class);
         for(MmReceiptAgenda ra : mmReceiptAgenda){
-            ra.setModifier(SecurityHelp.getUserId());
-            ra.setDomain(SecurityHelp.getDepartmentId());
-            ra.setCreater(SecurityHelp.getUserId());
+            ra.setModifier(SecurityUtil.getUserId());
+            ra.setDomain(SecurityUtil.getDepartmentId());
+            ra.setCreater(SecurityUtil.getUserId());
         }
         return mmReceiptAgendaMapper.insertReceiptAgenda(mmReceiptAgenda) == mmReceiptAgenda.size();
     }

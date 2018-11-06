@@ -1,7 +1,7 @@
 package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.MmBusDto;
 import com.hy.dto.MmBusInfoDto;
 import com.hy.mapper.ms.MmBusMapper;
@@ -29,8 +29,8 @@ public class MeetingBusServiceImpl implements MeetingBusService {
         MmBus mmBus = DTOUtil.populate(mmBusDto, MmBus.class);
         mmBus.setFirsttime(DateUtil.translate(mmBusDto.getFirsttime()));
         mmBus.setEndtime(DateUtil.translate(mmBusDto.getEndtime()));
-        mmBus.setCreater(SecurityHelp.getUserId());
-        mmBus.setModifier(SecurityHelp.getUserId());
+        mmBus.setCreater(SecurityUtil.getUserId());
+        mmBus.setModifier(SecurityUtil.getUserId());
         mmBusMapper.insertMmBus(mmBus);
         return mmBus.getId();
     }
@@ -40,14 +40,14 @@ public class MeetingBusServiceImpl implements MeetingBusService {
         MmBus update = DTOUtil.populate(mmBusDto, MmBus.class);
         update.setFirsttime(DateUtil.translate(mmBusDto.getFirsttime()));
         update.setEndtime(DateUtil.translate(mmBusDto.getEndtime()));
-        update.setModifier(SecurityHelp.getUserId());
+        update.setModifier(SecurityUtil.getUserId());
         return mmBusMapper.updateMmBus(update) == 1;
     }
 
     @Override
     public boolean deleteBus(MmBusDto mmBusDto) {
         MmBus delete = DTOUtil.populate(mmBusDto, MmBus.class);
-        delete.setModifier(SecurityHelp.getUserId());
+        delete.setModifier(SecurityUtil.getUserId());
         return mmBusMapper.deleteMmBus(delete) == 1;
     }
 

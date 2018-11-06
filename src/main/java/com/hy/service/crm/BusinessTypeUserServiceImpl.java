@@ -1,6 +1,6 @@
 package com.hy.service.crm;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.CrmBusinessUserDto;
 import com.hy.dto.CrmBusinesstypeUserDelDto;
 import com.hy.dto.CrmBusinesstypeUserDto;
@@ -37,7 +37,7 @@ public class BusinessTypeUserServiceImpl implements BusinessTypeUserService{
             //新增
             for (HrmResourceDto addHr: crmBusinesstypeUserDto.getnHrmResource()){
                 crmBusinesstypeUserMapper.insertBusinesstypeUser(new CrmBusinesstypeUser(crmBusinesstypeUserDto.getBtid(),
-                        addHr.getId(),SecurityHelp.getUserId(),SecurityHelp.getUserId(),addHr.getLoginid(),
+                        addHr.getId(), SecurityUtil.getUserId(), SecurityUtil.getUserId(),addHr.getLoginid(),
                         addHr.getLastname()));
             }
             return true;
