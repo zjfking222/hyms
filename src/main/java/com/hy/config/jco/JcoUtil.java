@@ -27,31 +27,32 @@ public class JcoUtil {
     private static JcoConfig jcoConfig;
 
     @Autowired
-    public void setJcoConfig(JcoConfig config){
-        jcoConfig=config;
+    public void setJcoConfig(JcoConfig config) {
+        jcoConfig = config;
     }
 
-   @PostConstruct
+    @PostConstruct
     public void init() {
-       //环境注册
-       Environment.registerDestinationDataProvider(JcoDestinationDataProvider.getInstance());
+        //环境注册
+        if (!Environment.isDestinationDataProviderRegistered())
+            Environment.registerDestinationDataProvider(JcoDestinationDataProvider.getInstance());
     }
 
     /**
+     * @return com.sap.conn.jco.JCoDestination
      * @Author 钱敏杰
      * @Description 获取jco操作对象
      * @Date 2018/11/2 8:24
      * @Param [destinationName：建立的连接名称，需要控制连接数，不能建立过多，此处一般为null]
-     * @return com.sap.conn.jco.JCoDestination
      **/
-    public static JCoDestination getInstance(String destinationName){
+    public static JCoDestination getInstance(String destinationName) {
         JCoDestination destination = null;
         //名称若为空则使用默认值（即使用默认连接）
-        if(StringUtils.isEmpty(destinationName)){
+        if (StringUtils.isEmpty(destinationName)) {
             destinationName = jcoConfig.getDestinationName();
         }
         //判断是否有当前名称的属性配置，若无，则添加
-        if(!JcoDestinationDataProvider.getInstance().isExist(destinationName)){
+        if (!JcoDestinationDataProvider.getInstance().isExist(destinationName)) {
             //配置属性
             Properties connectProperties = new Properties();
             connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, jcoConfig.getAshost());
@@ -63,7 +64,7 @@ public class JcoUtil {
             JcoDestinationDataProvider.getInstance().addDestination(destinationName, connectProperties);
         }
         //判断环境是否已注册，若未注册则注册
-        if(!Environment.isDestinationDataProviderRegistered() ){
+        if (!Environment.isDestinationDataProviderRegistered()) {
             Environment.registerDestinationDataProvider(JcoDestinationDataProvider.getInstance());
         }
         try {
@@ -76,13 +77,13 @@ public class JcoUtil {
     }
 
     /**
+     * @return com.sap.conn.jco.JCoFunction
      * @Author 钱敏杰
      * @Description 从对象仓库中获取RFM函数
      * @Date 2018/11/1 10:24
      * @Param [name]
-     * @return com.sap.conn.jco.JCoFunction
      **/
-    public static JCoFunction getFunction(JCoDestination destination, String name){
+    public static JCoFunction getFunction(JCoDestination destination, String name) {
         JCoFunction function = null;
         try {
             function = destination.getRepository().getFunction(name);
@@ -94,25 +95,25 @@ public class JcoUtil {
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 添加请求参数
      * @Date 2018/11/1 14:31
      * @Param [function, name, value]
-     * @return void
      **/
-    public static void setParameter(JCoFunction function, String name, String value){
+    public static void setParameter(JCoFunction function, String name, String value) {
         JCoParameterList parameterList = function.getImportParameterList();
         parameterList.setValue(name, value);
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 执行函数
      * @Date 2018/11/1 14:32
      * @Param [function, destination]
-     * @return void
      **/
-    public static void executeFunction(JCoFunction function, JCoDestination destination){
+    public static void executeFunction(JCoFunction function, JCoDestination destination) {
         try {
             function.execute(destination);
         } catch (JCoException e) {
@@ -122,49 +123,49 @@ public class JcoUtil {
     }
 
     /**
+     * @return com.sap.conn.jco.JCoTable
      * @Author 钱敏杰
      * @Description 获取表数据
      * @Date 2018/11/1 14:32
      * @Param [function, tableName]
-     * @return com.sap.conn.jco.JCoTable
      **/
-    public static JCoTable getTable(JCoFunction function, String tableName){
+    public static JCoTable getTable(JCoFunction function, String tableName) {
         JCoTable table = function.getTableParameterList().getTable(tableName);
         return table;
     }
 
     /**
+     * @return com.sap.conn.jco.JCoStructure
      * @Author 钱敏杰
      * @Description //TODO
      * @Date 2018/11/1 14:32
      * @Param [function, strName]
-     * @return com.sap.conn.jco.JCoStructure
      **/
-    public static JCoStructure getStructure(JCoFunction function, String strName){
+    public static JCoStructure getStructure(JCoFunction function, String strName) {
         JCoStructure structure = function.getImportParameterList().getStructure(strName);
         return structure;
     }
 
     /**
+     * @return java.lang.String
      * @Author 钱敏杰
      * @Description 获取返回的结果参数
      * @Date 2018/11/1 14:32
      * @Param [function, name]
-     * @return java.lang.String
      **/
-    public static String getExportParameter(JCoFunction function, String name){
+    public static String getExportParameter(JCoFunction function, String name) {
         String str = function.getExportParameterList().getString(name);
         return str;
     }
 
     /**
+     * @return T
      * @Author 钱敏杰
      * @Description 获取table中的单条数据，返回相应dto对象
      * @Date 2018/11/3 8:36
      * @Param [table, target]
-     * @return T
      **/
-    public static <T>T getInfoFromTable(JCoTable table, T target){
+    public static <T> T getInfoFromTable(JCoTable table, T target) {
         //获取对象方法
         Method[] methods = target.getClass().getMethods();
         //循环利用反射方法取值并保存到dto对象中
@@ -176,7 +177,7 @@ public class JcoUtil {
                 String valueName = name.substring(3).toUpperCase();
                 try {
                     String value = table.getString(valueName);
-                    if(StringUtils.isNotEmpty(value)){
+                    if (StringUtils.isNotEmpty(value)) {
                         method.invoke(target, value);
                     }
                 } catch (Exception e) {
@@ -188,18 +189,18 @@ public class JcoUtil {
     }
 
     /**
+     * @return java.util.List<T>
      * @Author 钱敏杰
      * @Description 获取table中的所有数据，并以list返回
      * @Date 2018/11/3 8:36
      * @Param [table, target]
-     * @return java.util.List<T>
      **/
-    public static <T> List<T> getInfoListFromTable(JCoTable table, T target){
+    public static <T> List<T> getInfoListFromTable(JCoTable table, T target) {
         List<T> list = null;
-        if(table != null && table.getNumRows() >0){
+        if (table != null && table.getNumRows() > 0) {
             list = new ArrayList<>();
             //循环table中的数据，全部取出
-            for(int i=0;i<table.getNumRows();i++){
+            for (int i = 0; i < table.getNumRows(); i++) {
                 table.setRow(i);
                 //调用单条数据获取方法
                 T rtarget = getInfoFromTable(table, target);

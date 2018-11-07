@@ -2,8 +2,10 @@ package com.hy.config.shiro;
 
 import com.github.pagehelper.util.StringUtil;
 import com.hy.common.SecurityUtil;
+import com.hy.config.ldap.LdapUtil;
 import com.hy.dto.SysUsersDto;
 import com.hy.model.HrmResource;
+import com.hy.model.LdapStaff;
 import com.hy.model.SysPermission;
 import com.hy.service.oa.HrmResourceService;
 import com.hy.service.system.PermissionService;
@@ -17,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component
@@ -48,28 +51,40 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        UsernamePasswordToken utoken = (UsernamePasswordToken) authenticationToken;
+        ShiroUserInfo userInfo = null;
+        System.out.println(111);
+        if (authenticationToken instanceof ShiroUsernamePasswordToken) {
+            ShiroUsernamePasswordToken token = (ShiroUsernamePasswordToken) authenticationToken;
+            System.out.println(token.getAuthenticated());
+            if (token.getAuthenticated()) {
+                LdapStaff staff = LdapUtil.getStaffByUid(token.getUsername());
+                if (staff == null)
+                    throw new UnknownAccountException();
+                userInfo = new ShiroUserInfo(staff.getId(), staff.getName(), token.getPassword().toString(), staff.getDepname(), staff.getDuty(), null, null);
+                return new SimpleAuthenticationInfo(userInfo, token.getPassword(), getName());
+            }
+        }
         //获取用户的输入的账号
-        String loginId = utoken.getUsername();
+        String loginId = authenticationToken.getPrincipal().toString();
+        System.out.println(loginId);
+        //获取当前系统中的账号
+        List<SysUsersDto> users = sysUsersService.getUsersByLoginid(loginId);
+        if (users == null || users.size() == 0) {
+            //未在本系统中存在账号时不予登录
+            throw new IncorrectCredentialsException();
+        }
         //获取OA中的账号
         HrmResource hrmResource = hrmResourceService.findByLoginId(loginId);
         if (hrmResource == null) {
             throw new UnknownAccountException();
         }
-        //获取当前系统中的账号
-        List<SysUsersDto> users = sysUsersService.getUsersByLoginid(loginId);
-        if(users == null || users.size() == 0){//未在本系统中存在账号时不予以等乐居
-            throw new IncorrectCredentialsException();
-        }
-
-        LOGGER.debug(hrmResource.getPassword().toLowerCase());
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                hrmResource, hrmResource.getPassword().toLowerCase(), getName());
-        return authenticationInfo;
+        return new SimpleAuthenticationInfo(hrmResource, hrmResource.getPassword().toLowerCase(), getName());
     }
+
 
     /**
      * 重写方法,清除当前用户的的 授权缓存
+     *
      * @param principals
      */
     @Override
@@ -79,6 +94,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
     /**
      * 重写方法，清除当前用户的 认证缓存
+     *
      * @param principals
      */
     @Override
