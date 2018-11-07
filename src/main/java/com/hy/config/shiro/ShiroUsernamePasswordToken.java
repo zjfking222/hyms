@@ -56,6 +56,8 @@ public class ShiroUsernamePasswordToken extends UsernamePasswordToken {
     public ShiroUsernamePasswordToken(String username, boolean authenticated, String password) {
         this.setUsername(username);
         this.setPassword(password.toCharArray());
+        this.setRememberMe(false);
+        this.setHost(null);
         this.authenticated = authenticated;
     }
 

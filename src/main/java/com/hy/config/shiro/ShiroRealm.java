@@ -51,7 +51,6 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        ShiroUserInfo userInfo = null;
         System.out.println(111);
         if (authenticationToken instanceof ShiroUsernamePasswordToken) {
             ShiroUsernamePasswordToken token = (ShiroUsernamePasswordToken) authenticationToken;
@@ -60,8 +59,8 @@ public class ShiroRealm extends AuthorizingRealm {
                 LdapStaff staff = LdapUtil.getStaffByUid(token.getUsername());
                 if (staff == null)
                     throw new UnknownAccountException();
-                userInfo = new ShiroUserInfo(staff.getId(), staff.getName(), token.getPassword().toString(), staff.getDepname(), staff.getDuty(), null, null);
-                return new SimpleAuthenticationInfo(userInfo, token.getPassword(), getName());
+                ShiroUserInfo  userInfo = new ShiroUserInfo(staff.getId(), staff.getName(), String.valueOf(token.getPassword()), staff.getDepname(), staff.getDuty(), null, null);
+                return new SimpleAuthenticationInfo(userInfo, String.valueOf(token.getPassword()), getName());
             }
         }
         //获取用户的输入的账号
@@ -78,7 +77,8 @@ public class ShiroRealm extends AuthorizingRealm {
         if (hrmResource == null) {
             throw new UnknownAccountException();
         }
-        return new SimpleAuthenticationInfo(hrmResource, hrmResource.getPassword().toLowerCase(), getName());
+        ShiroUserInfo userInfo  = new ShiroUserInfo(hrmResource.getLoginid(), hrmResource.getLastname(), hrmResource.getPassword(), null, null, null, null);
+        return new SimpleAuthenticationInfo(userInfo, hrmResource.getPassword().toLowerCase(), getName());
     }
 
 

@@ -43,12 +43,12 @@ public class IndexController {
         return ResultObj.success();
     }
 
-//    @RequestMapping(value = "/index/logout")
-//    public void logout(HttpServletResponse response) throws Exception {
-//        Subject subject = SecurityUtils.getSubject();
-//        subject.logout();
-//        response.sendRedirect("/index/login.html");
-//    }
+    @RequestMapping(value = "/index/app/logout")
+    public void logout(HttpServletResponse response) throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        response.sendRedirect("/index/app/login");
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public void index(HttpServletResponse response) throws Exception {
@@ -82,8 +82,8 @@ public class IndexController {
      * @Param [logininfo]
      * @return com.hy.common.ResultObj
      **/
-    @RequestMapping(value = "/index/app/login", method = RequestMethod.POST)
-    public ResultObj appLogin(@RequestBody Map<String, String> logininfo){
+    @RequestMapping(value = "/index/app/login", method = RequestMethod.GET)
+    public ResultObj appLogin(){
         Subject subject = SecurityUtils.getSubject();
         String loginid = "100496";//logininfo.get("loginid")
         ShiroUsernamePasswordToken token = new ShiroUsernamePasswordToken(loginid, true,"ht_password");
@@ -94,7 +94,7 @@ public class IndexController {
             return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
         } catch (AuthenticationException e) {
             token.clear();
-            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, logininfo.get("password"));
+            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH);
         }
         return ResultObj.success();
     }

@@ -1,6 +1,8 @@
 package com.hy.config.shiro;
 
-public class ShiroUserInfo {
+import java.io.Serializable;
+
+public class ShiroUserInfo implements Serializable {
 
     private String id;
     private String name;
