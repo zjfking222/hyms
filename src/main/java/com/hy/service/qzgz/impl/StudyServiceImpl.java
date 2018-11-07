@@ -1,10 +1,9 @@
 package com.hy.service.qzgz.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.QzgzStudyDto;
 import com.hy.mapper.ms.QzgzStudyMapper;
-import com.hy.model.QzgzStudy;
 import com.hy.model.QzgzStudy;
 import com.hy.service.qzgz.StudyService;
 import com.hy.utils.DTOUtil;
@@ -44,9 +43,9 @@ public class StudyServiceImpl implements StudyService {
     @Override
     public QzgzStudyDto add(QzgzStudyDto dto) {
         QzgzStudy qzgzStudy = DTOUtil.populate(dto, QzgzStudy.class);
-        qzgzStudy.setCreater(SecurityHelp.getUserId());
-        qzgzStudy.setCreatername(SecurityHelp.getUserName());
-        qzgzStudy.setModifier(SecurityHelp.getUserId());
+        qzgzStudy.setCreater(SecurityUtil.getUserId());
+        qzgzStudy.setCreatername(SecurityUtil.getUserName());
+        qzgzStudy.setModifier(SecurityUtil.getUserId());
         int id = qzgzStudyMapper.insertSelective(qzgzStudy);
         dto.setId(qzgzStudy.getId());
         return dto;
@@ -55,7 +54,7 @@ public class StudyServiceImpl implements StudyService {
     @Override
     public int update(QzgzStudyDto dto) {
         QzgzStudy qzgzStudy = DTOUtil.populate(dto, QzgzStudy.class);
-        qzgzStudy.setModifier(SecurityHelp.getUserId());
+        qzgzStudy.setModifier(SecurityUtil.getUserId());
         return qzgzStudyMapper.updateByPrimaryKeySelective(qzgzStudy);
     }
 

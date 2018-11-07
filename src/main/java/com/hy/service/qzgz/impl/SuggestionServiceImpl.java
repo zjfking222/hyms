@@ -1,6 +1,6 @@
 package com.hy.service.qzgz.impl;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.SuggestionDto;
 import com.hy.dto.SuggestionWithTotalPageDto;
 import com.hy.mapper.ms.QzgzSuggestionMapper;
@@ -50,7 +50,7 @@ public class SuggestionServiceImpl implements SuggestionService {
         QzgzSuggestion suggestion = new QzgzSuggestion();
         suggestion.setId(id);
         suggestion.setState(state);
-        suggestion.setModifier(SecurityHelp.getUserId());
+        suggestion.setModifier(SecurityUtil.getUserId());
         return suggestionMapper.updateStateOfSuggestion(suggestion) == 1;
     }
 }

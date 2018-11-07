@@ -1,7 +1,7 @@
 package com.hy.service.mm;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.*;
 import com.hy.mapper.ms.MmReceiptMapper;
 import com.hy.model.MmReceipt;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -175,7 +174,7 @@ public class ReceiptServiceImpl implements ReceiptService {
             if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getDeparturedate())){
                 mmReceipt.setDeparturedate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getDeparturedate()));
             }
-            mmReceipt.setModifier(SecurityHelp.getUserId());
+            mmReceipt.setModifier(SecurityUtil.getUserId());
             mmReceiptMapper.updateReceipt(mmReceipt);
 
             //批量更新或插入 receiptAgenda
@@ -216,11 +215,11 @@ public class ReceiptServiceImpl implements ReceiptService {
         List<MmReceipt> mmReceipts = DTOUtil.populateList(mmReceiptNewDtos, MmReceipt.class);
 
         IntStream.range(0, mmReceipts.size()).forEach(i -> {
-            mmReceipts.get(i).setUid(SecurityHelp.getUserId());
-            mmReceipts.get(i).setDomain(SecurityHelp.getDepartmentId());
-            mmReceipts.get(i).setCreater(SecurityHelp.getUserId());
-            mmReceipts.get(i).setModifier(SecurityHelp.getUserId());
-            mmReceipts.get(i).setLastname(SecurityHelp.getUserName());
+            mmReceipts.get(i).setUid(SecurityUtil.getUserId());
+            mmReceipts.get(i).setDomain(SecurityUtil.getDepartmentId());
+            mmReceipts.get(i).setCreater(SecurityUtil.getUserId());
+            mmReceipts.get(i).setModifier(SecurityUtil.getUserId());
+            mmReceipts.get(i).setLastname(SecurityUtil.getUserName());
         });
         return mmReceiptMapper.insertReceipt(mmReceipts) == mmReceipts.size();
     }

@@ -3,6 +3,7 @@ package com.hy.enums;
 public enum ResultCode {
     ERROR_USER_UNEXISTS(1001, "账号不存在"),
     ERROR_USER_UNMATCH(1002, "帐号密码不匹配"),
+    ERROR_USER_VERIFICATIONCODE(1003, "验证码错误"),
     ERROR_UNKNOWN(2001, "未知异常"),
     ERROR_INVALID_PARAMETER(2002, "方法参数错误"),
     ERROR_FUNCTION_NO_ACCESS(2003, "对此方法无访问权限"),

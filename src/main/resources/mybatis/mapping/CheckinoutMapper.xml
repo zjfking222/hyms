@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.zk.CheckinoutMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.Checkinout">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="checktime" property="checktime" jdbcType="TIMESTAMP"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="alias" property="alias" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,checktime,city, alias
+  </sql>
+    <select id="findByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from checkinout t
+        LEFT JOIN iclock i
+        ON t.SN=i.SN
+        WHERE t.userid=(select u.userid from userinfo u where u.badgenumber=#{userid,jdbcType=INTEGER})
+        and t.checktime &gt; #{stime,jdbcType=TIMESTAMP} and t.checktime &lt; #{etime,jdbcType=TIMESTAMP}
+        order by t.checktime
+    </select>
+</mapper>

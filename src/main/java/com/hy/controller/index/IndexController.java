@@ -3,7 +3,7 @@ package com.hy.controller.index;
 
 import com.hy.common.ResultObj;
 
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.PermissionDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.PermissionService;
@@ -11,7 +11,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.codec.Base64;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,14 +62,14 @@ public class IndexController {
         //根据传入的参数判断当前请求是否为手机端传入，若是则获取手机端或兼容的菜单，若否，则获取web端与兼容的菜单
         String fieldType = info.get("fieldType");
         if("0".equals(fieldType)){
-            list = permissionService.getUserMenus(SecurityHelp.getUserId(), 0);
+            list = permissionService.getUserMenus(SecurityUtil.getUserId(), 0);
         }else if("1".equals(fieldType)){
-            list = permissionService.getUserMenus(SecurityHelp.getUserId(), 1);
+            list = permissionService.getUserMenus(SecurityUtil.getUserId(), 1);
         }else{
             //未知参数，待添加
         }
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("username", SecurityHelp.getUserName());
+        map.put("username", SecurityUtil.getUserName());
         map.put("menus", list);
         return ResultObj.success(map);
     }

@@ -2,11 +2,11 @@ package com.hy.service.ad;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.hy.config.jco.JcoDestinationDataProvider;
 import com.hy.dto.AdStaffDto;
 import com.hy.mapper.ms.AdStaffMapper;
 import com.hy.model.AdStaff;
 import com.hy.utils.DTOUtil;
-import com.hy.utils.DataProvider;
 import com.sap.conn.jco.*;
 import com.sap.conn.jco.ext.DestinationDataProvider;
 import com.sap.conn.jco.ext.Environment;
@@ -24,7 +24,7 @@ public class AdStaffServiceImpl implements AdStaffService {
 
     private void getProvider(){
         // 获取单例
-        DataProvider myProvider = DataProvider.getInstance();
+        JcoDestinationDataProvider myProvider = JcoDestinationDataProvider.getInstance();
         Environment.registerDestinationDataProvider(myProvider);
         Properties connectProperties = new Properties();
         connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, "192.168.100.152");

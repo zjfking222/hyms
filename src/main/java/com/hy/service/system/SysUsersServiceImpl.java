@@ -1,8 +1,7 @@
 package com.hy.service.system;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
-import com.hy.dto.HrmResourceDto;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.SysUsersDto;
 import com.hy.dto.SysUsersNewDto;
 import com.hy.mapper.ms.SysUsersMapper;
@@ -33,7 +32,7 @@ public class SysUsersServiceImpl implements SysUsersService {
     public boolean addUsers(SysUsersNewDto sysUsersNewDto){
         try {
             for (SysUsersDto hr: sysUsersNewDto.getnHrmResources()){
-                sysUsersMapper.insertSelective(new SysUsers(hr.getName(),SecurityHelp.getUserId(),SecurityHelp.getUserId(),
+                sysUsersMapper.insertSelective(new SysUsers(hr.getName(), SecurityUtil.getUserId(), SecurityUtil.getUserId(),
                        hr.getOaloginid(),hr.getId()));
             }
             return true;

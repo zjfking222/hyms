@@ -1,7 +1,7 @@
 package com.hy.service.crm;
 
 import com.github.pagehelper.PageHelper;
-import com.hy.common.SecurityHelp;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.CrmBusinesstypeDto;
 import com.hy.dto.CrmFirmsDto;
 import com.hy.dto.CrmFirmsFetchDto;
@@ -38,9 +38,9 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public Integer addCrmFirm(CrmFirmsFetchDto crmFirmsDto) {
         CrmFirms crmFirms = DTOUtil.populate(crmFirmsDto, CrmFirms.class);
-        crmFirms.setCreater(SecurityHelp.getUserId());
-        crmFirms.setModifier(SecurityHelp.getUserId());
-        crmFirms.setDomain(SecurityHelp.getDepartmentId());
+        crmFirms.setCreater(SecurityUtil.getUserId());
+        crmFirms.setModifier(SecurityUtil.getUserId());
+        crmFirms.setDomain(SecurityUtil.getDepartmentId());
         crmFirmsMapper.insertCrmFirms(crmFirms);
         return crmFirms.getId();
     }
@@ -48,7 +48,7 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public boolean setCrmFirm(CrmFirmsFetchDto crmFirmsDto) {
         CrmFirms crmFirms = DTOUtil.populate(crmFirmsDto, CrmFirms.class);
-        crmFirms.setModifier(SecurityHelp.getUserId());
+        crmFirms.setModifier(SecurityUtil.getUserId());
         return crmFirmsMapper.updateCrmFirms(crmFirms) == 1;
     }
 
@@ -125,7 +125,7 @@ public class FirmsServiceImpl implements FirmsService {
                         String remark = String.valueOf(getCell(row, 8));
                         if (name != null  && !name.equals("")) {
                             firms.add(new CrmFirms(name, phone, address, contacter, cmobile, cphone, email, btid, remark,
-                                    SecurityHelp.getUserId(), SecurityHelp.getUserId(), SecurityHelp.getDepartmentId()));
+                                    SecurityUtil.getUserId(), SecurityUtil.getUserId(), SecurityUtil.getDepartmentId()));
                         }
                     }
 
@@ -147,7 +147,7 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public List<CrmFirmsDto> getCrmFirm(int pageNum, int pageSize, String value, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<CrmFirms> crms = crmFirmsMapper.selectCrmFirms(value, SecurityHelp.getUserId(), sort, dir);
+        List<CrmFirms> crms = crmFirmsMapper.selectCrmFirms(value, SecurityUtil.getUserId(), sort, dir);
         List<CrmFirmsDto> dtos = new ArrayList<>();
         for (CrmFirms crm : crms) {
             dtos.add(new CrmFirmsDto(crm.getId(), crm.getName(), crm.getPhone(), crm.getAddress(), crm.getContacter(),
@@ -159,7 +159,7 @@ public class FirmsServiceImpl implements FirmsService {
 
     @Override
     public int getCrmFirmTotal(String value) {
-        return crmFirmsMapper.selectCrmFirmsTotal(value, SecurityHelp.getUserId());
+        return crmFirmsMapper.selectCrmFirmsTotal(value, SecurityUtil.getUserId());
     }
 
     @Override
@@ -169,12 +169,12 @@ public class FirmsServiceImpl implements FirmsService {
 
     @Override
     public List<CrmFirmsDto> getCrmFirmByUid() {
-        return DTOUtil.populateList(crmFirmsMapper.selectCrmFirmsByUid(SecurityHelp.getUserId()), CrmFirmsDto.class);
+        return DTOUtil.populateList(crmFirmsMapper.selectCrmFirmsByUid(SecurityUtil.getUserId()), CrmFirmsDto.class);
     }
 
     @Override
     public List<CrmFirmsDto> getCrmFirmByLike(String value){
-        List<CrmFirms> crmFirms = crmFirmsMapper.selectCrmFirmsByLike(SecurityHelp.getUserId(),value);
+        List<CrmFirms> crmFirms = crmFirmsMapper.selectCrmFirmsByLike(SecurityUtil.getUserId(),value);
         return DTOUtil.populateList(crmFirms,CrmFirmsDto.class);
     }
 
