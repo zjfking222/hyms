@@ -4,6 +4,7 @@ package com.hy.controller.index;
 import com.hy.common.ResultObj;
 
 import com.hy.common.SecurityUtil;
+import com.hy.config.shiro.ShiroUsernamePasswordToken;
 import com.hy.dto.PermissionDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.PermissionService;
@@ -72,6 +73,30 @@ public class IndexController {
         map.put("username", SecurityUtil.getUserName());
         map.put("menus", list);
         return ResultObj.success(map);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 使用app应用打开本系统页面时，调用此方法登录
+     * @Date 2018/11/7 16:21
+     * @Param [logininfo]
+     * @return com.hy.common.ResultObj
+     **/
+    @RequestMapping(value = "/index/app/login", method = RequestMethod.POST)
+    public ResultObj appLogin(@RequestBody Map<String, String> logininfo){
+        Subject subject = SecurityUtils.getSubject();
+        String loginid = "100496";//logininfo.get("loginid")
+        ShiroUsernamePasswordToken token = new ShiroUsernamePasswordToken(loginid, true,"ht_password");
+        try {
+            subject.login(token);
+        } catch (UnknownAccountException lae) {
+            token.clear();
+            return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
+        } catch (AuthenticationException e) {
+            token.clear();
+            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, logininfo.get("password"));
+        }
+        return ResultObj.success();
     }
 }
 
