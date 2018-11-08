@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 public class ShiroUserInfo implements Serializable {
 
-    private String id;
+    private Integer id;
+    private String loginid;
     private String name;
     private String email;
     private String phone;
+    private Integer depid;
     private String depname;
     private String duty;
     private String password;
@@ -15,25 +17,36 @@ public class ShiroUserInfo implements Serializable {
     public ShiroUserInfo() {
     }
 
-    public ShiroUserInfo(String id, String name, String password, String depname) {
-        this(id, name, password, depname, null, null, null);
+    public ShiroUserInfo(Integer id, String loginid, String name) {
+        this(id, loginid, name, null);
     }
 
-    public ShiroUserInfo(String id, String name, String password, String depname, String duty, String email, String phone) {
+
+    public ShiroUserInfo(Integer id, String loginid, String name, String password) {
+        this(id, loginid, name, password, null, null, null);
+    }
+
+    public ShiroUserInfo(Integer id, String loginid, String name, String password, Integer depid, String depname, String duty) {
+        this(id, loginid, name, password, depid, depname, duty, null, null);
+    }
+
+    public ShiroUserInfo(Integer id, String loginid, String name, String password, Integer depid, String depname, String duty, String email, String phone) {
         this.id = id;
+        this.loginid = loginid;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.depname = depname;
+        this.depid = depid;
         this.duty = duty;
         this.password = password;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -83,6 +96,22 @@ public class ShiroUserInfo implements Serializable {
 
     public void setDuty(String duty) {
         this.duty = duty;
+    }
+
+    public String getLoginid() {
+        return loginid;
+    }
+
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
+    }
+
+    public Integer getDepid() {
+        return depid;
+    }
+
+    public void setDepid(Integer depid) {
+        this.depid = depid;
     }
 
 }
