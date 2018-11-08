@@ -5,142 +5,359 @@
 		<title>考勤汇总</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="/statics/plugins/mui/css/mui.min.css"/>
-		<link rel="stylesheet" type="text/css" href="/statics/plugins/mui/css/mui.picker.min.css"/>
 		<link rel="stylesheet" type="text/css" href="/statics/css/m/app.css"/>
 	</head>
 	<body style="background-color: #fff;">
-		<header class="mui-bar mui-bar-nav" style="height: 8%;">
-			<label class="attendance" style="position: absolute;top: 25%;"></label>
-		</header>
-		<div class="mui-scroll-wrapper" style="background-color: #fff;overflow: unset;">
-			<div class="mui-collapse-content" style="position: absolute;top: 8%;width: 100%;padding-left: 15px;">
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>合计勤工时</span>
+		<ul class="mui-table-view" id="attendanceData">
+			<li class="mui-table-view-cell mui-collapse mui-active">
+				<a class="mui-navigate-right attendance-title1" href="#"></a>
+				<div class="mui-collapse-content">
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>合计出勤工时</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim006 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>应出勤工时</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim001 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>正常出勤工时</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim002 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>平时加班工时</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim003 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>周日加班工时</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim004 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>法定节日加班工时</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim005 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>年休假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim007 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>调休假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim008 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>婚假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim009 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>丧假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim010 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>护理假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim011 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>工伤假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim012 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>产假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim013 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>产检假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim014 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>病假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim015 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>事假</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim016 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>旷工</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim017 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>迟到早退</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim018 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>漏刷卡</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim019 }}</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>夜班时数</span>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+						<span>{{ attendance1.ztim020 }}</span>
+					</div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>年休假标准</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance1.ztim021 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>已休时数</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance1.ztim022 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>剩余时数</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance1.ztim023 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>调休余额</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance1.ztim024 }}</span>
+                    </div>
 				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>160</span>
+			</li>
+			<li class="mui-table-view-cell mui-collapse mui-active">
+				<a class="mui-navigate-right attendance-title2" href="#"></a>
+				<div class="mui-collapse-content">
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>合计出勤工时</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim006 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>应出勤工时</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim001 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>正常出勤工时</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim002 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>平时加班工时</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim003 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>周日加班工时</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim004 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>法定节日加班工时</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim005 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>年休假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim007 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>调休假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim008 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>婚假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim009 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>丧假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim010 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>护理假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim011 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>工伤假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim012 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>产假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim013 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>产检假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim014 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>病假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim015 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>事假</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim016 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>旷工</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim017 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>迟到早退</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim018 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>漏刷卡</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim019 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>夜班时数</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim020 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>年休假标准</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim021 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>已休时数</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim022 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>剩余时数</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim023 }}</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>调休余额</span>
+                    </div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
+                        <span>{{ attendance2.ztim024 }}</span>
+                    </div>
 				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>应出勤工时</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>160</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>正常出勤工时</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>160</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>平时加班工时</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>周日加班工时</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>法定节日加班工时</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>年休假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>调休假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>婚假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>丧假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>护理假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>工伤假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>产假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>产检假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>病假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>事假</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>旷工</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>迟到早退</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>漏刷卡</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>夜班时数</span>
-				</div>
-				<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-					<span>0</span>
-				</div>
-			</div>
-		</div>
+			</li>
+		</ul>
 
 		<script src="/statics/plugins/jquery/jquery.min.js"></script>
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/statics/plugins/mui/js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/statics/plugins/mui/js/mui.dtpicker.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/statics/js/m/selfhelp/attendance.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript">
+            //初始化vue对象
+            var vm = new Vue({
+                el:"#attendanceData",
+                data:{
+                    attendance1:{},
+                    attendance2: {}
+                },
+                mounted (){//挂载el
+                    mui.init();
+                },
+                created: function(){
+                    var data = getAttendance();
+                    this.attendance1 = data[0].dto;
+                    this.attendance2 = data[1].dto;
+                }
+            });
+
+            //从后台获取考勤汇总数据
+            function getAttendance() {
+                var result;
+                mui.ajax('/app/selfhelp/getAttendance',{
+                    dataType:'json',//服务器返回json格式数据
+                    type:'post',//HTTP请求类型
+                    timeout:10000,//超时时间设置为10秒；
+                    headers:{'Content-Type':'application/json'},
+                    async: false,
+                    success:function(data){
+                        if (data.code == 0) {
+                            //添加数据到列表中
+                            var title1 = data.data[0].year + "年" + data.data[0].month + "月考勤明细";
+                            mui(".attendance-title1")[0].text = title1;
+                            var title2 = data.data[1].year + "年" + data.data[1].month + "月考勤明细";
+                            mui(".attendance-title2")[0].text = title2;
+                            result = data.data;
+                        }else {
+                            console.log(data.msg)
+                        }
+                    },
+                    error:function(xhr,type,errorThrown){
+                        //异常处理；
+                        console.log(type);
+                    }
+                });
+                return result;
+            }
+        </script>
 	</body>
 </html>

@@ -1,9 +1,8 @@
 package com.hy.service.m;
 
 import com.hy.common.SecurityUtil;
-import com.hy.config.jco.JcoConfig;
 import com.hy.config.jco.JcoUtil;
-import com.hy.dto.SalaryDto;
+import com.hy.dto.*;
 import com.hy.mapper.zk.CheckinoutMapper;
 import com.hy.model.Checkinout;
 import com.hy.utils.VerificationCodeUtil;
@@ -35,9 +34,6 @@ import java.util.Map;
 public class SelfHelpServiceImpl implements SelfHelpService {
 
     private static final Logger logger = LoggerFactory.getLogger(SelfHelpServiceImpl.class);
-    //加载配置属性
-    @Autowired
-    private JcoConfig config;
     @Autowired
     private CheckinoutMapper checkinoutMapper;
     //验证码保存key
@@ -74,6 +70,7 @@ public class SelfHelpServiceImpl implements SelfHelpService {
      * @Param [code]
      * @return boolean
      **/
+    @Override
     public boolean authentication(String code){
         //取出保存的验证码
         String rcode = (String)SecurityUtil.getAttribute(codeKey);
@@ -89,6 +86,13 @@ public class SelfHelpServiceImpl implements SelfHelpService {
         }
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前年月当前用户的薪资数据
+     * @Date 2018/11/7 16:01
+     * @Param [id, username, password, year, month]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
     @Override
     public Map<String, Object> getSalaryData(String id, String username, String password, String year, String month){
         //获取操作对象
@@ -120,7 +124,7 @@ public class SelfHelpServiceImpl implements SelfHelpService {
             results.put("message", "成功！");
             //取出数据表数据
             JCoTable codes = JcoUtil.getTable(function, "ZHR_PAYSLIP");
-            SalaryDto dto = new SalaryDto();
+            SapSalaryDto dto = new SapSalaryDto();
             //只有一条薪资数据，指向该数据
             codes.setRow(0);
             dto = JcoUtil.getInfoFromTable(codes, dto);
@@ -137,12 +141,217 @@ public class SelfHelpServiceImpl implements SelfHelpService {
         return results;
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前年月当前用户的考勤汇总数据
+     * @Date 2018/11/7 16:49
+     * @Param [id, year, month]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     **/
+    @Override
+    public Map<String, Object> getAttendance(String id, String year, String month){
+        //获取操作对象
+        JCoDestination destination = JcoUtil.getInstance("");
+        //获取函数
+        JCoFunction function = JcoUtil.getFunction(destination, "ZHR_OE009_ATTENDENCE");
+        //设置参数
+        JcoUtil.setParameter(function,"I_PERNR", id);
+        JcoUtil.setParameter(function,"I_MONTH", month);
+        JcoUtil.setParameter(function,"I_YEAR", year);
+        //执行获取数据
+        JcoUtil.executeFunction(function, destination);
+        Map<String, Object> results = new HashMap<>();
+        results.put("year", year);
+        results.put("month", month);
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_KQYDB");
+        SapAttendanceDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapAttendanceDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+            results.put("dto", dto);
+        }
+        return results;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取调用个人基本信息的接口
+     * @Date 2018/11/7 19:46
+     * @Param [id]
+     * @return com.sap.conn.jco.JCoFunction
+     **/
+    @Override
+    public JCoFunction getEmployeeFunction(String id){
+        //获取操作对象
+        JCoDestination destination = JcoUtil.getInstance("");
+        //获取函数
+        JCoFunction function = JcoUtil.getFunction(destination, "ZHR_OE009_EMPLOYEE_INFO");
+        //设置参数
+        JcoUtil.setParameter(function,"I_PERNR", id);
+        //执行获取数据
+        JcoUtil.executeFunction(function, destination);
+        return function;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的员工基本信息数据
+     * @Date 2018/11/7 19:55
+     * @Param [function]
+     * @return com.hy.dto.SapBaseInfoDto
+     **/
+    @Override
+    public SapBaseInfoDto getBaseInfo(JCoFunction function){
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_PSNDOC");
+        SapBaseInfoDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapBaseInfoDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+        }
+        return dto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的合同信息
+     * @Date 2018/11/8 8:03
+     * @Param [function]
+     * @return com.hy.dto.SapContractInfoDto
+     **/
+    @Override
+    public SapContractInfoDto getContractInfo(JCoFunction function){
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_HT");
+        SapContractInfoDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapContractInfoDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+        }
+        return dto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的职称信息
+     * @Date 2018/11/8 8:09
+     * @Param [function]
+     * @return com.hy.dto.SapTechTitleDto
+     **/
+    @Override
+    public SapTechTitleDto getTechTitleInfo(JCoFunction function){
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_ZC");
+        SapTechTitleDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapTechTitleDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+        }
+        return dto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的资格证书信息
+     * @Date 2018/11/8 8:15
+     * @Param [function]
+     * @return com.hy.dto.SapQuaCertificateDto
+     **/
+    @Override
+    public SapQuaCertificateDto getQuaCertificateInfo(JCoFunction function){
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_ZGZS");
+        SapQuaCertificateDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapQuaCertificateDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+        }
+        return dto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的年休假调休信息
+     * @Date 2018/11/8 8:20
+     * @Param [function]
+     * @return com.hy.dto.SapVacationDto
+     **/
+    @Override
+    public SapVacationDto getVacationInfo(JCoFunction function){
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_NXTX");
+        SapVacationDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapVacationDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+        }
+        return dto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的技能等级信息
+     * @Date 2018/11/8 8:24
+     * @Param [function]
+     * @return com.hy.dto.SapSkillLevelDto
+     **/
+    @Override
+    public SapSkillLevelDto getSkillLevelInfo(JCoFunction function){
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_JNDJ");
+        SapSkillLevelDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapSkillLevelDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+        }
+        return dto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的排班表信息
+     * @Date 2018/11/8 8:59
+     * @Param [id, stime, etime]
+     * @return com.hy.dto.SapSchedulingDto
+     **/
+    @Override
+    public SapSchedulingDto getSchedulingInfo(String id, String stime, String etime){
+        //获取操作对象
+        JCoDestination destination = JcoUtil.getInstance("");
+        //获取函数
+        JCoFunction function = JcoUtil.getFunction(destination, "ZHR_OE009_ARRANGMENT");
+        //设置参数
+        JcoUtil.setParameter(function,"I_PERNR", id);
+        JcoUtil.setParameter(function,"I_BEGDA", stime);
+        JcoUtil.setParameter(function,"I_ENDDA", etime);
+        //执行获取数据
+        JcoUtil.executeFunction(function, destination);
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_KQYDB");
+        SapSchedulingDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0){
+            dto = new SapSchedulingDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+        }
+        return dto;
+    }
+
     public void getRecord(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date stime = sdf.parse("2018-11-01");
             Date etime = sdf.parse("2018-11-03");
             List<Checkinout> list = checkinoutMapper.findByUserId("100857", stime, etime);
+            //DTOUtil.populateList();
             System.out.println();
         } catch (ParseException e) {
             e.printStackTrace();

@@ -134,5 +134,50 @@
     </ul>
 
     <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        //初始化vue对象
+        var vm = new Vue({
+            el:"#attendanceData",
+            data:{
+                attendance1:{},
+                attendance2: {}
+            },
+            mounted (){//挂载el
+                mui.init();
+            },
+            created: function(){
+                var data = this.getBasicInfo();
+                this.attendance1 = data[0].dto;
+                this.attendance2 = data[1].dto;
+            },
+            metheds:{
+                //从后台获取全部数据
+                getBasicInfo:function(){
+                    var result;
+                    mui.ajax('/app/selfhelp/getBasicInfo',{
+                        dataType:'json',//服务器返回json格式数据
+                        type:'post',//HTTP请求类型
+                        timeout:10000,//超时时间设置为10秒；
+                        headers:{'Content-Type':'application/json'},
+                        async: false,
+                        success:function(data){
+                            if (data.code == 0) {
+                                //添加数据到返回值
+                                result = data.data;
+                            }else {
+                                console.log(data.msg)
+                            }
+                        },
+                        error:function(xhr,type,errorThrown){
+                            //异常处理；
+                            console.log(type);
+                        }
+                    });
+                    return result;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

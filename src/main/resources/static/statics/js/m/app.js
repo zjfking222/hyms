@@ -1,3 +1,5 @@
+//app主页面标记
+var parentFlag = "hyms";
 //初始化vue对象
 var vm = new Vue({
     el:"#appmenulist",
@@ -54,7 +56,6 @@ function getMenuList() {
             console.log(type);
         }
     });
-    //genggai
     return result;
 }
 
