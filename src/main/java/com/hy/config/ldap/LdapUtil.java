@@ -17,38 +17,19 @@ public class LdapUtil {
     private static LDAPConnection connection = null;
 
     private static LdapConfig ldapConfig;
+    private static String baseDn;
+    private static String uName;
 
     @Autowired
     public void setLdapConfig(LdapConfig config){
         ldapConfig = config;
     }
-    private static String baseDn;
-    private static String uName;
-
     @PostConstruct
     public void init() {
-        openConnection();
         baseDn = ldapConfig.getBaseDn();
         uName = ldapConfig.getuName();
     }
-    /**
-     * 打开ldap连接
-     */
-    private static void openConnection() {
-        if (connection == null) {
-            try {
-                String ldapHost = ldapConfig.getHost();
-                int ldapPort = Integer.valueOf(ldapConfig.getPort());
-                String ldapBindDN = ldapConfig.getAccount();
-                String ldapPassword = ldapConfig.getPassword();
-                connection = new LDAPConnection(ldapHost, ldapPort, ldapBindDN, ldapPassword);
-                LDAPSearchConstraints ldsc = new LDAPSearchConstraints();
-                ldsc.setMaxResults(10000);
-            } catch (Exception e) {
-                System.out.println("[ERROR]连接LDAP出现错误：\n" + e.getMessage());
-            }
-        }
-    }
+
 //    static {
 //
 //    }
