@@ -5,7 +5,7 @@ package com.hy.dto;
  * @Date: 2018/11/2 10:00
  * @Description:从sap接收薪水数据
  */
-public class SalaryDto {
+public class SapSalaryDto {
 
     //员工号
     private String pernr;

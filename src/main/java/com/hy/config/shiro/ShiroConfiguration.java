@@ -181,6 +181,7 @@ public class ShiroConfiguration {
 //        filterChainDefinitionMap.put("/img/**", "anon");
 //        filterChainDefinitionMap.put("/plugins/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
+        filterChainDefinitionMap.put("/index/app/**", "anon");
         filterChainDefinitionMap.put("/ad/**", "anon");
         filterChainDefinitionMap.put("/qzgz/web/**", "anon");
         filterChainDefinitionMap.put("/qzgz/upload/**", "anon");

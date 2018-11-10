@@ -4,6 +4,7 @@ package com.hy.controller.index;
 import com.hy.common.ResultObj;
 
 import com.hy.common.SecurityUtil;
+import com.hy.config.shiro.ShiroUsernamePasswordToken;
 import com.hy.dto.PermissionDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.PermissionService;
@@ -42,12 +43,12 @@ public class IndexController {
         return ResultObj.success();
     }
 
-//    @RequestMapping(value = "/index/logout")
-//    public void logout(HttpServletResponse response) throws Exception {
-//        Subject subject = SecurityUtils.getSubject();
-//        subject.logout();
-//        response.sendRedirect("/index/login.html");
-//    }
+    @RequestMapping(value = "/index/app/logout")
+    public void logout(HttpServletResponse response) throws Exception {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        response.sendRedirect("/index/app/login");
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public void index(HttpServletResponse response) throws Exception {
@@ -72,6 +73,30 @@ public class IndexController {
         map.put("username", SecurityUtil.getUserName());
         map.put("menus", list);
         return ResultObj.success(map);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 使用app应用打开本系统页面时，调用此方法登录
+     * @Date 2018/11/7 16:21
+     * @Param [logininfo]
+     * @return com.hy.common.ResultObj
+     **/
+    @RequestMapping(value = "/index/app/login", method = RequestMethod.GET)
+    public ResultObj appLogin(){
+        Subject subject = SecurityUtils.getSubject();
+        String loginid = "100496";//logininfo.get("loginid")
+        ShiroUsernamePasswordToken token = new ShiroUsernamePasswordToken(loginid, true,"ht_password");
+        try {
+            subject.login(token);
+        } catch (UnknownAccountException lae) {
+            token.clear();
+            return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
+        } catch (AuthenticationException e) {
+            token.clear();
+            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH);
+        }
+        return ResultObj.success();
     }
 }
 

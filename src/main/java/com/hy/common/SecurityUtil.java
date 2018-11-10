@@ -1,5 +1,6 @@
 package com.hy.common;
 
+import com.hy.config.shiro.ShiroUserInfo;
 import com.hy.model.HrmResource;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
@@ -8,23 +9,23 @@ import org.apache.shiro.subject.Subject;
 
 public class SecurityUtil {
 
-    public static HrmResource getUserInfo() {
+    public static ShiroUserInfo getUserInfo() {
         Subject subject = SecurityUtils.getSubject();
         //热部署测试配置
         Object key = subject.getPrincipal();
-        HrmResource hrmResource = new HrmResource();
+        ShiroUserInfo userInfo = new ShiroUserInfo();
         try {
-            BeanUtils.copyProperties(hrmResource, key);
+            BeanUtils.copyProperties(userInfo, key);
         } catch (Exception e) {
 
         }
         //正式发布配置
-//        HrmResource hrmResource = (HrmResource) subject.getPrincipal();
-        return hrmResource;
+//        ShiroUserInfo userInfo = (ShiroUserInfo) subject.getPrincipal();
+        return userInfo;
     }
 
     public static int getDepartmentId() {
-        return getUserInfo().getDepartmentid();
+        return getUserInfo().getDepid();
     }
 
     public static int getUserId() {
@@ -32,7 +33,7 @@ public class SecurityUtil {
     }
 
     public static String getUserName() {
-        return getUserInfo().getLastname();
+        return getUserInfo().getName();
     }
 
     public static String getLoginid() {
