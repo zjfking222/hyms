@@ -23,6 +23,8 @@ public class LdapConfig {
     private String baseDn;
     @Value("${ldap.uName}")
     private String uName;
+    @Value("${ldap.maxResult}")
+    private String maxResult;
 
     public String getHost() {
         return host;
@@ -46,5 +48,9 @@ public class LdapConfig {
 
     public String getuName() {
         return uName;
+    }
+
+    public String getMaxResult() {
+        return maxResult;
     }
 }
