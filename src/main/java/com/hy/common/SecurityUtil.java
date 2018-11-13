@@ -3,6 +3,7 @@ package com.hy.common;
 import com.hy.config.shiro.ShiroUserInfo;
 import com.hy.model.HrmResource;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -25,7 +26,9 @@ public class SecurityUtil {
     }
 
     public static int getDepartmentId() {
-        return getUserInfo().getDepid();
+        if (StringUtils.isEmpty(getUserInfo().getDepid()))
+            return -1;
+        return Integer.parseInt(getUserInfo().getDepid());
     }
 
     public static int getUserId() {
@@ -41,49 +44,49 @@ public class SecurityUtil {
     }
 
     /**
+     * @return org.apache.shiro.session.Session
      * @Author 钱敏杰
      * @Description 获取session
      * @Date 2018/11/5 17:41
      * @Param []
-     * @return org.apache.shiro.session.Session
      **/
-    public static Session getSession(){
+    public static Session getSession() {
         Subject subject = SecurityUtils.getSubject();
         return subject.getSession();
     }
 
     /**
+     * @return java.lang.Object
      * @Author 钱敏杰
      * @Description 获取session中属性
      * @Date 2018/11/5 17:41
      * @Param [key]
-     * @return java.lang.Object
      **/
-    public static Object getAttribute(String key){
+    public static Object getAttribute(String key) {
         Subject subject = SecurityUtils.getSubject();
         return subject.getSession().getAttribute(key);
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 保存属性到session
      * @Date 2018/11/5 17:41
      * @Param [key, obj]
-     * @return void
      **/
-    public static void setAttribute(String key, Object obj){
+    public static void setAttribute(String key, Object obj) {
         Subject subject = SecurityUtils.getSubject();
         subject.getSession().setAttribute(key, obj);
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 移除session中的属性
      * @Date 2018/11/6 9:20
      * @Param [key]
-     * @return void
      **/
-    public static void removeAttribute(String key){
+    public static void removeAttribute(String key) {
         Subject subject = SecurityUtils.getSubject();
         subject.getSession().removeAttribute(key);
     }

@@ -13,17 +13,18 @@ import java.util.List;
 
 @Component
 public class LdapUtil {
+    ;
 
-    private static LDAPConnection connection = null;
-
+    @Autowired
     private static LdapConfig ldapConfig;
     private static String baseDn;
     private static String uName;
 
     @Autowired
-    public void setLdapConfig(LdapConfig config){
+    public void setLdapConfig(LdapConfig config) {
         ldapConfig = config;
     }
+
     @PostConstruct
     public void init() {
         baseDn = ldapConfig.getBaseDn();
@@ -33,17 +34,18 @@ public class LdapUtil {
 //    static {
 //
 //    }
+
     /**
      * 获取部门信息
      */
-    public static List<LdapDepartment> getDepartment(){
+    public static List<LdapDepartment> getDepartment() {
         List<LdapDepartment> resultList = new ArrayList<>();
-        Filter filter = Filter.createEqualityFilter("objectClass","organizationalUnit");
-        SearchRequest searchRequest = new SearchRequest(baseDn, SearchScope.SUB,filter);
+        Filter filter = Filter.createEqualityFilter("objectClass", "organizationalUnit");
+        SearchRequest searchRequest = new SearchRequest(baseDn, SearchScope.SUB, filter);
         SearchResult searchResult;
         try {
-            searchResult = connection.search(searchRequest);
-            if (null != searchResult && searchResult.getEntryCount()>0) {
+            searchResult = LdapConnector.getConnection().search(searchRequest);
+            if (null != searchResult && searchResult.getEntryCount() > 0) {
                 for (SearchResultEntry entry : searchResult.getSearchEntries()) {
                     resultList.add(new LdapDepartment(entry.getAttributeValue("description"),
                             entry.getAttributeValue("ou"),
@@ -53,22 +55,23 @@ public class LdapUtil {
                             entry.getAttributeValue("distinguishedName")));
                 }
             }
-        } catch (LDAPSearchException e) {
+        } catch (LDAPException e) {
             e.printStackTrace();
             System.out.println("[ERROR]部门信息获取失败!");
         }
         return resultList;
     }
+
     /**
      * 获取用户信息
      */
-    public static List<LdapStaff> getStaff(){
+    public static List<LdapStaff> getStaff() {
         List<LdapStaff> resultList = new ArrayList<>();
-        Filter filter = Filter.createEqualityFilter("objectClass","person");
-        SearchRequest searchRequest = new SearchRequest(baseDn,SearchScope.SUB,filter);
+        Filter filter = Filter.createEqualityFilter("objectClass", "person");
+        SearchRequest searchRequest = new SearchRequest(baseDn, SearchScope.SUB, filter);
         SearchResult searchResult;
         try {
-            searchResult=connection.search(searchRequest);
+            searchResult = LdapConnector.getConnection().search(searchRequest);
             if (null != searchResult && searchResult.getEntryCount() > 0) {
                 for (SearchResultEntry entry : searchResult.getSearchEntries()) {
                     resultList.add(new LdapStaff(entry.getAttributeValue("sAMAccountName"),
@@ -82,12 +85,13 @@ public class LdapUtil {
                             entry.getAttributeValue("distinguishedName")));
                 }
             }
-        } catch (LDAPSearchException e) {
+        } catch (LDAPException e) {
             e.printStackTrace();
             System.out.println("[ERROR]用户信息获取失败!");
         }
         return resultList;
     }
+
     /**
      * 新增部门
      */
@@ -97,159 +101,161 @@ public class LdapUtil {
         String name = department.getName();
         String id = department.getId();
         try {
-            SearchResultEntry entry = connection.getEntry(entryDN);
+            SearchResultEntry entry = LdapConnector.getConnection().getEntry(entryDN);
 
             if (entry == null) {
                 ArrayList<Attribute> attributes = new ArrayList<>();
                 attributes.add(new Attribute("objectClass", "top", "organizationalUnit"));
                 attributes.add(new Attribute("ou", name));
                 attributes.add(new Attribute("description", id));
-                connection.add(entryDN, attributes);
+                LdapConnector.getConnection().add(entryDN, attributes);
                 System.out.println("[ADD]组织[" + name + "(" + department.getId() + ")]创建成功！");
             } else {
                 System.out.println("[ADD]组织[" + name + "(" + department.getId() + ")]已存在！");
             }
         } catch (Exception e) {
-            System.out.println("[ERROR]创建组织["+ name + "("+ department.getId()+ ")]创建失败！");
+            System.out.println("[ERROR]创建组织[" + name + "(" + department.getId() + ")]创建失败！");
             e.printStackTrace();
         }
     }
+
     /**
      * 新增用户
      */
-    public static void addStaff(LdapStaff staff){
+    public static void addStaff(LdapStaff staff) {
         String entryDN = staff.getDn() + "," + baseDn;
         String name = staff.getName();
         String id = staff.getId();
         try {
-            SearchResultEntry entry = connection.getEntry(entryDN);
+            SearchResultEntry entry = LdapConnector.getConnection().getEntry(entryDN);
 
             if (entry == null) {
                 ArrayList<Attribute> attributes = new ArrayList<>();
-                attributes.add(new Attribute("objectClass","organizationalPerson","person","user","top"));
+                attributes.add(new Attribute("objectClass", "organizationalPerson", "person", "user", "top"));
 
-                if(null != staff.getName() && !staff.getName().equals("")){
-                    attributes.add(new Attribute("sn",name));
-                    attributes.add(new Attribute("description",name));
+                if (null != staff.getName() && !staff.getName().equals("")) {
+                    attributes.add(new Attribute("sn", name));
+                    attributes.add(new Attribute("description", name));
+                } else {
+                    attributes.add(new Attribute("sn", "(空)"));
+                    attributes.add(new Attribute("description", "(空)"));
                 }
-                else{
-                    attributes.add(new Attribute("sn","(空)"));
-                    attributes.add(new Attribute("description","(空)"));
-                }
-                attributes.add(new Attribute("cn",id));
-                attributes.add(new Attribute("sAMAccountName",id));
+                attributes.add(new Attribute("cn", id));
+                attributes.add(new Attribute("sAMAccountName", id));
 
-                if(null != staff.getPhone() && !staff.getPhone().equals("")){
-                    attributes.add(new Attribute("mobile",staff.getPhone()));
+                if (null != staff.getPhone() && !staff.getPhone().equals("")) {
+                    attributes.add(new Attribute("mobile", staff.getPhone()));
                 }
-                if(null != staff.getDuty() && !staff.getDuty().equals("")){
-                    attributes.add(new Attribute("title",staff.getDuty()));
+                if (null != staff.getDuty() && !staff.getDuty().equals("")) {
+                    attributes.add(new Attribute("title", staff.getDuty()));
                 }
-                if(null != staff.getEmail() && !staff.getEmail().equals("")){
-                    attributes.add(new Attribute("mail",staff.getEmail()));
+                if (null != staff.getEmail() && !staff.getEmail().equals("")) {
+                    attributes.add(new Attribute("mail", staff.getEmail()));
                 }
-                attributes.add(new Attribute("userPrincipalName",id + uName));
+                attributes.add(new Attribute("userPrincipalName", id + uName));
 
-                connection.add(entryDN, attributes);
-                System.out.println("[ADD]用户[" + name +"("+ staff.getId()+")]创建成功！");
+                LdapConnector.getConnection().add(entryDN, attributes);
+                System.out.println("[ADD]用户[" + name + "(" + staff.getId() + ")]创建成功！");
             } else {
-                System.out.println("[ADD]用户[" + name + "(" +staff.getId() + ")]已存在！");
+                System.out.println("[ADD]用户[" + name + "(" + staff.getId() + ")]已存在！");
             }
         } catch (Exception e) {
-            System.out.println("[ERROR]用户["+ name + "(" +staff.getId() + ")]创建失败");
+            System.out.println("[ERROR]用户[" + name + "(" + staff.getId() + ")]创建失败");
             e.printStackTrace();
         }
     }
-    /**
-     *  修改用户的组织架构
-     */
-    public static void moveStaff(LdapStaff staff){
 
-        try{
-            SearchResultEntry entry = connection.getEntry(staff.getDn());
+    /**
+     * 修改用户的组织架构
+     */
+    public static void moveStaff(LdapStaff staff) {
+
+        try {
+            SearchResultEntry entry = LdapConnector.getConnection().getEntry(staff.getDn());
             String newDn;
-            if(Math.abs(staff.getNewDn().length() - staff.getId().length()) ==  3){
+            if (Math.abs(staff.getNewDn().length() - staff.getId().length()) == 3) {
                 newDn = baseDn;
+            } else {
+                newDn = staff.getNewDn().substring(4 + staff.getId().length()) + "," + baseDn;
             }
-            else{
-                newDn = staff.getNewDn().substring(4 + staff.getId().length())+"," + baseDn;
-            }
-            connection.modifyDN(staff.getDn(), "CN="+staff.getId(),
+            LdapConnector.getConnection().modifyDN(staff.getDn(), "CN=" + staff.getId(),
                     true, newDn);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("[ERROR]用户[" + staff.getName()+ "(" +staff.getId() + ")]组织架构修改失败！");
+            System.out.println("[ERROR]用户[" + staff.getName() + "(" + staff.getId() + ")]组织架构修改失败！");
         }
     }
+
     /**
-     *  修改用户的信息
+     * 修改用户的信息
      */
-    public static void setStaff(LdapStaff staff){
-        try{
-            SearchResultEntry entry = connection.getEntry(staff.getDn());
+    public static void setStaff(LdapStaff staff) {
+        try {
+            SearchResultEntry entry = LdapConnector.getConnection().getEntry(staff.getDn());
             //修改用户：AD域电话号码不再同步
 //            if(null != staff.getPhone() && !staff.getPhone().equals("")){
 //                connection.modify(staff.getDn(), new Modification(ModificationType.REPLACE, "mobile", staff.getPhone()));
 //            }
-            if(null != staff.getDuty() && !staff.getDuty().equals("")){
-                connection.modify(staff.getDn(), new Modification(ModificationType.REPLACE, "title", staff.getDuty()));
+            if (null != staff.getDuty() && !staff.getDuty().equals("")) {
+                LdapConnector.getConnection().modify(staff.getDn(), new Modification(ModificationType.REPLACE, "title", staff.getDuty()));
             }
-            if(null != staff.getEmail() && !staff.getEmail().equals("")){
-                connection.modify(staff.getDn(), new Modification(ModificationType.REPLACE, "mail", staff.getEmail()));
+            if (null != staff.getEmail() && !staff.getEmail().equals("")) {
+                LdapConnector.getConnection().modify(staff.getDn(), new Modification(ModificationType.REPLACE, "mail", staff.getEmail()));
             }
-            if(null != staff.getName() && !staff.getName().equals("")){
-                connection.modify(staff.getDn(), new Modification(ModificationType.REPLACE, "sn", staff.getName()));
-                connection.modify(staff.getDn(), new Modification(ModificationType.REPLACE, "description", staff.getName()));
-            }else{
-                connection.modify(staff.getDn(), new Modification(ModificationType.REPLACE, "sn", "(空)"));
-                connection.modify(staff.getDn(), new Modification(ModificationType.REPLACE, "description", "(空)"));
+            if (null != staff.getName() && !staff.getName().equals("")) {
+                LdapConnector.getConnection().modify(staff.getDn(), new Modification(ModificationType.REPLACE, "sn", staff.getName()));
+                LdapConnector.getConnection().modify(staff.getDn(), new Modification(ModificationType.REPLACE, "description", staff.getName()));
+            } else {
+                LdapConnector.getConnection().modify(staff.getDn(), new Modification(ModificationType.REPLACE, "sn", "(空)"));
+                LdapConnector.getConnection().modify(staff.getDn(), new Modification(ModificationType.REPLACE, "description", "(空)"));
             }
-            System.out.println("[MODIFIED]用户[" + staff.getName()+ "(" +staff.getId() + ")]修改成功！");
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("[ERROR]用户[" + staff.getName()+ "(" +staff.getId() + ")]修改失败！");
-        }
-    }
-    /**
-     *  删除用户
-     */
-    public static void delStaff(LdapStaff staff){
-        try {
-            SearchResultEntry entry = connection.getEntry(staff.getDn());
-            connection.delete(staff.getDn());
-            System.out.println("[DELETE]用户[" + staff.getName()+ "(" +staff.getId() + ")]删除成功！");
+            System.out.println("[MODIFIED]用户[" + staff.getName() + "(" + staff.getId() + ")]修改成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("[ERROR]用户[" + staff.getName()+ "(" +staff.getId() + ")]删除失败！");
+            System.out.println("[ERROR]用户[" + staff.getName() + "(" + staff.getId() + ")]修改失败！");
         }
     }
 
     /**
-     *  删除部门
+     * 删除用户
      */
-    public static void delDepartment(LdapDepartment department){
+    public static void delStaff(LdapStaff staff) {
         try {
-            SearchResultEntry entry = connection.getEntry(department.getDn());
-            connection.delete(department.getDn());
-            System.out.println("[DELETE]部门[" + department.getName()+ "(" +department.getId() + ")]删除成功！");
+            SearchResultEntry entry = LdapConnector.getConnection().getEntry(staff.getDn());
+            LdapConnector.getConnection().delete(staff.getDn());
+            System.out.println("[DELETE]用户[" + staff.getName() + "(" + staff.getId() + ")]删除成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("[ERROR]部门[" + department.getName()+ "(" +department.getId() + ")]删除失败！");
+            System.out.println("[ERROR]用户[" + staff.getName() + "(" + staff.getId() + ")]删除失败！");
         }
     }
 
     /**
-     *  通过完整的姓名来搜索工号等基本信息（用于AD域改密平台）
+     * 删除部门
      */
-    public static List<LdapStaff> searchStaffByName(String name){
+    public static void delDepartment(LdapDepartment department) {
+        try {
+            SearchResultEntry entry = LdapConnector.getConnection().getEntry(department.getDn());
+            LdapConnector.getConnection().delete(department.getDn());
+            System.out.println("[DELETE]部门[" + department.getName() + "(" + department.getId() + ")]删除成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("[ERROR]部门[" + department.getName() + "(" + department.getId() + ")]删除失败！");
+        }
+    }
+
+    /**
+     * 通过完整的姓名来搜索工号等基本信息（用于AD域改密平台）
+     */
+    public static List<LdapStaff> searchStaffByName(String name) {
 
         Filter filter = Filter.createEqualityFilter("sn", name);
-        SearchRequest searchRequest = new SearchRequest(baseDn,SearchScope.SUB,filter);
+        SearchRequest searchRequest = new SearchRequest(baseDn, SearchScope.SUB, filter);
         SearchResultEntry searchResultEntry;
         SearchResult searchResult;
         List<LdapStaff> resultList = new ArrayList<>();
         try {
-            searchResult=connection.search(searchRequest);
+            searchResult = LdapConnector.getConnection().search(searchRequest);
             if (null != searchResult && searchResult.getEntryCount() > 0) {
                 for (SearchResultEntry entry : searchResult.getSearchEntries()) {
                     String[] depStr = entry.getAttributeValue("distinguishedName").split("OU=");
@@ -259,29 +265,29 @@ public class LdapUtil {
                             entry.getAttributeValue("mail"),
                             entry.getAttributeValue("mobile"),
                             "",
-                            depStr[1].substring(0,depStr[1].length()-1),
+                            depStr[1].substring(0, depStr[1].length() - 1),
                             entry.getAttributeValue("title"),
                             entry.getAttributeValue("distinguishedName")));
                 }
             }
-        } catch (LDAPSearchException e) {
+        } catch (LDAPException e) {
             e.printStackTrace();
         }
         return resultList;
     }
 
     /**
-     *  通过员工号获取员工信息
+     * 通过员工号获取员工信息
      */
-    public static LdapStaff getStaffByUid(String uid){
+    public static LdapStaff getStaffByUid(String uid) {
 
         Filter filter = Filter.createEqualityFilter("sAMAccountName", uid);
-        SearchRequest searchRequest = new SearchRequest(baseDn,SearchScope.SUB,filter);
+        SearchRequest searchRequest = new SearchRequest(baseDn, SearchScope.SUB, filter);
         SearchResultEntry searchResultEntry;
         SearchResult searchResult;
         LdapStaff ldapStaff = null;
         try {
-            searchResult=connection.search(searchRequest);
+            searchResult = LdapConnector.getConnection().search(searchRequest);
             if (null != searchResult && searchResult.getEntryCount() > 0) {
                 for (SearchResultEntry entry : searchResult.getSearchEntries()) {
                     String[] depStr = entry.getAttributeValue("distinguishedName").split("OU=");
@@ -291,12 +297,12 @@ public class LdapUtil {
                             entry.getAttributeValue("mail"),
                             entry.getAttributeValue("mobile"),
                             "",
-                            depStr[1].substring(0,depStr[1].length()-1),
+                            depStr[1].substring(0, depStr[1].length() - 1),
                             entry.getAttributeValue("title"),
                             entry.getAttributeValue("distinguishedName"));
                 }
             }
-        } catch (LDAPSearchException e) {
+        } catch (LDAPException e) {
             e.printStackTrace();
         }
         return ldapStaff;

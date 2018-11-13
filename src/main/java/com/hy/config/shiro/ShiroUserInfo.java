@@ -9,7 +9,7 @@ public class ShiroUserInfo implements Serializable {
     private String name;
     private String email;
     private String phone;
-    private Integer depid;
+    private String depid;
     private String depname;
     private String duty;
     private String password;
@@ -26,11 +26,11 @@ public class ShiroUserInfo implements Serializable {
         this(id, loginid, name, password, null, null, null);
     }
 
-    public ShiroUserInfo(Integer id, String loginid, String name, String password, Integer depid, String depname, String duty) {
+    public ShiroUserInfo(Integer id, String loginid, String name, String password, String depid, String depname, String duty) {
         this(id, loginid, name, password, depid, depname, duty, null, null);
     }
 
-    public ShiroUserInfo(Integer id, String loginid, String name, String password, Integer depid, String depname, String duty, String email, String phone) {
+    public ShiroUserInfo(Integer id, String loginid, String name, String password, String depid, String depname, String duty, String email, String phone) {
         this.id = id;
         this.loginid = loginid;
         this.name = name;
@@ -42,11 +42,11 @@ public class ShiroUserInfo implements Serializable {
         this.password = password;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -106,11 +106,11 @@ public class ShiroUserInfo implements Serializable {
         this.loginid = loginid;
     }
 
-    public Integer getDepid() {
+    public String getDepid() {
         return depid;
     }
 
-    public void setDepid(Integer depid) {
+    public void setDepid(String depid) {
         this.depid = depid;
     }
 

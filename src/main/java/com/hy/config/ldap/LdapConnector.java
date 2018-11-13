@@ -6,55 +6,34 @@ import com.unboundid.ldap.sdk.migrate.ldapjdk.LDAPSearchConstraints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 
 @Component
 public class LdapConnector {
 
     @Autowired
-    private LdapConfig ldapConfig;
+    private static LdapConfig ldapConfig;
+    private static LDAPConnection connection;
 
-    private LDAPConnection connection;
-
-    private static LdapConnector ldapConnector = new LdapConnector();
-
-    public static LdapConnector getInstance(){
-        return ldapConnector;
+    @Autowired
+    public void setLdapConfig(LdapConfig ldapConfig) {
+        LdapConnector.ldapConfig = ldapConfig;
     }
 
-    private LdapConnector(){
-        getConnection();
-    }
-
-    /**
-     * 打开ldap连接
-     */
-    public LDAPConnection getConnection() {
+    public static synchronized LDAPConnection getConnection() throws LDAPException {
         if (connection == null) {
-            try {
-                String ldapHost = ldapConfig.getHost();
-                int ldapPort = Integer.valueOf(ldapConfig.getPort());
-                String ldapBindDN = ldapConfig.getAccount();
+            connection = new LDAPConnection(ldapConfig.getHost(), Integer.valueOf(ldapConfig.getPort()), ldapConfig.getAccount(), ldapConfig.getPassword());
+            LDAPSearchConstraints ldsc = new LDAPSearchConstraints();
+            ldsc.setMaxResults(Integer.valueOf(ldapConfig.getMaxResult()));
+        }
+        if (!connection.isConnected()) {
+            {
+                String ldapAccount = ldapConfig.getAccount();
                 String ldapPassword = ldapConfig.getPassword();
-                connection = new LDAPConnection(ldapHost, ldapPort, ldapBindDN, ldapPassword);
-                LDAPSearchConstraints ldsc = new LDAPSearchConstraints();
-                ldsc.setMaxResults(Integer.valueOf(ldapConfig.getMaxResult()));
-                return connection;
-            } catch (LDAPException e) {
-                System.out.println("[ERROR]连接LDAP出现错误：\n" + e.getMessage());
-                return null;
+                connection.bind(ldapAccount, ldapPassword);
             }
         }
-        else{
-            if(!connection.isConnected()){
-                String ldapBindDN = ldapConfig.getBaseDn();
-                String ldapPassword = ldapConfig.getPassword();
-                try {
-                    connection.bind(ldapBindDN, ldapPassword);
-                } catch (LDAPException e) {
-                    e.printStackTrace();
-                }
-            }
-            return connection;
-        }
+        return connection;
     }
 }
