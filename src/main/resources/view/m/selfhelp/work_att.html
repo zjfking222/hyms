@@ -35,6 +35,52 @@
 
     <script src="/statics/plugins/jquery/jquery.min.js"></script>
     <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/statics/js/m/selfhelp/work_att.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/js/m/workplus_integration.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            mui.init();
+            //接入恒拓app
+            ht_access_check();
+            //跳转工作排班查询结果页面
+            mui(document.body).on('tap', '.scheduling-btn', function(e) {
+                if("hyms" == parent.parentFlag){//本系统
+                    //获取当前页面的title
+                    var title = mui(".scheduling-btn")[0].text;
+                    //调用父页面方法跳转当前子页面
+                    parent.loadIframe("/m/selfhelp/scheduling.html", null);
+                    //更改标题
+                    parent.updateTitle(title);
+                }else{//恒拓的app，直接跳转
+                    window.location.href="/m/selfhelp/scheduling.html";
+                }
+            });
+            //跳转刷卡记录查询结果页面
+            mui(document.body).on('tap', '.record-btn', function(e) {
+                if("hyms" == parent.parentFlag){//本系统
+                    //获取当前页面的title
+                    var title = mui(".record-btn")[0].text;
+                    //调用父页面方法跳转当前子页面
+                    parent.loadIframe("/m/selfhelp/record.html", null);
+                    //更改标题
+                    parent.updateTitle(title);
+                }else{//恒拓的app，直接跳转
+                    window.location.href="/m/selfhelp/record.html";
+                }
+            });
+            //跳转考勤汇总查询结果页面
+            mui(document.body).on('tap', '.attendance-btn', function(e) {
+                if("hyms" == parent.parentFlag){//本系统
+                    //获取当前页面的title
+                    var title = mui(".attendance-btn")[0].text;
+                    //调用父页面方法跳转当前子页面
+                    parent.loadIframe("/m/selfhelp/attendance.html", null);
+                    //更改标题
+                    parent.updateTitle(title);
+                }else{//恒拓的app，直接跳转
+                    window.location.href="/m/selfhelp/attendance.html";
+                }
+            });
+        });
+    </script>
 </body>
 </html>

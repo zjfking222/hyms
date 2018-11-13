@@ -309,7 +309,7 @@ public class LdapUtil {
                             "",
                             entry.getAttributeValue("mail"),
                             entry.getAttributeValue("mobile"),
-                            "",
+                            "0",
                             depStr[1].substring(0,depStr[1].length()-1),
                             entry.getAttributeValue("title"),
                             entry.getAttributeValue("distinguishedName"));

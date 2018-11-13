@@ -23,6 +23,10 @@ public class SapBaseInfoDto {
     private String zbm;
     //职位
     private String zgw;
+    //手机号码
+    private String zphone;
+    //身份证号
+    private String zid;
 
     public String getPernr() {
         return pernr;
@@ -103,9 +107,4 @@ public class SapBaseInfoDto {
     public void setZid(String zid) {
         this.zid = zid;
     }
-
-    //手机号码
-    private String zphone;
-    //身份证号
-    private String zid;
 }

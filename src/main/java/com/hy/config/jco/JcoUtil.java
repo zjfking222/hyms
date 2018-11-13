@@ -199,12 +199,20 @@ public class JcoUtil {
         List<T> list = null;
         if (table != null && table.getNumRows() > 0) {
             list = new ArrayList<>();
+            T rtarget = null;
             //循环table中的数据，全部取出
             for (int i = 0; i < table.getNumRows(); i++) {
                 table.setRow(i);
-                //调用单条数据获取方法
-                T rtarget = getInfoFromTable(table, target);
-                list.add(rtarget);
+                try {
+                    //创建一个新的target同类型对象
+                    rtarget = (T)target.getClass().newInstance();
+                    //调用单条数据获取方法
+                    getInfoFromTable(table, rtarget);
+                    list.add(rtarget);
+                } catch (Exception e) {
+                    logger.error("创建新对象并赋值失败！", e);
+                    throw new RuntimeException("创建新对象并赋值失败！");
+                }
             }
         }
         return list;
