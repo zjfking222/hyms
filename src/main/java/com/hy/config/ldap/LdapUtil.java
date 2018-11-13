@@ -13,8 +13,6 @@ import java.util.List;
 
 @Component
 public class LdapUtil {
-    ;
-
     @Autowired
     private static LdapConfig ldapConfig;
     private static String baseDn;
