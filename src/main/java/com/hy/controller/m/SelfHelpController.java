@@ -4,13 +4,11 @@ import com.hy.common.ResultObj;
 import com.hy.common.SecurityUtil;
 import com.hy.config.shiro.RedisCacheManager;
 import com.hy.config.shiro.ShiroUserInfo;
-import com.hy.dto.SapBaseInfoDto;
-import com.hy.dto.SapContractInfoDto;
-import com.hy.dto.SapQuaCertificateDto;
-import com.hy.dto.SapTechTitleDto;
+import com.hy.dto.*;
 import com.hy.enums.ResultCode;
-import com.hy.model.HrmResource;
+import com.hy.model.Checkinout;
 import com.hy.service.m.SelfHelpService;
+import com.hy.utils.DateUtil;
 import com.sap.conn.jco.JCoFunction;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.cache.Cache;
@@ -18,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -119,10 +118,15 @@ public class SelfHelpController {
      **/
     @PostMapping("/saveAccessToken")
     public ResultObj saveAccessToken(@RequestBody Map<String, String> data){
+        //应用的身份凭证
         String accessToken = data.get("access_token");
+        //更新身份凭证
         String refreshToken = data.get("refresh_token");
+        //access_token的生效时间
         String issuedTime = data.get("issued_time");
+        //access_token的过期时间
         String expireTime = data.get("expire_time");
+        //当前登录用户的标识(目前系统只需要一个)
         String clientId = data.get("client_id");
         Long itime = Long.parseLong(issuedTime);
         Long etime = Long.parseLong(expireTime);
@@ -150,7 +154,7 @@ public class SelfHelpController {
         ShiroUserInfo hrmResource = SecurityUtil.getUserInfo();
         Calendar c = Calendar.getInstance();
         String year = c.get(Calendar.YEAR) + "";
-        String month = "9";//c.get(Calendar.MONTH) + 1 + "";
+        String month = "11";//c.get(Calendar.MONTH) + 1 + "";此处需要保证当前月份放在最上面----------------------------------------------------------------------------------------------------------------------------
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map1 = selfHelpService.getAttendance("100496", year, month);
         list.add(map1);
@@ -176,9 +180,9 @@ public class SelfHelpController {
         //取合同信息
         SapContractInfoDto ht = selfHelpService.getContractInfo(function);
         //取职称信息
-        SapTechTitleDto tt = selfHelpService.getTechTitleInfo(function);
+        List<SapTechTitleDto> tt = selfHelpService.getTechTitleInfo(function);
         //取资格证书信息
-        SapQuaCertificateDto qc = selfHelpService.getQuaCertificateInfo(function);
+        List<SapQuaCertificateDto> qc = selfHelpService.getQuaCertificateInfo(function);
         //整合数据
         Map<String, Object> result = new HashMap<>();
         result.put("base", base);
@@ -188,29 +192,80 @@ public class SelfHelpController {
         return ResultObj.success(result);
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前月份的排班表数据
+     * @Date 2018/11/10 14:03
+     * @Param [data]
+     * @return com.hy.common.ResultObj
+     **/
     @PostMapping("/getSchedulingInfo")
-    public ResultObj getSchedulingInfo(){
-        //selfHelpService.getSchedulingInfo();
-        /*String flag = (String)results.get("flag");
-        if("true".equals(flag)){
-            SalaryDto dto = (SalaryDto)results.get("data");
-            return ResultObj.success(dto);
-        }else{
-            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, (String)results.get("message"));
-        }*/
-        return ResultObj.success("");
+    public ResultObj getSchedulingInfo(@RequestBody Map<String, String> data){
+        ShiroUserInfo hrmResource = SecurityUtil.getUserInfo();
+        String year = data.get("year");
+        String month = data.get("month");
+        //计算出本月第一天与最后一天的日期
+        Date d1 = DateUtil.getFirstDayOfMonth(Integer.parseInt(year), Integer.parseInt(month)).getTime();
+        Date d2 = DateUtil.getLastDayOfMonth(Integer.parseInt(year), Integer.parseInt(month)).getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        //获取排班表数据
+        List<SapSchedulingDto> list = selfHelpService.getSchedulingInfo("100496", sdf.format(d1), sdf.format(d2));
+        Map<String, SapSchedulingDto> map = new HashMap<>();
+        //整理数据格式，使其以map形式返回，key为这天的去零字符串
+        if(list != null && list.size() >0){
+            for(SapSchedulingDto dto:list){
+                String day = dto.getZrq();
+                day = day.substring(day.length()-2, day.length());
+                Integer d = Integer.parseInt(day);
+                map.put(d.toString(), dto);
+            }
+        }
+        return ResultObj.success(map);
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 获取年休假调休数据
+     * @Date 2018/11/8 11:15
+     * @Param []
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/getVacationInfo")
+    public ResultObj getVacationInfo(){
+        ShiroUserInfo hrmResource = SecurityUtil.getUserInfo();
+        JCoFunction function = selfHelpService.getEmployeeFunction("100496");
+        List<SapVacationDto> list = selfHelpService.getVacationInfo(function);
+        return ResultObj.success(list);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前月份的打卡记录数据
+     * @Date 2018/11/10 14:02
+     * @Param [data]
+     * @return com.hy.common.ResultObj
+     **/
     @PostMapping("/getRecord")
-    public ResultObj getRecord(){
-        selfHelpService.getRecord();
-        /*String flag = (String)results.get("flag");
-        if("true".equals(flag)){
-            SalaryDto dto = (SalaryDto)results.get("data");
-            return ResultObj.success(dto);
-        }else{
-            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, (String)results.get("message"));
-        }*/
-        return ResultObj.success("");
+    public ResultObj getRecord(@RequestBody Map<String, String> data){
+        ShiroUserInfo hrmResource = SecurityUtil.getUserInfo();
+        String year = data.get("year");
+        String month = data.get("month");
+        //计算出本月第一天与最后一天的日期
+        Calendar d1 = DateUtil.getFirstDayOfMonth(Integer.parseInt(year), Integer.parseInt(month));
+        //当天最初一秒
+        d1.set(Calendar.HOUR_OF_DAY, 0);
+        d1.set(Calendar.MINUTE, 0);
+        d1.set(Calendar.SECOND, 0);
+        Calendar d2 = DateUtil.getLastDayOfMonth(Integer.parseInt(year), Integer.parseInt(month));
+        //当天最后一秒
+        d2.set(Calendar.HOUR_OF_DAY, 23);
+        d2.set(Calendar.MINUTE, 59);
+        d2.set(Calendar.SECOND, 59);
+        //获取原始打卡记录数据
+        Map<String, List<Checkinout>> map = selfHelpService.getRecord("100857", d1.getTime(), d2.getTime());//------------------------------------------------------------------------------写死数据暂未修改
+        //整理数据
+        Map<String, SelfRecordDto> result = selfHelpService.arrangeRecordData("100857", map);
+        //返回数据到页面
+        return ResultObj.success(result);
     }
 }

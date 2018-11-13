@@ -20,10 +20,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Auther: 钱敏杰
@@ -238,61 +235,61 @@ public class SelfHelpServiceImpl implements SelfHelpService {
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的职称信息
-     * @Date 2018/11/8 8:09
+     * @Date 2018/11/8 10:11
      * @Param [function]
-     * @return com.hy.dto.SapTechTitleDto
+     * @return java.util.List<com.hy.dto.SapTechTitleDto>
      **/
     @Override
-    public SapTechTitleDto getTechTitleInfo(JCoFunction function){
+    public List<SapTechTitleDto> getTechTitleInfo(JCoFunction function){
         //取出数据表数据
         JCoTable codes = JcoUtil.getTable(function, "ZHR_ZC");
-        SapTechTitleDto dto = null;
+        List<SapTechTitleDto> list = null;
         //存在数据，则返回
         if(codes.getNumRows() >0){
-            dto = new SapTechTitleDto();
-            JcoUtil.getInfoFromTable(codes, dto);
+            SapTechTitleDto dto = new SapTechTitleDto();
+            list = JcoUtil.getInfoListFromTable(codes, dto);
         }
-        return dto;
+        return list;
     }
 
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的资格证书信息
-     * @Date 2018/11/8 8:15
+     * @Date 2018/11/8 9:38
      * @Param [function]
-     * @return com.hy.dto.SapQuaCertificateDto
+     * @return java.util.List<com.hy.dto.SapQuaCertificateDto>
      **/
     @Override
-    public SapQuaCertificateDto getQuaCertificateInfo(JCoFunction function){
+    public List<SapQuaCertificateDto> getQuaCertificateInfo(JCoFunction function){
         //取出数据表数据
         JCoTable codes = JcoUtil.getTable(function, "ZHR_ZGZS");
-        SapQuaCertificateDto dto = null;
+        List<SapQuaCertificateDto> list = null;
         //存在数据，则返回
         if(codes.getNumRows() >0){
-            dto = new SapQuaCertificateDto();
-            JcoUtil.getInfoFromTable(codes, dto);
+            SapQuaCertificateDto dto = new SapQuaCertificateDto();
+            list = JcoUtil.getInfoListFromTable(codes, dto);
         }
-        return dto;
+        return list;
     }
 
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的年休假调休信息
-     * @Date 2018/11/8 8:20
+     * @Date 2018/11/8 11:13
      * @Param [function]
-     * @return com.hy.dto.SapVacationDto
+     * @return java.util.List<com.hy.dto.SapVacationDto>
      **/
     @Override
-    public SapVacationDto getVacationInfo(JCoFunction function){
+    public List<SapVacationDto> getVacationInfo(JCoFunction function){
         //取出数据表数据
         JCoTable codes = JcoUtil.getTable(function, "ZHR_NXTX");
-        SapVacationDto dto = null;
+        List<SapVacationDto> list = null;
         //存在数据，则返回
         if(codes.getNumRows() >0){
-            dto = new SapVacationDto();
-            JcoUtil.getInfoFromTable(codes, dto);
+            SapVacationDto dto = new SapVacationDto();
+            list = JcoUtil.getInfoListFromTable(codes, dto);
         }
-        return dto;
+        return list;
     }
 
     /**
@@ -318,12 +315,12 @@ public class SelfHelpServiceImpl implements SelfHelpService {
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的排班表信息
-     * @Date 2018/11/8 8:59
+     * @Date 2018/11/8 16:06
      * @Param [id, stime, etime]
-     * @return com.hy.dto.SapSchedulingDto
+     * @return java.util.List<com.hy.dto.SapSchedulingDto>
      **/
     @Override
-    public SapSchedulingDto getSchedulingInfo(String id, String stime, String etime){
+    public List<SapSchedulingDto> getSchedulingInfo(String id, String stime, String etime){
         //获取操作对象
         JCoDestination destination = JcoUtil.getInstance("");
         //获取函数
@@ -335,27 +332,108 @@ public class SelfHelpServiceImpl implements SelfHelpService {
         //执行获取数据
         JcoUtil.executeFunction(function, destination);
         //取出数据表数据
-        JCoTable codes = JcoUtil.getTable(function, "ZHR_KQYDB");
-        SapSchedulingDto dto = null;
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_YDPB");
+        List<SapSchedulingDto> list = null;
         //存在数据，则返回
         if(codes.getNumRows() >0){
-            dto = new SapSchedulingDto();
-            JcoUtil.getInfoFromTable(codes, dto);
+            SapSchedulingDto dto = new SapSchedulingDto();
+            list = JcoUtil.getInfoListFromTable(codes, dto);
         }
-        return dto;
+        return list;
     }
 
-    public void getRecord(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date stime = sdf.parse("2018-11-01");
-            Date etime = sdf.parse("2018-11-03");
-            List<Checkinout> list = checkinoutMapper.findByUserId("100857", stime, etime);
-            //DTOUtil.populateList();
-            System.out.println();
-        } catch (ParseException e) {
-            e.printStackTrace();
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的原始打卡记录，并按日期整理
+     * @Date 2018/11/10 10:48
+     * @Param [id, stime, etime]
+     * @return java.util.Map<java.lang.String,java.util.List<com.hy.model.Checkinout>>
+     **/
+    @Override
+    public Map<String, List<Checkinout>> getRecord(String id, Date stime, Date etime){
+        //查询数据库，获取打卡记录
+        List<Checkinout> list = checkinoutMapper.findByUserId(id, stime, etime);
+        //整理数据，同日期的放一起
+        Map<String, List<Checkinout>> map = new HashMap<>();
+        if(list != null && list.size() >0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //将数据按日期重分配数据
+            for(Checkinout c:list){
+                String date = sdf.format(c.getChecktime());
+                List<Checkinout> lc = map.get(date);
+                if(lc == null){
+                    lc = new ArrayList<>();
+                    map.put(date, lc);
+                }
+                lc.add(c);
+            }
         }
+        return map;
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 整理同一月中的数据，合并同一天的数据到一个dto对象中
+     * @Date 2018/11/10 13:58
+     * @Param [id, data]
+     * @return java.util.Map<java.lang.String,com.hy.dto.SelfRecordDto>
+     **/
+    public Map<String, SelfRecordDto> arrangeRecordData(String id, Map<String, List<Checkinout>> data){
+        Map<String, SelfRecordDto> results = new HashMap<>();
+        SelfRecordDto dto = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //当前日期
+        SimpleDateFormat tsdf = new SimpleDateFormat("yyyy-MM-dd");
+        String today = tsdf.format(new Date());
+        if(data != null && !data.isEmpty()){
+            //遍历数据，比较其打卡时间，取出当天最早与最晚时间，并保存到dto对象中
+            Iterator<String> keys = data.keySet().iterator();
+            String key = null;
+            while(keys.hasNext()){
+                key = keys.next();
+                List<Checkinout> list = data.get(key);
+                if(list != null && list.size() >0){
+                    dto = new SelfRecordDto();
+                    dto.setPernr(id);
+                    if(today.equals(key)){//查询的当天默认数据量为2条，因为尚未记录完，不需要统计
+                        dto.setRecnum(2);
+                    }else{
+                        dto.setRecnum(list.size());
+                    }
+                    dto.setDate(key);
+                    if(list.size() <2){//打卡记录小于2条，只记录最早的数据
+                        dto.setEarliestTime(sdf.format(list.get(0).getChecktime()));
+                        dto.setEalias(list.get(0).getAlias());
+                        dto.setEcity(list.get(0).getCity());
+                        //防止页面显示null
+                        dto.setLatestTime("");
+                        dto.setLalias("");
+                        dto.setLcity("");
+                    }else{
+                        for(Checkinout c:list){
+                            try {
+                                if(StringUtils.isEmpty(dto.getEarliestTime()) || c.getChecktime().before(sdf.parse(dto.getEarliestTime()))){//若为空或者数据更早，则添加或更新数据
+                                    dto.setEarliestTime(sdf.format(c.getChecktime()));
+                                    dto.setEalias(c.getAlias());
+                                    dto.setEcity(c.getCity());
+                                }
+                                if(StringUtils.isEmpty(dto.getLatestTime()) || c.getChecktime().after(sdf.parse(dto.getEarliestTime()))){//若为空或者数据更晚，则添加或更新数据
+                                    dto.setLatestTime(sdf.format(c.getChecktime()));
+                                    dto.setLalias(c.getAlias());
+                                    dto.setLcity(c.getCity());
+                                }
+                            } catch (ParseException e) {
+                                logger.error("数据整理异常！", e);
+                            }
+                        }
+                    }
+                    //同一月内的数据，改用天数作为主键
+                    String day = key.substring(key.length()-2, key.length());
+                    Integer d = Integer.parseInt(day);
+                    results.put(d.toString(), dto);
+                }
+            }
+        }
+        return results;
+    }
 }

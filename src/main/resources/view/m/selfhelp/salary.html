@@ -9,7 +9,7 @@
 	</head>
 	<body style="background-color: #fff;">
 	    <ul class="mui-table-view" id="salaryData">
-		    <li class="mui-table-view-cell mui-collapse">
+		    <li class="mui-table-view-cell mui-collapse" style="font-weight: bold;">
 		        <span >实发合计：{{ zwt032 }}</span>
 		    </li>
 			<li class="mui-table-view-cell mui-collapse mui-active">
@@ -214,17 +214,19 @@
             var vm = new Vue({
                 el:"#salaryData",
                 data:getSalaryData(),
-                mounted (){
+                mounted () {
                     mui.init();
                 }
             });
             //从上一个页面获取返回值展示到此页面中
             function getSalaryData() {
                 var result = [];
-                if(parent){
+                if("hyms" == parent.parentFlag){
                     result = parent.iframeParam;
                 }else{
-
+                    //从本地中取session存储数据
+                    var salaryData = window.sessionStorage.getItem("salaryData");
+                    result = JSON.parse(salaryData);
                 }
                 return result;
             }

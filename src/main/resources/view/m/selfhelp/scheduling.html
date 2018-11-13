@@ -8,24 +8,18 @@
 		<link rel="stylesheet" type="text/css" href="/statics/css/m/calendar.css"/>
 	</head>
 	<body style="background-color: #fff;">
-		<div class="mui-col-sm-12 mui-col-xs-12" id="calendar-show">
-		</div>
-		<div class="mui-col-sm-12 mui-col-xs-12" id="calendar-detail">
-			<div class="mui-row">
-				<div class="mui-table-view-cell mui-title">
-					<span id="calendar-detail-title"></span>
-				</div>
-				<div class="mui-table-view-cell mui-collapse">
-					班次开始时间：8:00
-				</div>
-				<div class="mui-table-view-cell mui-collapse">
-					班次结束时间：17:00
-				</div>
-				<div class="mui-table-view-cell mui-collapse">
-					计划工作时间：6.75
-				</div>
-				<div class="mui-table-view-cell mui-collapse">
-					班次描述：XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		<div id="schedulingData">
+			<div class="mui-col-sm-12 mui-col-xs-12" id="calendar-show">
+			</div>
+			<div class="mui-col-sm-12 mui-col-xs-12" id="calendar-detail">
+				<div class="mui-row">
+					<div class="mui-table-view-cell mui-title">
+						<span id="calendar-detail-title"></span>
+					</div>
+					<div class="mui-table-view-cell mui-collapse startTime"></div>
+					<div class="mui-table-view-cell mui-collapse endTime"></div>
+					<div class="mui-table-view-cell mui-collapse workTime"></div>
+					<div class="mui-table-view-cell mui-collapse description"></div>
 				</div>
 			</div>
 		</div>
@@ -33,6 +27,7 @@
 		<script src="/statics/plugins/jquery/jquery.min.js"></script>
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/js/m/calendar.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/js/m/selfhelp/scheduling.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>

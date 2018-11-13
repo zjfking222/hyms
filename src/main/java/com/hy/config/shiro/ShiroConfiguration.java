@@ -188,6 +188,14 @@ public class ShiroConfiguration {
         //AJAX登录判断
         filterChainDefinitionMap.put("/index/login", "anon");
         filterChainDefinitionMap.put("/index/logout", " logout");
+        //恒拓app验证
+        filterChainDefinitionMap.put("/app/selfhelp/checkAccessToken", "anon");
+        filterChainDefinitionMap.put("/app/selfhelp/saveAccessToken", "anon");
+        filterChainDefinitionMap.put("/index/app/login", "anon");
+        filterChainDefinitionMap.put("/m/selfhelp/salary_check.html", "anon");
+        filterChainDefinitionMap.put("/m/selfhelp/basic_info.html", "anon");
+        filterChainDefinitionMap.put("/m/selfhelp/work_att.html", "anon");
+        filterChainDefinitionMap.put("/m/selfhelp/vacation.html", "anon");
 
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         //自定义加载权限资源关系

@@ -46,12 +46,12 @@
 		// 当前日期
 		var nowDay = getDay(dateObj);
 		//初始化显示本月信息
-		setContent(content, fistWeek, monDaynum, nowDay);
+		setContent(content, fistWeek, monDaynum, nowDay, month, year);
 		
 		var isSupportMUI = (typeof mui === 'function');
 		var evt = {
 			type: isSupportMUI?'tap':'click'
-		}
+		};
 		// 显示当前时间
 		content.addEventListener(evt.type,function (event) {
 		    if(event.target.tagName.toLowerCase()=="div" && event.target.nodeType=="1" && hasclass(event.target.className,"canChoose")){
@@ -64,8 +64,8 @@
 					'day': day,
 					'week': week
 				});
-			}; 
-		})
+			}
+		});
 
 		// 上一月
 		prevmonth.addEventListener(evt.type,function(){
@@ -77,7 +77,7 @@
 			}else{
 				ddm = dateObj.getMonth()-1;
 				ddy = dateObj.getFullYear();
-			};
+			}
 			dateObj.setFullYear(ddy);
 			//设置月份之前先判断上个月有多少天,如果上个月天数比当前日期小，就把日期设置为上个月的天数
 			var lastMonthDay = getCurmonDaynum(dateObj,dateObj.getFullYear(),ddm);
@@ -91,8 +91,15 @@
 		  	fistWeek = getCurmonWeeknum(dateObj);
 		  	monDaynum = getCurmonDaynum(dateObj);
 		  	nowDay = getDay(dateObj);
-		  	setContent(content, fistWeek, monDaynum, nowDay);
-		})
+		  	setContent(content, fistWeek, monDaynum, nowDay, getMonth(dateObj), getYear(dateObj));
+		  	//添加外部扩展上一月的操作
+            opt.prevmonthCallback({
+                'year': getYear(dateObj),
+                'month':  getMonth(dateObj),
+                'day': getDay(dateObj),
+                'week': getWeek(dateObj)
+            });
+		});
 		
 		// 下一月
 		nextmonth.addEventListener(evt.type,function(){
@@ -104,7 +111,7 @@
 			}else{
 				ddm = dateObj.getMonth()+1;
 				ddy = dateObj.getFullYear();
-			};
+			}
 			dateObj.setFullYear(ddy);
 			//设置月份之前先判断下一个月有多少天,如果下个月天数比当前日期小，就把日期设置为下个月的天数		
 			var nextMonthDay = getCurmonDaynum(dateObj,dateObj.getFullYear(),ddm);
@@ -117,10 +124,16 @@
 			clearContent(content);
 			fistWeek = getCurmonWeeknum(dateObj);
 			monDaynum = getCurmonDaynum(dateObj);
-			// nowDay = getDay(dateObj);
-			console.log(nowDay);
-			setContent(content, fistWeek, monDaynum, 1);  
-		})
+			nowDay = getDay(dateObj);
+			setContent(content, fistWeek, monDaynum, nowDay, getMonth(dateObj), getYear(dateObj));
+            //添加外部扩展下一月的操作
+            opt.nextmonthCallback({
+                'year': getYear(dateObj),
+                'month':  getMonth(dateObj),
+                'day': 1,//下一月当天取1号
+                'week': getWeek(dateObj)
+            });
+		});
 		
 		// 上一年
 		prevyear.addEventListener(evt.type,function(){
@@ -131,8 +144,15 @@
 			fistWeek = getCurmonWeeknum(dateObj);
 			monDaynum = getCurmonDaynum(dateObj);
 			nowDay = getDay(dateObj);
-			setContent(content, fistWeek, monDaynum, nowDay);
-		})
+			setContent(content, fistWeek, monDaynum, nowDay, getMonth(dateObj), getYear(dateObj));
+            //添加外部扩展上一年的操作
+            opt.prevyearCallback({
+                'year': getYear(dateObj),
+                'month':  getMonth(dateObj),
+                'day': getDay(dateObj),
+                'week': getWeek(dateObj)
+            });
+		});
 		
 		// 下一年
 		nextyear.addEventListener(evt.type,function(){
@@ -143,9 +163,16 @@
 			fistWeek = getCurmonWeeknum(dateObj);
 			monDaynum = getCurmonDaynum(dateObj);
 			nowDay = getDay(dateObj);
-			setContent(content, fistWeek, monDaynum, nowDay);  
+			setContent(content, fistWeek, monDaynum, getDay(dateObj), getMonth(dateObj), getYear(dateObj));
+            //添加外部扩展下一年的操作
+            opt.nextyearCallback({
+                'year': getYear(dateObj),
+                'month':  getMonth(dateObj),
+                'day': getDay(dateObj),
+                'week': getWeek(dateObj)
+            });
 		})
-	}
+	};
 	
 	//有无指定类名的判断
 	function hasclass(str,cla){
@@ -154,22 +181,23 @@
 	   		return false;
 	  	}else{
 	   		return true;
-	  	};
+	  	}
 	}
 	
 	// 初始化日期显示方法
-	function setContent(el, fistWeek, monDaynum, nowDay){
+	function setContent(el, fistWeek, monDaynum, nowDay, month, year){
 		// 留空
 		for(var i=1;i <= fistWeek;i++){
 			var subContent = document.createElement("div");
 			subContent.innerHTML = "";
 			el.appendChild(subContent);
 		}
+		var date = new Date();
 		// 正常区域
 		for(var i=1;i <= monDaynum;i++){
 			var subContent = document.createElement("div");
 			subContent.className="canChoose";
-			if(i==nowDay){     
+			if(date.getMonth()+1 == month && date.getFullYear() == year && i==date.getDate()){//标记今天这个时间点
 				subContent.classList.add("today");
 			}
 			subContent.innerHTML = i;

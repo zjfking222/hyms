@@ -19,18 +19,24 @@
 		    </div>
 		    <div class="mui-input-row">
 		        <label>验证码</label>
-		    	<input type="text" class="mui-input-clear" style="width: 35%;float: left;" placeholder="请输入验证码">
-				<img :src="codeImg" class="code-icon-img" style="width: 29%" @click="changeCodeImg()"/>
+		    	<input type="text" class="mui-input-clear" style="width: 28%;float: left;" placeholder="请输入验证码">
+				<img :src="codeImg" class="code-icon-img changeCodeImg-btn" style="width: 29%" />
 		    </div>
 		    <div class="mui-button-row">
-		        <button type="button" class="mui-btn mui-btn-primary" @click="submitCheck()">确认</button>
-		        <button type="button" class="mui-btn mui-btn-danger" @click="clearPassword()">清除</button>
+		        <button type="button" class="mui-btn mui-btn-primary submitCheck-btn">确认</button>
+		        <button type="button" class="mui-btn mui-btn-danger clearPassword-btn">清除</button>
 		    </div>
+		</form>
+
+		<!-- 隐藏表单，用于跳转 -->
+		<form action="/m/selfhelp/salary.html" id="salaryDataForm">
+			<input type="hidden" id="salaryResults"/>
 		</form>
 		
 		<script src="/statics/plugins/jquery/jquery.min.js"></script>
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/statics/js/m/workplus_integration.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/js/m/selfhelp/salary_check.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>

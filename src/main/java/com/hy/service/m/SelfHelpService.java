@@ -1,9 +1,12 @@
 package com.hy.service.m;
 
 import com.hy.dto.*;
+import com.hy.model.Checkinout;
 import com.sap.conn.jco.JCoFunction;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,29 +82,29 @@ public interface SelfHelpService {
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的职称信息
-     * @Date 2018/11/8 8:09
+     * @Date 2018/11/8 10:11
      * @Param [function]
-     * @return com.hy.dto.SapTechTitleDto
+     * @return java.util.List<com.hy.dto.SapTechTitleDto>
      **/
-    public SapTechTitleDto getTechTitleInfo(JCoFunction function);
+    public List<SapTechTitleDto> getTechTitleInfo(JCoFunction function);
 
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的资格证书信息
-     * @Date 2018/11/8 8:15
+     * @Date 2018/11/8 9:38
      * @Param [function]
-     * @return com.hy.dto.SapQuaCertificateDto
+     * @return java.util.List<com.hy.dto.SapQuaCertificateDto>
      **/
-    public SapQuaCertificateDto getQuaCertificateInfo(JCoFunction function);
+    public List<SapQuaCertificateDto> getQuaCertificateInfo(JCoFunction function);
 
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的年休假调休信息
-     * @Date 2018/11/8 8:20
+     * @Date 2018/11/8 11:13
      * @Param [function]
-     * @return com.hy.dto.SapVacationDto
+     * @return java.util.List<com.hy.dto.SapVacationDto>
      **/
-    public SapVacationDto getVacationInfo(JCoFunction function);
+    public List<SapVacationDto> getVacationInfo(JCoFunction function);
 
     /**
      * @Author 钱敏杰
@@ -115,11 +118,27 @@ public interface SelfHelpService {
     /**
      * @Author 钱敏杰
      * @Description 获取当前用户的排班表信息
-     * @Date 2018/11/8 8:59
+     * @Date 2018/11/8 16:06
      * @Param [id, stime, etime]
-     * @return com.hy.dto.SapSchedulingDto
+     * @return java.util.List<com.hy.dto.SapSchedulingDto>
      **/
-    public SapSchedulingDto getSchedulingInfo(String id, String stime, String etime);
+    public List<SapSchedulingDto> getSchedulingInfo(String id, String stime, String etime);
 
-    public void getRecord();
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前用户的原始打卡记录，并按日期整理
+     * @Date 2018/11/10 10:48
+     * @Param [id, stime, etime]
+     * @return java.util.Map<java.lang.String,java.util.List<com.hy.model.Checkinout>>
+     **/
+    public Map<String, List<Checkinout>> getRecord(String id, Date stime, Date etime);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 整理同一月中的数据，合并同一天的数据到一个dto对象中
+     * @Date 2018/11/10 13:58
+     * @Param [id, data]
+     * @return java.util.Map<java.lang.String,com.hy.dto.SelfRecordDto>
+     **/
+    public Map<String, SelfRecordDto> arrangeRecordData(String id, Map<String, List<Checkinout>> data);
 }

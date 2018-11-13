@@ -5,27 +5,72 @@
     	<title>年休假、调休</title>
     	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="/statics/plugins/mui/css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="/statics/css/m/app.css"/>
 	</head>
 	<body style="background-color: #fff;">
-		<ul class="mui-table-view">
-		    <li class="mui-table-view-cell mui-collapse mui-active">
-		        <a class="mui-navigate-right" href="#">年休假</a>
+		<ul class="mui-table-view" id="vacationData">
+		    <li v-for="item in vacation" class="mui-table-view-cell mui-collapse mui-active">
+		        <a class="mui-navigate-right" href="#">{{ item.zktart }}</a>
 		        <div class="mui-collapse-content">
-		            <p>可休天数：5</p>
-		            <p>已休天数：0</p>
-		            <p>剩余天数：5</p>
-		        </div>
-		    </li>
-		    <li class="mui-table-view-cell mui-collapse mui-active">
-		        <a class="mui-navigate-right" href="#">调休</a>
-		        <div class="mui-collapse-content">
-		            <p>可休天数：2</p>
-		            <p>已休天数：0</p>
-		            <p>剩余天数：2</p>
+					<div class="mui-col-sm-12 mui-col-xs-12">
+						<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">可休时数</div>
+						<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ item.zkxss }}</div>
+						<div style="clear: both"></div>
+					</div>
+					<div class="mui-col-sm-12 mui-col-xs-12">
+						<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">已休时数</div>
+						<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ item.zyxss }}</div>
+						<div style="clear: both"></div>
+					</div>
+					<div class="mui-col-sm-12 mui-col-xs-12">
+						<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">剩余时数</div>
+						<div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ item.zsysj }}</div>
+						<div style="clear: both"></div>
+					</div>
 		        </div>
 		    </li>
 		</ul>
 
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/statics/js/m/workplus_integration.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+            //初始化vue对象
+            var vm = new Vue({
+                el:"#vacationData",
+                data:{
+                    vacation:getVacationInfo()
+                },
+                mounted (){//挂载el
+                    mui.init();
+                    //接入恒拓app
+                    ht_access_check();
+                }
+            });
+            //从后台获取全部数据
+            function getVacationInfo(){
+                var result;
+                mui.ajax('/app/selfhelp/getVacationInfo',{
+                    dataType:'json',//服务器返回json格式数据
+                    type:'post',//HTTP请求类型
+                    timeout:10000,//超时时间设置为10秒；
+                    headers:{'Content-Type':'application/json'},
+                    async: false,
+                    success:function(data){
+                        if (data.code == 0) {
+                            //添加数据到返回值
+                            result = data.data;
+                        }else {
+                            console.log(data.msg)
+                        }
+                    },
+                    error:function(xhr,type,errorThrown){
+                        //异常处理；
+                        console.log(type);
+                    }
+                });
+                return result;
+            }
+		</script>
 	</body>
 </html>
