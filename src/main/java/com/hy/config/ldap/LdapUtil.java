@@ -3,7 +3,9 @@ package com.hy.config.ldap;
 import com.hy.model.LdapDepartment;
 import com.hy.model.LdapStaff;
 import com.unboundid.ldap.sdk.*;
-import com.unboundid.ldap.sdk.migrate.ldapjdk.LDAPSearchConstraints;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Component
 public class LdapUtil {
+    private static final Logger logger = LoggerFactory.getLogger(LdapUtil.class);
     @Autowired
     private static LdapConfig ldapConfig;
     private static String baseDn;
@@ -308,5 +311,49 @@ public class LdapUtil {
 
     public static String getBaseDn() {
         return baseDn;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 去ad域验证账号密码
+     * @Date 2018/11/14 15:54
+     * @Param [name, password]
+     * @return boolean
+     **/
+    public static boolean checkAuthentication(String name, String password){
+        boolean flag = true;
+        LDAPConnection connection = null;
+        try {
+            //根据账号密码连接ad域，若能建立连接，即表示账号密码正确
+            connection = new LDAPConnection(ldapConfig.getHost(), Integer.valueOf(ldapConfig.getPort()), name+ldapConfig.getuName(), password);
+        } catch (LDAPException e) {
+            logger.error("AD域密码验证失败！", e);
+            flag= false;
+        }finally {
+            //关闭连接
+            if(connection != null){
+                connection.close();
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询AD域数据
+     * @Date 2018/11/16 9:08
+     * @Param [base, scope, filter]
+     * @return com.unboundid.ldap.sdk.SearchResult
+     **/
+    public static SearchResult searchResult(String base, SearchScope scope, Filter filter) throws LDAPException{
+        if(StringUtils.isEmpty(base)){
+            base = baseDn;
+        }
+        if(scope == null){
+            scope = SearchScope.SUB;
+        }
+        SearchRequest searchRequest = new SearchRequest(base, scope, filter);
+        SearchResult searchResult = LdapConnector.getConnection().search(searchRequest);
+        return searchResult;
     }
 }

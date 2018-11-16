@@ -3,7 +3,7 @@ package com.hy.model;
 import java.io.Serializable;
 
 public class HrmResource implements Serializable {
-    private Integer id;
+    private String id;
 
     private String loginid;
 
@@ -14,11 +14,11 @@ public class HrmResource implements Serializable {
     private Integer departmentid;
 
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

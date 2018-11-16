@@ -5,17 +5,17 @@ import java.util.Date;
 public class SysRoleUser {
     private Integer id;
 
-    private Integer creater;
+    private String creater;
 
     private Date created;
 
-    private Integer modifier;
+    private String modifier;
 
     private Date modified;
 
     private Integer rid;
 
-    private Integer uid;
+    private String uid;
 
     private String loginid;
 
@@ -24,7 +24,7 @@ public class SysRoleUser {
     public SysRoleUser() {
     }
 
-    public SysRoleUser(Integer creater, Integer modifier, Integer rid, Integer uid, String loginid, String lastname) {
+    public SysRoleUser(String creater, String modifier, Integer rid, String uid, String loginid, String lastname) {
         this.creater = creater;
         this.modifier = modifier;
         this.rid = rid;
@@ -41,11 +41,11 @@ public class SysRoleUser {
         this.id = id;
     }
 
-    public Integer getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(Integer creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -57,11 +57,11 @@ public class SysRoleUser {
         this.created = created;
     }
 
-    public Integer getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(Integer modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 
@@ -81,11 +81,11 @@ public class SysRoleUser {
         this.rid = rid;
     }
 
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

@@ -31,7 +31,7 @@ var vm = new Vue({
                 '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
             }],
             columns: [
-                {field: "oaloginid", title: "登录账号", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                {field: "employeenumber", title: "登录账号", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                 {field: "name", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                 {
                     command: [{name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],

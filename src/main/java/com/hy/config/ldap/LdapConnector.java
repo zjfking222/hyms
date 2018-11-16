@@ -6,8 +6,6 @@ import com.unboundid.ldap.sdk.migrate.ldapjdk.LDAPSearchConstraints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
 
 @Component
 public class LdapConnector {
@@ -22,17 +20,10 @@ public class LdapConnector {
     }
 
     public static synchronized LDAPConnection getConnection() throws LDAPException {
-        if (connection == null) {
+        if (connection == null || !connection.isConnected()) {
             connection = new LDAPConnection(ldapConfig.getHost(), Integer.valueOf(ldapConfig.getPort()), ldapConfig.getAccount(), ldapConfig.getPassword());
             LDAPSearchConstraints ldsc = new LDAPSearchConstraints();
             ldsc.setMaxResults(Integer.valueOf(ldapConfig.getMaxResult()));
-        }
-        if (!connection.isConnected()) {
-            {
-                String ldapAccount = ldapConfig.getAccount();
-                String ldapPassword = ldapConfig.getPassword();
-                connection.bind(ldapAccount, ldapPassword);
-            }
         }
         return connection;
     }

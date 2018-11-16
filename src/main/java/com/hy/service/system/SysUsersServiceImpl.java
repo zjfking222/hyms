@@ -32,8 +32,7 @@ public class SysUsersServiceImpl implements SysUsersService {
     public boolean addUsers(SysUsersNewDto sysUsersNewDto){
         try {
             for (SysUsersDto hr: sysUsersNewDto.getnHrmResources()){
-                sysUsersMapper.insertSelective(new SysUsers(hr.getName(), SecurityUtil.getUserId(), SecurityUtil.getUserId(),
-                       hr.getOaloginid(),hr.getId()));
+                sysUsersMapper.insertSelective(new SysUsers(hr.getName(), SecurityUtil.getUserInfo().getLoginid(), SecurityUtil.getUserInfo().getLoginid(),hr.getId().toString()));
             }
             return true;
         }catch (Exception e){
@@ -91,11 +90,25 @@ public class SysUsersServiceImpl implements SysUsersService {
         List<HrmResource> hrm = new LinkedList<>();
         IntStream.range(0, users.size()).forEach(i -> {
             HrmResource hr = new HrmResource();
-            hr.setLoginid(users.get(i).getOaloginid());
+            hr.setLoginid(users.get(i).getEmployeenumber());
             hr.setLastname(users.get(i).getName());
-            hr.setId(users.get(i).getOauserid());
+            hr.setId(users.get(i).getEmployeenumber());
             hrm.add(hr);
         });
         return hrm;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号获取用户信息
+     * @Date 2018/11/14 14:13
+     * @Param [employeenumber]
+     * @return java.util.List<com.hy.dto.SysUsersDto>
+     **/
+    @Override
+    public SysUsersDto getUsersByEmpnum(String employeenumber){
+        SysUsers sysUsers = sysUsersMapper.selectByEmpnum(employeenumber);
+        SysUsersDto dto = new SysUsersDto(sysUsers.getId(),sysUsers.getName(),sysUsers.getEmployeenumber());
+        return dto;
     }
 }

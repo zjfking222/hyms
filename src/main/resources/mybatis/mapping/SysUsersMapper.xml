@@ -9,16 +9,17 @@
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="enable" property="enable" jdbcType="BIT" />
     <result column="deptid" property="deptid" jdbcType="SMALLINT" />
-    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     <result column="oaloginid" property="oaloginid" jdbcType="VARCHAR" />
     <result column="oauserid" property="oauserid" jdbcType="INTEGER" />
+    <result column="employeenumber" property="employeenumber" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, password, sex, mobile, enable, deptid, creater, created, modifier,
-    modified, oaloginid, oauserid
+    modified, oaloginid, oauserid, employeenumber
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -33,10 +34,10 @@
   <insert id="insert" parameterType="com.hy.model.SysUsers" >
     insert into sys_users (id, name, password,
       sex, mobile, enable, deptid,
-      creater, modifier,oaloginid, oauserid)
+      creater, modifier,oaloginid, oauserid,employeenumber)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{sex,jdbcType=BIT}, #{mobile,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, #{deptid,jdbcType=SMALLINT},
-      #{creater,jdbcType=INTEGER},  #{modifier,jdbcType=INTEGER}, #{oaloginid,jdbcType=VARCHAR}, #{oauserid,jdbcType=INTEGER}
+      #{creater,jdbcType=INTEGER},  #{modifier,jdbcType=INTEGER}, #{oaloginid,jdbcType=VARCHAR}, #{oauserid,jdbcType=INTEGER},#{employeenumber,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysUsers" >
@@ -75,6 +76,9 @@
       <if test="oauserid != null" >
         oauserid,
       </if>
+      <if test="employeenumber != null" >
+        employeenumber,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -99,13 +103,13 @@
         #{deptid,jdbcType=SMALLINT},
       </if>
       <if test="creater != null" >
-        #{creater,jdbcType=INTEGER},
+        #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        #{modifier,jdbcType=INTEGER},
+        #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         #{modified,jdbcType=TIMESTAMP},
@@ -115,6 +119,9 @@
       </if>
       <if test="oauserid != null" >
         #{oauserid,jdbcType=INTEGER},
+      </if>
+      <if test="employeenumber != null" >
+        #{employeenumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -140,13 +147,13 @@
         deptid = #{deptid,jdbcType=SMALLINT},
       </if>
       <if test="creater != null" >
-        creater = #{creater,jdbcType=INTEGER},
+        creater = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         created = #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        modifier = #{modifier,jdbcType=INTEGER},
+        modifier = #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         modified = #{modified,jdbcType=TIMESTAMP},
@@ -156,6 +163,9 @@
       </if>
       <if test="oauserid != null" >
         oauserid = #{oauserid,jdbcType=INTEGER},
+      </if>
+      <if test="employeenumber != null" >
+        employeenumber = #{employeenumber,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -168,12 +178,13 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       enable = #{enable,jdbcType=BIT},
       deptid = #{deptid,jdbcType=SMALLINT},
-      creater = #{creater,jdbcType=INTEGER},
+      creater = #{creater,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
-      modifier = #{modifier,jdbcType=INTEGER},
+      modifier = #{modifier,jdbcType=VARCHAR},
       modified = #{modified,jdbcType=TIMESTAMP},
       oaloginid = #{oaloginid,jdbcType=VARCHAR},
-      oauserid = #{oauserid,jdbcType=INTEGER}
+      oauserid = #{oauserid,jdbcType=INTEGER},
+      employeenumber = #{employeenumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectUsers" resultMap="BaseResultMap">
@@ -209,7 +220,7 @@
     where 1=1
     <if test="value != null and '' != value">
         AND ( name LIKE concat('%',#{value},'%')
-        OR oaloginid LIKE concat(#{value},'%'))
+        OR employeenumber LIKE concat(#{value},'%'))
     </if>
     <if test="sort != null and '' != sort">
       ORDER BY CONVERT(${sort} USING gbk) ${dir}
@@ -223,6 +234,12 @@
     AND ( name LIKE concat('%',#{value},'%')
     OR oaloginid LIKE concat(#{value},'%'))
     </if>
+  </select>
+  <select id="selectByEmpnum" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from sys_users
+    where employeenumber = #{employeenumber}
   </select>
 </mapper>
 

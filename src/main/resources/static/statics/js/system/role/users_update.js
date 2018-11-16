@@ -7,7 +7,7 @@ $(function () {
     data = parent.pushData;
 
     function dataSearch(search) {
-        return FetchData({search: search}, 'POST', '/oa/hr/get', false).data;
+        return FetchData({search: search}, 'POST', '/system/users/getAllUsersFromAd', false).data;
     }
 
     function dataSource() {

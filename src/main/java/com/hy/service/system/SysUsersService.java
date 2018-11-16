@@ -24,5 +24,12 @@ public interface SysUsersService {
      * @return List
      */
     List<HrmResource> getUsersBySearch(String value);
-
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号获取用户信息
+     * @Date 2018/11/14 14:13
+     * @Param [employeenumber]
+     * @return java.util.List<com.hy.dto.SysUsersDto>
+     **/
+    SysUsersDto getUsersByEmpnum(String employeenumber);
 }

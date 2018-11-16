@@ -5,11 +5,14 @@ function submitLogin() {
     var loginid = $('#loginid').val();
     var password = $('#password').val();
     var res = false;
-
+    //加密
+    var encrypt=new JSEncrypt();
+    encrypt.setPublicKey(RSA_PUBLIC_KEY);
+    password = encrypt.encrypt(password);
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({"loginid": loginid, "password": md5(password)}),
+        data: JSON.stringify({"loginid": loginid, "password": password}),
         url: '/index/login',
         async: false,
         success: function (data, textStatus) {

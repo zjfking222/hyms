@@ -1,13 +1,16 @@
 package com.hy.controller.system;
 
 import com.hy.common.ResultObj;
+import com.hy.dto.SysUserDto;
 import com.hy.dto.SysUsersNewDto;
 import com.hy.enums.ResultCode;
+import com.hy.service.ldap.LdapService;
 import com.hy.service.system.SysUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -15,6 +18,9 @@ import java.util.HashMap;
 public class SysUsersController {
     @Autowired
     private SysUsersService sysUsersService;
+    //
+    @Autowired
+    private LdapService ldapService;
 
     @PostMapping("/users/get")
     public ResultObj getUsers(){
@@ -67,5 +73,18 @@ public class SysUsersController {
         }catch (Exception e){
             return ResultObj.error(ResultCode.ERROR_UNKNOWN);
         }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 从ad域中查询账号信息
+     * @Date 2018/11/16 8:51
+     * @Param [search]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("users/getAllUsersFromAd")
+    public ResultObj getAllUsersFromAd( @RequestParam(required = false) String search) {
+        List<SysUserDto> list = ldapService.searchUsers(search);
+        return ResultObj.success(list);
     }
 }
