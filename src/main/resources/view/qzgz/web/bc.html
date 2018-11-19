@@ -5,39 +5,19 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>班车往返时间表</title>
 </head>
- <link rel="stylesheet" href="/statics/plugins/weixin/weui.min.css">
- <link rel="stylesheet" type="text/css" href="/statics/plugins/bootstrap/css/bootstrap.min.css">
- <link rel="stylesheet" type="text/css" href="/statics/css/qzgz/web/tongzhi.css">
- <script type="text/javascript" src="/statics/js/qzgz/web/rem.js"></script>
+ <link rel="stylesheet" href="/statics/plugins/mui/css/mui.min.css">
+ <script type="text/javascript" src="/statics/plugins/mui/js/mui.min.js"></script>
  <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
- <script type="text/javascript" src="/statics/js/qzgz/web/mainjs.js"></script>
- <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
  <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
  <script type="text/javascript" src="/statics/js/qzgz/web/bc.js"></script>
-<body ontouchstart>
-<!--<div id="shaixuan">-->
-    <!--<ul>-->
-        <!--<li id="filterPrice">班车信息</li>-->
-    <!--</ul>-->
-<!--</div>-->
-	<!-- 列表 -->
-    <div class="tableStyle" id="app">
-        <table class="table table-hover" >
-          <thead>
-            <tr>
-              <th>班车信息</th>
-            </tr>
-          </thead>
-          <tbody class="table-container">
-              <tr v-for="bus in data1">
-                  <td>
-                      <div>{{ bus.number }}</div>
-                  <div v-html="bus.line"></div>
-                  </td>
-              </tr>
-          </tbody>
-        </table>
-    </div>
-
+<body>
+<ul class="mui-table-view" id="app">
+    <li class="mui-table-view-cell mui-collapse" v-for="bus in data1">
+        <a class="mui-navigate-right" style="font-size: 20px;font-weight: bold;">{{bus.number}}</a>
+        <div class="mui-collapse-content" style="font-size: 16px;">
+            <div v-html="bus.line"></div>
+        </div>
+    </li>
+</ul>
 </body>
 </html>
