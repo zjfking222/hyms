@@ -3,20 +3,29 @@ package com.hy.model;
 public class QzgzCanteen {
 
     private Integer id;
+    private String date;
     private String name;
     private String type;
-    private Integer creater;
+    private Integer meal;
+    private Float price;
+    private int zan;
+    private String creater;
     private String created;
-    private Integer modifier;
+    private String modifier;
     private String modified;
-    private String state;
+//    private String state;
 
-    public String getState() {
-        return state;
+    public QzgzCanteen(){
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public QzgzCanteen(String date, String name, String type, Integer meal, Float price, String creater, String modifier) {
+        this.date = date;
+        this.name = name;
+        this.type = type;
+        this.meal = meal;
+        this.price = price;
+        this.creater = creater;
+        this.modifier = modifier;
     }
 
     public Integer getId() {
@@ -25,6 +34,14 @@ public class QzgzCanteen {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getName() {
@@ -43,11 +60,35 @@ public class QzgzCanteen {
         this.type = type;
     }
 
-    public Integer getCreater() {
+    public Integer getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Integer meal) {
+        this.meal = meal;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public int getZan() {
+        return zan;
+    }
+
+    public void setZan(int zan) {
+        this.zan = zan;
+    }
+
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(Integer creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -59,11 +100,11 @@ public class QzgzCanteen {
         this.created = created;
     }
 
-    public Integer getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(Integer modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 
@@ -74,4 +115,12 @@ public class QzgzCanteen {
     public void setModified(String modified) {
         this.modified = modified;
     }
+
+//    public String getState() {
+//        return state;
+//    }
+//
+//    public void setState(String state) {
+//        this.state = state;
+//    }
 }

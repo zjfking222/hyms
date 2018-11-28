@@ -1,106 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>食堂菜单</title>
-    <link rel="stylesheet" href="/statics/plugins/weixin/weui.min.css">
-    <link rel="stylesheet" type="text/css" href="/statics/css/qzgz/web/tongzhi.css">
-    <script type="text/javascript" src="/statics/js/qzgz/web/rem.js"></script>
-    <script type="text/javascript" src="/statics/plugins/weixin/jweixin-1.2.0.js"></script>
-    <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
-    <script type="text/javascript" src="/statics/js/qzgz/web/st.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>今日菜单</title>
+    <link rel="stylesheet" href="/statics/plugins/mui/css/mui.min.css">
+    <link rel="stylesheet" href="/statics/plugins/bootstrap/css/bootstrap.min.css">
 </head>
 <style>
-    th{
+    .mui-bar-tab .mui-tab-item {
         width: 25%;
     }
-    table{
-        border-bottom: 0.01rem solid #ddd;
-        width: 90%!important;
-        margin: 0 auto;
-        padding-bottom: 20px;
-    }
-    .td1{
-        width: 70%!important;
-        padding-left: 20px;
-    }
-    #filterPrice{
-        font-size: 0.8rem!important;
-    }
-    tr th{
-        padding-top: 15px;
-        padding-bottom: 5px;
+
+    .mui-bar-nav ~ .mui-content {
+        padding-top: 54px;
     }
 
+    .mui-table-view-cell{
+        padding: 15px 25px;
+        overflow: visible;
+    }
+
+    .mui-table-view-cell:after{
+        left: 0;
+        height: 1px;
+        top: 44px;
+    }
+    .mui-table-view-cell:last-child:after, .mui-table-view-cell:last-child:before{
+        height: 1px;
+    }
+    .red-heart {
+        color: #f00;
+    }
+    .content-cell-x{
+        font-size: 18px;
+        float: left;
+    }
+    .content-cell-y{
+        line-height: 40px;
+    }
+    .glyphicon{
+        top: 2px;
+    }
+    .glyphicon-thumbs-up{
+        margin-left: 15px;
+        font-size: 18px;
+    }
+    .content-border{
+        height: 40px;
+        border-bottom: 1px solid #efeff4;
+    }
+
+    a:focus, a:hover{
+        text-decoration: none;
+    }
+    .mui-bar-tab .mui-tab-item.mui-active{
+        text-decoration: none;
+    }
+
+    .text-name{
+        margin-left: 12px;
+    }
+    .text-zan{
+        margin-left: 15px;
+    }
+
+    .mui-tab-label{
+        font-size: 18px;
+    }
+    .glyphicon-cutlery{
+        font-size: 18px;
+    }
 </style>
-<body ontouchstart>
-    <div id="shaixuan">
-        <ul>
-            <li id="filterPrice" onMouseDown="this.className='change'" onMouseOut="this.className=''"><b>今日菜单</b></li>
-        </ul>
+<body style="line-height: 1rem">
+<nav class="mui-bar mui-bar-tab">
+    <a class="mui-tab-item mui-active" href="#page1">
+        <span class="glyphicon glyphicon-cutlery"></span>
+        <span class="mui-tab-label">早餐</span>
+    </a>
+    <a class="mui-tab-item" href="#page2">
+        <span class="glyphicon glyphicon-cutlery"></span>
+        <span class="mui-tab-label">午餐</span>
+    </a>
+    <a class="mui-tab-item" href="#page3">
+        <span class="glyphicon glyphicon-cutlery"></span>
+        <span class="mui-tab-label">晚餐</span>
+    </a>
+    <a class="mui-tab-item" href="#page4">
+        <span class="glyphicon glyphicon-cutlery"></span>
+        <span class="mui-tab-label">夜宵</span>
+    </a>
+</nav>
+<div class="mui-content" id="app" style="background: white">
+    <div id="page1" class="mui-control-content mui-active">
+        <div class="mui-col-sm-12 mui-col-xs-12 content-cell-y">
+            <div v-for="b in breakfast" class="content-border">
+                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-x"><span class='text-name'>{{b.name}}</span></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-type'></span>{{b.type}}</div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><p class='glyphicon glyphicon-thumbs-up'
+                                                                         :id="forId_1(b.id)"></p></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-zan'> </span>{{b.zan}}</div>
+            </div>
+        </div>
     </div>
-	<!-- 列表 -->
-    <div id="app" style="text-align: left">
-        <table style="width: 100%" class="tb">
-            <tr>
-                <th colspan="2" style="text-align: center">早餐</th>
-            </tr>
-            <tbody>
-                <tr v-for="canteen in data1">
-                    <td  class="td1" v-if="canteen.meal === 1">{{ canteen.name }}</td>
-                    <td class="display" style="display: none" v-else></td>
-                    <td v-if="canteen.meal === 1">{{canteen.type}}</td>
-                    <td style="display: none" v-else></td>
-                </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%" >
-            <tr>
-                <th colspan="2" style="text-align: center">午餐</th>
-            </tr>
-            <tbody>
-            <tr v-for="canteen in data1">
-                <td class="td1" v-if="canteen.meal === 2">{{ canteen.name }}</td>
-                <td class="display" style="display: none" v-else></td>
-                <td v-if="canteen.meal === 2">{{canteen.type}}</td>
-                <td style="display: none" v-else></td>
-            </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%" >
-            <tr>
-                <th colspan="2" style="text-align: center">晚餐</th>
-            </tr>
-            <tbody>
-            <tr v-for="canteen in data1">
-                <td class="td1"  v-if="canteen.meal === 3">{{ canteen.name }}</td>
-                <td class="display" style="display: none" v-else></td>
-                <td v-if="canteen.meal === 3">{{canteen.type}}</td>
-                <td style="display: none" v-else></td>
-            </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%" >
-            <tr>
-                <th colspan="2" style="text-align: center">夜宵</th>
-            </tr>
-            <tbody>
-            <tr v-for="canteen in data1">
-                <td class="td1"  v-if="canteen.meal === 4">{{ canteen.name }}</td>
-                <td class="display" style="display: none" v-else></td>
-                <td v-if="canteen.meal === 4">{{canteen.type}}</td>
-                <td style="display: none" v-else></td>
-            </tr>
-            </tbody>
-        </table>
+    <div id="page2" class="mui-control-content">
+        <div class="mui-col-sm-12 mui-col-xs-12 content-cell-y">
+            <div v-for="l in lunch" class="content-border">
+                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-x"><span class='text-name'>{{l.name}}</span></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-type'></span>{{l.type}}</div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><p class='glyphicon glyphicon-thumbs-up'
+                                                                         :id="forId_2(l.id)"></p></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-zan'> </span>{{l.zan}}</div>
+            </div>
+        </div>
     </div>
+    <div id="page3" class="mui-control-content">
+        <div class="mui-col-sm-12 mui-col-xs-12 content-cell-y">
+            <div v-for="d in dinner" class="content-border">
+                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-x"><span class='text-name'>{{d.name}}</span></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-type'></span>{{d.type}}</div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><p class='glyphicon glyphicon-thumbs-up'
+                                                                         :id="forId_3(d.id)"></p></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-zan'> </span>{{d.zan}}</div>
+            </div>
+        </div>
+    </div>
+    <div id="page4" class="mui-control-content">
+        <div class="mui-col-sm-12 mui-col-xs-12 content-cell-y">
+            <div v-for="n in night" class="content-border">
+                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-x"><span class='text-name'>{{n.name}}</span></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-type'></span>{{n.type}}</div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><p class='glyphicon glyphicon-thumbs-up'
+                                                                         :id="forId_4(n.id)"></p></div>
+                <div class="mui-col-sm-2 mui-col-xs-2 content-cell-x"><span class='text-zan'> </span>{{n.zan}}</div>
+            </div>
+        </div>
+    </div>
+     
+</div>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="/statics/js/qzgz/web/st.js"></script>
 </body>
-<script>
-    $(function () {
-        $('.display').parent('tr').css('display','none');
-    })
-
-</script>
 </html>
