@@ -53,6 +53,14 @@ public class ShiroCache<K, V> implements Cache<K, V> {
         return old;
     }
 
+
+    public V put(K k, V v,int expire) throws CacheException {
+        logger.debug("创建缓存:{}", k);
+        V old = get(k);
+        redisTemplate.opsForValue().set(getkeyPrefix(k), v, expire, TimeUnit.SECONDS);
+        return old;
+    }
+
     @Override
     public V remove(K k) throws CacheException {
         logger.debug("删除缓存:{}", k);

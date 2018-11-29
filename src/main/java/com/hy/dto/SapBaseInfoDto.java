@@ -27,6 +27,16 @@ public class SapBaseInfoDto {
     private String zphone;
     //身份证号
     private String zid;
+    //最高学历
+    private String zxl;
+
+    public String getZxl() {
+        return zxl;
+    }
+
+    public void setZxl(String zxl) {
+        this.zxl = zxl;
+    }
 
     public String getPernr() {
         return pernr;

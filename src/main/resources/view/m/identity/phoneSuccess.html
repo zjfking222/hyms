@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>手机号维护</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <!-- 注意：此处需要下载微信的文字 -->
+    <link rel="stylesheet" type="text/css" href="/statics/plugins/weixin/weui-font.css"/>
+</head>
+<body style="background-color: #FFFFFF;">
+    <div id="phoneSuccessData">
+        <div style="padding-top:36px;text-align:center;">
+            <div style="margin-bottom:30px;">
+                <i class="icon-success"></i>
+            </div>
+            <div style="margin-bottom:30px;">
+                <h2 style="margin-bottom:5px;font-weight:400;font-size:20px;">修改成功</h2>
+                <p style="font-size:14px;color:#999;">
+                    您的手机号码已修改为{{ phone }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        //初始化vue对象
+        var vm = new Vue({
+            el:"#phoneSuccessData",
+            data:getPhoneNumber(),
+            mounted (){//挂载el
+                mui.init();
+            }
+        });
+        //取当前页面展示信息
+        function getPhoneNumber(){
+            var result = {};
+            if("hyms" == parent.parentFlag){
+                result.phone = parent.iframeParam;
+            }else{
+                //从本地中取session存储数据
+                result.phone = window.sessionStorage.getItem("phoneData");
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>

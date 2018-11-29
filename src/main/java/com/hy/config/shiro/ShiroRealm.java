@@ -62,7 +62,7 @@ public class ShiroRealm extends AuthorizingRealm {
                 LdapStaff staff = LdapUtil.getStaffByUid(token.getUsername());
                 if (staff == null)
                     throw new UnknownAccountException();
-                ShiroUserInfo userInfo = new ShiroUserInfo(Integer.parseInt(staff.getId()), staff.getId(), staff.getName(), String.valueOf(token.getPassword()), staff.getDepid(), staff.getDepname(), staff.getDuty());
+                ShiroUserInfo userInfo = new ShiroUserInfo(Integer.parseInt(staff.getId()), staff.getId(), staff.getName(), String.valueOf(token.getPassword()), staff.getDepid(), staff.getDepname(), staff.getDuty(), null, staff.getPhone());
                 return new SimpleAuthenticationInfo(userInfo, String.valueOf(token.getPassword()), getName());
             }
         }
@@ -105,7 +105,7 @@ public class ShiroRealm extends AuthorizingRealm {
         if (hrmResource == null) {
             throw new UnknownAccountException();
         }*/
-        ShiroUserInfo userInfo = new ShiroUserInfo(Integer.parseInt(aduser.getId()), aduser.getId(), aduser.getName(), password, aduser.getDepid(), aduser.getDepname(), aduser.getDuty());
+        ShiroUserInfo userInfo = new ShiroUserInfo(Integer.parseInt(aduser.getId()), aduser.getId(), aduser.getName(), password, aduser.getDepid(), aduser.getDepname(), aduser.getDuty(), null, aduser.getPhone());
         return new SimpleAuthenticationInfo(userInfo, password, getName());
     }
 

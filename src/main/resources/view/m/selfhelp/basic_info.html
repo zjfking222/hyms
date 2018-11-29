@@ -52,11 +52,11 @@
                     <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.gbort }}</span>
                     <div style="clear: both"></div>
                 </div>
-                <!--<div class="mui-col-sm-12 mui-col-xs-12">
+                <div class="mui-col-sm-12 mui-col-xs-12">
                     <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">最高学历</span>
-                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base. }}</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zxl }}</span>
                     <div style="clear: both"></div>
-                </div>-->
+                </div>
                 <div class="mui-col-sm-12 mui-col-xs-12">
                     <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">手机号码</span>
                     <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zphone }}</span>
@@ -117,7 +117,6 @@
 
     <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
     <script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/statics/js/m/workplus_integration.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
         //初始化vue对象
         var vm = new Vue({
@@ -130,8 +129,6 @@
             },
             mounted (){//挂载el
                 mui.init();
-                //接入恒拓app
-                ht_access_check();
             },
             created: function(){
                 var data = this.getBasicInfo();

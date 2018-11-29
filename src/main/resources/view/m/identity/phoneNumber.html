@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>手机号维护</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="/statics/plugins/mui/css/mui.min.css"/>
+    <style>
+        .mui-input-group:before{
+            height: 0;
+        }
+        .mui-input-group:after{
+            height: 0;
+        }
+        .mui-input-group input{
+            border: 1px solid #c8c7cc;
+            border-radius: 10px;
+        }
+        .mui-input-group .mui-input-row{
+            height: 50px;
+        }
+        .mui-input-group .mui-input-row:after{
+            height: 0;
+        }
+        .mui-input-row{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .mui-icon-eye:before {
+            padding-right: 15px;
+        }
+    </style>
+</head>
+<body style="background-color: #fff;">
+    <form class="mui-input-group" style="position:absolute;top: 17px;width: 100%;" id="phoneData">
+        <div class="mui-input-row" style="padding-top: 9px;">
+            <span>当前手机号码：{{ phone }}</span>
+        </div>
+        <div class="mui-input-row">
+            <input type="text" class="mui-input-clear phone-input" placeholder="请输入新手机号码">
+        </div>
+        <div class="mui-input-row">
+            <input type="password" class="mui-input-password password-input" placeholder="请输入密码">
+        </div>
+        <div class="mui-input-row">
+            <input type="text" class="mui-input-clear code-input" style="width: 50%;float: left;" placeholder="请输入验证码">
+            <div class="mui-table-view-cell sendCode-btn">
+                <a style="color: #007aff;text-align: center;" href="javascript:;" id="verCodeBtn">发送验证码</a>
+            </div>
+        </div>
+        <div class="mui-button-row" style="padding-right: 10px;padding-left: 10px;">
+            <button type="button" class="mui-btn mui-btn-primary" style="width: 100%;border-radius: 10px;">提交</button>
+        </div>
+    </form>
+
+    <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/js/common/jsencrypt.min.js"></script>
+    <script type="text/javascript">
+        //初始化vue对象
+        var vm = new Vue({
+            el:"#phoneData",
+            data:getPhoneNumber(),
+            mounted (){//挂载el
+                mui.init();
+                //发送验证码
+                mui(document.body).on('tap','.sendCode-btn',sendVerCode);
+                //提交
+                mui(document.body).on('tap','.mui-btn-primary',function(){
+                    var phone = mui(".phone-input")[0].value;
+                    var password = mui(".password-input")[0].value;
+                    //加密密码
+                    var encrypt=new JSEncrypt();
+                    encrypt.setPublicKey(RSA_PUBLIC_KEY);
+                    password = encrypt.encrypt(password);
+                    var code = mui(".code-input")[0].value;
+                    mui.ajax('/app/identity/savePhone',{
+                        data:{
+                            phone:phone,
+                            password:password,
+                            code:code
+                        },
+                        dataType:'json',//服务器返回json格式数据
+                        type:'post',//HTTP请求类型
+                        timeout:10000,//超时时间设置为10秒；
+                        headers:{'Content-Type':'application/json'},
+                        async: false,
+                        success:function(data){
+                            if (data.code == 0) {
+                                if("hyms" == parent.parentFlag){
+                                    //调用父页面方法跳转当前子页面
+                                    parent.loadIframe("/m/identity/phoneSuccess.html", phone);
+                                }else{//恒拓app展示需要直接跳转
+                                    //将获取到的薪资数据保存到本地，便于下一个页面获取并展示（修改成保存到后台系统缓存？），此处需要确保app本身支持
+                                    window.sessionStorage.setItem("phoneData", phone);
+                                    window.location.href="/m/identity/phoneSuccess.html";
+                                }
+                            }else {
+                                mui.alert(data.msg);
+                            }
+                        },
+                        error:function(xhr,type,errorThrown){
+                            //异常处理；
+                            mui.alert("提交异常，请重新尝试！");
+                        }
+                    });
+                });
+                //手机号格式验证
+                mui(document.body).on('change','.phone-input',function(){
+                    var phone = mui(".phone-input")[0].value;
+                    var pattern = /^[0-9]{11}$/;
+                    if(pattern.test(phone)){
+                        return true;
+                    }else{
+                        mui.alert("请输入正确的手机号！");
+                        return false;
+                    }
+                });
+            }
+        });
+        //取当前页面展示信息
+        function getPhoneNumber(){
+            var result;
+            mui.ajax('/app/identity/getPersonInfo',{
+                dataType:'json',//服务器返回json格式数据
+                type:'post',//HTTP请求类型
+                timeout:10000,//超时时间设置为10秒；
+                headers:{'Content-Type':'application/json'},
+                async: false,
+                success:function(data){
+                    if (data.code == 0) {
+                        result = data.data;
+                    }else {
+                        console.log(data.msg)
+                    }
+                },
+                error:function(xhr,type,errorThrown){
+                    //异常处理；
+                    console.log(type);
+                }
+            });
+            return result;
+        }
+        //发送验证码
+        function sendVerCode(){
+            var phone = mui(".phone-input")[0].value;
+            mui.ajax('/app/identity/sendMdefVerCode',{
+                data:{
+                    phone:phone
+                },
+                dataType:'json',//服务器返回json格式数据
+                type:'post',//HTTP请求类型
+                timeout:10000,//超时时间设置为10秒；
+                headers:{'Content-Type':'application/json'},
+                success:function(data){
+                    if (data.code == 0) {
+                        //取消绑定事件，失效按钮
+                        mui(document.body).off('tap','.sendCode-btn',sendVerCode);
+                        //开始倒计时
+                        countSecond();
+                    }else {
+                        mui.alert("验证码发送失败，请检查手机号！");
+                    }
+                },
+                error:function(xhr,type,errorThrown){
+                    //异常处理；
+                    mui.alert("验证码发送失败，请检查手机号！");
+                }
+            });
+        }
+        //倒计时更改短信发送按钮的展示
+        var time_s=120;
+        function countSecond(){
+            time_s--;
+            mui("#verCodeBtn")[0].text = time_s + "s后可重新发送";
+            if(time_s==0){
+                //更改显示并重新绑定事件
+                mui("#verCodeBtn")[0].text = "发送验证码";
+                mui(document.body).on('tap','.sendCode-btn',sendVerCode);
+                time_s=120;
+            }else{
+                //等待1秒
+                setTimeout("countSecond()", 1000);
+            }
+        }
+    </script>
+</body>
+</html>

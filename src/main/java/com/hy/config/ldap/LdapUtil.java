@@ -3,13 +3,24 @@ package com.hy.config.ldap;
 import com.hy.model.LdapDepartment;
 import com.hy.model.LdapStaff;
 import com.unboundid.ldap.sdk.*;
+import com.unboundid.util.LDAPTestUtils;
+import com.unboundid.util.ssl.SSLUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import org.springframework.util.ResourceUtils;
 import javax.annotation.PostConstruct;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -346,9 +357,11 @@ public class LdapUtil {
      * @return com.unboundid.ldap.sdk.SearchResult
      **/
     public static SearchResult searchResult(String base, SearchScope scope, Filter filter) throws LDAPException{
+        //若dn为空，则使用默认值
         if(StringUtils.isEmpty(base)){
             base = baseDn;
         }
+        //若范围为空，则使用默认值
         if(scope == null){
             scope = SearchScope.SUB;
         }
@@ -356,4 +369,71 @@ public class LdapUtil {
         SearchResult searchResult = LdapConnector.getConnection().search(searchRequest);
         return searchResult;
     }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 修改相应dn下的单条属性
+     * @Date 2018/11/19 9:23
+     * @Param [base, name, value]
+     * @return boolean true：成功；false：失败
+     **/
+    public static void updateAttribute(String dn, String name, String value) throws LDAPException{
+        Modification modification = new Modification(ModificationType.REPLACE, name, value);
+        LDAPResult result =  LdapConnector.getConnection().modify(dn, modification);
+        //检查是否返回值，失败则抛异常
+        LDAPTestUtils.assertResultCodeEquals(result, ResultCode.SUCCESS);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 用管理员权限直接更改AD域密码，需要有证书
+     * @Date 2018/11/26 9:07
+     * @Param [dn, newPassword]
+     * @return void
+     **/
+    public static void resetPassword(String dn, String newPassword) throws Exception{
+        LDAPConnection connection = null;
+        InputStream in = null;
+        try {
+            //初始化秘钥库
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null);
+            //解析证书文件
+            File file = ResourceUtils.getFile("classpath:files" + File.separator + ldapConfig.getCer());
+            in = new FileInputStream(file);
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            Certificate cert = cf.generateCertificate(in);
+            //秘钥库使用证书
+            trustStore.setCertificateEntry("cert", cert);
+            //使用X509证书格式解析
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
+            tmf.init(trustStore);
+            TrustManager[] trustManagers = tmf.getTrustManagers();
+            //初始化ssl工具类
+            SSLUtil sslUtil = new SSLUtil(trustManagers);
+            //使用ssl建立连接，端口写死了
+            SSLSocketFactory socketFactory = sslUtil.createSSLSocketFactory();
+            connection = new LDAPConnection(socketFactory,ldapConfig.getHost(), 636);
+            //绑定管理员账号
+            connection.bind(ldapConfig.getAccount(), ldapConfig.getPassword());
+            //生成更改密码的修改操作对象
+            newPassword = "\"" + newPassword + "\"";//密码格式必须加引号
+            Modification mod = new Modification(ModificationType.REPLACE,"unicodePwd", newPassword.getBytes("UTF-16LE"));
+            //执行修改密码操作
+            LDAPResult result =  connection.modify(dn, mod);
+            //检查返回值，不成功会抛出异常
+            LDAPTestUtils.assertResultCodeEquals(result, ResultCode.SUCCESS);
+        }catch (Exception e) {
+            throw e;
+        }finally {
+            //关闭
+            if(in != null){
+                in.close();
+            }
+            if(connection != null && connection.isConnected()){
+                connection.close();
+            }
+        }
+    }
+
 }
