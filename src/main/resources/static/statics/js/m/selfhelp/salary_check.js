@@ -8,8 +8,6 @@ var vm = new Vue({
     },
     mounted (){//挂载el
         mui.init();
-        //接入恒拓app
-        ht_access_check();
 
         //刷新验证码图片
         mui(document.body).on('tap', '.changeCodeImg-btn', function() {
@@ -70,6 +68,7 @@ var vm = new Vue({
                 error:function(xhr,type,errorThrown){
                     //异常处理；
                     console.log(type);
+                    vm.changeCodeImg();
                 }
             });
         },

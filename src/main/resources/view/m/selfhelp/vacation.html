@@ -33,7 +33,6 @@
 
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/statics/js/m/workplus_integration.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
             //初始化vue对象
             var vm = new Vue({
@@ -43,8 +42,6 @@
                 },
                 mounted (){//挂载el
                     mui.init();
-                    //接入恒拓app
-                    ht_access_check();
                 }
             });
             //从后台获取全部数据

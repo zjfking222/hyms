@@ -73,6 +73,12 @@ function updateTitle(title){
     $("#appmaintitle").text(title);
 }
 
+//提供子页面调用退出登录
+function app_logout() {
+    localStorage.clear();
+    window.location.href = '/index/logout';
+}
+
 //竖屏处理
 function landscape(config){
     var color = config && config.color ? config.color : "#000",
