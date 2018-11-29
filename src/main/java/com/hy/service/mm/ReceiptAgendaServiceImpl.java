@@ -44,7 +44,7 @@ public class ReceiptAgendaServiceImpl implements ReceiptAgendaService {
     public boolean setReceiptAgenda(List<MmReceiptAgendaFetchDto> mmReceiptAgendaFetchDtos) {
         List<MmReceiptAgenda> mmReceiptAgenda =  DTOUtil.populateList(mmReceiptAgendaFetchDtos, MmReceiptAgenda.class);
         for (MmReceiptAgenda ra : mmReceiptAgenda){
-            ra.setModifier(SecurityUtil.getUserId());
+            ra.setModifier(SecurityUtil.getLoginid());
         }
         return mmReceiptAgendaMapper.updateReceiptAgenda(mmReceiptAgenda) == mmReceiptAgenda.size();
     }
@@ -53,9 +53,9 @@ public class ReceiptAgendaServiceImpl implements ReceiptAgendaService {
     public boolean addReceiptAgenda(List<MmReceiptAgendaFetchDto> mmReceiptAgendaFetchDtos) {
         List<MmReceiptAgenda> mmReceiptAgenda = DTOUtil.populateList(mmReceiptAgendaFetchDtos, MmReceiptAgenda.class);
         for(MmReceiptAgenda ra : mmReceiptAgenda){
-            ra.setModifier(SecurityUtil.getUserId());
+            ra.setModifier(SecurityUtil.getLoginid());
             ra.setDomain(SecurityUtil.getDepartmentId());
-            ra.setCreater(SecurityUtil.getUserId());
+            ra.setCreater(SecurityUtil.getLoginid());
         }
         return mmReceiptAgendaMapper.insertReceiptAgenda(mmReceiptAgenda) == mmReceiptAgenda.size();
     }

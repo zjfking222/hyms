@@ -78,8 +78,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public PermissionDto addMenus(PermissionDto dto) {
         SysPermission sysPermission = DTOUtil.populate(dto, SysPermission.class);
-        sysPermission.setCreater(SecurityUtil.getUserId());
-        sysPermission.setModifier(SecurityUtil.getUserId());
+        sysPermission.setCreater(SecurityUtil.getLoginid());
+        sysPermission.setModifier(SecurityUtil.getLoginid());
         int id = sysPermissionMapper.insertSelective(sysPermission);
         sysPermission = sysPermissionMapper.selectByPrimaryKey(sysPermission.getId());
         return DTOUtil.populate(sysPermission, PermissionDto.class);
@@ -88,7 +88,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public int updateMenus(PermissionDto dto) {
         SysPermission sysPermission = DTOUtil.populate(dto, SysPermission.class);
-        sysPermission.setModifier(SecurityUtil.getUserId());
+        sysPermission.setModifier(SecurityUtil.getLoginid());
         return sysPermissionMapper.updateByPrimaryKeySelective(sysPermission);
     }
 

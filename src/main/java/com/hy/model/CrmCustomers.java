@@ -15,9 +15,9 @@ public class CrmCustomers {
     private int fid;
     private int vip;
     private String remark;
-    private int creater;
+    private String creater;
     private String created;
-    private int modifier;
+    private String modifier;
     private String modified;
     private int domain;
 
@@ -26,8 +26,8 @@ public class CrmCustomers {
     }
 
     public CrmCustomers(String name, String post, String nationality, String address, boolean sex, String mobile,
-                        String phone, String email, int btid, int fid, int vip, String remark, int creater,
-                        int modifier, int domain) {
+                        String phone, String email, int btid, int fid, int vip, String remark, String creater,
+                        String modifier, int domain) {
         this.name = name;
         this.post = post;
         this.nationality = nationality;
@@ -149,11 +149,11 @@ public class CrmCustomers {
         this.remark = remark;
     }
 
-    public int getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(int creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -165,11 +165,11 @@ public class CrmCustomers {
         this.created = created;
     }
 
-    public int getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

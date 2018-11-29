@@ -38,8 +38,8 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public Integer addCrmFirm(CrmFirmsFetchDto crmFirmsDto) {
         CrmFirms crmFirms = DTOUtil.populate(crmFirmsDto, CrmFirms.class);
-        crmFirms.setCreater(SecurityUtil.getUserId());
-        crmFirms.setModifier(SecurityUtil.getUserId());
+        crmFirms.setCreater(SecurityUtil.getLoginid());
+        crmFirms.setModifier(SecurityUtil.getLoginid());
         crmFirms.setDomain(SecurityUtil.getDepartmentId());
         crmFirmsMapper.insertCrmFirms(crmFirms);
         return crmFirms.getId();
@@ -48,7 +48,7 @@ public class FirmsServiceImpl implements FirmsService {
     @Override
     public boolean setCrmFirm(CrmFirmsFetchDto crmFirmsDto) {
         CrmFirms crmFirms = DTOUtil.populate(crmFirmsDto, CrmFirms.class);
-        crmFirms.setModifier(SecurityUtil.getUserId());
+        crmFirms.setModifier(SecurityUtil.getLoginid());
         return crmFirmsMapper.updateCrmFirms(crmFirms) == 1;
     }
 
@@ -125,7 +125,7 @@ public class FirmsServiceImpl implements FirmsService {
                         String remark = String.valueOf(getCell(row, 8));
                         if (name != null  && !name.equals("")) {
                             firms.add(new CrmFirms(name, phone, address, contacter, cmobile, cphone, email, btid, remark,
-                                    SecurityUtil.getUserId(), SecurityUtil.getUserId(), SecurityUtil.getDepartmentId()));
+                                    SecurityUtil.getLoginid(), SecurityUtil.getLoginid(), SecurityUtil.getDepartmentId()));
                         }
                     }
 

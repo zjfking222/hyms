@@ -15,11 +15,11 @@ public class SysPermission {
 
     private Boolean enable;
 
-    private Integer creater;
+    private String creater;
 
     private Date created;
 
-    private Integer modifier;
+    private String modifier;
 
     private Date modified;
 
@@ -79,11 +79,11 @@ public class SysPermission {
         this.enable = enable;
     }
 
-    public Integer getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(Integer creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -95,11 +95,11 @@ public class SysPermission {
         this.created = created;
     }
 
-    public Integer getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(Integer modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

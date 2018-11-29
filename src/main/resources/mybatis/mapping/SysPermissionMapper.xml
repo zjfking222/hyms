@@ -8,9 +8,9 @@
     <result column="sort" property="sort" jdbcType="TINYINT" />
     <result column="parentId" property="parentid" jdbcType="INTEGER" />
     <result column="enable" property="enable" jdbcType="BIT" />
-    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="BIT" />
@@ -95,7 +95,7 @@
       permission, fieldType)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{sort,jdbcType=TINYINT}, #{parentid,jdbcType=INTEGER}, #{enable,jdbcType=BIT}, 
-      #{creater,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, 
+      #{creater,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR},
       #{modified,jdbcType=TIMESTAMP}, #{icon,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, 
       #{permission,jdbcType=VARCHAR}, #{fieldType,jdbcType=TINYINT})
   </insert>
@@ -168,13 +168,13 @@
         #{enable,jdbcType=BIT},
       </if>
       <if test="creater != null" >
-        #{creater,jdbcType=INTEGER},
+        #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        #{modifier,jdbcType=INTEGER},
+        #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         #{modified,jdbcType=TIMESTAMP},
@@ -212,13 +212,13 @@
         enable = #{enable,jdbcType=BIT},
       </if>
       <if test="creater != null" >
-        creater = #{creater,jdbcType=INTEGER},
+        creater = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         created = #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        modifier = #{modifier,jdbcType=INTEGER},
+        modifier = #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         modified = #{modified,jdbcType=TIMESTAMP},
@@ -245,9 +245,9 @@
       sort = #{sort,jdbcType=TINYINT},
       parentId = #{parentid,jdbcType=INTEGER},
       enable = #{enable,jdbcType=BIT},
-      creater = #{creater,jdbcType=INTEGER},
+      creater = #{creater,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
-      modifier = #{modifier,jdbcType=INTEGER},
+      modifier = #{modifier,jdbcType=VARCHAR},
       modified = #{modified,jdbcType=TIMESTAMP},
       icon = #{icon,jdbcType=VARCHAR},
       type = #{type,jdbcType=BIT},

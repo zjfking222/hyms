@@ -26,15 +26,15 @@ public class BusServiceImpl implements BusService{
     @Override
     public boolean setBusInfo(BusDto busDto) {
         QzgzBus bus = DTOUtil.populate(busDto,QzgzBus.class);
-        bus.setModifier(SecurityUtil.getUserId());
+        bus.setModifier(SecurityUtil.getLoginid());
         return busMapper.updateBus(bus) == 1;
     }
 
     @Override
     public boolean addBusInfo(BusDto busDto) {
         QzgzBus bus = DTOUtil.populate(busDto,QzgzBus.class);
-        bus.setCreater(SecurityUtil.getUserId());
-        bus.setModifier(SecurityUtil.getUserId());
+        bus.setCreater(SecurityUtil.getLoginid());
+        bus.setModifier(SecurityUtil.getLoginid());
         return busMapper.insertBus(bus) == 1;
     }
 

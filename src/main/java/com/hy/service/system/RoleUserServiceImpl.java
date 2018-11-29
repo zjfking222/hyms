@@ -32,7 +32,7 @@ public class RoleUserServiceImpl implements RoleUserService{
 
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setModifier(SecurityUtil.getUserId());
+            sysRoles.setModifier(SecurityUtil.getLoginid());
             sysRoles.setName(sysRolesUserDto.getName());
             sysRoles.setEnable(true);
             sysRoles.setId(sysRolesUserDto.getRid());
@@ -59,8 +59,8 @@ public class RoleUserServiceImpl implements RoleUserService{
     public boolean addRoleUser(SysRolesUserDto sysRolesUserDto) {
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setCreater(SecurityUtil.getUserId());
-            sysRoles.setModifier(SecurityUtil.getUserId());
+            sysRoles.setCreater(SecurityUtil.getLoginid());
+            sysRoles.setModifier(SecurityUtil.getLoginid());
             sysRoles.setEnable(true);
             sysRoles.setName(sysRolesUserDto.getName());
             sysRolesMapper.insertSelective(sysRoles);

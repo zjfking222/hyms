@@ -43,8 +43,8 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
                 adDepartments.get(i).setDate(date);
                 adDepartments.get(i).setTime(time);
                 adDepartments.get(i).setState(state);
-                adDepartments.get(i).setCreater(-1);
-                adDepartments.get(i).setModifier(-1);
+                adDepartments.get(i).setCreater("-1");
+                adDepartments.get(i).setModifier("-1");
             });
             return adDepartmentMapper.insertAdDepartment(adDepartments) == adDepartments.size();
         } catch (Exception e) {

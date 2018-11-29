@@ -43,9 +43,9 @@ public class StudyServiceImpl implements StudyService {
     @Override
     public QzgzStudyDto add(QzgzStudyDto dto) {
         QzgzStudy qzgzStudy = DTOUtil.populate(dto, QzgzStudy.class);
-        qzgzStudy.setCreater(SecurityUtil.getUserId());
+        qzgzStudy.setCreater(SecurityUtil.getLoginid());
         qzgzStudy.setCreatername(SecurityUtil.getUserName());
-        qzgzStudy.setModifier(SecurityUtil.getUserId());
+        qzgzStudy.setModifier(SecurityUtil.getLoginid());
         int id = qzgzStudyMapper.insertSelective(qzgzStudy);
         dto.setId(qzgzStudy.getId());
         return dto;
@@ -54,7 +54,7 @@ public class StudyServiceImpl implements StudyService {
     @Override
     public int update(QzgzStudyDto dto) {
         QzgzStudy qzgzStudy = DTOUtil.populate(dto, QzgzStudy.class);
-        qzgzStudy.setModifier(SecurityUtil.getUserId());
+        qzgzStudy.setModifier(SecurityUtil.getLoginid());
         return qzgzStudyMapper.updateByPrimaryKeySelective(qzgzStudy);
     }
 

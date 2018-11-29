@@ -6,9 +6,9 @@ public class QzgzSuggestion {
     private String department;
     private String contact;
     private String suggestion;
-    private Integer creater;
+    private String creater;
     private String created;
-    private Integer modifier;
+    private String modifier;
     private String modified;
     private String state;
 
@@ -52,11 +52,11 @@ public class QzgzSuggestion {
         this.suggestion = suggestion;
     }
 
-    public Integer getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(Integer creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -68,11 +68,11 @@ public class QzgzSuggestion {
         this.created = created;
     }
 
-    public Integer getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(Integer modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

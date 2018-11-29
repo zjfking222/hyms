@@ -37,15 +37,15 @@ public class RecruitServiceImpl implements RecruitService{
     @Override
     public boolean addRecruit(RecruitDto recruitDto) {
         QzgzRecruit recruit = DTOUtil.populate(recruitDto,QzgzRecruit.class);
-        recruit.setCreater(SecurityUtil.getUserId());
-        recruit.setModifier(SecurityUtil.getUserId());
+        recruit.setCreater(SecurityUtil.getLoginid());
+        recruit.setModifier(SecurityUtil.getLoginid());
         return recruitMapper.insertRecruit(recruit) == 1;
     }
 
     @Override
     public boolean setRecruit(RecruitDto recruitDto) {
         QzgzRecruit recruit = DTOUtil.populate(recruitDto,QzgzRecruit.class);
-        recruit.setModifier(SecurityUtil.getUserId());
+        recruit.setModifier(SecurityUtil.getLoginid());
         return recruitMapper.updateRecruit(recruit) == 1;
     }
 
