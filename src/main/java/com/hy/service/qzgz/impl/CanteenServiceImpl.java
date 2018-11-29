@@ -21,9 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
@@ -32,8 +30,6 @@ public class CanteenServiceImpl implements CanteenService {
     private String[] titleRow = {"日期", "名称", "类型", "品种", "价格"};
 
     private boolean titleFlag;
-
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private QzgzCanteenMapper canteenMapper;
@@ -94,6 +90,11 @@ public class CanteenServiceImpl implements CanteenService {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet xssfSheet = workbook.getSheetAt(0);
             List<QzgzCanteen> qzgzCanteens = new ArrayList<>();
+            HashMap<String,Integer> mealMap = new HashMap<>();
+            mealMap.put("早餐",1);
+            mealMap.put("午餐",2);
+            mealMap.put("晚餐",3);
+            mealMap.put("夜宵",4);
             List<CanteenDto> canteenDtos = DTOUtil.populateList(canteenMapper.selectCanteenAll(), CanteenDto.class);
             String[][] list = new String[canteenDtos.size()][3];
             for (int i = 0; i < canteenDtos.size(); i++) {
@@ -103,16 +104,17 @@ public class CanteenServiceImpl implements CanteenService {
             }
             IntStream.range(0, titleRow.length).forEach(i -> {
                 try {
-                    if (!xssfSheet.getRow(0).getCell(i).getStringCellValue().equals(titleRow[i])) {
+                    if (!xssfSheet.getRow(1).getCell(i).getStringCellValue().equals(titleRow[i])) {
                         titleFlag = false;
                     }
                 } catch (NullPointerException e) {
                     titleFlag = false;
                 }
             });
+            System.out.println(titleFlag);
             if (titleFlag) {
                 for (Row row : xssfSheet) {
-                    if (row.getRowNum() != 0 && row.getRowNum() != xssfSheet.getLastRowNum()) {
+                    if (row.getRowNum() > 1 && row.getRowNum() != xssfSheet.getLastRowNum()) {
                         Cell cell1 = row.getCell(0);
                         Cell cell2 = row.getCell(2);
                         Cell cell3 = row.getCell(4);
@@ -137,12 +139,11 @@ public class CanteenServiceImpl implements CanteenService {
                             if (meal == null || meal.equals("")) {
                                 meal1 = null;
                             } else {
-                                if (cell2.getCellType() == CellType.NUMERIC) {
-                                    meal1 = Integer.parseInt(meal);
+                                if (cell2.getCellType() == CellType.STRING && mealMap.containsKey(meal)) {
+                                    meal1 = mealMap.get(meal);
                                 } else {
                                     meal1 = null;
                                 }
-
                             }
                             if (price == null || price.equals("")) {
                                 price1 = Float.parseFloat("0");
