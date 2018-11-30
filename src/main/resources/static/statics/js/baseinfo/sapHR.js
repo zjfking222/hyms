@@ -1,5 +1,6 @@
 
 function getData(){
+    $('#example').css('display','inline-block');
     $.ajax({  //树
         method:"post",
         dataType:"json",
@@ -72,7 +73,7 @@ function getData(){
                 table.render({   //组织架构change信息表
                     elem: '#demo1'
                     ,method:"post"
-                    ,height: 312
+                    ,height: 250
                     ,where:{date:$("#test1").val(),time:getTime}
                     ,url: '/ad/department/getChangeDep' //数据接口
                     ,page: false //开启分页

@@ -12,11 +12,9 @@
     #time1{
         width:190px;
     }
-    .layui-table-view{
-        width: 70%;
-        float: right;
-        margin-right: 10px;
-    }
+    /*.layui-table-view{*/
+        /*margin-right: 10px;*/
+    /*}*/
     .layui-form-item{
         width: 300px;
     }
@@ -36,13 +34,23 @@
         margin-left: 300px;
     }
     #example{
-        float: left;
         margin-left: 20px;
+        /*display: inline-block;*/
+        height: 550px;
+        overflow-y: scroll;
+        width: 25%;
+        vertical-align: top;
+        display: none;
     }
     #item2{
         margin-top: -63px;
         position: absolute;
         margin-left: 300px;
+    }
+
+    #table{
+        display: inline-block;
+        width: 70%;
     }
 </style>
 <body>
@@ -70,10 +78,11 @@
 <div id="example">
     <div id="treeView"></div>
 </div>
+<div id="table">
+    <table id="demo" lay-filter="test"></table>
+    <table id="demo1" lay-filter="test"></table>
+</div>
 
-<table id="demo" lay-filter="test"></table>
-
-<table id="demo1" lay-filter="test"></table>
 </body>
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
