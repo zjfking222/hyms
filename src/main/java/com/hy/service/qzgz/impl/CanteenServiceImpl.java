@@ -85,10 +85,11 @@ public class CanteenServiceImpl implements CanteenService {
 
     @Override
     public Integer insertCanteenList(String filepath) {
+        InputStream inputStream = null;
+        File file = new File("files" + filepath);
         try {
             titleFlag = true;
-            File file = new File("files"+filepath);
-            InputStream inputStream = new FileInputStream("files" + filepath);
+            inputStream = new FileInputStream(file);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet xssfSheet = workbook.getSheetAt(0);
             QzgzCanteen qzgzCanteens;
@@ -96,6 +97,8 @@ public class CanteenServiceImpl implements CanteenService {
             List<String> listDate = new ArrayList<>();
             HashMap<String, Integer> mealMap = new HashMap<>();
             HashMap<String, QzgzCanteen> stMap = new HashMap<>();
+            String maxDate = null;
+            String minDate = null;
             mealMap.put("早餐", 1);
             mealMap.put("午餐", 2);
             mealMap.put("晚餐", 3);
@@ -123,23 +126,15 @@ public class CanteenServiceImpl implements CanteenService {
                         if (datetime != null && !datetime.equals("") && name != null && !name.equals("") && meal != null && !meal.equals("")
                                 && type != null && !type.equals("")) {
                             Date date;
-                            String date1;
-                            Integer meal1;
+                            String date1 = null;
+                            Integer meal1 = null;
                             Float price1;
                             if (cell1.getCellType() == CellType.NUMERIC) {
                                 date = cell1.getDateCellValue();
                                 date1 = DateUtil.breviary(date);
-                            } else {
-                                date1 = null;
                             }
-                            if (meal == null || meal.equals("")) {
-                                meal1 = null;
-                            } else {
-                                if (cell2.getCellType() == CellType.STRING && mealMap.containsKey(meal)) {
-                                    meal1 = mealMap.get(meal);
-                                } else {
-                                    meal1 = null;
-                                }
+                            if (cell2.getCellType() == CellType.STRING && mealMap.containsKey(meal)) {
+                                meal1 = mealMap.get(meal);
                             }
                             if (price == null || price.equals("")) {
                                 price1 = Float.parseFloat("0");
@@ -150,51 +145,50 @@ public class CanteenServiceImpl implements CanteenService {
                                     price1 = Float.parseFloat("0");
                                 }
                             }
-                            qzgzCanteens = new QzgzCanteen(date1, name, type, meal1, price1, SecurityUtil.getLoginid(), SecurityUtil.getLoginid());
-                            stMap.put(date1 + "/" + name + "/" + String.valueOf(meal1), qzgzCanteens);
-                            if (date1 != null) {
+                            if (date1 != null && meal1 != null) {
+                                qzgzCanteens = new QzgzCanteen(date1, name, type, meal1, price1, SecurityUtil.getLoginid(), SecurityUtil.getLoginid());
+                                stMap.put(date1 + "/" + name + "/" + String.valueOf(meal1), qzgzCanteens);
                                 listDate.add(date1);
+                                int size = listDate.size();
+                                if (size == 1) {
+                                    maxDate = listDate.get(0);
+                                    minDate = listDate.get(0);
+                                }
+                                if (maxDate.compareTo(listDate.get(size - 1)) < 0) {
+                                    maxDate = listDate.get(size - 1);
+                                }
+                                if(minDate.compareTo(listDate.get(size - 1)) > 0){
+                                    minDate = listDate.get(size - 1);
+                                }
                             }
                         }
                     }
                 }
-                String maxDate = listDate.get(0), minDate = listDate.get(0);
-                for (int i = 0; i < listDate.size(); i++) {
-                    if (maxDate.compareTo(listDate.get(i)) > 0) {
-                        maxDate = listDate.get(i);
-                    }
-                }
-                for (int j = 0; j < listDate.size(); j++) {
-                    if (minDate.compareTo(listDate.get(j)) < 0) {
-                        minDate = listDate.get(j);
-                    }
-                }
                 List<CanteenDto> canteenDtos = DTOUtil.populateList(canteenMapper.selectCanteenAll(maxDate, minDate), CanteenDto.class);
-                List<String> stringList = new ArrayList<>();
                 for (int i = 0; i < canteenDtos.size(); i++) {
                     String key = canteenDtos.get(i).getDate() + "/" + canteenDtos.get(i).getName() + "/" + String.valueOf(canteenDtos.get(i).getMeal());
-                    stringList.add(key);
-                }
-                if (stMap.size() > 0) {
-                    IntStream.range(0, stringList.size()).forEach(i -> {
-                        if (stMap.containsKey(stringList.get(i))) {
-                            stMap.remove(stringList.get(i));
-                        }
-                    });
+                    if(stMap.containsKey(key)){
+                        stMap.remove(key);
+                    }
                 }
                 qzgzCanteenList.addAll(stMap.values());
-                file.delete();
                 if (qzgzCanteenList.size() != 0) {
                     return canteenMapper.insertCanteenList(qzgzCanteenList);
                 } else {
                     return 0;
                 }
             }
-            file.delete();
             return -1;
         } catch (IOException e) {
             e.printStackTrace();
             return -2;
+        } finally {
+            try {
+                file.delete();
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 //    @Override
