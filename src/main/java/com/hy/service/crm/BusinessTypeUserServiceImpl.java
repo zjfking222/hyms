@@ -37,7 +37,7 @@ public class BusinessTypeUserServiceImpl implements BusinessTypeUserService{
             //新增
             for (HrmResourceDto addHr: crmBusinesstypeUserDto.getnHrmResource()){
                 crmBusinesstypeUserMapper.insertBusinesstypeUser(new CrmBusinesstypeUser(crmBusinesstypeUserDto.getBtid(),
-                        addHr.getId(), SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),addHr.getLoginid(),
+                        addHr.getLoginid(), SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),addHr.getLoginid(),
                         addHr.getLastname()));
             }
             return true;

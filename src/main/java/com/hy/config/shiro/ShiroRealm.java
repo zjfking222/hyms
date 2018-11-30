@@ -44,7 +44,7 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        List<SysPermission> list = permissionService.getByUserId(SecurityUtil.getUserId());
+        List<SysPermission> list = permissionService.getByUserId(SecurityUtil.getLoginid());
         for (SysPermission permission : list) {
             if (StringUtil.isNotEmpty(permission.getPermission())) {
                 authorizationInfo.addStringPermission(permission.getPermission());
@@ -62,7 +62,7 @@ public class ShiroRealm extends AuthorizingRealm {
                 LdapStaff staff = LdapUtil.getStaffByUid(token.getUsername());
                 if (staff == null)
                     throw new UnknownAccountException();
-                ShiroUserInfo userInfo = new ShiroUserInfo(Integer.parseInt(staff.getId()), staff.getId(), staff.getName(), String.valueOf(token.getPassword()), staff.getDepid(), staff.getDepname(), staff.getDuty(), null, staff.getPhone());
+                ShiroUserInfo userInfo = new ShiroUserInfo(staff.getId(), staff.getName(), String.valueOf(token.getPassword()), staff.getDepid(), staff.getDepname(), staff.getDuty(), null, staff.getPhone());
                 return new SimpleAuthenticationInfo(userInfo, String.valueOf(token.getPassword()), getName());
             }
         }
@@ -105,7 +105,7 @@ public class ShiroRealm extends AuthorizingRealm {
         if (hrmResource == null) {
             throw new UnknownAccountException();
         }*/
-        ShiroUserInfo userInfo = new ShiroUserInfo(Integer.parseInt(aduser.getId()), aduser.getId(), aduser.getName(), password, aduser.getDepid(), aduser.getDepname(), aduser.getDuty(), null, aduser.getPhone());
+        ShiroUserInfo userInfo = new ShiroUserInfo(aduser.getId(), aduser.getName(), password, aduser.getDepid(), aduser.getDepname(), aduser.getDuty(), null, aduser.getPhone());
         return new SimpleAuthenticationInfo(userInfo, password, getName());
     }
 

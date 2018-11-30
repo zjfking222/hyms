@@ -23,11 +23,11 @@ public class PermissionServiceImpl implements PermissionService {
         return sysPermissionMapper.selectAll();
     }
     @Override
-    public List<SysPermission> getByUserId(int userId) {
+    public List<SysPermission> getByUserId(String userId) {
         return sysPermissionMapper.selectByUserId(userId);
     }
 
-    public List<PermissionDto> getUserMenus(int userId) {
+    public List<PermissionDto> getUserMenus(String userId) {
         List<SysPermission> list = sysPermissionMapper.selectUserMenus(userId);
 
         Map<Integer, PermissionDto> map = new LinkedHashMap<Integer, PermissionDto>();
@@ -98,7 +98,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDto> getUserMenus(int userId, int fieldType) {
+    public List<PermissionDto> getUserMenus(String userId, int fieldType) {
         // 查询数据库
         List<SysPermission> list = sysPermissionMapper.selectUserFieldMenus(userId, fieldType);
 

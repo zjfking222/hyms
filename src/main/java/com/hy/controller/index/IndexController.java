@@ -80,9 +80,9 @@ public class IndexController {
         //根据传入的参数判断当前请求是否为手机端传入，若是则获取手机端或兼容的菜单，若否，则获取web端与兼容的菜单
         String fieldType = info.get("fieldType");
         if("0".equals(fieldType)){
-            list = permissionService.getUserMenus(SecurityUtil.getUserId(), 0);
+            list = permissionService.getUserMenus(SecurityUtil.getLoginid(), 0);
         }else if("1".equals(fieldType)){
-            list = permissionService.getUserMenus(SecurityUtil.getUserId(), 1);
+            list = permissionService.getUserMenus(SecurityUtil.getLoginid(), 1);
         }else{
             //未知参数，待添加
         }

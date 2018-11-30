@@ -3,7 +3,7 @@ package com.hy.model;
 public class CrmBusinesstypeUser {
     private int id;
     private int btid;
-    private int uid;
+    private String uid;
     private String creater;
     private String created;
     private String modifier;
@@ -14,7 +14,7 @@ public class CrmBusinesstypeUser {
     public CrmBusinesstypeUser() {
     }
 
-    public CrmBusinesstypeUser(int btid, int uid, String creater, String modifier, String loginid, String lastname) {
+    public CrmBusinesstypeUser(int btid, String uid, String creater, String modifier, String loginid, String lastname) {
         this.btid = btid;
         this.uid = uid;
         this.creater = creater;
@@ -39,11 +39,11 @@ public class CrmBusinesstypeUser {
         this.btid = btid;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

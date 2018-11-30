@@ -215,7 +215,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         List<MmReceipt> mmReceipts = DTOUtil.populateList(mmReceiptNewDtos, MmReceipt.class);
 
         IntStream.range(0, mmReceipts.size()).forEach(i -> {
-            mmReceipts.get(i).setUid(SecurityUtil.getUserId());
+            mmReceipts.get(i).setUid(SecurityUtil.getLoginid());
             mmReceipts.get(i).setDomain(SecurityUtil.getDepartmentId());
             mmReceipts.get(i).setCreater(SecurityUtil.getLoginid());
             mmReceipts.get(i).setModifier(SecurityUtil.getLoginid());

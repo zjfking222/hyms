@@ -43,7 +43,7 @@ public class RoleUserServiceImpl implements RoleUserService{
             }
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId()+"", SecurityUtil.getUserId()+"",sysRolesUserDto.getRid(),
+                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRolesUserDto.getRid(),
                         hr.getId().toString(),hr.getLoginid(),hr.getLastname()));
             }
             return true;
@@ -67,7 +67,7 @@ public class RoleUserServiceImpl implements RoleUserService{
             System.out.println(sysRoles.getId());
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId()+"", SecurityUtil.getUserId()+"",sysRoles.getId(),
+                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRoles.getId(),
                         hr.getId().toString(),hr.getLoginid(),hr.getLastname()));
             }
             return true;

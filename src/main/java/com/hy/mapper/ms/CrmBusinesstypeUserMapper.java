@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface CrmBusinesstypeUserMapper {
     List<CrmBusinesstypeUser> selectBusinesstypeUser(@Param("btid") int btid);
-    Integer deleteBusinesstypeUser(@Param("btid")int btid, @Param("uid")int uid);
+    Integer deleteBusinesstypeUser(@Param("btid")int btid, @Param("uid")String uid);
     Integer insertBusinesstypeUser(CrmBusinesstypeUser crmBusinesstypeUser);
 }

@@ -20,7 +20,7 @@ public class MmReceipt {
     private String departureremark;
     private String returntype;
     private int returnfollower;
-    private int uid;
+    private String uid;
     private String remark;
     private String implement;
     private int domain;
@@ -159,11 +159,11 @@ public class MmReceipt {
         this.departureremark = departureremark;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

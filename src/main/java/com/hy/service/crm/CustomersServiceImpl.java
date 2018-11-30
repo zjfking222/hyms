@@ -186,7 +186,7 @@ public class CustomersServiceImpl implements CustomersService{
     @Override
     public List<CrmCustomersDto> getCrmCustomer(int pageNum, int pageSize, String value, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<CrmCustomers> crms = customersMapper.selectCrmCustomer(SecurityUtil.getUserId(), value, sort, dir);
+        List<CrmCustomers> crms = customersMapper.selectCrmCustomer(SecurityUtil.getLoginid(), value, sort, dir);
         List<CrmCustomersDto> dtos = new ArrayList<>();
         for (CrmCustomers crm : crms){
             CrmCustomersDto customersDto = new CrmCustomersDto(crm.getId(),crm.getName(),crm.getPost(),crm.getNationality(),crm.getAddress(),crm.getMobile(),crm.getPhone(),crm.getEmail(),
@@ -205,7 +205,7 @@ public class CustomersServiceImpl implements CustomersService{
 
     @Override
     public int getCrmCustomerTotal(String value) {
-        return customersMapper.selectCrmCustomerTotal(SecurityUtil.getUserId(), value);
+        return customersMapper.selectCrmCustomerTotal(SecurityUtil.getLoginid(), value);
     }
 
     @Override
@@ -223,7 +223,7 @@ public class CustomersServiceImpl implements CustomersService{
     public List<CrmCustomerFirmViewDto> getCrmCustomerByUid(int pageNum, int pageSize, int mid, String value,
                                                             String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<VCrmCustomerFirm> vCrmCustomerFirms = customersMapper.selectCrmCustomerByUid(SecurityUtil.getUserId(),
+        List<VCrmCustomerFirm> vCrmCustomerFirms = customersMapper.selectCrmCustomerByUid(SecurityUtil.getLoginid(),
                 mid,value,sort,dir);
         List<CrmCustomerFirmViewDto> dto = DTOUtil.populateList(vCrmCustomerFirms, CrmCustomerFirmViewDto.class);
         IntStream.range(0, vCrmCustomerFirms.size()).forEach(i ->
@@ -234,6 +234,6 @@ public class CustomersServiceImpl implements CustomersService{
 
     @Override
     public Integer getCrmCustomerByUidTotal(int mid, String value) {
-        return customersMapper.selectCrmCustomerByUidTotal(SecurityUtil.getUserId(), mid, value);
+        return customersMapper.selectCrmCustomerByUidTotal(SecurityUtil.getLoginid(), mid, value);
     }
 }

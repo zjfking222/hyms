@@ -33,10 +33,6 @@ public class SecurityUtil {
         return Integer.parseInt(getUserInfo().getDepid());
     }
 
-    public static int getUserId() {
-        return getUserInfo().getId();
-    }
-
     public static String getUserName() {
         return getUserInfo().getName();
     }

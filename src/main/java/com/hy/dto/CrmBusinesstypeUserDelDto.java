@@ -3,7 +3,7 @@ package com.hy.dto;
 public class CrmBusinesstypeUserDelDto {
 
     private int btid;
-    private int uid;
+    private String uid;
 
     public int getBtid() {
         return btid;
@@ -13,11 +13,11 @@ public class CrmBusinesstypeUserDelDto {
         this.btid = btid;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 }

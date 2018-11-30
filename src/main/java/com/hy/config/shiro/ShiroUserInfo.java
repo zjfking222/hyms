@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class ShiroUserInfo implements Serializable {
 
-    private Integer id;
     private String loginid;
     private String name;
     private String email;
@@ -17,21 +16,20 @@ public class ShiroUserInfo implements Serializable {
     public ShiroUserInfo() {
     }
 
-    public ShiroUserInfo(Integer id, String loginid, String name) {
-        this(id, loginid, name, null);
+    public ShiroUserInfo(String loginid, String name) {
+        this(loginid, name, null);
     }
 
 
-    public ShiroUserInfo(Integer id, String loginid, String name, String password) {
-        this(id, loginid, name, password, null, null, null);
+    public ShiroUserInfo(String loginid, String name, String password) {
+        this(loginid, name, password, null, null, null);
     }
 
-    public ShiroUserInfo(Integer id, String loginid, String name, String password, String depid, String depname, String duty) {
-        this(id, loginid, name, password, depid, depname, duty, null, null);
+    public ShiroUserInfo(String loginid, String name, String password, String depid, String depname, String duty) {
+        this(loginid, name, password, depid, depname, duty, null, null);
     }
 
-    public ShiroUserInfo(Integer id, String loginid, String name, String password, String depid, String depname, String duty, String email, String phone) {
-        this.id = id;
+    public ShiroUserInfo(String loginid, String name, String password, String depid, String depname, String duty, String email, String phone) {
         this.loginid = loginid;
         this.name = name;
         this.email = email;
@@ -40,14 +38,6 @@ public class ShiroUserInfo implements Serializable {
         this.depid = depid;
         this.duty = duty;
         this.password = password;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getPassword() {
