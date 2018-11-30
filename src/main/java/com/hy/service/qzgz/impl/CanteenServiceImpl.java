@@ -114,7 +114,7 @@ public class CanteenServiceImpl implements CanteenService {
             });
             if (titleFlag) {
                 for (Row row : xssfSheet) {
-                    if (row.getRowNum() > 1 && row.getRowNum() != xssfSheet.getLastRowNum()) {
+                    if (row.getRowNum() > 1 && row.getRowNum() <= xssfSheet.getLastRowNum()) {
                         Cell cell1 = row.getCell(0);
                         Cell cell2 = row.getCell(2);
                         Cell cell3 = row.getCell(4);
