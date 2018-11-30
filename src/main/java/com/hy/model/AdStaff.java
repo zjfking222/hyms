@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class AdStaff {
     private int id;
-    private int sid;
+    private String sid;
     private String name;
     private int state;
     private String email;
@@ -61,11 +61,11 @@ public class AdStaff {
         this.id = id;
     }
 
-    public int getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 

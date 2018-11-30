@@ -4,10 +4,10 @@ package com.hy.dto;
 import java.util.List;
 
 public class AdDepartmentDto {
-    private int did;
+    private String did;
     private String name;
     private String oldname;
-    private int parentid;
+    private String parentid;
     private String dn;
     private String olddn;
     private List<AdDepartmentDto> children;
@@ -65,11 +65,11 @@ public class AdDepartmentDto {
         this.children = child;
     }
 
-    public int getDid() {
+    public String getDid() {
         return did;
     }
 
-    public void setDid(int did) {
+    public void setDid(String did) {
         this.did = did;
     }
 
@@ -89,11 +89,11 @@ public class AdDepartmentDto {
         this.oldname = oldname;
     }
 
-    public int getParentid() {
+    public String  getParentid() {
         return parentid;
     }
 
-    public void setParentid(int parentid) {
+    public void setParentid(String parentid) {
         this.parentid = parentid;
     }
 

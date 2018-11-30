@@ -1,7 +1,7 @@
 package com.hy.dto;
 
 public class AdStaffDto {
-    private int sid;
+    private String sid;
     private String name;
     private String email;
     private String phone;
@@ -74,11 +74,11 @@ public class AdStaffDto {
         this.limit = limit;
     }
 
-    public int getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 

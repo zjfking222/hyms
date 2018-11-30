@@ -66,19 +66,19 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
         try {
             List<LdapStaff> staffs = adStaffService.getSapStaff();//获得SAP人员
             List<LdapDepartment> ldapDep = adDepartmentService.getSapDepartment();//获得SAP组织架构
-            Map<Integer, AdDepartmentDto> adDepartmentMap = new HashMap<>();//创建组织架构MAP
+            Map<String, AdDepartmentDto> adDepartmentMap = new HashMap<>();//创建组织架构MAP
             Map<Integer, String> ldapStaffMap = new HashMap<>();//创建人员MAP
             List<AdDepartmentDto>  adDepartment = new ArrayList<>();//新建一个List
 
             IntStream.range(0, ldapDep.size()).forEach(i -> {  //将SAP部门id和名字添加至newList
                 AdDepartmentDto department = new AdDepartmentDto();//新建一个departmentDto
-                department.setDid(Integer.valueOf(ldapDep.get(i).getId()));
+                department.setDid(String.valueOf(ldapDep.get(i).getId()));
                 department.setName(ldapDep.get(i).getName());
                 if(null == ldapDep.get(i).getParentId() || ldapDep.get(i).getParentId().equals("")) {//若部门没有父id，则将父id设置为10000000
-                    department.setParentid(99999999);
+                    department.setParentid("99999999");
                 }
                 else {
-                    department.setParentid(Integer.valueOf(ldapDep.get(i).getParentId()));//否则将原部门父id设为他的父id
+                    department.setParentid(String.valueOf(ldapDep.get(i).getParentId()));//否则将原部门父id设为他的父id
                 }
                 department.setChild(new ArrayList<>());//新建属性child
                 adDepartment.add(department);//将该Dto添加至newList
@@ -98,7 +98,7 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
                     if(value.equals(String.valueOf(adDepartment.get(i).getDid()))){//若员工部门id==部门Map中的部门id
 //
                         AdDepartmentDto adStaffDto1 = new AdDepartmentDto();//新建一个dto
-                        adStaffDto1.setDid(Integer.valueOf(staffs.get(key).getId()));//设置该员工dto的id和name
+                        adStaffDto1.setDid(String.valueOf(staffs.get(key).getId()));//设置该员工dto的id和name
                         adStaffDto1.setName(staffs.get(key).getName());
                         adDepartmentMap.get(adDepartment.get(i).getDid()).getChild().add(adStaffDto1);//将该dto放入部门Map中的staff属性
                     }
@@ -110,7 +110,7 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
                     adDepartmentMap.get(adDepartment.get(i).getParentid()).getChild()
                             .add(adDepartment.get(i));
                 };
-                if(adDepartment.get(i).getDid() == 10000000){
+                if(adDepartment.get(i).getDid() == "10000000"){
 //                    &&!adDepartment.get(i).getChild().isEmpty()
                     adDepartmentReturn.add(adDepartment.get(i));
                 }
