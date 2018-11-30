@@ -17,6 +17,15 @@ public class AdDepartment {
     private Date created;
     private int modifier;
     private Date modified;
+    private int operator;
+
+    public int getOperator() {
+        return operator;
+    }
+
+    public void setOperator(int operator) {
+        this.operator = operator;
+    }
 
     public int getId() {
         return id;

@@ -1,13 +1,18 @@
 package com.hy.service.ad;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hy.common.ResultObj;
+import com.hy.common.SecurityUtil;
 import com.hy.config.jco.JcoUtil;
 import com.hy.dto.AdDepartmentDto;
+import com.hy.dto.AdStaffDto;
 import com.hy.enums.ResultCode;
 import com.hy.mapper.ms.AdDepartmentMapper;
+import com.hy.mapper.ms.AdStaffMapper;
 import com.hy.model.AdDepartment;
 import com.hy.model.LdapDepartment;
+import com.hy.model.LdapStaff;
 import com.hy.utils.DTOUtil;
 import com.sap.conn.jco.AbapException;
 import com.sap.conn.jco.JCoDestination;
@@ -24,6 +29,10 @@ import java.util.stream.IntStream;
 public class AdDepartmentServiceImpl implements AdDepartmentService {
     @Autowired
     private AdDepartmentMapper adDepartmentMapper;
+    @Autowired
+    private AdStaffService adStaffService;
+    @Autowired
+    private AdDepartmentService adDepartmentService;
 
     @Override
     public boolean addAdDepartment(JSONObject adDepartmentObj) {
@@ -53,31 +62,62 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
         }
     }
     @Override
-    public List<AdDepartmentDto> selectAdDepartment(String date,String time){
+    public String selectAdDepartment(){
         try {
-            Map<Integer, AdDepartmentDto> adDepartmentMap = new HashMap<>();
-            List<AdDepartmentDto>  adDepartment =
-                    DTOUtil.populateList(adDepartmentMapper.selectAdDepartment(date,time),
-                            new ArrayList<AdDepartmentDto>(),AdDepartmentDto.class);
-            List<AdDepartmentDto>  adDepartmentReturn = new ArrayList<>();
-            IntStream.range(0, adDepartment.size()).forEach(i -> {
-                adDepartment.get(i).setChild(new ArrayList<>());
-                adDepartmentMap.put(adDepartment.get(i).getDid(),adDepartment.get(i));
+            List<LdapStaff> staffs = adStaffService.getSapStaff();//获得SAP人员
+            List<LdapDepartment> ldapDep = adDepartmentService.getSapDepartment();//获得SAP组织架构
+            Map<Integer, AdDepartmentDto> adDepartmentMap = new HashMap<>();//创建组织架构MAP
+            Map<Integer, String> ldapStaffMap = new HashMap<>();//创建人员MAP
+            List<AdDepartmentDto>  adDepartment = new ArrayList<>();//新建一个List
+
+            IntStream.range(0, ldapDep.size()).forEach(i -> {  //将SAP部门id和名字添加至newList
+                AdDepartmentDto department = new AdDepartmentDto();//新建一个departmentDto
+                department.setDid(Integer.valueOf(ldapDep.get(i).getId()));
+                department.setName(ldapDep.get(i).getName());
+                if(null == ldapDep.get(i).getParentId() || ldapDep.get(i).getParentId().equals("")) {//若部门没有父id，则将父id设置为10000000
+                    department.setParentid(99999999);
+                }
+                else {
+                    department.setParentid(Integer.valueOf(ldapDep.get(i).getParentId()));//否则将原部门父id设为他的父id
+                }
+                department.setChild(new ArrayList<>());//新建属性child
+                adDepartment.add(department);//将该Dto添加至newList
+            });
+
+            List<AdDepartmentDto>  adDepartmentReturn = new ArrayList<>(); //新建一个返回list
+            IntStream.range(0, staffs.size()).forEach(i -> {//遍历SAP员工，获取所有员工部门id
+                ldapStaffMap.put(i, staffs.get(i).getDepid());//将所有员工部门id，添加进新Map
+            });
+            IntStream.range(0, adDepartment.size()).forEach(i -> {//遍历所有部门
+                adDepartmentMap.put(adDepartment.get(i).getDid(),adDepartment.get(i));//遍历newList，将相同父id的部门放在一起，归于Map
+            });
+
+            ldapStaffMap.forEach((key, value) -> {//遍历所有员工部门id
+                IntStream.range(0, adDepartment.size()).forEach(i -> {//遍历所有部门
+
+                    if(value.equals(String.valueOf(adDepartment.get(i).getDid()))){//若员工部门id==部门Map中的部门id
+//
+                        AdDepartmentDto adStaffDto1 = new AdDepartmentDto();//新建一个dto
+                        adStaffDto1.setDid(Integer.valueOf(staffs.get(key).getId()));//设置该员工dto的id和name
+                        adStaffDto1.setName(staffs.get(key).getName());
+                        adDepartmentMap.get(adDepartment.get(i).getDid()).getChild().add(adStaffDto1);//将该dto放入部门Map中的staff属性
+                    }
+
+                });
             });
             IntStream.range(0, adDepartment.size()).forEach(i -> {
                 if(adDepartmentMap.containsKey(adDepartment.get(i).getParentid())){
                     adDepartmentMap.get(adDepartment.get(i).getParentid()).getChild()
                             .add(adDepartment.get(i));
-                }
-            });
-            IntStream.range(0, adDepartment.size()).forEach(i ->
-            {
-                if(adDepartment.get(i).getParentid() == 0&&!adDepartment.get(i).getName().contentEquals("新组织单位")){
+                };
+                if(adDepartment.get(i).getDid() == 10000000){
 //                    &&!adDepartment.get(i).getChild().isEmpty()
                     adDepartmentReturn.add(adDepartment.get(i));
                 }
             });
-            return adDepartmentReturn;
+
+            String str = JSON.toJSONString(adDepartmentReturn);
+            return str;
 
         }catch (Exception e){
             e.printStackTrace();
@@ -139,5 +179,9 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
         }
 
         return null;
+    }
+
+    public Integer updateOperator(String id){
+        return adDepartmentMapper.updateOperator(SecurityUtil.getUserId(), id);
     }
 }

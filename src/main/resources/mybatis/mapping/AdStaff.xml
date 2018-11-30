@@ -22,4 +22,8 @@
         from ad_staff
         where date=#{date} and time=#{time}
     </select>
+    <update id="updateOperator">
+        update ad_staff set operator=#{loginId}
+        where sid=#{id}
+    </update>
 </mapper>

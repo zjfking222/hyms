@@ -13,21 +13,18 @@
         width:190px;
     }
     .layui-table-view{
-        width: 50%;
+        width: 70%;
         float: right;
         margin-right: 10px;
     }
     .layui-form-item{
         width: 300px;
     }
-    #demo{
-        float: right;
-    }
     #search{
-        width:500px;
+        width:100%;
+        float: left;
     }
     #searchitem{
-        height: auto;
         float: left;
         margin-top: 10px;
     }
@@ -35,19 +32,24 @@
         margin-left: 90px;
     }
     #searchBtn{
-        float: left;
         margin-top: 10px;
+        margin-left: 300px;
     }
     #example{
-        width: 200px;
         float: left;
+        margin-left: 20px;
+    }
+    #item2{
+        margin-top: -63px;
+        position: absolute;
+        margin-left: 300px;
     }
 </style>
 <body>
 
 <div id="search">
     <div id="searchitem" class="layui-form">
-        <div class="layui-form-item">
+        <div id="item1" class="layui-form-item">
             <div id="date" class="layui-inline">
                 <label class="layui-form-label" style="width: 90px">选择日期</label>
                 <div class="layui-input-inline">
@@ -55,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="layui-form-item">
+        <div id="item2" class="layui-form-item">
             <label class="layui-form-label" style="width: 90px">选择时间</label>
             <div id="time1" class="layui-input-block">
                 <select name ="time" lay-filter="choseTime">
@@ -68,11 +70,17 @@
 <div id="example">
     <div id="treeView"></div>
 </div>
+
 <table id="demo" lay-filter="test"></table>
+
 <table id="demo1" lay-filter="test"></table>
 </body>
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
 <script src="/statics/plugins/layui/layui.js"></script>
 <script type="text/javascript" src="/statics/js/baseinfo/sapHR.js"></script>
+
+<script type="text/html" id="barDemo">
+    <a id="check" class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+</script>
 </html>

@@ -11,9 +11,27 @@ public class AdDepartmentDto {
     private String dn;
     private String olddn;
     private List<AdDepartmentDto> children;
+    private List<AdStaffDto> staff;
     private int state;
     private String date;
     private String time;
+    private int operator;
+
+    public int getOperator() {
+        return operator;
+    }
+
+    public void setOperator(int operator) {
+        this.operator = operator;
+    }
+
+    public List<AdStaffDto> getStaff() {
+        return staff;
+    }
+
+    public void setStaff(List<AdStaffDto> staff) {
+        this.staff = staff;
+    }
 
     public String getDate() {
         return date;

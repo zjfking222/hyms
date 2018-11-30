@@ -22,6 +22,7 @@ public class AdStaff {
     private int modifier;
     private Date modified;
     private int count;
+    private int operator;
 
     public AdStaff(int id, String name, String email, String phone, int depid, String depname, String duty) {
         this.id = id;
@@ -34,6 +35,14 @@ public class AdStaff {
     }
 
     public AdStaff() {
+    }
+
+    public int getOperator() {
+        return operator;
+    }
+
+    public void setOperator(int operator) {
+        this.operator = operator;
     }
 
     public int getCount() {

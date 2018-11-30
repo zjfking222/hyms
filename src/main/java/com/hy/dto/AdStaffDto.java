@@ -15,6 +15,24 @@ public class AdStaffDto {
     private int state;
     private String date;
     private String time;
+    private int modifier;
+    private int operator;
+
+    public int getOperator() {
+        return operator;
+    }
+
+    public void setOperator(int operator) {
+        this.operator = operator;
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
+    }
 
     public String getDate() {
         return date;
