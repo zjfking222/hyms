@@ -26,6 +26,7 @@
     <select id="selectCanteenAll" resultType="com.hy.model.QzgzCanteen">
         select *
         from qzgz_canteen
+        where to_days(date) &gt;= to_days(#{minDate}) and to_days(date) &lt;= to_days(#{maxDate})
     </select>
 
     <select id="selectCanteen" resultType="com.hy.model.QzgzCanteen">

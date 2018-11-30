@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -86,22 +87,19 @@ public class CanteenServiceImpl implements CanteenService {
     public Integer insertCanteenList(String filepath) {
         try {
             titleFlag = true;
+            File file = new File("files"+filepath);
             InputStream inputStream = new FileInputStream("files" + filepath);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet xssfSheet = workbook.getSheetAt(0);
-            List<QzgzCanteen> qzgzCanteens = new ArrayList<>();
-            HashMap<String,Integer> mealMap = new HashMap<>();
-            mealMap.put("早餐",1);
-            mealMap.put("午餐",2);
-            mealMap.put("晚餐",3);
-            mealMap.put("夜宵",4);
-            List<CanteenDto> canteenDtos = DTOUtil.populateList(canteenMapper.selectCanteenAll(), CanteenDto.class);
-            String[][] list = new String[canteenDtos.size()][3];
-            for (int i = 0; i < canteenDtos.size(); i++) {
-                list[i][0] = canteenDtos.get(i).getDate();
-                list[i][1] = canteenDtos.get(i).getName();
-                list[i][2] = String.valueOf(canteenDtos.get(i).getMeal());
-            }
+            QzgzCanteen qzgzCanteens;
+            List<QzgzCanteen> qzgzCanteenList = new ArrayList<>();
+            List<String> listDate = new ArrayList<>();
+            HashMap<String, Integer> mealMap = new HashMap<>();
+            HashMap<String, QzgzCanteen> stMap = new HashMap<>();
+            mealMap.put("早餐", 1);
+            mealMap.put("午餐", 2);
+            mealMap.put("晚餐", 3);
+            mealMap.put("夜宵", 4);
             IntStream.range(0, titleRow.length).forEach(i -> {
                 try {
                     if (!xssfSheet.getRow(1).getCell(i).getStringCellValue().equals(titleRow[i])) {
@@ -111,31 +109,29 @@ public class CanteenServiceImpl implements CanteenService {
                     titleFlag = false;
                 }
             });
-            System.out.println(titleFlag);
             if (titleFlag) {
                 for (Row row : xssfSheet) {
                     if (row.getRowNum() > 1 && row.getRowNum() != xssfSheet.getLastRowNum()) {
                         Cell cell1 = row.getCell(0);
                         Cell cell2 = row.getCell(2);
                         Cell cell3 = row.getCell(4);
-                        String d = String.valueOf(getCell(row, 0));
+                        String datetime = String.valueOf(getCell(row, 0));
                         String name = String.valueOf(getCell(row, 1));
                         String meal = String.valueOf(getCell(row, 2));
                         String type = String.valueOf(getCell(row, 3));
                         String price = String.valueOf(getCell(row, 4));
-                        if (d != null && !d.equals("") && name != null && !name.equals("") && meal != null && !meal.equals("")
+                        if (datetime != null && !datetime.equals("") && name != null && !name.equals("") && meal != null && !meal.equals("")
                                 && type != null && !type.equals("")) {
                             Date date;
                             String date1;
+                            Integer meal1;
+                            Float price1;
                             if (cell1.getCellType() == CellType.NUMERIC) {
                                 date = cell1.getDateCellValue();
                                 date1 = DateUtil.breviary(date);
                             } else {
                                 date1 = null;
                             }
-                            Integer meal1;
-                            Float price1;
-                            boolean judge = false;
                             if (meal == null || meal.equals("")) {
                                 meal1 = null;
                             } else {
@@ -154,25 +150,47 @@ public class CanteenServiceImpl implements CanteenService {
                                     price1 = Float.parseFloat("0");
                                 }
                             }
-                            for (int x = 0; x < canteenDtos.size(); x++) {
-                                if ((list[x][0].equals(date1) && list[x][1].equals(name) && list[x][2].equals(meal))) {
-                                    judge = true;
-                                    break;
-                                }
-                            }
-                            if (!judge && (meal1 != null) && price != null) {
-                                qzgzCanteens.add(new QzgzCanteen(date1, name, type, meal1, price1, SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
-
+                            qzgzCanteens = new QzgzCanteen(date1, name, type, meal1, price1, SecurityUtil.getLoginid(), SecurityUtil.getLoginid());
+                            stMap.put(date1 + "/" + name + "/" + String.valueOf(meal1), qzgzCanteens);
+                            if (date1 != null) {
+                                listDate.add(date1);
                             }
                         }
                     }
                 }
-                if (qzgzCanteens.size() != 0) {
-                    return canteenMapper.insertCanteenList(qzgzCanteens);
+                String maxDate = listDate.get(0), minDate = listDate.get(0);
+                for (int i = 0; i < listDate.size(); i++) {
+                    if (maxDate.compareTo(listDate.get(i)) > 0) {
+                        maxDate = listDate.get(i);
+                    }
+                }
+                for (int j = 0; j < listDate.size(); j++) {
+                    if (minDate.compareTo(listDate.get(j)) < 0) {
+                        minDate = listDate.get(j);
+                    }
+                }
+                List<CanteenDto> canteenDtos = DTOUtil.populateList(canteenMapper.selectCanteenAll(maxDate, minDate), CanteenDto.class);
+                List<String> stringList = new ArrayList<>();
+                for (int i = 0; i < canteenDtos.size(); i++) {
+                    String key = canteenDtos.get(i).getDate() + "/" + canteenDtos.get(i).getName() + "/" + String.valueOf(canteenDtos.get(i).getMeal());
+                    stringList.add(key);
+                }
+                if (stMap.size() > 0) {
+                    IntStream.range(0, stringList.size()).forEach(i -> {
+                        if (stMap.containsKey(stringList.get(i))) {
+                            stMap.remove(stringList.get(i));
+                        }
+                    });
+                }
+                qzgzCanteenList.addAll(stMap.values());
+                file.delete();
+                if (qzgzCanteenList.size() != 0) {
+                    return canteenMapper.insertCanteenList(qzgzCanteenList);
                 } else {
                     return 0;
                 }
             }
+            file.delete();
             return -1;
         } catch (IOException e) {
             e.printStackTrace();

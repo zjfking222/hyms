@@ -14,7 +14,7 @@ public interface QzgzCanteenMapper {
     Integer selectCanteenTotal(@Param("value") String value, @Param("date") String date, @Param("meal") Integer meal);
     Integer deleteCanteen(@Param("id") int id);
     Integer insertCanteenList(List<QzgzCanteen> qzgzCanteens);
-    List<QzgzCanteen> selectCanteenAll();
+    List<QzgzCanteen> selectCanteenAll(@Param("maxDate") String maxDate, @Param("minDate") String minDate);
 //    List<QzgzCanteen> selectCanteen(@Param("state") String state,
 //                                    @Param("startRow") int startRow,
 //                                    @Param("number") int number);
