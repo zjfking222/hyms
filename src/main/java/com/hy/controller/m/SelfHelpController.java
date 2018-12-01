@@ -2,7 +2,6 @@ package com.hy.controller.m;
 
 import com.hy.common.ResultObj;
 import com.hy.common.SecurityUtil;
-import com.hy.config.shiro.RedisCacheManager;
 import com.hy.config.shiro.ShiroUserInfo;
 import com.hy.dto.*;
 import com.hy.enums.ResultCode;
@@ -10,12 +9,10 @@ import com.hy.model.Checkinout;
 import com.hy.service.m.SelfHelpService;
 import com.hy.utils.DateUtil;
 import com.sap.conn.jco.JCoFunction;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
-import java.io.Serializable;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -40,7 +37,11 @@ public class SelfHelpController {
      **/
     @GetMapping("/getVerificationCode")
     public ResultObj getVerificationCode(HttpServletResponse response){
-        selfHelpService.getVerificationCode(response);
+        try {
+            selfHelpService.getVerificationCode(response.getOutputStream());
+        } catch (IOException e) {
+            return ResultObj.error(ResultCode.ERROR_USER_VERCODE_CREATE);
+        }
         return ResultObj.success();
     }
 

@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,12 +40,12 @@ public class SelfHelpServiceImpl implements SelfHelpService {
     /**
      * @Author 钱敏杰
      * @Description 获取图片验证码并将验证码存入session
-     * @Date 2018/11/5 16:32
-     * @Param [request, response]
+     * @Date 2018/12/1 10:42
+     * @Param [out]
      * @return void
      **/
     @Override
-    public void getVerificationCode(HttpServletResponse response){
+    public void getVerificationCode(OutputStream out){
         try {
             //获取长度为4，屏蔽部分字母数字的验证码
             String code = VerificationCodeUtil.getRandomCode(4, "0oO1iIl");
@@ -54,7 +54,7 @@ public class SelfHelpServiceImpl implements SelfHelpService {
             //生成验证码图片
             BufferedImage image = VerificationCodeUtil.getCodeImage(95,40, code);
             //输出到页面
-            ImageIO.write(image,"jpg", response.getOutputStream());
+            ImageIO.write(image,"jpg", out);
         } catch (IOException e) {
             logger.error("验证码生成异常！", e);
             throw new RuntimeException("验证码生成异常！");
