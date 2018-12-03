@@ -14,7 +14,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
 
     private static Logger logger = LoggerFactory.getLogger(ShiroCache.class);
 
-    private static final String DEFAULT_CACHE_KEY_PREFIX = "hymsCache:";
+    private static final String DEFAULT_CACHE_KEY_PREFIX = "hyms:";
     private String keyPrefix = DEFAULT_CACHE_KEY_PREFIX;
 
     private RedisTemplate<K, V> redisTemplate;

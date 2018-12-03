@@ -40,9 +40,9 @@ public class IndexController {
     private PermissionService permissionService;
     @Autowired
     private RedisCacheManager redisCacheManager;
-    @Value("${spring.redis.cachekey.commoncache}")
+    @Value("${spring.redis.cachekey.commonkey}")
     private String cacheKey;
-    private String tokenKey = "access_token";
+    private String tokenKey = "ht_wp:access_token";
 
     @RequestMapping(value = "/index/login", method = RequestMethod.POST)
     public ResultObj login(@RequestBody Map<String, String> logininfo) {
@@ -107,7 +107,7 @@ public class IndexController {
             String accessToken = null;
             if(cache != null ){
                 //取应用身份对象
-                AccessInfo info = (AccessInfo)cache.get("HT_WorkPlus:" + tokenKey);
+                AccessInfo info = (AccessInfo)cache.get(tokenKey);
                 if(info != null){
                     accessToken = info.getAccess_token();
                 }
@@ -177,7 +177,10 @@ public class IndexController {
         //设置缓存保存时间
         int expire = (int) (expireTime-issuedTime)/1000-10;
         ShiroCache<Serializable, Object> cache = (ShiroCache)redisCacheManager.getCache(cacheKey);
-        cache.put("HT_WorkPlus:" + tokenKey, info, expire);
+        cache.put( tokenKey, info, expire);
     }
+
+
+
 }
 
