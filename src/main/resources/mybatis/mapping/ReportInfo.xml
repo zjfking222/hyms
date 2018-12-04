@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.ReportInfoMapper">
-
+    <select id="selectReport" resultType="com.hy.model.ReportInfo">
+        select * from report_info
+        where 1=1
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+            or reportid like concat('%',#{value},'%')
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+        <if test="sort == null or '' == sort">
+            ORDER BY type,name
+        </if>
+    </select>
+    <select id="selectReportAll" resultType="java.lang.Integer">
+        select count(1) from report_info
+        where 1=1
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+        </if>
+    </select>
+    <insert id="insertReport" parameterType="com.hy.model.ReportInfo">
+        insert into report_info
+        (name, reportid, type, creater, modifier)
+        values
+            (#{name}, #{reportid}, #{type}, #{creater}, #{modifier})
+    </insert>
+    <update id="updateReport" parameterType="com.hy.model.ReportInfo">
+        update report_info
+        set name = #{name}, reportid = #{reportid}, type = #{type}
+        where id = #{id}
+    </update>
+    <delete id="deleteReport" parameterType="com.hy.model.ReportInfo">
+        delete from report_info
+        where id = #{id}
+    </delete>
 </mapper>
