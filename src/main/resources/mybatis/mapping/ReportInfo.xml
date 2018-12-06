@@ -7,6 +7,7 @@
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')
             or reportid like concat('%',#{value},'%')
+            or directoryid like concat('%',#{value},'%')
         </if>
         <if test="sort != null and '' != sort">
             ORDER BY CONVERT(${sort} USING gbk) ${dir}
@@ -20,17 +21,19 @@
         where 1=1
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')
+            or reportid like concat('%',#{value},'%')
+            or directoryid like concat('%',#{value},'%')
         </if>
     </select>
     <insert id="insertReport" parameterType="com.hy.model.ReportInfo">
         insert into report_info
-        (name, reportid, type, creater, modifier)
+        (name, reportid, directoryid , type, creater, modifier)
         values
-            (#{name}, #{reportid}, #{type}, #{creater}, #{modifier})
+            (#{name}, #{reportid}, #{directoryid}, #{type}, #{creater}, #{modifier})
     </insert>
     <update id="updateReport" parameterType="com.hy.model.ReportInfo">
         update report_info
-        set name = #{name}, reportid = #{reportid}, type = #{type}
+        set name = #{name}, reportid = #{reportid}, directoryid = #{directoryid}, type = #{type}
         where id = #{id}
     </update>
     <delete id="deleteReport" parameterType="com.hy.model.ReportInfo">

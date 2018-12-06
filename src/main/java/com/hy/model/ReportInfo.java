@@ -15,6 +15,8 @@ public class ReportInfo {
     private String name;
     //报表id
     private String reportid;
+    //目录id
+    private String directoryid;
     //类别
     private String type;
     //创建人
@@ -48,6 +50,14 @@ public class ReportInfo {
 
     public void setReportid(String reportid) {
         this.reportid = reportid;
+    }
+
+    public String getDirectoryid() {
+        return directoryid;
+    }
+
+    public void setDirectoryid(String directoryid) {
+        this.directoryid = directoryid;
     }
 
     public String getType() {
