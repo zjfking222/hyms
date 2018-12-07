@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新报表信息</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 380px ; margin: 10px auto">
+<form>
+    <div class="form-group">
+        <label for="reportid">报表ID</label>
+        <input class="form-control input-sm-8" id="reportid" placeholder="输入报表ID">
+    </div>
+    <div class="form-group">
+        <label for="name">报表名称</label>
+        <input class="form-control input-sm-8" id="name" placeholder="输入报表名称">
+    </div>
+    <div class="form-group">
+        <label for="directoryid">目录ID</label>
+        <input class="form-control input-sm-8" id="directoryid" placeholder="输入目录ID">
+    </div>
+    <div class="form-group">
+        <label for="type">类型</label>
+        <input class="form-control input-sm-8" id="type" placeholder="输入类型">
+    </div>
+    <a id="submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script>
+    var data, postData;
+    var index = parent.layer.getFrameIndex(window.name);
+    $(function () {
+        data = parent.pushData;
+        if (data.id === 0) {
+
+        } else {
+            $('#name').val(data.name);
+            $('#reportid').val(data.reportid);
+            $('#directoryid').val(data.directoryid);
+            $('#type').val(data.type);
+        }
+        $('#submit').on('click', function () {
+            if ($('#name').val() !== '' && $('#reportid').val() !== '' && $('#directoryid').val() !== '' && $('#type').val() !== '') {
+                postData = {
+                    id: data.id,
+                    name: $('#name').val(),
+                    reportid: $('#reportid').val(),
+                    directoryid: $('#directoryid').val(),
+                    type: $('#type').val()
+                };
+                if (data.id === 0) {
+                    var postback = FetchData(postData, 'POST', '/addReportInfo', false);
+                    if (postback.code === 0) {
+                        postData.id = postback.data;
+                        parent.vm.dataSource.add(postData);
+                        parent.layer.msg('添加成功');
+                    } else {
+                        parent.layer.msg('添加失败');
+                    }
+                    parent.layer.close(index);
+                } else {
+                    if (FetchData(postData, 'POST', '/setReportInfo', false).code === 0) {
+                        parent.vm.dataSource.pushUpdate(postData);
+                        parent.layer.msg('修改成功');
+                    } else {
+                        parent.layer.close('修改失败');
+                    }
+                    parent.layer.close(index)
+                }
+            }
+            else {
+                alert('报表ID、报表名称、目录ID、类型必填');
+            }
+        })
+    });
+    var FetchData = function (data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: "/bo" + param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    };
+</script>
+</html>

@@ -27,6 +27,18 @@ import java.util.List;
  */
 @Service
 public class BoConfigServiceImpl implements BoConfigService {
+    //报表列表
+    @Autowired
+    private ReportInfoMapper reportInfoMapper;
+    @Override
+    public List<ReportInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir){
+        PageHelper.startPage(pageNum,pageSize);
+        return reportInfoMapper.selectReport(value,sort,dir);
+    }
+    @Override
+    public Integer getReportInfoTotal(String value){
+        return reportInfoMapper.selectReportAll(value);
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(BoConfigServiceImpl.class);
     @Autowired

@@ -22,6 +22,18 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/bo")
 public class BoConfigController {
+    @Autowired
+    private BoConfigService boConfigService;
+
+    //报表列表
+    @RequestMapping("/getReportInfo")
+    public ResultObj getReportInfo(int page, int pageSize, @RequestParam(required = false) String value, @RequestParam(required = false) String sort,
+                                   @RequestParam(required = false) String dir) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("data", boConfigService.getReportInfo(page, pageSize, value, sort, dir));
+        map.put("total", boConfigService.getReportInfoTotal(value));
+        return ResultObj.success(map);
+    }
 
     @Autowired
     private BoConfigService boConfigService;
