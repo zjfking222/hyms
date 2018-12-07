@@ -5,14 +5,15 @@ import com.hy.dto.HrmResourceDto;
 import com.hy.dto.ReportAccountDto;
 import com.hy.dto.SysRolesUserDto;
 import com.hy.enums.ResultCode;
+import com.hy.model.ReportInfo;
 import com.hy.service.bo.BoConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: 钱敏杰
@@ -29,14 +30,32 @@ public class BoConfigController {
     @RequestMapping("/getReportInfo")
     public ResultObj getReportInfo(int page, int pageSize, @RequestParam(required = false) String value, @RequestParam(required = false) String sort,
                                    @RequestParam(required = false) String dir) {
-        HashMap<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("data", boConfigService.getReportInfo(page, pageSize, value, sort, dir));
         map.put("total", boConfigService.getReportInfoTotal(value));
         return ResultObj.success(map);
     }
 
-    @Autowired
-    private BoConfigService boConfigService;
+    @RequestMapping("/addReportInfo")
+    public ResultObj addReportInfo(ReportInfo reportInfo){
+        return boConfigService.addReportInfo(reportInfo)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+    }
+
+    @RequestMapping("/setReportInfo")
+    public ResultObj setReportInfo(ReportInfo reportInfo){
+        return boConfigService.setReportInfo(reportInfo)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
+    }
+
+    @RequestMapping("/delReportInfo")
+    public ResultObj delReportInfo(int id){
+        return boConfigService.delReportInfo(id)?
+                ResultObj.success():
+                ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
+    }
 
     /**
      * @Author 钱敏杰

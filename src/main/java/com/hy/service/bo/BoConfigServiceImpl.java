@@ -1,12 +1,15 @@
 package com.hy.service.bo;
 
+import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
 import com.hy.config.ldap.LdapUtil;
 import com.hy.dto.*;
 import com.hy.mapper.ms.ReportAccadRelationMapper;
 import com.hy.mapper.ms.ReportAccountMapper;
+import com.hy.mapper.ms.ReportInfoMapper;
 import com.hy.model.ReportAccadRelation;
 import com.hy.model.ReportAccount;
+import com.hy.model.ReportInfo;
 import com.hy.utils.DTOUtil;
 import com.unboundid.ldap.sdk.Filter;
 import com.unboundid.ldap.sdk.LDAPException;
@@ -27,6 +30,12 @@ import java.util.List;
  */
 @Service
 public class BoConfigServiceImpl implements BoConfigService {
+
+    private static final Logger logger = LoggerFactory.getLogger(BoConfigServiceImpl.class);
+    @Autowired
+    private ReportAccountMapper reportAccount;
+    @Autowired
+    private ReportAccadRelationMapper reportAccadRelation;
     //报表列表
     @Autowired
     private ReportInfoMapper reportInfoMapper;
@@ -40,11 +49,21 @@ public class BoConfigServiceImpl implements BoConfigService {
         return reportInfoMapper.selectReportAll(value);
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(BoConfigServiceImpl.class);
-    @Autowired
-    private ReportAccountMapper reportAccount;
-    @Autowired
-    private ReportAccadRelationMapper reportAccadRelation;
+    @Override
+    public boolean addReportInfo(ReportInfo reportInfos){
+        reportInfos.setCreater(SecurityUtil.getLoginid());
+        reportInfos.setModifier(SecurityUtil.getLoginid());
+        return reportInfoMapper.insertReport(reportInfos) == 1;
+    }
+    @Override
+    public boolean setReportInfo(ReportInfo reportInfo){
+        reportInfo.setModifier(SecurityUtil.getLoginid());
+        return reportInfoMapper.updateReport(reportInfo) == 1;
+    }
+    @Override
+    public boolean delReportInfo(int id){
+        return reportInfoMapper.deleteReport(id) == 1;
+    }
 
     /**
      * @Author 钱敏杰
