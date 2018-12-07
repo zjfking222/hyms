@@ -36,7 +36,7 @@ public interface SysUsersService {
 
     /**
      * @Author 钱敏杰
-     * @Description 根据员工号或员工姓名查询条件查询员工信息（模糊查询）
+     * @Description 根据员工号或员工姓名查询条件查询员工信息
      * @Date 2018/11/16 8:32
      * @Param [value]
      * @return java.util.List<com.hy.dto.SysUserDto>

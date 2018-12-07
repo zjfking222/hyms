@@ -124,7 +124,7 @@ public class SysUsersServiceImpl implements SysUsersService {
 
     /**
      * @Author 钱敏杰
-     * @Description 根据员工号或员工姓名查询条件查询员工信息（模糊查询）
+     * @Description 根据员工号或员工姓名查询条件查询员工信息
      * @Date 2018/11/16 8:32
      * @Param [value]
      * @return java.util.List<com.hy.dto.SysUserDto>
@@ -135,7 +135,7 @@ public class SysUsersServiceImpl implements SysUsersService {
         List<SysUserDto> resultList = null;
         try {
             //模糊查询员工号与姓名字段
-            Filter filter = Filter.create("(|(sAMAccountName=*"+ value +"*)(sn=*"+ value +"*))");
+            Filter filter = Filter.create("(|(sAMAccountName="+ value +")(sn="+ value +"))");
             searchResult = LdapUtil.searchResult(null, null, filter);
             if (null != searchResult && searchResult.getEntryCount() > 0) {
                 resultList = new ArrayList<>();
