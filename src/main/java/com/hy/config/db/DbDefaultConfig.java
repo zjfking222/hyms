@@ -1,6 +1,5 @@
 package com.hy.config.db;
 
-import com.hy.mapper.MybatisQueryInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -30,7 +29,7 @@ public class DbDefaultConfig {
     public SqlSessionFactory sqlSessionFactoryDefault(@Qualifier("defaultDS") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setPlugins(new Interceptor[]{new MybatisQueryInterceptor()});
+        //factoryBean.setPlugins(new Interceptor[]{new MybatisQueryInterceptor()});
         factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapping/*.xml"));
         return factoryBean.getObject();
     }
