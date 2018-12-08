@@ -40,4 +40,7 @@
         delete from report_info
         where id = #{id}
     </delete>
+    <select id="selectCataInfo" resultType="java.util.Map">
+
+    </select>
 </mapper>

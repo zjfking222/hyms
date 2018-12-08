@@ -253,6 +253,13 @@
         function accountSearch(accountid) {
             return FetchData({accountid: accountid},'POST','/bo/account/getAccount',false).data;
         }
+        $(function () {
+            $(document).keyup(function(event){
+                if(event.keyCode === 13){
+                    vm.data1 = accountSearch($("#search").val());
+                }
+            });
+        });
     </script>
 </body>
 </html>

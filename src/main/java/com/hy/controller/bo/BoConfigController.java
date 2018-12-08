@@ -126,9 +126,22 @@ public class BoConfigController {
         return ResultObj.success(results);
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 保存BO账号与AD域账号的对应关系
+     * @Date 2018/12/8 9:14
+     * @Param [dto]
+     * @return com.hy.common.ResultObj
+     **/
     @RequestMapping(value = "/account/saveAccAdRelation", method = RequestMethod.POST)
     public ResultObj saveAccAdRelation(@RequestBody SysRolesUserDto dto) {
         boConfigService.buildRelation(dto);
+        return ResultObj.success();
+    }
+
+    @RequestMapping(value = "/account/genAllReportTree", method = RequestMethod.POST)
+    public ResultObj genAllReportTree() {
+        boConfigService.genAllReportTree();
         return ResultObj.success();
     }
 

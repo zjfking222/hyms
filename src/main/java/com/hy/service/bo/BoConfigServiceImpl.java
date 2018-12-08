@@ -6,9 +6,11 @@ import com.hy.config.ldap.LdapUtil;
 import com.hy.dto.*;
 import com.hy.mapper.ms.ReportAccadRelationMapper;
 import com.hy.mapper.ms.ReportAccountMapper;
+import com.hy.mapper.ms.ReportCatalogueMapper;
 import com.hy.mapper.ms.ReportInfoMapper;
 import com.hy.model.ReportAccadRelation;
 import com.hy.model.ReportAccount;
+import com.hy.model.ReportCatalogue;
 import com.hy.model.ReportInfo;
 import com.hy.utils.DTOUtil;
 import com.unboundid.ldap.sdk.Filter;
@@ -21,7 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: 钱敏杰
@@ -39,6 +44,9 @@ public class BoConfigServiceImpl implements BoConfigService {
     //报表列表
     @Autowired
     private ReportInfoMapper reportInfoMapper;
+    @Autowired
+    private ReportCatalogueMapper reportCatalogueMapper;
+
     @Override
     public List<ReportInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir){
         PageHelper.startPage(pageNum,pageSize);
@@ -201,5 +209,40 @@ public class BoConfigServiceImpl implements BoConfigService {
                 throw new RuntimeException("新增BO账号与AD域账号关联数据失败！");
             }
         }
+    }
+
+    public Map<Integer, ReportCatalogueDto> genAllReportTree(){
+        Map<Integer, ReportCatalogueDto> returnMap = null;
+        //查询出全部目录结构
+        List<ReportCatalogue> list = reportCatalogueMapper.selectAll();
+        //循环目录结构，生成以id为key的map结构
+        if(list != null && list.size() >0){
+            List<ReportCatalogueDto> catalogues = DTOUtil.populateList(list,ReportCatalogueDto.class );
+            Map<Integer, ReportCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(ReportCatalogueDto :: getId, a ->a, (k1,k2)->k1));
+            //测试
+            cataMap.get(2).setDescription("hahahahahahahahh");
+            //查询出全部报表信息
+            List<ReportInfo> rList = reportInfoMapper.selectReport(null, null, null);
+            //循环报表信息将报表信息加入map相应key下
+            if(rList != null && rList.size() >0){
+                List<ReportInfoDto> infoList = DTOUtil.populateList(rList,ReportInfoDto.class );
+                for(ReportInfoDto info:infoList){
+                    ReportCatalogueDto dto = cataMap.get(info.getId());
+                    if(dto != null){
+                        if(dto.getInfos() == null){
+                            dto.setInfos(new ArrayList<>());
+                        }
+                        dto.getInfos().add(info);
+                    }
+                }
+            }
+            //循环map结构，生成树的格式
+
+        }
+        return returnMap;
+    }
+
+    public void genAccReportTree(){
+
     }
 }

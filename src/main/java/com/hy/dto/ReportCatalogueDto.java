@@ -1,24 +1,23 @@
-package com.hy.model;
+package com.hy.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Auther: 钱敏杰
- * @Date: 2018/12/3 9:32
- * @Description:报表信息表
+ * @Date: 2018/12/7 13:35
+ * @Description:报表目录表
  */
-public class ReportInfo {
+public class ReportCatalogueDto {
 
     //主键
     private Integer id;
-    //报表名称
+    //目录名称
     private String name;
-    //报表id
-    private String reportid;
-    //目录id
-    private Integer directoryid;
-    //类别
-    private String type;
+    //父id
+    private Integer pid;
+    //描述
+    private String description;
     //创建人
     private String creater;
     //创建时间
@@ -27,6 +26,10 @@ public class ReportInfo {
     private String modifier;
     //修改时间
     private Date modified;
+    //存放子目录
+    private List<ReportCatalogueDto> dtos;
+    //存放目录下报表信息
+    private List<ReportInfoDto> infos;
 
     public Integer getId() {
         return id;
@@ -44,28 +47,20 @@ public class ReportInfo {
         this.name = name;
     }
 
-    public String getReportid() {
-        return reportid;
+    public Integer getPid() {
+        return pid;
     }
 
-    public void setReportid(String reportid) {
-        this.reportid = reportid;
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 
-    public Integer getDirectoryid() {
-        return directoryid;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDirectoryid(Integer directoryid) {
-        this.directoryid = directoryid;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCreater() {
@@ -98,5 +93,21 @@ public class ReportInfo {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public List<ReportCatalogueDto> getDtos() {
+        return dtos;
+    }
+
+    public void setDtos(List<ReportCatalogueDto> dtos) {
+        this.dtos = dtos;
+    }
+
+    public List<ReportInfoDto> getInfos() {
+        return infos;
+    }
+
+    public void setInfos(List<ReportInfoDto> infos) {
+        this.infos = infos;
     }
 }

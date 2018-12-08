@@ -1,4 +1,4 @@
-package com.hy.model;
+package com.hy.dto;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import java.util.Date;
  * @Date: 2018/12/3 9:32
  * @Description:报表信息表
  */
-public class ReportInfo {
+public class ReportInfoDto {
 
     //主键
     private Integer id;

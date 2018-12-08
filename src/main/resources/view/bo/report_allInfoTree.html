@@ -19,7 +19,7 @@
         var ListData;
         var parentNodes = [];
         function dataSourceList(rid) {
-            var dataSource = FetchData({rid: rid},'POST','/rolesPm/get',false).data;
+            var dataSource = FetchData({rid: rid},'POST','/bo/account/genAllReportTree',false).data;
             for(var n = 0 ; n < dataSource.length ; n++){
                 if(dataSource[n].items.length === 0 ){
                     delete dataSource[n].items;
@@ -34,8 +34,7 @@
                         checkedNodes.push(nodes[i].id);
                         if(nodes[i].parentNode() === undefined){
 
-                        }
-                        else {
+                        }else {
                             if($.inArray(nodes[i].parentNode().id, parentNodes) === -1){
                                 parentNodes.push(nodes[i].parentNode().id)
                             }

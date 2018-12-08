@@ -2,10 +2,12 @@ package com.hy.service.bo;
 
 import com.hy.dto.HrmResourceDto;
 import com.hy.dto.ReportAccountDto;
+import com.hy.dto.ReportCatalogueDto;
 import com.hy.dto.SysRolesUserDto;
 import com.hy.model.ReportInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: 钱敏杰
@@ -71,4 +73,6 @@ public interface BoConfigService {
      * @return void
      **/
     void buildRelation(SysRolesUserDto dto);
+
+    Map<Integer, ReportCatalogueDto> genAllReportTree();
 }
