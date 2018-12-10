@@ -44,11 +44,21 @@
                         template: '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.edit()"><span class="k-icon k-i-edit"></span>编辑</a>'
                     }],
                     columns: [
-                        {field: "id", title: "员工号", headerAttributes: {"class": "grid-algin-center"}, width: "10%"},
-                        {field: "lastname", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: "10%"},
+                        {field: "id", title: "员工号", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
+                        {field: "lastname", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
                         {
-                            command: [{name: "edit", text: "授权"}], title: " ", width: "15%"
-                        }
+                            command: [{name: "permission", text: "授权", iconClass: "k-icon k-i-edit",
+                                click: function (e) {
+                                    e.preventDefault();
+                                    var tr = $(e.target).closest("tr");
+                                    var data = this.dataItem(tr);
+                                    pushData = {
+                                        accountid: accountid,
+                                        empnum: data.id
+                                    };
+                                    vm.accredit();
+                                }}], title: " ", width: "150px"
+                        },{field: "", title: ""}
                     ]
                 });
             },
@@ -121,6 +131,20 @@
                             location.reload()
                         }
                     });
+                },
+                accredit:function () {
+                    layer.open({
+                        title:'授权',
+                        type:2,
+                        area:['100%','100%'],
+                        fixed: true,//固定
+                        maxmin:true,
+                        shadeClose: true,
+                        content: '/bo/report_aduser_permission.html',
+                        end: function () {
+                            location.reload()
+                        }
+                    })
                 }
             }
         });
