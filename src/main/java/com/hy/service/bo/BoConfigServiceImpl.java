@@ -329,7 +329,7 @@ public class BoConfigServiceImpl implements BoConfigService {
         Iterator<ReportCatalogueDto> iter = catalogues.iterator();
         while(iter.hasNext()){
             ReportCatalogueDto catalogueDto = iter.next();
-            if(!keepMap.containsKey(catalogueDto.getPid())){
+            if(!keepMap.containsKey(catalogueDto.getId())){
                 iter.remove();
             }
         }
