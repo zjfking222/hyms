@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.ReportInfoMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.ReportInfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="reportid" property="reportid" jdbcType="VARCHAR" />
+        <result column="directoryid" property="directoryid" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, name, reportid, directoryid, type, creater, created, modifier, modified
+    </sql>
     <select id="selectReport" resultType="com.hy.model.ReportInfo">
         select * from report_info
         where 1=1
@@ -40,7 +54,14 @@
         delete from report_info
         where id = #{id}
     </delete>
-    <select id="selectCataInfo" resultType="java.util.Map">
-
+    <select id="selectByAccountid" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        i.id, i.name, i.reportid, i.directoryid, i.type, i.creater, i.created, i.modifier, i.modified
+        from report_info i,report_acc_info ai where i.reportid=ai.reportid and ai.accountid=#{accountid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByEmp" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        i.id, i.name, i.reportid, i.directoryid, i.type, i.creater, i.created, i.modifier, i.modified
+        from report_info i,report_permission p where i.reportid=p.reportid and p.empnum=#{empnum,jdbcType=VARCHAR}
     </select>
 </mapper>

@@ -18,4 +18,23 @@ public interface ReportInfoMapper {
     Integer insertReport(ReportInfo reportInfos);
     Integer updateReport(ReportInfo reportInfo);
     Integer deleteReport(@Param("id") int id);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据BO账号id查询关联报表信息
+     * @Date 2018/12/8 11:00
+     * @Param [accountid]
+     * @return java.util.List<com.hy.model.ReportInfo>
+     **/
+    List<ReportInfo> selectByAccountid(@Param("accountid") String accountid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号查询关联报表信息
+     * @Date 2018/12/10 9:25
+     * @Param [empnum]
+     * @return java.util.List<com.hy.model.ReportInfo>
+     **/
+    List<ReportInfo> selectByEmp(@Param("empnum") String empnum);
+
 }

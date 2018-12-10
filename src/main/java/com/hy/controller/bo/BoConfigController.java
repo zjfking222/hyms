@@ -1,9 +1,7 @@
 package com.hy.controller.bo;
 
 import com.hy.common.ResultObj;
-import com.hy.dto.HrmResourceDto;
-import com.hy.dto.ReportAccountDto;
-import com.hy.dto.SysRolesUserDto;
+import com.hy.dto.*;
 import com.hy.enums.ResultCode;
 import com.hy.model.ReportInfo;
 import com.hy.service.bo.BoConfigService;
@@ -139,10 +137,32 @@ public class BoConfigController {
         return ResultObj.success();
     }
 
-    @RequestMapping(value = "/account/genAllReportTree", method = RequestMethod.POST)
-    public ResultObj genAllReportTree() {
-        boConfigService.genAllReportTree();
-        return ResultObj.success();
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前BO账号的所有报表授权
+     * @Date 2018/12/8 15:33
+     * @Param [accountid]
+     * @return com.hy.common.ResultObj
+     **/
+    @RequestMapping(value = "/account/getAllReportTree", method = RequestMethod.POST)
+    public ResultObj getAllReportTree(String accountid) {
+        //所有数据树
+        List<ReportCatalogueDto> tree = boConfigService.getAllReportTree(accountid);
+        return ResultObj.success(tree);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前BO账号的已授权数据以及当前员工的报表授权
+     * @Date 2018/12/10 9:29
+     * @Param [accountid, empnum]
+     * @return com.hy.common.ResultObj
+     **/
+    @RequestMapping(value = "/account/getAccReportTree", method = RequestMethod.POST)
+    public ResultObj getAccReportTree(String accountid, String empnum) {
+        //所有数据树
+        List<ReportCatalogueDto> tree = boConfigService.getAccReportTree(accountid, empnum);
+        return ResultObj.success(tree);
     }
 
 }

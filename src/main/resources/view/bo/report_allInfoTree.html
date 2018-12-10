@@ -18,14 +18,8 @@
     <script>
         var ListData;
         var parentNodes = [];
-        function dataSourceList(rid) {
-            var dataSource = FetchData({rid: rid},'POST','/bo/account/genAllReportTree',false).data;
-            for(var n = 0 ; n < dataSource.length ; n++){
-                if(dataSource[n].items.length === 0 ){
-                    delete dataSource[n].items;
-                }
-            }
-            return dataSource;
+        function dataSourceList(accountid) {
+            return FetchData({accountid: accountid},'POST','/bo/account/getAllReportTree',false).data;
         }
         $(function () {
             function checkedNodeIds(nodes, checkedNodes) {
@@ -70,8 +64,7 @@
                     rolePermission:objList,
                     rid:parent.pushRid
                 }
-                if(FetchData(JSON.stringify(postData),'POST','/rolesPm/set',false,true).code !== 0)
-                {
+                if(FetchData(JSON.stringify(postData),'POST','/rolesPm/set',false,true).code !== 0){
                     parent.layer.msg('登陆失效，请重新登陆！',{time:1000,
                         end:function () {
                             parent.$('#treeview').attr('src','tree.html?id'+parent.pushRid);
@@ -88,6 +81,7 @@
                     checkChildren: true
                 },
                 dataSource: ListData,
+                dataTextField: "name",
                 check: onCheck
             });
         });
@@ -95,7 +89,7 @@
             var response =
                 $.ajax({
                     async: async,
-                    url: "/system"+param,
+                    url: param,
                     type: method,
                     dataType: 'json',
                     data: data,

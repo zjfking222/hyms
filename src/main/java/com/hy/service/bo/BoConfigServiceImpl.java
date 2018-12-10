@@ -22,10 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -211,38 +209,169 @@ public class BoConfigServiceImpl implements BoConfigService {
         }
     }
 
-    public Map<Integer, ReportCatalogueDto> genAllReportTree(){
-        Map<Integer, ReportCatalogueDto> returnMap = null;
+    /**
+     * @Author 钱敏杰
+     * @Description 获取全部目录及报表树，以及当前BO账号选中的报表
+     * @Date 2018/12/10 14:21
+     * @Param [accountid]
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
+     **/
+    @Override
+    public List<ReportCatalogueDto> getAllReportTree(String accountid){
+        Map<Integer, ReportCatalogueDto> cataMap = null;
         //查询出全部目录结构
         List<ReportCatalogue> list = reportCatalogueMapper.selectAll();
+        //查询出全部报表信息
+        List<ReportInfo> rList = reportInfoMapper.selectReport(null, null, null);
         //循环目录结构，生成以id为key的map结构
-        if(list != null && list.size() >0){
+        if(list != null && list.size() >0 && rList != null && rList.size() >0){
             List<ReportCatalogueDto> catalogues = DTOUtil.populateList(list,ReportCatalogueDto.class );
-            Map<Integer, ReportCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(ReportCatalogueDto :: getId, a ->a, (k1,k2)->k1));
-            //测试
-            cataMap.get(2).setDescription("hahahahahahahahh");
-            //查询出全部报表信息
-            List<ReportInfo> rList = reportInfoMapper.selectReport(null, null, null);
-            //循环报表信息将报表信息加入map相应key下
-            if(rList != null && rList.size() >0){
-                List<ReportInfoDto> infoList = DTOUtil.populateList(rList,ReportInfoDto.class );
-                for(ReportInfoDto info:infoList){
-                    ReportCatalogueDto dto = cataMap.get(info.getId());
-                    if(dto != null){
-                        if(dto.getInfos() == null){
-                            dto.setInfos(new ArrayList<>());
-                        }
-                        dto.getInfos().add(info);
-                    }
-                }
-            }
-            //循环map结构，生成树的格式
-
+            //已选中的数据
+            List<ReportInfo> checked = this.getReportInfoByAcc(accountid);
+            //整理树的结构
+            cataMap = this.arrageCatalogue(catalogues, rList, checked);
         }
-        return returnMap;
+        List<ReportCatalogueDto> returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
+        return returnList;
     }
 
-    public void genAccReportTree(){
+    /**
+     * @Author 钱敏杰
+     * @Description 根据BO账户获取关联的BO报表
+     * @Date 2018/12/8 15:08
+     * @Param [accountid]
+     * @return java.util.List<com.hy.dto.ReportInfoDto>
+     **/
+    @Override
+    public List<ReportInfo> getReportInfoByAcc(String accountid){
+        List<ReportInfo> list = reportInfoMapper.selectByAccountid(accountid);
+        return list;
+    }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前BO账号下的目录及报表树，以及当前员工选中的报表
+     * @Date 2018/12/10 11:48
+     * @Param [accountid]
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
+     **/
+    @Override
+    public List<ReportCatalogueDto> getAccReportTree(String accountid, String empnum){
+        Map<Integer, ReportCatalogueDto> cataMap = null;
+        //查询出全部目录结构
+        List<ReportCatalogue> list = reportCatalogueMapper.selectAll();
+        //查询出当前BO账号下的全部报表信息
+        List<ReportInfo> rList = reportInfoMapper.selectByAccountid(accountid);
+        //循环目录结构，生成以id为key的map结构
+        if(list != null && list.size() >0 && rList != null && rList.size() >0){
+            List<ReportCatalogueDto> catalogues = DTOUtil.populateList(list,ReportCatalogueDto.class );
+            //移除空目录
+            removeNullNode(catalogues, rList);
+            //已选中的数据
+            List<ReportInfo> checked = this.getReportInfoByEmp(empnum);
+            //整理树的结构
+            cataMap = this.arrageCatalogue(catalogues, rList, checked);
+        }
+        List<ReportCatalogueDto> returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
+        return returnList;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号获取关联的BO报表
+     * @Date 2018/12/10 14:16
+     * @Param [empnum]
+     * @return java.util.List<com.hy.model.ReportInfo>
+     **/
+    @Override
+    public List<ReportInfo> getReportInfoByEmp(String empnum){
+        List<ReportInfo> list = reportInfoMapper.selectByEmp(empnum);
+        return list;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除空节点目录
+     * @Date 2018/12/10 9:15
+     * @Param [catalogues, rList]
+     * @return void
+     **/
+    private void removeNullNode(List<ReportCatalogueDto> catalogues, List<ReportInfo> rList){
+        //存放需保留的id
+        Map<Integer, Boolean> keepMap = new HashMap<>();
+        //list转map
+        Map<Integer, ReportCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(ReportCatalogueDto :: getId, a ->a, (k1,k2)->k1));
+        for(ReportInfo info:rList){
+            //取出报表数据中的目录id
+            Integer dirid = info.getDirectoryid();
+            keepMap.put(dirid, true);
+            ReportCatalogueDto catalogue = null;
+            while(true){
+                //取出当前目录节点数据
+                catalogue = cataMap.get(dirid);
+                if(catalogue != null && catalogue.getPid() != null){
+                    //若当前节点存在父节点，则需要保留此父节点
+                    dirid = catalogue.getPid();
+                    keepMap.put(dirid, true);
+                }else{//不存在父节点，则循环结束
+                    break;
+                }
+            }
+        }
+        //从列表catalogues中删除不需要保留的数据
+        for(ReportCatalogueDto catalogueDto:catalogues){
+            if((catalogueDto.getPid() != null && keepMap.get(catalogueDto.getPid()) == null) || !keepMap.get(catalogueDto.getPid())){
+                catalogues.remove(catalogueDto);
+            }
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 整理当前目录与报表数据，合并成树结构map，并判断当前数据是否选中
+     * @Date 2018/12/10 14:08
+     * @Param [catalogues, rList, checked]
+     * @return java.util.Map<java.lang.Integer,com.hy.dto.ReportCatalogueDto>
+     **/
+    private Map<Integer, ReportCatalogueDto> arrageCatalogue(List<ReportCatalogueDto> catalogues, List<ReportInfo> rList, List<ReportInfo> checked){
+        //list转map
+        Map<Integer, ReportCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(ReportCatalogueDto :: getId, a ->a, (k1,k2)->k1));
+        Map<Integer, ReportInfo> infoMap = checked.stream().collect(Collectors.toMap(ReportInfo :: getId, a ->a, (k1,k2)->k1));
+        //循环报表信息将报表信息加入map相应key下
+        for(ReportInfo info:rList){
+            ReportCatalogueDto dto = cataMap.get(info.getDirectoryid());
+            //将报表数据添加到相应目录下
+            if(dto != null){
+                if(dto.getItems() == null){
+                    dto.setItems(new ArrayList<>());
+                }
+                //将报表对象存入目录dto对象中使用
+                if(infoMap.containsKey(info.getId())){//若为选中项，则设置“checked”属性为true
+                    dto.getItems().add(new ReportCatalogueDto(info.getId(), info.getName(), info.getDirectoryid(), null, info.getReportid(), info.getType(), true, true));
+                }else {
+                    dto.getItems().add(new ReportCatalogueDto(info.getId(), info.getName(), info.getDirectoryid(), null, info.getReportid(), info.getType(), false, true));
+                }
+            }
+        }
+        //循环目录list结构，生成树的格式
+        for(ReportCatalogueDto cata:catalogues){
+            if(cata.getPid() != null){
+                //将子目录添加到父目录下
+                ReportCatalogueDto dto = cataMap.get(cata.getPid());
+                if(dto != null){
+                    if(dto.getItems() == null){
+                        dto.setItems(new ArrayList<>());
+                    }
+                    dto.getItems().add(cata);
+                }
+            }
+        }
+        //移除非首菜单项（含有父id）
+        for(ReportCatalogueDto cata:catalogues){
+            if(cata.getPid() != null){
+                cataMap.remove(cata.getId());
+            }
+        }
+        return cataMap;
     }
 }

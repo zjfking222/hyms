@@ -1,12 +1,11 @@
 package com.hy.dto;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * @Auther: 钱敏杰
  * @Date: 2018/12/7 13:35
- * @Description:报表目录表
+ * @Description:报表目录表和报表信息表整合成一个目录表
  */
 public class ReportCatalogueDto {
 
@@ -14,22 +13,33 @@ public class ReportCatalogueDto {
     private Integer id;
     //目录名称
     private String name;
-    //父id
+    //ReportCatalogue表的pid，也是ReportInfo表的directoryid
     private Integer pid;
     //描述
     private String description;
-    //创建人
-    private String creater;
-    //创建时间
-    private Date created;
-    //修改人
-    private String modifier;
-    //修改时间
-    private Date modified;
+    //报表id
+    private String reportid;
+    //报表类别
+    private String type;
     //存放子目录
-    private List<ReportCatalogueDto> dtos;
-    //存放目录下报表信息
-    private List<ReportInfoDto> infos;
+    private List<ReportCatalogueDto> items;
+    //是否选中：true 选中，false 不选中
+    private boolean checked;
+    //是否展开当前目录，默认打开：true 打开，false 不打开
+    private boolean expanded = true;
+
+    public ReportCatalogueDto(){}
+
+    public ReportCatalogueDto(Integer id, String name, Integer pid, String description, String reportid, String type, boolean checked, boolean expanded){
+        this.id = id;
+        this.name = name;
+        this.pid = pid;
+        this.description = description;
+        this.reportid = reportid;
+        this.type = type;
+        this.checked = checked;
+        this.expanded = expanded;
+    }
 
     public Integer getId() {
         return id;
@@ -63,51 +73,43 @@ public class ReportCatalogueDto {
         this.description = description;
     }
 
-    public String getCreater() {
-        return creater;
+    public String getReportid() {
+        return reportid;
     }
 
-    public void setCreater(String creater) {
-        this.creater = creater;
+    public void setReportid(String reportid) {
+        this.reportid = reportid;
     }
 
-    public Date getCreated() {
-        return created;
+    public String getType() {
+        return type;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getModifier() {
-        return modifier;
+    public List<ReportCatalogueDto> getItems() {
+        return items;
     }
 
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
+    public void setItems(List<ReportCatalogueDto> items) {
+        this.items = items;
     }
 
-    public Date getModified() {
-        return modified;
+    public boolean isChecked() {
+        return checked;
     }
 
-    public void setModified(Date modified) {
-        this.modified = modified;
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
-    public List<ReportCatalogueDto> getDtos() {
-        return dtos;
+    public boolean isExpanded() {
+        return expanded;
     }
 
-    public void setDtos(List<ReportCatalogueDto> dtos) {
-        this.dtos = dtos;
-    }
-
-    public List<ReportInfoDto> getInfos() {
-        return infos;
-    }
-
-    public void setInfos(List<ReportInfoDto> infos) {
-        this.infos = infos;
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }

@@ -1,13 +1,9 @@
 package com.hy.service.bo;
 
-import com.hy.dto.HrmResourceDto;
-import com.hy.dto.ReportAccountDto;
-import com.hy.dto.ReportCatalogueDto;
-import com.hy.dto.SysRolesUserDto;
+import com.hy.dto.*;
 import com.hy.model.ReportInfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Auther: 钱敏杰
@@ -74,5 +70,39 @@ public interface BoConfigService {
      **/
     void buildRelation(SysRolesUserDto dto);
 
-    Map<Integer, ReportCatalogueDto> genAllReportTree();
+    /**
+     * @Author 钱敏杰
+     * @Description 获取全部目录及报表树，以及当前BO账号选中的报表
+     * @Date 2018/12/10 14:21
+     * @Param [accountid]
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
+     **/
+    List<ReportCatalogueDto> getAllReportTree(String accountid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据BO账户获取关联的BO报表
+     * @Date 2018/12/10 14:19
+     * @Param [accountid]
+     * @return java.util.List<com.hy.model.ReportInfo>
+     **/
+    List<ReportInfo> getReportInfoByAcc(String accountid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前BO账号下的目录及报表树，以及当前员工选中的报表
+     * @Date 2018/12/10 14:17
+     * @Param [accountid, empnum]
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
+     **/
+    List<ReportCatalogueDto> getAccReportTree(String accountid, String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号获取关联的BO报表
+     * @Date 2018/12/10 14:16
+     * @Param [empnum]
+     * @return java.util.List<com.hy.model.ReportInfo>
+     **/
+    List<ReportInfo> getReportInfoByEmp(String empnum);
 }

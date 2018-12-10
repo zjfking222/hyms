@@ -19,14 +19,6 @@ public class ReportInfoDto {
     private Integer directoryid;
     //类别
     private String type;
-    //创建人
-    private String creater;
-    //创建时间
-    private Date created;
-    //修改人
-    private String modifier;
-    //修改时间
-    private Date modified;
 
     public Integer getId() {
         return id;
@@ -68,35 +60,4 @@ public class ReportInfoDto {
         this.type = type;
     }
 
-    public String getCreater() {
-        return creater;
-    }
-
-    public void setCreater(String creater) {
-        this.creater = creater;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
-
-    public Date getModified() {
-        return modified;
-    }
-
-    public void setModified(Date modified) {
-        this.modified = modified;
-    }
 }
