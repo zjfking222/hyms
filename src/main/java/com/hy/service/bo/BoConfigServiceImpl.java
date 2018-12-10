@@ -306,22 +306,31 @@ public class BoConfigServiceImpl implements BoConfigService {
             Integer dirid = info.getDirectoryid();
             keepMap.put(dirid, true);
             ReportCatalogueDto catalogue = null;
+            int i = 0;
             while(true){
                 //取出当前目录节点数据
                 catalogue = cataMap.get(dirid);
-                if(catalogue != null && catalogue.getPid() != null){
-                    //若当前节点存在父节点，则需要保留此父节点
-                    dirid = catalogue.getPid();
-                    keepMap.put(dirid, true);
-                }else{//不存在父节点，则循环结束
-                    break;
+                if(catalogue != null){
+                    if(catalogue.getPid() != null){
+                        //若当前节点存在父节点，则需要保留此父节点
+                        dirid = catalogue.getPid();
+                        keepMap.put(dirid, true);
+                        i++;
+                    }else{//不存在父节点，则循环结束
+                        if(i >0){
+                            keepMap.put(dirid, true);
+                        }
+                        break;
+                    }
                 }
             }
         }
         //从列表catalogues中删除不需要保留的数据
-        for(ReportCatalogueDto catalogueDto:catalogues){
-            if((catalogueDto.getPid() != null && keepMap.get(catalogueDto.getPid()) == null) || !keepMap.get(catalogueDto.getPid())){
-                catalogues.remove(catalogueDto);
+        Iterator<ReportCatalogueDto> iter = catalogues.iterator();
+        while(iter.hasNext()){
+            ReportCatalogueDto catalogueDto = iter.next();
+            if(!keepMap.containsKey(catalogueDto.getPid())){
+                iter.remove();
             }
         }
     }
