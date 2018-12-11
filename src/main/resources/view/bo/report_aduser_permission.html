@@ -20,6 +20,7 @@
     var accountid = parent.pushData.accountid;
     var empnum = parent.pushData.empnum;
     var parentNodes = [];
+    var index = parent.layer.getFrameIndex(window.name);
 
     function dataSourceList(accountid, empnum) {
         var dataSource = FetchData({
@@ -79,7 +80,7 @@
                 parent.layer.msg('登陆失效，请重新登陆！', {
                     time: 1000,
                     end: function () {
-                        parent.$('#treeview').attr('src', 'tree.html?id' + parent.pushRid);
+                        parent.layer.close(index);
                     }
                 });
             }
