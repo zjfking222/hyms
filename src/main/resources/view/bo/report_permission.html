@@ -57,7 +57,7 @@
         }
         #treeview{
             position: absolute;
-            left: 240px;
+            left: 22%;
             border: 0;
         }
         li:hover{
@@ -81,7 +81,7 @@
 </head>
 <body>
     <div id="menus">
-        <div id="left" class="sidebar">
+        <div id="left" class="sidebar" style="width: 22%">
             <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
             <ul class="nav nav-sidebar" id="rolenav">
                 <li v-for="business in data1" :data-id="business.id" @click="onChoose(business.id, business.accountid)">
@@ -91,7 +91,7 @@
                 </li>
             </ul>
         </div>
-        <iframe id="treeview" height="100%" width="76%">
+        <iframe id="treeview" height="100%" width="78%">
         </iframe>
     </div>
 

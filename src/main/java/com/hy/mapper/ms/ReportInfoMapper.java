@@ -35,6 +35,6 @@ public interface ReportInfoMapper {
      * @Param [empnum]
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
-    List<ReportInfo> selectByEmp(@Param("empnum") String empnum);
+    List<ReportInfo> selectByEmp(@Param("empnum") String empnum, @Param("accountid") String accountid);
 
 }

@@ -19,6 +19,8 @@ public class ReportInfoDto {
     private Integer directoryid;
     //类别
     private String type;
+    //描述
+    private String description;
 
     public Integer getId() {
         return id;
@@ -60,4 +62,11 @@ public class ReportInfoDto {
         this.type = type;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

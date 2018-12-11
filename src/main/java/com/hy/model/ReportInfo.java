@@ -19,6 +19,8 @@ public class ReportInfo {
     private Integer directoryid;
     //类别
     private String type;
+    //描述
+    private String description;
     //创建人
     private String creater;
     //创建时间
@@ -98,5 +100,13 @@ public class ReportInfo {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

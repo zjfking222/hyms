@@ -7,13 +7,14 @@
         <result column="reportid" property="reportid" jdbcType="VARCHAR" />
         <result column="directoryid" property="directoryid" jdbcType="INTEGER" />
         <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
         <result column="creater" property="creater" jdbcType="VARCHAR" />
         <result column="created" property="created" jdbcType="TIMESTAMP" />
         <result column="modifier" property="modifier" jdbcType="VARCHAR" />
         <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Base_Column_List" >
-        id, name, reportid, directoryid, type, creater, created, modifier, modified
+        id, name, reportid, directoryid, type, description, creater, created, modifier, modified
     </sql>
     <select id="selectReport" resultType="com.hy.model.ReportInfo">
         select * from report_info
@@ -41,13 +42,13 @@
     </select>
     <insert id="insertReport" parameterType="com.hy.model.ReportInfo">
         insert into report_info
-        (name, reportid, directoryid , type, creater, modifier)
+        (name, reportid, directoryid , type,description, creater, modifier)
         values
-            (#{name}, #{reportid}, #{directoryid}, #{type}, #{creater}, #{modifier})
+            (#{name}, #{reportid}, #{directoryid}, #{type},#{description}, #{creater}, #{modifier})
     </insert>
     <update id="updateReport" parameterType="com.hy.model.ReportInfo">
         update report_info
-        set name = #{name}, reportid = #{reportid}, directoryid = #{directoryid}, type = #{type}
+        set name = #{name}, reportid = #{reportid}, directoryid = #{directoryid}, type = #{type},description = #{description}
         where id = #{id}
     </update>
     <delete id="deleteReport" parameterType="com.hy.model.ReportInfo">
@@ -56,12 +57,12 @@
     </delete>
     <select id="selectByAccountid" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
-        i.id, i.name, i.reportid, i.directoryid, i.type, i.creater, i.created, i.modifier, i.modified
+        i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.creater, i.created, i.modifier, i.modified
         from report_info i,report_acc_info ai where i.reportid=ai.reportid and ai.accountid=#{accountid,jdbcType=VARCHAR}
     </select>
     <select id="selectByEmp" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
-        i.id, i.name, i.reportid, i.directoryid, i.type, i.creater, i.created, i.modifier, i.modified
-        from report_info i,report_permission p where i.reportid=p.reportid and p.empnum=#{empnum,jdbcType=VARCHAR}
+        i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.creater, i.created, i.modifier, i.modified
+        from report_info i,report_permission p where i.reportid=p.reportid and p.empnum=#{empnum,jdbcType=VARCHAR} and p.accountid=#{accountid,jdbcType=VARCHAR}
     </select>
 </mapper>

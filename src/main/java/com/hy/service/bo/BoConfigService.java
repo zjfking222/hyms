@@ -99,10 +99,28 @@ public interface BoConfigService {
 
     /**
      * @Author 钱敏杰
-     * @Description 根据员工号获取关联的BO报表
-     * @Date 2018/12/10 14:16
-     * @Param [empnum]
+     * @Description 根据员工号与BO账号获取关联的BO报表
+     * @Date 2018/12/11 11:23
+     * @Param [empnum, accountid]
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
-    List<ReportInfo> getReportInfoByEmp(String empnum);
+    List<ReportInfo> getReportInfoByEmp(String empnum, String accountid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 新增或删除BO账号与报表的关联数据
+     * @Date 2018/12/11 9:07
+     * @Param [catalogueDto]
+     * @return void
+     **/
+    void saveAccountReport(ReportCatalogueDto catalogueDto);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 新增或删除员工号与报表的关联数据
+     * @Date 2018/12/11 10:38
+     * @Param [catalogueDto]
+     * @return void
+     **/
+    void saveEmpReport(ReportCatalogueDto catalogueDto);
 }

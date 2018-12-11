@@ -8,7 +8,7 @@
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
     <style>
         .input-group{
-            margin: 38px auto;
+            margin: 20px auto;
             width: 80%;
         }
         .input-group button:hover,.input-group button:focus,.input-group button:active{
@@ -26,29 +26,38 @@
     <div class="input-group">
         <div class="input-group-btn">
             <button class="btn btn-default" id="btn-id">
-                <span class="glyphicon glyphicon-pencil">
+                <span class="glyphicon glyphicon-pencil">账号
                 </span>
             </button>
         </div>
-        <input type="text" class="form-control" id="boaccountid">
+        <input type="text" class="form-control" id="accountid">
     </div>
     <div class="input-group">
         <div class="input-group-btn">
             <button class="btn btn-default" id="btn-type">
-                <span class="glyphicon glyphicon-pencil">
+                <span class="glyphicon glyphicon-pencil">类别
                 </span>
             </button>
         </div>
-        <input type="text" class="form-control" id="botype">
+        <input type="text" class="form-control" id="type">
     </div>
     <div class="input-group">
         <div class="input-group-btn">
             <button class="btn btn-default" id="btn-password">
-                <span class="glyphicon glyphicon-pencil">
+                <span class="glyphicon glyphicon-pencil">密码
                 </span>
             </button>
         </div>
-        <input type="password" class="form-control" id="bopassword">
+        <input type="password" class="form-control" id="password">
+    </div>
+    <div class="input-group">
+        <div class="input-group-btn">
+            <button class="btn btn-default" id="btn-description">
+                <span class="glyphicon glyphicon-pencil">描述
+                </span>
+            </button>
+        </div>
+        <textarea type="text" class="form-control" id="description"></textarea>
     </div>
     <a class="layui-btn" id="btn-submit">确定</a>
     <a class="layui-btn layui-btn-primary" id="btn-cancel">取消</a>
@@ -68,11 +77,15 @@
         $('#btn-password').on('click',function () {
             $('#password').focus();
         });
+        $('#btn-description').on('click',function () {
+            $('#description').focus();
+        });
         //编辑页面赋值
         if(!(parent.pushData.id === -1)){
-            $('#boaccountid').val(parent.pushData.accountid);
-            $('#botype').val(parent.pushData.type);
-            $('#bopassword').val(parent.pushData.password);
+            $('#accountid').val(parent.pushData.accountid);
+            $('#type').val(parent.pushData.type);
+            $('#password').val(parent.pushData.password);
+            $('#description').val(parent.pushData.description);
         }
         //提交
         $('#btn-submit').on('click',function () {
@@ -85,9 +98,10 @@
                 data.id = parent.pushData.id;
                 msg = "修改";
             }
-            data.accountid = $('#boaccountid').val();
-            data.type = $('#botype').val();
-            data.password = $('#bopassword').val();
+            data.accountid = $('#accountid').val();
+            data.type = $('#type').val();
+            data.password = $('#password').val();
+            data.description = $('#description').val();
             $.ajax({
                 async: false,
                 url: '/bo/account/updateAccount',

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
 </head>
 <body>
-<div id="treeview">
+<div id="treeview"  style="padding-left: 20px;">
 </div>
 
 <script src="/statics/plugins/jquery/jquery.min.js"></script>
@@ -17,77 +17,69 @@
 <script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script>
     var ListData;
-    var accountid = parent.pushData.accountid;
-    var empnum = parent.pushData.empnum;
-    var parentNodes = [];
-    var index = parent.layer.getFrameIndex(window.name);
+    var oldReport = [];
 
     function dataSourceList(accountid, empnum) {
-        var dataSource = FetchData({
-            accountid: accountid,
-            empnum: empnum
-        }, 'POST', '/account/getAccReportTree', false).data;
-        console.log(dataSource);
-        for (var n = 0; n < dataSource.length; n++) {
-            if (dataSource[n].items.length === 0) {
-                delete dataSource[n].items;
-            }
-        }
-        return dataSource;
+        return FetchData({accountid: accountid,empnum: empnum},'POST','/bo/account/getAccReportTree',false).data;
     }
 
     $(function () {
+        //获取最终的已选中子节点到checkedNodes中
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
-                if (nodes[i].checked) {
-                    checkedNodes.push(nodes[i].id);
-                    if (nodes[i].parentNode() === undefined) {
-
-                    } else {
-                        if ($.inArray(nodes[i].parentNode().id, parentNodes) === -1) {
-                            parentNodes.push(nodes[i].parentNode().id)
-                        }
-                    }
-                }
-
                 if (nodes[i].hasChildren) {
                     checkedNodeIds(nodes[i].children.view(), checkedNodes);
+                }else{
+                    if (nodes[i].checked) {
+                        checkedNodes.push(nodes[i].reportid);
+                    }
                 }
             }
         }
 
         function onCheck() {
-            var checkedNodes = [], treeView = $("#treeview").data("kendoTreeView");
-            parentNodes = [];
-
+            var treeView = $("#treeview").data("kendoTreeView");
+            var checkedNodes = [];
             checkedNodeIds(treeView.dataSource.view(), checkedNodes);
-            var postData = [];
-            var resultNodes = [].concat(checkedNodes);
-            for (var i = 0; i < parentNodes.length; i++) {
-                if ($.inArray(parentNodes[i], resultNodes) === -1) {
-                    resultNodes.push(parentNodes[i]);
+            //需要删除的
+            var del = [];
+            if(oldReport && oldReport.length >0){
+                for(var i = 0 ; i < oldReport.length ; i++){
+                    if($.inArray(oldReport[i], checkedNodes) == -1){
+                        del.push(oldReport[i]);
+                    }
                 }
             }
-            for (var j = 0; j < resultNodes.length; j++) {
-                var obj0 = {
-                    id: resultNodes[j],
-                    accountid: accountid,
-                    empnum: empnum
-                };
-                postData.push(obj0)
+            //需要增加的
+            var add = [];
+            if(checkedNodes && checkedNodes.length >0){
+                for(var i = 0 ; i < checkedNodes.length ; i++){
+                    if($.inArray(checkedNodes[i], oldReport) == -1){
+                        add.push(checkedNodes[i]);
+                    }
+                }
             }
-            if (FetchData(JSON.stringify(postData), 'POST', '/account/setAllReportTree', false, true).code !== 0) {
+            //请求参数
+            var postData = {
+                empnum:parent.pushData.empnum,
+                accountid:parent.pushData.accountid,
+                addReports:add,
+                delReports:del
+            };
+            if (FetchData(JSON.stringify(postData), 'POST', '/bo/account/saveEmpReport', false, true).code !== 0) {
                 parent.layer.msg('登陆失效，请重新登陆！', {
                     time: 1000,
                     end: function () {
-                        parent.layer.close(index);
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
                     }
                 });
             }
+            //替换操作后的选中报表
+            oldReport = checkedNodes;
         }
 
         ListData = new kendo.data.HierarchicalDataSource({
-            data: dataSourceList(accountid, empnum)
+            data: dataSourceList(parent.pushData.accountid, parent.pushData.empnum)
         });
 
         $("#treeview").kendoTreeView({
@@ -98,12 +90,16 @@
             dataTextField: "name",
             check: onCheck
         });
+        //添加当前已选中的报表id到oldReport中
+        var treeView = $("#treeview").data("kendoTreeView");
+        var nodes = treeView.dataSource.view();
+        checkedNodeIds(nodes, oldReport);
     });
     var FetchData = function (data, method, param, async, contentType) {
         var response =
             $.ajax({
                 async: async,
-                url: "/bo" + param,
+                url: param,
                 type: method,
                 dataType: 'json',
                 data: data,

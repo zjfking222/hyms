@@ -27,6 +27,14 @@ public class ReportCatalogueDto {
     private boolean checked;
     //是否展开当前目录，默认打开：true 打开，false 不打开
     private boolean expanded = true;
+    //需要新增的报表id
+    private String[] addReports;
+    //需要删除的报表id
+    private String[] delReports;
+    //BO账号id
+    private String accountid;
+    //员工号
+    private String empnum;
 
     public ReportCatalogueDto(){}
 
@@ -111,5 +119,37 @@ public class ReportCatalogueDto {
 
     public void setExpanded(boolean expanded) {
         this.expanded = expanded;
+    }
+
+    public String[] getAddReports() {
+        return addReports;
+    }
+
+    public void setAddReports(String[] addReports) {
+        this.addReports = addReports;
+    }
+
+    public String[] getDelReports() {
+        return delReports;
+    }
+
+    public void setDelReports(String[] delReports) {
+        this.delReports = delReports;
+    }
+
+    public String getAccountid() {
+        return accountid;
+    }
+
+    public void setAccountid(String accountid) {
+        this.accountid = accountid;
+    }
+
+    public String getEmpnum() {
+        return empnum;
+    }
+
+    public void setEmpnum(String empnum) {
+        this.empnum = empnum;
     }
 }

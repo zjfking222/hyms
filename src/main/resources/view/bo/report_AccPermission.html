@@ -130,7 +130,7 @@
 </head>
 <body>
     <div id="menus">
-        <div id="left" class="sidebar">
+        <div id="left" class="sidebar" style="width: 22%">
             <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
             <button id="btn-add" @click="onAdd"></button>
             <ul class="nav nav-sidebar" id="rolenav">
@@ -139,13 +139,13 @@
                         <a class="item-a">{{business.accountid}}</a>
                     </div>
                     <div class="item2">
-                        <button class="btn-edit" @click="onEdit(business.id, business.accountid, business.type, business.password)"></button>
+                        <button class="btn-edit" @click="onEdit(business.id, business.accountid, business.type, business.password, business.description)"></button>
                         <button class="btn-del" @click="onDel(business.id)"></button>
                     </div>
                 </li>
             </ul>
         </div>
-        <iframe id="treeview" height="100%" width="980px">
+        <iframe id="treeview" height="100%" width="78%;">
         </iframe>
     </div>
 
@@ -202,12 +202,13 @@
                     });
                 },
                 //修改
-                onEdit:function (id,accountid,type,password) {
+                onEdit:function (id,accountid,type,password,description) {
                     pushData = {
                         id:id,
                         accountid:accountid,
                         type:type,
-                        password:password
+                        password:password,
+                        description:description
                     };
                     layer.open({
                         title:'修改BO账号',

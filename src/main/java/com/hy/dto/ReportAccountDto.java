@@ -17,6 +17,8 @@ public class ReportAccountDto {
     private String type;
     //账号密码
     private String password;
+    //描述
+    private String description;
 
     public Integer getId() {
         return id;
@@ -48,5 +50,13 @@ public class ReportAccountDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

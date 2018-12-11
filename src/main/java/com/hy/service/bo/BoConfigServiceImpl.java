@@ -4,14 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
 import com.hy.config.ldap.LdapUtil;
 import com.hy.dto.*;
-import com.hy.mapper.ms.ReportAccadRelationMapper;
-import com.hy.mapper.ms.ReportAccountMapper;
-import com.hy.mapper.ms.ReportCatalogueMapper;
-import com.hy.mapper.ms.ReportInfoMapper;
-import com.hy.model.ReportAccadRelation;
-import com.hy.model.ReportAccount;
-import com.hy.model.ReportCatalogue;
-import com.hy.model.ReportInfo;
+import com.hy.mapper.ms.*;
+import com.hy.model.*;
 import com.hy.utils.DTOUtil;
 import com.unboundid.ldap.sdk.Filter;
 import com.unboundid.ldap.sdk.LDAPException;
@@ -44,6 +38,10 @@ public class BoConfigServiceImpl implements BoConfigService {
     private ReportInfoMapper reportInfoMapper;
     @Autowired
     private ReportCatalogueMapper reportCatalogueMapper;
+    @Autowired
+    private ReportAccInfoMapper reportAccInfoMapper;
+    @Autowired
+    private ReportPermissionMapper reportPermissionMapper;
 
     @Override
     public List<ReportInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir){
@@ -226,6 +224,8 @@ public class BoConfigServiceImpl implements BoConfigService {
         //循环目录结构，生成以id为key的map结构
         if(list != null && list.size() >0 && rList != null && rList.size() >0){
             List<ReportCatalogueDto> catalogues = DTOUtil.populateList(list,ReportCatalogueDto.class );
+            //移除空目录
+            removeNullNode(catalogues, rList);
             //已选中的数据
             List<ReportInfo> checked = this.getReportInfoByAcc(accountid);
             //整理树的结构
@@ -268,7 +268,7 @@ public class BoConfigServiceImpl implements BoConfigService {
             //移除空目录
             removeNullNode(catalogues, rList);
             //已选中的数据
-            List<ReportInfo> checked = this.getReportInfoByEmp(empnum);
+            List<ReportInfo> checked = this.getReportInfoByEmp(empnum, accountid);
             //整理树的结构
             cataMap = this.arrageCatalogue(catalogues, rList, checked);
         }
@@ -284,9 +284,92 @@ public class BoConfigServiceImpl implements BoConfigService {
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
     @Override
-    public List<ReportInfo> getReportInfoByEmp(String empnum){
-        List<ReportInfo> list = reportInfoMapper.selectByEmp(empnum);
+    public List<ReportInfo> getReportInfoByEmp(String empnum, String accountid){
+        List<ReportInfo> list = reportInfoMapper.selectByEmp(empnum, accountid);
         return list;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 新增或删除BO账号与报表的关联数据
+     * @Date 2018/12/11 9:07
+     * @Param [catalogueDto]
+     * @return void
+     **/
+    @Override
+    @Transactional
+    public void saveAccountReport(ReportCatalogueDto catalogueDto){
+        if(catalogueDto != null){
+            int i;
+            if(catalogueDto.getDelReports() != null && catalogueDto.getDelReports().length >0){
+                //存在需要删除的数据，则执行删除操作
+                for(String reportid:catalogueDto.getDelReports()){
+                    i = reportAccInfoMapper.deleteByAccReport(catalogueDto.getAccountid(), reportid);
+                    if(i <= 0){
+                        throw new RuntimeException("删除BO账号与报表关联数据失败！");
+                    }
+                }
+            }
+            if(catalogueDto.getAddReports() != null && catalogueDto.getAddReports().length >0){
+                //存在需要新增的数据，则执行新增操作
+                List<ReportAccInfo> addList = new ArrayList<>();
+                ReportAccInfo accInfo = null;
+                for(String reportid:catalogueDto.getAddReports()){
+                    accInfo = new ReportAccInfo();
+                    accInfo.setAccountid(catalogueDto.getAccountid());
+                    accInfo.setReportid(reportid);
+                    accInfo.setCreater(SecurityUtil.getLoginid());
+                    accInfo.setModifier(SecurityUtil.getLoginid());
+                    addList.add(accInfo);
+                }
+                i = reportAccInfoMapper.insertAccReportBatch(addList);
+                if(i < addList.size()){
+                    throw new RuntimeException("新增BO账号与报表关联数据失败！");
+                }
+            }
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 新增或删除员工号与报表的关联数据
+     * @Date 2018/12/11 10:38
+     * @Param [catalogueDto]
+     * @return void
+     **/
+    @Override
+    @Transactional
+    public void saveEmpReport(ReportCatalogueDto catalogueDto){
+        if(catalogueDto != null){
+            int i;
+            if(catalogueDto.getDelReports() != null && catalogueDto.getDelReports().length >0){
+                //存在需要删除的数据，则执行删除操作
+                for(String reportid:catalogueDto.getDelReports()){
+                    i = reportPermissionMapper.deleteByEmpReport(catalogueDto.getEmpnum(), reportid, catalogueDto.getAccountid());
+                    if(i <= 0){
+                        throw new RuntimeException("删除员工与报表关联数据失败！");
+                    }
+                }
+            }
+            if(catalogueDto.getAddReports() != null && catalogueDto.getAddReports().length >0){
+                //存在需要新增的数据，则执行新增操作
+                List<ReportPermission> addList = new ArrayList<>();
+                ReportPermission permission = null;
+                for(String reportid:catalogueDto.getAddReports()){
+                    permission = new ReportPermission();
+                    permission.setEmpnum(catalogueDto.getEmpnum());
+                    permission.setReportid(reportid);
+                    permission.setAccountid(catalogueDto.getAccountid());
+                    permission.setCreater(SecurityUtil.getLoginid());
+                    permission.setModifier(SecurityUtil.getLoginid());
+                    addList.add(permission);
+                }
+                i = reportPermissionMapper.insertEmpReportBatch(addList);
+                if(i < addList.size()){
+                    throw new RuntimeException("新增BO账号与报表关联数据失败！");
+                }
+            }
+        }
     }
 
     /**

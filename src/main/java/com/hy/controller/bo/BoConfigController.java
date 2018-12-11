@@ -165,4 +165,29 @@ public class BoConfigController {
         return ResultObj.success(tree);
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 修改BO账号报表权限
+     * @Date 2018/12/11 9:08
+     * @Param [catalogueDto]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/saveAccountReport")
+    public ResultObj saveAccountReport(@RequestBody ReportCatalogueDto catalogueDto){
+        boConfigService.saveAccountReport(catalogueDto);
+        return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 修改员工BO账号权限
+     * @Date 2018/12/11 10:39
+     * @Param [catalogueDto]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/saveEmpReport")
+    public ResultObj saveEmpReport(@RequestBody ReportCatalogueDto catalogueDto){
+        boConfigService.saveEmpReport(catalogueDto);
+        return ResultObj.success();
+    }
 }

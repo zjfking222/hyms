@@ -15,8 +15,10 @@ public class ReportAccount {
     private String accountid;
     //账号类别
     private String type;
-    //账号密码
+    //账号密码，不支持取出，只能做保存
     private String password;
+    //描述
+    private String description;
     //创建人
     private String creater;
     //创建时间
@@ -88,5 +90,13 @@ public class ReportAccount {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
