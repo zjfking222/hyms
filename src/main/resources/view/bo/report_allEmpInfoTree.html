@@ -59,15 +59,15 @@
                 }
                 //请求参数
                 var postData = {
-                    accountid:parent.pushRid,
+                    empnum:parent.pushEmp,
                     addReports:add,
                     delReports:del
                 };
                 //提交
-                if(FetchData(JSON.stringify(postData),'POST','/bo/account/saveAccountReport',false,true).code !== 0){
+                if(FetchData(JSON.stringify(postData),'POST','/bo/account/updateAllByEmp',false,true).code !== 0){
                     parent.layer.msg('授权失败，请重新尝试！',{time:1000,
                         end:function () {
-                            parent.$('#treeview').attr('src','report_allInfoTree.html');
+                            parent.$('#treeview').attr('src','report_allEmpInfoTree.html');
                         }});
                 }
                 //替换操作后的选中报表

@@ -11,6 +11,7 @@ import com.unboundid.ldap.sdk.Filter;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldap.sdk.SearchResult;
 import com.unboundid.ldap.sdk.SearchResultEntry;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +119,7 @@ public class BoConfigServiceImpl implements BoConfigService {
      * @Param [id]
      * @return void
      **/
+    @Override
     @Transactional
     public void deleteAccount(String id){
         int rid = Integer.parseInt(id);
@@ -171,7 +173,6 @@ public class BoConfigServiceImpl implements BoConfigService {
                     HrmResourceDto dto = null;
                     //生成返回结果
                     for (SearchResultEntry entry : searchResult.getSearchEntries()) {
-                        String[] depStr = entry.getAttributeValue("distinguishedName").split("OU=");
                         dto = new HrmResourceDto();
                         dto.setId(Integer.parseInt(entry.getAttributeValue("sAMAccountName")));
                         dto.setLoginid(entry.getAttributeValue("sAMAccountName"));
@@ -214,13 +215,15 @@ public class BoConfigServiceImpl implements BoConfigService {
             addList = new ArrayList<>();
             BOAccadRelation relation = null;
             for (HrmResourceDto add: dto.getnHrmResources()){
-                relation = new BOAccadRelation();
-                relation.setAccountid(dto.getName());
-                relation.setCreater(SecurityUtil.getLoginid());
-                relation.setEmpnum(add.getLoginid());
-                relation.setEmpname(add.getLastname());
-                relation.setModifier(SecurityUtil.getLoginid());
-                addList.add(relation);
+                if(StringUtils.isNotEmpty(add.getLoginid()) && StringUtils.isNotEmpty(dto.getName())){
+                    relation = new BOAccadRelation();
+                    relation.setAccountid(dto.getName());
+                    relation.setCreater(SecurityUtil.getLoginid());
+                    relation.setEmpnum(add.getLoginid());
+                    relation.setEmpname(add.getLastname());
+                    relation.setModifier(SecurityUtil.getLoginid());
+                    addList.add(relation);
+                }
             }
             i = reportAccadRelation.insertBatch(addList);
             if(i < addList.size()){
@@ -337,12 +340,14 @@ public class BoConfigServiceImpl implements BoConfigService {
                 List<BOAccInfo> addList = new ArrayList<>();
                 BOAccInfo accInfo = null;
                 for(String reportid:catalogueDto.getAddReports()){
-                    accInfo = new BOAccInfo();
-                    accInfo.setAccountid(catalogueDto.getAccountid());
-                    accInfo.setReportid(reportid);
-                    accInfo.setCreater(SecurityUtil.getLoginid());
-                    accInfo.setModifier(SecurityUtil.getLoginid());
-                    addList.add(accInfo);
+                    if(StringUtils.isNotEmpty(reportid) && StringUtils.isNotEmpty(catalogueDto.getAccountid())){
+                        accInfo = new BOAccInfo();
+                        accInfo.setAccountid(catalogueDto.getAccountid());
+                        accInfo.setReportid(reportid);
+                        accInfo.setCreater(SecurityUtil.getLoginid());
+                        accInfo.setModifier(SecurityUtil.getLoginid());
+                        addList.add(accInfo);
+                    }
                 }
                 i = reportAccInfoMapper.insertAccReportBatch(addList);
                 if(i < addList.size()){
@@ -354,7 +359,7 @@ public class BoConfigServiceImpl implements BoConfigService {
 
     /**
      * @Author 钱敏杰
-     * @Description 新增或删除员工号与报表的关联数据
+     * @Description 新增或删除员工号与报表的关联数据（员工权限与BO账号无关）
      * @Date 2018/12/11 10:38
      * @Param [catalogueDto]
      * @return void
@@ -378,12 +383,14 @@ public class BoConfigServiceImpl implements BoConfigService {
                 List<BOPermission> addList = new ArrayList<>();
                 BOPermission permission = null;
                 for(String reportid:catalogueDto.getAddReports()){
-                    permission = new BOPermission();
-                    permission.setEmpnum(catalogueDto.getEmpnum());
-                    permission.setReportid(reportid);
-                    permission.setCreater(SecurityUtil.getLoginid());
-                    permission.setModifier(SecurityUtil.getLoginid());
-                    addList.add(permission);
+                    if(StringUtils.isNotEmpty(reportid) && StringUtils.isNotEmpty(catalogueDto.getEmpnum())){
+                        permission = new BOPermission();
+                        permission.setEmpnum(catalogueDto.getEmpnum());
+                        permission.setReportid(reportid);
+                        permission.setCreater(SecurityUtil.getLoginid());
+                        permission.setModifier(SecurityUtil.getLoginid());
+                        addList.add(permission);
+                    }
                 }
                 i = reportPermissionMapper.insertEmpReportBatch(addList);
                 if(i < addList.size()){
@@ -433,39 +440,6 @@ public class BoConfigServiceImpl implements BoConfigService {
         List<BOCatalogueDto> returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
         return returnList;
     }
-
-    /*public void updateAllByEmp(ReportCatalogueDto catalogueDto){
-        if(catalogueDto != null){
-            int i;
-            if(catalogueDto.getDelReports() != null && catalogueDto.getDelReports().length >0){
-                //存在需要删除的数据，则执行删除操作
-                for(String reportid:catalogueDto.getDelReports()){
-                    i = reportPermissionMapper.deleteByEmpReport(catalogueDto.getEmpnum(), reportid, catalogueDto.getAccountid());
-                    if(i <= 0){
-                        throw new RuntimeException("删除员工与报表关联数据失败！");
-                    }
-                }
-            }
-            if(catalogueDto.getAddReports() != null && catalogueDto.getAddReports().length >0){
-                //存在需要新增的数据，则执行新增操作
-                List<ReportPermission> addList = new ArrayList<>();
-                ReportPermission permission = null;
-                for(String reportid:catalogueDto.getAddReports()){
-                    permission = new ReportPermission();
-                    permission.setEmpnum(catalogueDto.getEmpnum());
-                    permission.setReportid(reportid);
-                    permission.setAccountid(catalogueDto.getAccountid());
-                    permission.setCreater(SecurityUtil.getLoginid());
-                    permission.setModifier(SecurityUtil.getLoginid());
-                    addList.add(permission);
-                }
-                i = reportPermissionMapper.insertEmpReportBatch(addList);
-                if(i < addList.size()){
-                    throw new RuntimeException("新增BO账号与报表关联数据失败！");
-                }
-            }
-        }
-    }*/
 
     /**
      * @Author 钱敏杰

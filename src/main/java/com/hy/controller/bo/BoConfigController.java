@@ -214,8 +214,8 @@ public class BoConfigController {
     }
 
     @PostMapping("/account/updateAllByEmp")
-    public ResultObj updateAllByEmp(String empnum){
-        List<BOCatalogueDto> tree = boConfigService.getReportTreeByEmp(empnum);
-        return ResultObj.success(tree);
+    public ResultObj updateAllByEmp(@RequestBody BOCatalogueDto catalogueDto){
+        boConfigService.saveEmpReport(catalogueDto);
+        return ResultObj.success();
     }
 }

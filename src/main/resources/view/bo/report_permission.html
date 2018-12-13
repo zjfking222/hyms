@@ -143,6 +143,8 @@
             $(document).keyup(function(event){
                 if(event.keyCode === 13){
                     vm.data1 = accountSearch($("#search").val());
+                    $("li").removeClass('active');
+                    $('#treeview').attr('src','/index/blank.html');
                 }
             });
         });

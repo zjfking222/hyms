@@ -233,6 +233,7 @@
                                 layer.msg('删除成功！',{time:500,
                                     end:function () {
                                         vm.data1 = accountSearch("");
+                                        $('#treeview').attr('src','/index/blank.html');
                                     }});
                             }else{
                                 layer.msg("删除失败");
@@ -258,6 +259,8 @@
             $(document).keyup(function(event){
                 if(event.keyCode === 13){
                     vm.data1 = accountSearch($("#search").val());
+                    $("li").removeClass('active');
+                    $('#treeview').attr('src','/index/blank.html');
                 }
             });
         });
