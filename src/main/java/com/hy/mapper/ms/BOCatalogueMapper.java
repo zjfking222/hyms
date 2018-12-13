@@ -1,6 +1,6 @@
 package com.hy.mapper.ms;
 
-import com.hy.model.ReportCatalogue;
+import com.hy.model.BOCatalogue;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * @Description:
  */
 @Repository
-public interface ReportCatalogueMapper {
+public interface BOCatalogueMapper {
 
     /**
      * @Author 钱敏杰
@@ -20,5 +20,5 @@ public interface ReportCatalogueMapper {
      * @Param []
      * @return java.util.List<com.hy.model.ReportCatalogue>
      **/
-    List<ReportCatalogue> selectAll();
+    List<BOCatalogue> selectAll();
 }

@@ -1,6 +1,6 @@
 package com.hy.mapper.ms;
 
-import com.hy.model.ReportAccount;
+import com.hy.model.BOAccount;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @Description:BO账号数据库操作
  */
 @Repository
-public interface ReportAccountMapper extends BaseMapper<Integer, ReportAccount>{
+public interface BOAccountMapper extends BaseMapper<Integer, BOAccount>{
 
     /**
      * @Author 钱敏杰
@@ -21,6 +21,6 @@ public interface ReportAccountMapper extends BaseMapper<Integer, ReportAccount>{
      * @Param [accountid]
      * @return java.util.List<com.hy.model.ReportAccount>
      **/
-    List<ReportAccount> selectByAccountid(@Param("accountid")String accountid);
+    List<BOAccount> selectByAccountid(@Param("accountid")String accountid);
 
 }

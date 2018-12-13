@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.ReportAccadRelationMapper">
-    <resultMap id="BaseResultMap" type="com.hy.model.ReportAccadRelation" >
+<mapper namespace="com.hy.mapper.ms.BOAccadRelationMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BOAccadRelation" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="accountid" property="accountid" jdbcType="VARCHAR" />
         <result column="empnum" property="empnum" jdbcType="VARCHAR" />
+        <result column="empname" property="empname" jdbcType="VARCHAR" />
         <result column="creater" property="creater" jdbcType="VARCHAR" />
         <result column="created" property="created" jdbcType="TIMESTAMP" />
         <result column="modifier" property="modifier" jdbcType="VARCHAR" />
         <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Base_Column_List" >
-        id, accountid, empnum, creater, created, modifier, modified
+        id, accountid, empnum, empname, creater, created, modifier, modified
     </sql>
     <select id="getListByAccountid" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List" />
-        from report_accad_relation
+        from bo_accad_relation
         where accountid = #{accountid,jdbcType=VARCHAR}
     </select>
     <select id="getListByEmpnum" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List" />
-        from report_accad_relation
+        from bo_accad_relation
         where empnum = #{empnum,jdbcType=VARCHAR}
     </select>
     <delete id="deleteByAccEmp">
-        delete from report_accad_relation
+        delete from bo_accad_relation
       where accountid = #{accountid,jdbcType=VARCHAR} and empnum = #{empnum,jdbcType=VARCHAR}
     </delete>
+    <delete id="deleteByAccountid">
+        delete from bo_accad_relation
+      where accountid = #{accountid,jdbcType=VARCHAR}
+    </delete>
     <insert id="insertBatch" parameterType="java.util.List">
-        insert into report_accad_relation
-        (accountid, empnum, creater, modifier)
+        insert into bo_accad_relation
+        (accountid, empnum, empname, creater, modifier)
         VALUES
         <foreach collection ="list" item="item" separator =",">
-            (#{item.accountid,jdbcType=VARCHAR}, #{item.empnum,jdbcType=VARCHAR}, #{item.creater,jdbcType=VARCHAR}, #{item.modifier,jdbcType=VARCHAR})
+            (#{item.accountid,jdbcType=VARCHAR}, #{item.empnum,jdbcType=VARCHAR}, #{item.empname,jdbcType=VARCHAR}, #{item.creater,jdbcType=VARCHAR}, #{item.modifier,jdbcType=VARCHAR})
         </foreach >
     </insert>
+    <select id="getAccountEmp" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select distinct empnum,empname
+        from bo_accad_relation
+        <if test="empnum != null and empnum !=''">
+            where empnum like concat('%',#{empnum,jdbcType=VARCHAR},'%') or empname like concat('%',#{empnum,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
 </mapper>

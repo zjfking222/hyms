@@ -1,7 +1,7 @@
 package com.hy.service.bo;
 
 import com.hy.dto.*;
-import com.hy.model.ReportInfo;
+import com.hy.model.BOInfo;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import java.util.List;
  * @Description:BO报表权限配置服务方法接口
  */
 public interface BoConfigService {
-    List<ReportInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir);
+    List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir);
     Integer getReportInfoTotal(String value);
-    boolean addReportInfo(ReportInfo reportInfos);
-    boolean setReportInfo(ReportInfo reportInfo);
+    boolean addReportInfo(BOInfo reportInfos);
+    boolean setReportInfo(BOInfo reportInfo);
     boolean delReportInfo(int id);
     /**
      * @Author 钱敏杰
@@ -23,7 +23,7 @@ public interface BoConfigService {
      * @Param [accountid]
      * @return java.util.List<com.hy.dto.ReportAccountDto>
      **/
-    List<ReportAccountDto> selectByAccountid(String accountid);
+    List<BOAccountDto> selectByAccountid(String accountid);
 
     /**
      * @Author 钱敏杰
@@ -32,7 +32,7 @@ public interface BoConfigService {
      * @Param [dto]
      * @return int
      **/
-    int addAccount(ReportAccountDto dto);
+    int addAccount(BOAccountDto dto);
 
     /**
      * @Author 钱敏杰
@@ -41,16 +41,16 @@ public interface BoConfigService {
      * @Param [dto]
      * @return int
      **/
-    int updateAccount(ReportAccountDto dto);
+    int updateAccount(BOAccountDto dto);
 
     /**
      * @Author 钱敏杰
      * @Description 根据主键删除BO账号
-     * @Date 2018/12/4 10:09
+     * @Date 2018/12/12 10:23
      * @Param [id]
-     * @return int
+     * @return void
      **/
-    int deleteAccount(Integer id);
+    void deleteAccount(String id);
 
     /**
      * @Author 钱敏杰
@@ -77,7 +77,7 @@ public interface BoConfigService {
      * @Param [accountid]
      * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      **/
-    List<ReportCatalogueDto> getAllReportTree(String accountid);
+    List<BOCatalogueDto> getAllReportTree(String accountid);
 
     /**
      * @Author 钱敏杰
@@ -86,7 +86,7 @@ public interface BoConfigService {
      * @Param [accountid]
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
-    List<ReportInfo> getReportInfoByAcc(String accountid);
+    List<BOInfo> getReportInfoByAcc(String accountid);
 
     /**
      * @Author 钱敏杰
@@ -95,16 +95,16 @@ public interface BoConfigService {
      * @Param [accountid, empnum]
      * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      **/
-    List<ReportCatalogueDto> getAccReportTree(String accountid, String empnum);
+    List<BOCatalogueDto> getAccReportTree(String accountid, String empnum);
 
     /**
      * @Author 钱敏杰
      * @Description 根据员工号与BO账号获取关联的BO报表
      * @Date 2018/12/11 11:23
-     * @Param [empnum, accountid]
+     * @Param [empnum]
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
-    List<ReportInfo> getReportInfoByEmp(String empnum, String accountid);
+    List<BOInfo> getReportInfoByEmp(String empnum);
 
     /**
      * @Author 钱敏杰
@@ -113,7 +113,7 @@ public interface BoConfigService {
      * @Param [catalogueDto]
      * @return void
      **/
-    void saveAccountReport(ReportCatalogueDto catalogueDto);
+    void saveAccountReport(BOCatalogueDto catalogueDto);
 
     /**
      * @Author 钱敏杰
@@ -122,5 +122,23 @@ public interface BoConfigService {
      * @Param [catalogueDto]
      * @return void
      **/
-    void saveEmpReport(ReportCatalogueDto catalogueDto);
+    void saveEmpReport(BOCatalogueDto catalogueDto);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号或员工姓名查询所有已关联的员工信息
+     * @Date 2018/12/12 14:22
+     * @Param [empnum]
+     * @return java.util.List<com.hy.dto.ReportAccadRelationDto>
+     **/
+    List<BOAccadRelationDto> getAccountEmp(String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询当前员工所有BO账号下的报表权限树及其选中值
+     * @Date 2018/12/12 16:02
+     * @Param [empnum]
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
+     **/
+    List<BOCatalogueDto> getReportTreeByEmp(String empnum);
 }

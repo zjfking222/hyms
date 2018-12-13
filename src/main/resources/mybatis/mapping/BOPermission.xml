@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.ReportPermissionMapper">
-    <resultMap id="BaseResultMap" type="com.hy.model.ReportPermission" >
+<mapper namespace="com.hy.mapper.ms.BOPermissionMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BOPermission" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="empnum" property="empnum" jdbcType="VARCHAR" />
         <result column="reportid" property="reportid" jdbcType="VARCHAR" />
-        <result column="accountid" property="accountid" jdbcType="VARCHAR" />
         <result column="creater" property="creater" jdbcType="VARCHAR" />
         <result column="created" property="created" jdbcType="TIMESTAMP" />
         <result column="modifier" property="modifier" jdbcType="VARCHAR" />
         <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Base_Column_List" >
-        id, empnum, reportid, accountid, creater, created, modifier, modified
+        id, empnum, reportid, creater, created, modifier, modified
     </sql>
     <delete id="deleteByEmpReport">
-        delete from report_permission
-      where empnum = #{empnum,jdbcType=VARCHAR} and reportid = #{reportid,jdbcType=VARCHAR} and accountid=#{accountid,jdbcType=VARCHAR}
+        delete from bo_permission
+      where empnum = #{empnum,jdbcType=VARCHAR} and reportid = #{reportid,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByEmp">
+        delete from bo_permission
+      where empnum = #{empnum,jdbcType=VARCHAR}
     </delete>
     <insert id="insertEmpReportBatch" parameterType="java.util.List">
-        insert into report_permission
-        (empnum, reportid, accountid, creater, modifier)
+        insert into bo_permission
+        (empnum, reportid, creater, modifier)
         VALUES
         <foreach collection ="list" item="item" separator =",">
-            (#{item.empnum,jdbcType=VARCHAR}, #{item.reportid,jdbcType=VARCHAR},#{item.accountid,jdbcType=VARCHAR}, #{item.creater,jdbcType=VARCHAR}, #{item.modifier,jdbcType=VARCHAR})
+            (#{item.empnum,jdbcType=VARCHAR}, #{item.reportid,jdbcType=VARCHAR}, #{item.creater,jdbcType=VARCHAR}, #{item.modifier,jdbcType=VARCHAR})
         </foreach >
     </insert>
 </mapper>

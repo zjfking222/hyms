@@ -4,17 +4,21 @@ import java.util.Date;
 
 /**
  * @Auther: 钱敏杰
- * @Date: 2018/12/3 8:52
- * @Description:ad域员工号与BO账号关系表
+ * @Date: 2018/12/3 9:26
+ * @Description:BO账号表
  */
-public class ReportAccadRelation {
+public class BOAccount {
 
     //主键
     private Integer id;
     //账号id
     private String accountid;
-    //ad域员工号
-    private String empnum;
+    //账号类别
+    private String type;
+    //账号密码，不支持取出，只能做保存
+    private String password;
+    //描述
+    private String description;
     //创建人
     private String creater;
     //创建时间
@@ -40,12 +44,20 @@ public class ReportAccadRelation {
         this.accountid = accountid;
     }
 
-    public String getEmpnum() {
-        return empnum;
+    public String getType() {
+        return type;
     }
 
-    public void setEmpnum(String empnum) {
-        this.empnum = empnum;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCreater() {
@@ -78,5 +90,13 @@ public class ReportAccadRelation {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

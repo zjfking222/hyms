@@ -4,17 +4,21 @@ import java.util.Date;
 
 /**
  * @Auther: 钱敏杰
- * @Date: 2018/12/7 13:35
- * @Description:报表目录表
+ * @Date: 2018/12/3 9:32
+ * @Description:报表信息表
  */
-public class ReportCatalogue {
+public class BOInfo {
 
     //主键
     private Integer id;
-    //目录名称
+    //报表名称
     private String name;
-    //父id
-    private Integer pid;
+    //报表id
+    private String reportid;
+    //目录id
+    private Integer directoryid;
+    //类别
+    private String type;
     //描述
     private String description;
     //创建人
@@ -42,20 +46,28 @@ public class ReportCatalogue {
         this.name = name;
     }
 
-    public Integer getPid() {
-        return pid;
+    public String getReportid() {
+        return reportid;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setReportid(String reportid) {
+        this.reportid = reportid;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getDirectoryid() {
+        return directoryid;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDirectoryid(Integer directoryid) {
+        this.directoryid = directoryid;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getCreater() {
@@ -88,5 +100,13 @@ public class ReportCatalogue {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

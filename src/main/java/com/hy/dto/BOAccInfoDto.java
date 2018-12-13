@@ -5,7 +5,7 @@ package com.hy.dto;
  * @Date: 2018/12/8 10:49
  * @Description:BO账号与报表对应关系表（BO账号所拥有的报表）
  */
-public class ReportAccInfoDto {
+public class BOAccInfoDto {
 
     //主键
     private Integer id;

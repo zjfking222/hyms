@@ -7,7 +7,7 @@ import java.util.Date;
  * @Date: 2018/12/3 9:32
  * @Description:报表信息表
  */
-public class ReportInfoDto {
+public class BOInfoDto {
 
     //主键
     private Integer id;

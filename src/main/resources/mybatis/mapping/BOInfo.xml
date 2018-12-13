@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.ReportInfoMapper">
-    <resultMap id="BaseResultMap" type="com.hy.model.ReportInfo" >
+<mapper namespace="com.hy.mapper.ms.BOInfoMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BOInfo" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="reportid" property="reportid" jdbcType="VARCHAR" />
@@ -16,8 +16,8 @@
     <sql id="Base_Column_List" >
         id, name, reportid, directoryid, type, description, creater, created, modifier, modified
     </sql>
-    <select id="selectReport" resultType="com.hy.model.ReportInfo">
-        select * from report_info
+    <select id="selectReport" resultType="com.hy.model.BOInfo">
+        select * from bo_info
         where 1=1
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')
@@ -32,7 +32,7 @@
         </if>
     </select>
     <select id="selectReportAll" resultType="java.lang.Integer">
-        select count(1) from report_info
+        select count(1) from bo_info
         where 1=1
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')
@@ -40,29 +40,35 @@
             or directoryid like concat('%',#{value},'%')
         </if>
     </select>
-    <insert id="insertReport" parameterType="com.hy.model.ReportInfo">
-        insert into report_info
+    <insert id="insertReport" parameterType="com.hy.model.BOInfo">
+        insert into bo_info
         (name, reportid, directoryid , type,description, creater, modifier)
         values
             (#{name}, #{reportid}, #{directoryid}, #{type},#{description}, #{creater}, #{modifier})
     </insert>
-    <update id="updateReport" parameterType="com.hy.model.ReportInfo">
-        update report_info
+    <update id="updateReport" parameterType="com.hy.model.BOInfo">
+        update bo_info
         set name = #{name}, reportid = #{reportid}, directoryid = #{directoryid}, type = #{type},description = #{description}
         where id = #{id}
     </update>
-    <delete id="deleteReport" parameterType="com.hy.model.ReportInfo">
-        delete from report_info
+    <delete id="deleteReport" parameterType="com.hy.model.BOInfo">
+        delete from bo_info
         where id = #{id}
     </delete>
     <select id="selectByAccountid" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
-        i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.creater, i.created, i.modifier, i.modified
-        from report_info i,report_acc_info ai where i.reportid=ai.reportid and ai.accountid=#{accountid,jdbcType=VARCHAR}
+        i.id, i.name, i.reportid, i.directoryid, i.type,i.description
+        from bo_info i,bo_acc_info ai where i.reportid=ai.reportid and ai.accountid=#{accountid,jdbcType=VARCHAR}
     </select>
-    <select id="selectByEmp" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <select id="selectAllByEmp" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
-        i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.creater, i.created, i.modifier, i.modified
-        from report_info i,report_permission p where i.reportid=p.reportid and p.empnum=#{empnum,jdbcType=VARCHAR} and p.accountid=#{accountid,jdbcType=VARCHAR}
+        i.id, i.name, i.reportid, i.directoryid, i.type,i.description
+        from bo_info i,bo_acc_info ai where i.reportid=ai.reportid and ai.accountid in
+				(select distinct r.accountid from bo_accad_relation r where r.empnum=#{empnum,jdbcType=VARCHAR})
+    </select>
+    <select id="selectOwnByEmp" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        distinct i.id, i.name, i.reportid, i.directoryid, i.type,i.description
+        from bo_info i,bo_permission p where i.reportid=p.reportid and p.empnum=#{empnum,jdbcType=VARCHAR}
     </select>
 </mapper>

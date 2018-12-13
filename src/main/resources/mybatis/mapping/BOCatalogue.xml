@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.ReportCatalogueMapper">
-    <resultMap id="BaseResultMap" type="com.hy.model.ReportCatalogue" >
+<mapper namespace="com.hy.mapper.ms.BOCatalogueMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BOCatalogue" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="pid" property="pid" jdbcType="INTEGER" />
@@ -17,7 +17,7 @@
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from report_catalogue
+        from bo_catalogue
     </select>
 
 </mapper>

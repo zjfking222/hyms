@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.ReportAccountMapper">
-    <resultMap id="BaseResultMap" type="com.hy.model.ReportAccount" >
+<mapper namespace="com.hy.mapper.ms.BOAccountMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BOAccount" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="accountid" property="accountid" jdbcType="VARCHAR" />
         <result column="type" property="type" jdbcType="VARCHAR" />
@@ -15,15 +15,15 @@
         id, accountid, type, description, creater, created, modifier, modified
     </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-        delete from report_account
+        delete from bo_account
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.hy.model.ReportAccount" >
-        insert into report_account (id, accountid, type, password, description, creater, modifier)
+    <insert id="insert" parameterType="com.hy.model.BOAccount" >
+        insert into bo_account (id, accountid, type, password, description, creater, modifier)
         values (#{id,jdbcType=INTEGER}, #{accountid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR},  #{modifier,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.hy.model.ReportAccount" >
-        insert into report_account
+    <insert id="insertSelective" parameterType="com.hy.model.BOAccount" >
+        insert into bo_account
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >
                 id,
@@ -86,11 +86,11 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
         <include refid="Base_Column_List" />
-        from report_account
+        from bo_account
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.ReportAccount" >
-        update report_account
+    <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.BOAccount" >
+        update bo_account
         <set >
             <if test="accountid != null" >
                 accountid = #{accountid,jdbcType=VARCHAR},
@@ -119,8 +119,8 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hy.model.ReportAccount" >
-        update report_account
+    <update id="updateByPrimaryKey" parameterType="com.hy.model.BOAccount" >
+        update bo_account
         set accountid = #{accountid,jdbcType=VARCHAR},
           type = #{type,jdbcType=VARCHAR},
           password = #{password,jdbcType=VARCHAR},
@@ -134,8 +134,8 @@
     <select id="selectByAccountid" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
         <include refid="Base_Column_List" />
-        from report_account
-        <if test="accountid != null">
+        from bo_account
+        <if test="accountid != null and accountid != ''">
             where accountid like concat('%',#{accountid,jdbcType=VARCHAR},'%')
         </if>
     </select>

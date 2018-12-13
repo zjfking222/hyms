@@ -7,7 +7,7 @@ import java.util.Date;
  * @Date: 2018/12/3 9:37
  * @Description:ad域员工号与报表id对应关系表
  */
-public class ReportPermission {
+public class BOPermission {
 
     //主键
     private Integer id;
@@ -15,8 +15,6 @@ public class ReportPermission {
     private String empnum;
     //报表id
     private String reportid;
-    //BO账号id
-    private String accountid;
     //创建人
     private String creater;
     //创建时间
@@ -80,13 +78,5 @@ public class ReportPermission {
 
     public void setModified(Date modified) {
         this.modified = modified;
-    }
-
-    public String getAccountid() {
-        return accountid;
-    }
-
-    public void setAccountid(String accountid) {
-        this.accountid = accountid;
     }
 }

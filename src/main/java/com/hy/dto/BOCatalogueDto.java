@@ -7,7 +7,7 @@ import java.util.List;
  * @Date: 2018/12/7 13:35
  * @Description:报表目录表和报表信息表整合成一个目录表
  */
-public class ReportCatalogueDto {
+public class BOCatalogueDto {
 
     //主键
     private Integer id;
@@ -22,7 +22,7 @@ public class ReportCatalogueDto {
     //报表类别
     private String type;
     //存放子目录
-    private List<ReportCatalogueDto> items;
+    private List<BOCatalogueDto> items;
     //是否选中：true 选中，false 不选中
     private boolean checked;
     //是否展开当前目录，默认打开：true 打开，false 不打开
@@ -36,9 +36,9 @@ public class ReportCatalogueDto {
     //员工号
     private String empnum;
 
-    public ReportCatalogueDto(){}
+    public BOCatalogueDto(){}
 
-    public ReportCatalogueDto(Integer id, String name, Integer pid, String description, String reportid, String type, boolean checked, boolean expanded){
+    public BOCatalogueDto(Integer id, String name, Integer pid, String description, String reportid, String type, boolean checked, boolean expanded){
         this.id = id;
         this.name = name;
         this.pid = pid;
@@ -97,11 +97,11 @@ public class ReportCatalogueDto {
         this.type = type;
     }
 
-    public List<ReportCatalogueDto> getItems() {
+    public List<BOCatalogueDto> getItems() {
         return items;
     }
 
-    public void setItems(List<ReportCatalogueDto> items) {
+    public void setItems(List<BOCatalogueDto> items) {
         this.items = items;
     }
 

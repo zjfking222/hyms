@@ -3,7 +3,7 @@ package com.hy.controller.bo;
 import com.hy.common.ResultObj;
 import com.hy.dto.*;
 import com.hy.enums.ResultCode;
-import com.hy.model.ReportInfo;
+import com.hy.model.BOInfo;
 import com.hy.service.bo.BoConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +35,14 @@ public class BoConfigController {
     }
 
     @RequestMapping("/addReportInfo")
-    public ResultObj addReportInfo(ReportInfo reportInfo){
+    public ResultObj addReportInfo(BOInfo reportInfo){
         return boConfigService.addReportInfo(reportInfo)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_ADD_FAILED);
     }
 
     @RequestMapping("/setReportInfo")
-    public ResultObj setReportInfo(ReportInfo reportInfo){
+    public ResultObj setReportInfo(BOInfo reportInfo){
         return boConfigService.setReportInfo(reportInfo)?
                 ResultObj.success():
                 ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
@@ -67,7 +67,7 @@ public class BoConfigController {
         if(StringUtils.isEmpty(accountid)){
             accountid = null;
         }
-        List<ReportAccountDto> result = boConfigService.selectByAccountid(accountid);
+        List<BOAccountDto> result = boConfigService.selectByAccountid(accountid);
         return ResultObj.success(result);
     }
 
@@ -79,7 +79,7 @@ public class BoConfigController {
      * @return com.hy.common.ResultObj
      **/
     @RequestMapping(value = "/account/updateAccount", method = RequestMethod.POST)
-    public ResultObj updateAccount(ReportAccountDto dto) {
+    public ResultObj updateAccount(BOAccountDto dto) {
         if(dto.getId() == null){//执行添加
             int i = boConfigService.addAccount(dto);
             if(i<1){
@@ -103,11 +103,7 @@ public class BoConfigController {
      **/
     @RequestMapping(value = "/account/deleteAccount", method = RequestMethod.POST)
     public ResultObj deleteAccount(String id) {
-        Integer nid = Integer.parseInt(id);
-        int i = boConfigService.deleteAccount(nid);
-        if(i<1){
-            return ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
-        }
+        boConfigService.deleteAccount(id);
         return ResultObj.success();
     }
 
@@ -147,7 +143,7 @@ public class BoConfigController {
     @RequestMapping(value = "/account/getAllReportTree", method = RequestMethod.POST)
     public ResultObj getAllReportTree(String accountid) {
         //所有数据树
-        List<ReportCatalogueDto> tree = boConfigService.getAllReportTree(accountid);
+        List<BOCatalogueDto> tree = boConfigService.getAllReportTree(accountid);
         return ResultObj.success(tree);
     }
 
@@ -161,7 +157,7 @@ public class BoConfigController {
     @RequestMapping(value = "/account/getAccReportTree", method = RequestMethod.POST)
     public ResultObj getAccReportTree(String accountid, String empnum) {
         //所有数据树
-        List<ReportCatalogueDto> tree = boConfigService.getAccReportTree(accountid, empnum);
+        List<BOCatalogueDto> tree = boConfigService.getAccReportTree(accountid, empnum);
         return ResultObj.success(tree);
     }
 
@@ -173,7 +169,7 @@ public class BoConfigController {
      * @return com.hy.common.ResultObj
      **/
     @PostMapping("/account/saveAccountReport")
-    public ResultObj saveAccountReport(@RequestBody ReportCatalogueDto catalogueDto){
+    public ResultObj saveAccountReport(@RequestBody BOCatalogueDto catalogueDto){
         boConfigService.saveAccountReport(catalogueDto);
         return ResultObj.success();
     }
@@ -186,8 +182,40 @@ public class BoConfigController {
      * @return com.hy.common.ResultObj
      **/
     @PostMapping("/account/saveEmpReport")
-    public ResultObj saveEmpReport(@RequestBody ReportCatalogueDto catalogueDto){
+    public ResultObj saveEmpReport(@RequestBody BOCatalogueDto catalogueDto){
         boConfigService.saveEmpReport(catalogueDto);
         return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询已绑定BO账号的员工信息
+     * @Date 2018/12/12 14:30
+     * @Param [empnum]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/getAccountEmp")
+    public ResultObj getAccountEmp(String empnum){
+        List<BOAccadRelationDto> owner = boConfigService.getAccountEmp(empnum);
+        return ResultObj.success(owner);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询当前员工的所有报表权限及其值
+     * @Date 2018/12/12 16:04
+     * @Param [empnum]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/getReportByEmp")
+    public ResultObj getReportByEmp(String empnum){
+        List<BOCatalogueDto> tree = boConfigService.getReportTreeByEmp(empnum);
+        return ResultObj.success(tree);
+    }
+
+    @PostMapping("/account/updateAllByEmp")
+    public ResultObj updateAllByEmp(String empnum){
+        List<BOCatalogueDto> tree = boConfigService.getReportTreeByEmp(empnum);
+        return ResultObj.success(tree);
     }
 }

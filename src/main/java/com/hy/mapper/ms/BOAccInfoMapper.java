@@ -1,6 +1,6 @@
 package com.hy.mapper.ms;
 
-import com.hy.model.ReportAccInfo;
+import com.hy.model.BOAccInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * @Description:
  */
 @Repository
-public interface ReportAccInfoMapper {
+public interface BOAccInfoMapper {
 
     /**
      * @Author 钱敏杰
@@ -24,10 +24,19 @@ public interface ReportAccInfoMapper {
 
     /**
      * @Author 钱敏杰
+     * @Description 删除该BO账号下的所有报表关联数据
+     * @Date 2018/12/12 11:13
+     * @Param [accountid]
+     * @return int
+     **/
+    int deleteByAccountid(@Param("accountid") String accountid);
+
+    /**
+     * @Author 钱敏杰
      * @Description 批量插入关联数据
      * @Date 2018/12/6 15:11
      * @Param [list]
      * @return int
      **/
-    int insertAccReportBatch(List<ReportAccInfo> list);
+    int insertAccReportBatch(List<BOAccInfo> list);
 }

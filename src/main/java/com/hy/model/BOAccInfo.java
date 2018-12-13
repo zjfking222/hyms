@@ -4,23 +4,17 @@ import java.util.Date;
 
 /**
  * @Auther: 钱敏杰
- * @Date: 2018/12/3 9:32
- * @Description:报表信息表
+ * @Date: 2018/12/8 10:49
+ * @Description:BO账号与报表对应关系表（BO账号所拥有的报表）
  */
-public class ReportInfo {
+public class BOAccInfo {
 
     //主键
     private Integer id;
-    //报表名称
-    private String name;
-    //报表id
+    //账号id
+    private String accountid;
+    //ad域员工号
     private String reportid;
-    //目录id
-    private Integer directoryid;
-    //类别
-    private String type;
-    //描述
-    private String description;
     //创建人
     private String creater;
     //创建时间
@@ -38,12 +32,12 @@ public class ReportInfo {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAccountid() {
+        return accountid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAccountid(String accountid) {
+        this.accountid = accountid;
     }
 
     public String getReportid() {
@@ -52,22 +46,6 @@ public class ReportInfo {
 
     public void setReportid(String reportid) {
         this.reportid = reportid;
-    }
-
-    public Integer getDirectoryid() {
-        return directoryid;
-    }
-
-    public void setDirectoryid(Integer directoryid) {
-        this.directoryid = directoryid;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getCreater() {
@@ -100,13 +78,5 @@ public class ReportInfo {
 
     public void setModified(Date modified) {
         this.modified = modified;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }
