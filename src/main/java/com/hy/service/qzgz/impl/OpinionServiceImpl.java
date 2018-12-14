@@ -23,8 +23,8 @@ public class OpinionServiceImpl implements OpinionService{
     public boolean addOpinion(OpinionDto opinionDto) {
 
         QzgzOpinion opinion = DTOUtil.populate(opinionDto,QzgzOpinion.class);
-        opinion.setCreater(-1);
-        opinion.setModifier(-1);
+        opinion.setCreater("-1");
+        opinion.setModifier("-1");
         return opinionMapper.insertOpinion(opinion) == 1;
     }
 
@@ -52,7 +52,7 @@ public class OpinionServiceImpl implements OpinionService{
         QzgzOpinion opinion = new QzgzOpinion();
         opinion.setId(id);
         opinion.setState(state);
-        opinion.setModifier(SecurityUtil.getUserId());
+        opinion.setModifier(SecurityUtil.getLoginid());
         return opinionMapper.updateStateOfOpinion(opinion) == 1;
     }
 

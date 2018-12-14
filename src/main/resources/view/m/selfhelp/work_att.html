@@ -35,12 +35,9 @@
 
     <script src="/statics/plugins/jquery/jquery.min.js"></script>
     <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/statics/js/m/workplus_integration.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             mui.init();
-            //接入恒拓app
-            ht_access_check();
             //跳转工作排班查询结果页面
             mui(document.body).on('tap', '.scheduling-btn', function(e) {
                 if("hyms" == parent.parentFlag){//本系统

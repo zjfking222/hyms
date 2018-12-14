@@ -4,11 +4,9 @@ import com.hy.common.ResultObj;
 import com.hy.dto.SysUserDto;
 import com.hy.dto.SysUsersNewDto;
 import com.hy.enums.ResultCode;
-import com.hy.service.ldap.LdapService;
 import com.hy.service.system.SysUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,9 +16,6 @@ import java.util.List;
 public class SysUsersController {
     @Autowired
     private SysUsersService sysUsersService;
-    //
-    @Autowired
-    private LdapService ldapService;
 
     @PostMapping("/users/get")
     public ResultObj getUsers(){
@@ -84,7 +79,7 @@ public class SysUsersController {
      **/
     @PostMapping("users/getAllUsersFromAd")
     public ResultObj getAllUsersFromAd( @RequestParam(required = false) String search) {
-        List<SysUserDto> list = ldapService.searchUsers(search);
+        List<SysUserDto> list = sysUsersService.searchUsers(search);
         return ResultObj.success(list);
     }
 }

@@ -29,8 +29,8 @@ public class MeetingBusServiceImpl implements MeetingBusService {
         MmBus mmBus = DTOUtil.populate(mmBusDto, MmBus.class);
         mmBus.setFirsttime(DateUtil.translate(mmBusDto.getFirsttime()));
         mmBus.setEndtime(DateUtil.translate(mmBusDto.getEndtime()));
-        mmBus.setCreater(SecurityUtil.getUserId());
-        mmBus.setModifier(SecurityUtil.getUserId());
+        mmBus.setCreater(SecurityUtil.getLoginid());
+        mmBus.setModifier(SecurityUtil.getLoginid());
         mmBusMapper.insertMmBus(mmBus);
         return mmBus.getId();
     }
@@ -40,14 +40,14 @@ public class MeetingBusServiceImpl implements MeetingBusService {
         MmBus update = DTOUtil.populate(mmBusDto, MmBus.class);
         update.setFirsttime(DateUtil.translate(mmBusDto.getFirsttime()));
         update.setEndtime(DateUtil.translate(mmBusDto.getEndtime()));
-        update.setModifier(SecurityUtil.getUserId());
+        update.setModifier(SecurityUtil.getLoginid());
         return mmBusMapper.updateMmBus(update) == 1;
     }
 
     @Override
     public boolean deleteBus(MmBusDto mmBusDto) {
         MmBus delete = DTOUtil.populate(mmBusDto, MmBus.class);
-        delete.setModifier(SecurityUtil.getUserId());
+        delete.setModifier(SecurityUtil.getLoginid());
         return mmBusMapper.deleteMmBus(delete) == 1;
     }
 

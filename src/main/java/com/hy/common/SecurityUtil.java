@@ -1,12 +1,14 @@
 package com.hy.common;
 
 import com.hy.config.shiro.ShiroUserInfo;
-import com.hy.model.HrmResource;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import java.lang.reflect.Method;
 
 public class SecurityUtil {
 
@@ -29,10 +31,6 @@ public class SecurityUtil {
         if (StringUtils.isEmpty(getUserInfo().getDepid()))
             return -1;
         return Integer.parseInt(getUserInfo().getDepid());
-    }
-
-    public static int getUserId() {
-        return getUserInfo().getId();
     }
 
     public static String getUserName() {
@@ -89,5 +87,29 @@ public class SecurityUtil {
     public static void removeAttribute(String key) {
         Subject subject = SecurityUtils.getSubject();
         subject.getSession().removeAttribute(key);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 更改Principal对象属性
+     * @Date 2018/11/22 10:21
+     * @Param [methodName, value]
+     * @return void
+     **/
+    public static void setPrincipalAttribute(String methodName, String value) throws Exception{
+        Subject subject = SecurityUtils.getSubject();
+        //用户信息
+        Object key = subject.getPrincipal();
+        //热部署下不能强转，使用反射调用方法
+        Class clazz = key.getClass();
+        Method m = clazz.getMethod(methodName, String.class);
+        m.invoke(key, value);
+        //调出当前属性存放集合
+        PrincipalCollection principalCollection = subject.getPrincipals();
+        //当前用户的realm名称
+        String realmName = principalCollection.getRealmNames().iterator().next();
+        //重新加载Principal
+        PrincipalCollection newPrincipalCollection = new SimplePrincipalCollection(key, realmName);
+        subject.runAs(newPrincipalCollection);
     }
 }

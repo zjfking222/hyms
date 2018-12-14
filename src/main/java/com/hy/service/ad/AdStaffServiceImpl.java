@@ -88,8 +88,8 @@ public class AdStaffServiceImpl implements AdStaffService {
                 adStaff.get(i).setDate(date);
                 adStaff.get(i).setTime(time);
                 adStaff.get(i).setState(state);
-                adStaff.get(i).setCreater(-1);
-                adStaff.get(i).setModifier(-1);
+                adStaff.get(i).setCreater("-1");
+                adStaff.get(i).setModifier("-1");
             });
             return adStaffMapper.insertStaff(adStaff) == adStaff.size();
         } catch (Exception e) {

@@ -35,8 +35,8 @@ public class AgendaServiceImpl implements AgendaService {
         try{
             tempDate = sdf.parse(mmAgendaDto.getDate());
             mmAgenda = DTOUtil.populate(mmAgendaDto,MmAgenda.class);
-            mmAgenda.setCreater(SecurityUtil.getUserId());
-            mmAgenda.setModifier(SecurityUtil.getUserId());
+            mmAgenda.setCreater(SecurityUtil.getLoginid());
+            mmAgenda.setModifier(SecurityUtil.getLoginid());
             mmAgenda.setDomain(SecurityUtil.getDepartmentId());
             mmAgenda.setDate(tempDate);
         }catch (ParseException e){
@@ -50,7 +50,7 @@ public class AgendaServiceImpl implements AgendaService {
         try{
             tempDate = sdf.parse(mmAgendaDto.getDate());
             mmAgenda = DTOUtil.populate(mmAgendaDto,MmAgenda.class);
-            mmAgenda.setModifier(SecurityUtil.getUserId());
+            mmAgenda.setModifier(SecurityUtil.getLoginid());
             mmAgenda.setDate(tempDate);
         }catch (ParseException e){
             return false;

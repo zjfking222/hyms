@@ -6,9 +6,9 @@ public class QzgzBus {
     private String line;
     private String start;
     private String end;
-    private int creater;
+    private String creater;
     private String created;
-    private int modifier;
+    private String modifier;
     private String modified;
 
     public int getId() {
@@ -51,11 +51,11 @@ public class QzgzBus {
         this.end = end;
     }
 
-    public int getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(int creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -67,11 +67,11 @@ public class QzgzBus {
         this.created = created;
     }
 
-    public int getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

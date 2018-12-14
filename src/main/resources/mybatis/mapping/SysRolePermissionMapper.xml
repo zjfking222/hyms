@@ -3,9 +3,9 @@
 <mapper namespace="com.hy.mapper.ms.SysRolePermissionMapper" >
   <resultMap id="BaseResultMap" type="com.hy.model.SysRolePermission" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     <result column="rid" property="rid" jdbcType="INTEGER" />
     <result column="mid" property="mid" jdbcType="INTEGER" />
@@ -28,8 +28,8 @@
     insert into sys_role_permission (id, creater, created, 
       modifier, modified, rid, 
       mid, type)
-    values (#{id,jdbcType=INTEGER}, #{creater,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, 
-      #{modifier,jdbcType=INTEGER}, #{modified,jdbcType=TIMESTAMP}, #{rid,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{modifier,jdbcType=VARCHAR}, #{modified,jdbcType=TIMESTAMP}, #{rid,jdbcType=INTEGER},
       #{mid,jdbcType=INTEGER}, #{type,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysRolePermission" >
@@ -65,13 +65,13 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="creater != null" >
-        #{creater,jdbcType=INTEGER},
+        #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        #{modifier,jdbcType=INTEGER},
+        #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         #{modified,jdbcType=TIMESTAMP},
@@ -91,13 +91,13 @@
     update sys_role_permission
     <set >
       <if test="creater != null" >
-        creater = #{creater,jdbcType=INTEGER},
+        creater = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         created = #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        modifier = #{modifier,jdbcType=INTEGER},
+        modifier = #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         modified = #{modified,jdbcType=TIMESTAMP},
@@ -116,9 +116,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hy.model.SysRolePermission" >
     update sys_role_permission
-    set creater = #{creater,jdbcType=INTEGER},
+    set creater = #{creater,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
-      modifier = #{modifier,jdbcType=INTEGER},
+      modifier = #{modifier,jdbcType=VARCHAR},
       modified = #{modified,jdbcType=TIMESTAMP},
       rid = #{rid,jdbcType=INTEGER},
       mid = #{mid,jdbcType=INTEGER},

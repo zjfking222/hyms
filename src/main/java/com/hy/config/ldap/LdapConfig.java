@@ -25,6 +25,8 @@ public class LdapConfig {
     private String uName;
     @Value("${ldap.maxResult}")
     private String maxResult;
+    @Value("${ldap.cer}")
+    private String cer;
 
     public String getHost() {
         return host;
@@ -52,5 +54,13 @@ public class LdapConfig {
 
     public String getMaxResult() {
         return maxResult;
+    }
+
+    public String getCer() {
+        return cer;
+    }
+
+    public void setCer(String cer) {
+        this.cer = cer;
     }
 }

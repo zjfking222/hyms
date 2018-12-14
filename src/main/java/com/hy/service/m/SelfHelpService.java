@@ -3,8 +3,7 @@ package com.hy.service.m;
 import com.hy.dto.*;
 import com.hy.model.Checkinout;
 import com.sap.conn.jco.JCoFunction;
-
-import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +18,11 @@ public interface SelfHelpService {
     /**
      * @Author 钱敏杰
      * @Description 获取图片验证码并将验证码存入session
-     * @Date 2018/11/5 16:32
-     * @Param [response]
+     * @Date 2018/12/1 10:42
+     * @Param [out]
      * @return void
      **/
-    public void getVerificationCode(HttpServletResponse response);
+    public void getVerificationCode(OutputStream out);
 
     /**
      * @Author 钱敏杰
@@ -38,10 +37,10 @@ public interface SelfHelpService {
      * @Author 钱敏杰
      * @Description 获取当前年月当前用户的薪资数据
      * @Date 2018/11/7 16:01
-     * @Param [id, username, password, year, month]
+     * @Param [id, password, year, month]
      * @return java.util.Map<java.lang.String,java.lang.Object>
      **/
-    public Map<String, Object> getSalaryData(String id, String username, String password, String year, String month);
+    public Map<String, Object> getSalaryData(String id, String password, String year, String month);
 
     /**
      * @Author 钱敏杰

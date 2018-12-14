@@ -174,7 +174,7 @@ public class ReceiptServiceImpl implements ReceiptService {
             if(mmReceiptFetchDto.getReceipt().getDeparturedate() != null && !"".equals(mmReceiptFetchDto.getReceipt().getDeparturedate())){
                 mmReceipt.setDeparturedate(DateUtil.translate(mmReceiptFetchDto.getReceipt().getDeparturedate()));
             }
-            mmReceipt.setModifier(SecurityUtil.getUserId());
+            mmReceipt.setModifier(SecurityUtil.getLoginid());
             mmReceiptMapper.updateReceipt(mmReceipt);
 
             //批量更新或插入 receiptAgenda
@@ -215,10 +215,10 @@ public class ReceiptServiceImpl implements ReceiptService {
         List<MmReceipt> mmReceipts = DTOUtil.populateList(mmReceiptNewDtos, MmReceipt.class);
 
         IntStream.range(0, mmReceipts.size()).forEach(i -> {
-            mmReceipts.get(i).setUid(SecurityUtil.getUserId());
+            mmReceipts.get(i).setUid(SecurityUtil.getLoginid());
             mmReceipts.get(i).setDomain(SecurityUtil.getDepartmentId());
-            mmReceipts.get(i).setCreater(SecurityUtil.getUserId());
-            mmReceipts.get(i).setModifier(SecurityUtil.getUserId());
+            mmReceipts.get(i).setCreater(SecurityUtil.getLoginid());
+            mmReceipts.get(i).setModifier(SecurityUtil.getLoginid());
             mmReceipts.get(i).setLastname(SecurityUtil.getUserName());
         });
         return mmReceiptMapper.insertReceipt(mmReceipts) == mmReceipts.size();

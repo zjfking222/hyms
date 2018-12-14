@@ -2,57 +2,108 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hy.mapper.ms.QzgzCanteenMapper">
 
-    <select id="selectCanteen" resultType="com.hy.model.QzgzCanteen">
-      SELECT *
-      FROM qzgz_canteen
-      WHERE 1=1
-      <if test="state != null and '' != state">
-          AND state = #{state}
-      </if>
-      ORDER BY CONVERT(name USING gbk)
-      LIMIT #{startRow},#{number}
+    <select id="selectCanteenToday" resultType="com.hy.model.QzgzCanteen">
+        SELECT id,name,type,meal,zan
+        from qzgz_canteen
+        where to_days(date) = TO_DAYS(NOW()) and meal = #{meal}
     </select>
 
-    <select id="selectCountOfCanteen" resultType="java.lang.Integer">
-        SELECT COUNT(*)
-        FROM qzgz_canteen
-        WHERE 1=1
-        <if test="state != null and '' != state">
-            AND  state = #{state}
-        </if>
-    </select>
-    
-    <insert id="insertCanteen" parameterType="com.hy.model.QzgzCanteen">
-        INSERT INTO qzgz_canteen (name, type, creater, modifier)
-        VALUES (#{name},#{type},#{creater},#{modifier})
+    <update id="updateCanteenZan" parameterType="com.hy.model.QzgzCanteen">
+        update qzgz_canteen
+        set zan = #{zan}
+        where id = #{id}
+    </update>
+
+    <insert id="insertCanteenList" parameterType="com.hy.model.QzgzCanteen">
+        insert into qzgz_canteen
+        (date, name, type, meal, price, creater, modifier)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.date},#{item.name},#{item.type},#{item.meal},#{item.price},#{item.creater},#{item.modifier})
+        </foreach>
     </insert>
-    
-    <update id="updateCanteenById" parameterType="com.hy.model.QzgzCanteen">
-        UPDATE qzgz_canteen SET
-            name = #{name},
-            type = #{type},
-            modifier = #{modifier}
-        WHERE id = #{id}
-    </update>
 
-    <update id="updateCanteenState" parameterType="com.hy.model.QzgzCanteen">
-       UPDATE qzgz_canteen SET
-           state = #{state},
-           modifier = #{modifier}
-       WHERE id = #{id}
-    </update>
-    <select id="selectCanteenByName" resultType="com.hy.model.QzgzCanteen">
-      SELECT * FROM
-      qzgz_canteen
-      WHERE (name like concat('%',#{name},'%') or type like concat('%',#{name},'%'))
-        <if test="state != null and '' != state">
-          AND  state = #{state}
+    <select id="selectCanteenAll" resultType="com.hy.model.QzgzCanteen">
+        select *
+        from qzgz_canteen
+        where to_days(date) &gt;= to_days(#{minDate}) and to_days(date) &lt;= to_days(#{maxDate})
+    </select>
+
+    <select id="selectCanteen" resultType="com.hy.model.QzgzCanteen">
+        select *
+        from qzgz_canteen
+        where to_days(date) = to_days(#{date})
+        <if test="meal != null and '' != meal">
+            AND meal = #{meal}
         </if>
-      ORDER BY CONVERT(name USING gbk)
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+        <if test="sort == null or '' == sort">
+            ORDER BY meal,name
+        </if>
     </select>
-    <select id="selectCanteenById" resultType="com.hy.model.QzgzCanteen">
-        SELECT * FROM qzgz_canteen
-        WHERE id = #{id}
+
+    <select id="selectCanteenTotal" resultType="java.lang.Integer">
+        select count(1)
+        from qzgz_canteen
+        where to_days(date) = to_days(#{date})
+        <if test="meal != null and '' != meal">
+            AND meal = #{meal}
+        </if>
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+        </if>
     </select>
+
+    <delete id="deleteCanteen" parameterType="com.hy.model.QzgzCanteen">
+        delete from qzgz_canteen
+        where id = #{id}
+    </delete>
+
+    <!--<select id="selectCountOfCanteen" resultType="java.lang.Integer">-->
+        <!--SELECT COUNT(*)-->
+        <!--FROM qzgz_canteen-->
+        <!--WHERE 1=1-->
+        <!--<if test="state != null and '' != state">-->
+            <!--AND  state = #{state}-->
+        <!--</if>-->
+    <!--</select>-->
+
+    <!--<insert id="insertCanteen" parameterType="com.hy.model.QzgzCanteen">-->
+        <!--INSERT INTO qzgz_canteen (name, type, creater, modifier)-->
+        <!--VALUES (#{name},#{type},#{creater},#{modifier})-->
+    <!--</insert>-->
+
+    <!--<update id="updateCanteenById" parameterType="com.hy.model.QzgzCanteen">-->
+        <!--UPDATE qzgz_canteen SET-->
+            <!--name = #{name},-->
+            <!--type = #{type},-->
+            <!--modifier = #{modifier}-->
+        <!--WHERE id = #{id}-->
+    <!--</update>-->
+
+    <!--<update id="updateCanteenState" parameterType="com.hy.model.QzgzCanteen">-->
+        <!--UPDATE qzgz_canteen SET-->
+            <!--state = #{state},-->
+            <!--modifier = #{modifier}-->
+        <!--WHERE id = #{id}-->
+    <!--</update>-->
+    <!--<select id="selectCanteenByName" resultType="com.hy.model.QzgzCanteen">-->
+        <!--SELECT * FROM-->
+        <!--qzgz_canteen-->
+        <!--WHERE (name like concat('%',#{name},'%') or type like concat('%',#{name},'%'))-->
+        <!--<if test="state != null and '' != state">-->
+            <!--AND  state = #{state}-->
+        <!--</if>-->
+        <!--ORDER BY CONVERT(name USING gbk)-->
+    <!--</select>-->
+    <!--<select id="selectCanteenById" resultType="com.hy.model.QzgzCanteen">-->
+        <!--SELECT * FROM qzgz_canteen-->
+        <!--WHERE id = #{id}-->
+    <!--</select>-->
 
 </mapper>

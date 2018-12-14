@@ -51,7 +51,7 @@ public class ReceiptDinesServiceImpl implements ReceiptDinesService {
     public boolean setReceiptDines(List<MmReceiptDineFetchDto> mmReceiptDinesDtos) {
         List<MmReceiptDines> mmReceiptDines = DTOUtil.populateList(mmReceiptDinesDtos, MmReceiptDines.class);
         IntStream.range(0, mmReceiptDines.size()).forEach(i -> {
-            mmReceiptDines.get(i).setModifier(SecurityUtil.getUserId());
+            mmReceiptDines.get(i).setModifier(SecurityUtil.getLoginid());
             mmReceiptDines.get(i).setDate(DateUtil.breviary(mmReceiptDinesDtos.get(i).getDate()));
         });
         return mmReceiptDinesMapper.updateReceiptDines(mmReceiptDines) == mmReceiptDines.size();
@@ -63,8 +63,8 @@ public class ReceiptDinesServiceImpl implements ReceiptDinesService {
         List<MmReceiptDines> mmReceiptDines = DTOUtil.populateList(mmReceiptDineFetchDtos, MmReceiptDines.class);
 
         IntStream.range(0, mmReceiptDines.size()).forEach(i -> {
-            mmReceiptDines.get(i).setModifier(SecurityUtil.getUserId());
-            mmReceiptDines.get(i).setCreater(SecurityUtil.getUserId());
+            mmReceiptDines.get(i).setModifier(SecurityUtil.getLoginid());
+            mmReceiptDines.get(i).setCreater(SecurityUtil.getLoginid());
             mmReceiptDines.get(i).setDomain(SecurityUtil.getDepartmentId());
             mmReceiptDines.get(i).setDate(DateUtil.breviary(mmReceiptDineFetchDtos.get(i).getDate()));
         });

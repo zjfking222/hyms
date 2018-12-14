@@ -15,9 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,12 +40,12 @@ public class SelfHelpServiceImpl implements SelfHelpService {
     /**
      * @Author 钱敏杰
      * @Description 获取图片验证码并将验证码存入session
-     * @Date 2018/11/5 16:32
-     * @Param [request, response]
+     * @Date 2018/12/1 10:42
+     * @Param [out]
      * @return void
      **/
     @Override
-    public void getVerificationCode(HttpServletResponse response){
+    public void getVerificationCode(OutputStream out){
         try {
             //获取长度为4，屏蔽部分字母数字的验证码
             String code = VerificationCodeUtil.getRandomCode(4, "0oO1iIl");
@@ -53,7 +54,7 @@ public class SelfHelpServiceImpl implements SelfHelpService {
             //生成验证码图片
             BufferedImage image = VerificationCodeUtil.getCodeImage(95,40, code);
             //输出到页面
-            ImageIO.write(image,"jpg", response.getOutputStream());
+            ImageIO.write(image,"jpg", out);
         } catch (IOException e) {
             logger.error("验证码生成异常！", e);
             throw new RuntimeException("验证码生成异常！");
@@ -87,11 +88,11 @@ public class SelfHelpServiceImpl implements SelfHelpService {
      * @Author 钱敏杰
      * @Description 获取当前年月当前用户的薪资数据
      * @Date 2018/11/7 16:01
-     * @Param [id, username, password, year, month]
+     * @Param [id, password, year, month]
      * @return java.util.Map<java.lang.String,java.lang.Object>
      **/
     @Override
-    public Map<String, Object> getSalaryData(String id, String username, String password, String year, String month){
+    public Map<String, Object> getSalaryData(String id, String password, String year, String month){
         //获取操作对象
         JCoDestination destination = JcoUtil.getInstance("");
         //获取函数
@@ -101,7 +102,6 @@ public class SelfHelpServiceImpl implements SelfHelpService {
         JcoUtil.setParameter(function,"I_MONTH", month);
         JcoUtil.setParameter(function,"I_YEAR", year);
         JcoUtil.setParameter(function,"I_UPASS", password);
-        JcoUtil.setParameter(function,"I_UNAME", username);
         //执行获取数据
         JcoUtil.executeFunction(function, destination);
         Map<String, Object> results = new HashMap<>();
@@ -125,14 +125,16 @@ public class SelfHelpServiceImpl implements SelfHelpService {
             //只有一条薪资数据，指向该数据
             codes.setRow(0);
             dto = JcoUtil.getInfoFromTable(codes, dto);
-            //计算代扣合计数据
-            Float dkhj = Float.parseFloat(dto.getZwt022())+Float.parseFloat(dto.getZwt023())+Float.parseFloat(dto.getZwt024())
-                    +Float.parseFloat(dto.getZwt025())+Float.parseFloat(dto.getZwt026())+Float.parseFloat(dto.getZwt027())
-                    +Float.parseFloat(dto.getZwt028())+Float.parseFloat(dto.getZwt029())+Float.parseFloat(dto.getZwt030())+Float.parseFloat(dto.getZwt031());
-            String hj = dkhj.toString();
-            //取小数点后2位
-            hj = hj.substring(0, hj.indexOf(".")+3);
-            dto.setDkhj(hj);
+            if(dto != null && StringUtils.isNotEmpty(dto.getPernr())){
+                //计算代扣合计数据
+                Float dkhj = Float.parseFloat(dto.getZwt022())+Float.parseFloat(dto.getZwt023())+Float.parseFloat(dto.getZwt024())
+                        +Float.parseFloat(dto.getZwt025())+Float.parseFloat(dto.getZwt026())+Float.parseFloat(dto.getZwt027())
+                        +Float.parseFloat(dto.getZwt028())+Float.parseFloat(dto.getZwt029())+Float.parseFloat(dto.getZwt030())+Float.parseFloat(dto.getZwt031());
+                //取小数点后2位
+                DecimalFormat df = new DecimalFormat("#.00");
+                String hj = df.format(dkhj);
+                dto.setDkhj(hj);
+            }
             results.put("salaryData", dto);
         }
         return results;
@@ -428,7 +430,7 @@ public class SelfHelpServiceImpl implements SelfHelpService {
                         }
                     }
                     //同一月内的数据，改用天数作为主键
-                    String day = key.substring(key.length()-2, key.length());
+                    String day = key.substring(key.length()-2);
                     Integer d = Integer.parseInt(day);
                     results.put(d.toString(), dto);
                 }

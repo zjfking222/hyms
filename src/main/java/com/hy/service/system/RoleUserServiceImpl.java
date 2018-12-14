@@ -32,7 +32,7 @@ public class RoleUserServiceImpl implements RoleUserService{
 
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setModifier(SecurityUtil.getUserId());
+            sysRoles.setModifier(SecurityUtil.getLoginid());
             sysRoles.setName(sysRolesUserDto.getName());
             sysRoles.setEnable(true);
             sysRoles.setId(sysRolesUserDto.getRid());
@@ -43,7 +43,7 @@ public class RoleUserServiceImpl implements RoleUserService{
             }
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId()+"", SecurityUtil.getUserId()+"",sysRolesUserDto.getRid(),
+                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRolesUserDto.getRid(),
                         hr.getId().toString(),hr.getLoginid(),hr.getLastname()));
             }
             return true;
@@ -59,15 +59,15 @@ public class RoleUserServiceImpl implements RoleUserService{
     public boolean addRoleUser(SysRolesUserDto sysRolesUserDto) {
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setCreater(SecurityUtil.getUserId());
-            sysRoles.setModifier(SecurityUtil.getUserId());
+            sysRoles.setCreater(SecurityUtil.getLoginid());
+            sysRoles.setModifier(SecurityUtil.getLoginid());
             sysRoles.setEnable(true);
             sysRoles.setName(sysRolesUserDto.getName());
             sysRolesMapper.insertSelective(sysRoles);
             System.out.println(sysRoles.getId());
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId()+"", SecurityUtil.getUserId()+"",sysRoles.getId(),
+                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRoles.getId(),
                         hr.getId().toString(),hr.getLoginid(),hr.getLastname()));
             }
             return true;
