@@ -14,5 +14,5 @@ public interface AdDepartmentMapper {
     List<AdDepartment> selectAdDepartment(@Param("date")String date, @Param("time") String time);
     List<AdDepartment> getTime(@Param("date") String date);
     List<AdDepartment> getChangeDep(@Param("date")String date, @Param("time") String time);
-    Integer updateOperator(@Param ("loginId") int LoginId, @Param("id") String Id);
+    Integer updateOperator(@Param ("loginId") String LoginId, @Param("id") String Id);
 }

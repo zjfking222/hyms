@@ -96,7 +96,6 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
                 IntStream.range(0, adDepartment.size()).forEach(i -> {//遍历所有部门
 
                     if(value.equals(String.valueOf(adDepartment.get(i).getDid()))){//若员工部门id==部门Map中的部门id
-//
                         AdDepartmentDto adStaffDto1 = new AdDepartmentDto();//新建一个dto
                         adStaffDto1.setDid(String.valueOf(staffs.get(key).getId()));//设置该员工dto的id和name
                         adStaffDto1.setName(staffs.get(key).getName());
@@ -105,18 +104,19 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
 
                 });
             });
-            IntStream.range(0, adDepartment.size()).forEach(i -> {
-                if(adDepartmentMap.containsKey(adDepartment.get(i).getParentid())){
+
+            IntStream.range(0, adDepartment.size()).forEach(i -> {//遍历所有部门
+                if(adDepartmentMap.containsKey(adDepartment.get(i).getParentid())){//若存在父id
                     adDepartmentMap.get(adDepartment.get(i).getParentid()).getChild()
                             .add(adDepartment.get(i));
                 };
-                if(adDepartment.get(i).getDid() == "10000000"){
-//                    &&!adDepartment.get(i).getChild().isEmpty()
+                if(adDepartment.get(i).getDid().equals("10000000")){
                     adDepartmentReturn.add(adDepartment.get(i));
                 }
             });
 
             String str = JSON.toJSONString(adDepartmentReturn);
+
             return str;
 
         }catch (Exception e){
@@ -182,6 +182,6 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
     }
 
     public Integer updateOperator(String id){
-        return adDepartmentMapper.updateOperator(SecurityUtil.getUserId(), id);
+        return adDepartmentMapper.updateOperator(SecurityUtil.getLoginid(), id);
     }
 }

@@ -120,6 +120,6 @@ public class AdStaffServiceImpl implements AdStaffService {
     }
     @Override
     public Integer updateOperator(String id){
-        return adStaffMapper.updateOperator(SecurityUtil.getUserId(), id);
+        return adStaffMapper.updateOperator(SecurityUtil.getLoginid(), id);
     }
 }
