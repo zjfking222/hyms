@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.BORoleAccountMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BORoleAccount" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="rid" property="rid" jdbcType="INTEGER" />
+        <result column="accountid" property="accountid" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, rid, accountid, creater, created, modifier, modified
+    </sql>
+    <select id="selectRoleAccount" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List" />
+        from bo_role_account
+        where rid = #{rid}
+    </select>
+    <insert id="insertRoleAccount" parameterType="com.hy.model.BORoleAccount">
+        insert into bo_role_account (rid, accountid, creater, modifier)
+        values
+        (#{rid}, #{accountid}, #{creater}, #{modifier})
+    </insert>
+    <delete id="deleteRoleAccount" parameterType="java.lang.Integer">
+        delete from bo_role_account
+        where id = #{id}
+    </delete>
+    <delete id="deleteRoleAccountAll" parameterType="com.hy.model.BORoleAccount">
+        delete from bo_role_account
+        where rid = #{rid}
+    </delete>
+</mapper>

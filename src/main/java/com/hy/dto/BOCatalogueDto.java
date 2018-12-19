@@ -35,6 +35,8 @@ public class BOCatalogueDto {
     private String accountid;
     //员工号
     private String empnum;
+    //角色id
+    private int rid;
 
     public BOCatalogueDto(){}
 
@@ -151,5 +153,13 @@ public class BOCatalogueDto {
 
     public void setEmpnum(String empnum) {
         this.empnum = empnum;
+    }
+
+    public int getRid() {
+        return rid;
+    }
+
+    public void setRid(int rid) {
+        this.rid = rid;
     }
 }

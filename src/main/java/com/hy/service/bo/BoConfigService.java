@@ -2,6 +2,7 @@ package com.hy.service.bo;
 
 import com.hy.dto.*;
 import com.hy.model.BOInfo;
+import com.hy.model.BORoleAd;
 
 import java.util.List;
 
@@ -141,6 +142,47 @@ public interface BoConfigService {
      * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      **/
     List<BOCatalogueDto> getReportTreeByEmp(String empnum);
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色增删改查service
+     * @Date 2018/12/13 10:38
+     **/
+    List<BORoleDto> getRole(String value);
+    boolean delRole(int id);
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、AD员工号关系表增删改查service
+     * @Date 2018/12/13 17:00
+     **/
+    List<HrmResourceDto> getRoleAd(int rid);
+    boolean addRoleAd(SysRolesUserDto dto);
+    boolean setRoleAd(SysRolesUserDto dto);
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、BO账号关系表增删查service
+     * @Date 2018/12/15 8:36
+     **/
+    List<BORoleAccountDto> getRoleAccount(int rid);
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、报表关系表增删查service
+     * @Date 2018/12/17 10:28
+     **/
+    //查询并生成树
+    List<BOCatalogueDto> getRoleReportTree(int rid, String accountid);
+    //增删角色报表
+    void saveRoleReport(BOCatalogueDto catalogueDto);
+
+    /**
+     * @Author 沈超宇
+     * @Description 查询当前角色所拥有的报表service
+     * @Date 2018/12/17 11:10
+     **/
+    List<BOInfo> getReportInfoByRid(int rid);
 
     /**
      * @Author 钱敏杰
