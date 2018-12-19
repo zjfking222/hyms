@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AD域账号</title>
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.mobile.min.css" />
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
+    <style>
+        html{
+            height: 100%;
+            overflow-y: hidden;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+        }
+        iframe{
+            padding:0;
+            margin:0;
+            border-width:0;
+        }
+        #empview{
+            width: 100%;
+            height: 100%;
+        }
+        #roleview{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="tabstrip">
+        <ul>
+            <li class="k-state-active">
+                人员
+            </li>
+            <li>
+                角色
+            </li>
+        </ul>
+        <div>
+            <iframe id="empview" src="/bo/report_aduser.html"></iframe>
+        </div>
+        <div>
+            <iframe id="roleview" src="/index/blank.html"></iframe>
+        </div>
+    </div>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+    <script>
+        var accountid = parent.pushRid;
+        $(document).ready(function() {
+            $("#tabstrip").kendoTabStrip({
+                animation: false  // 弹出效果为false
+            }).data("kendoTabStrip");
+        });
+    </script>
+</body>
+</html>

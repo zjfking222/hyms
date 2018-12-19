@@ -21,6 +21,8 @@ public class BOInfo {
     private String type;
     //描述
     private String description;
+    //url链接地址
+    private String url;
     //创建人
     private String creater;
     //创建时间
@@ -108,5 +110,13 @@ public class BOInfo {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

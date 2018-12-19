@@ -7,24 +7,17 @@
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
 </head>
-<style>
-    .layui-layer-iframe iframe {
-        height: 372px !important;
-    }
-</style>
 <body>
-<div id="menus">
     <div id="grid"></div>
-</div>
 
 <script src="/statics/plugins/jquery/jquery.min.js"></script>
-<script src="/statics/plugins/jszip/2.4.0/jszip.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
-<script src="/statics/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
+    var directoryid = parent.currentCata.node.id;
+    var pushData;
     var vm = new Vue({
         el: "",
         data: {
@@ -57,10 +50,10 @@
                     '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
-                    {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
+                    {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '10%'},
                     {field: "name", title: "报表名称", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
-                    {field: "directoryid", title: "目录ID", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
                     {field: "type", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
+                    {field: "url", title: "url", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
                     {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '25%'},
                     {
                         command: [{
@@ -73,14 +66,14 @@
                                     id: data.id,
                                     name: data.name,
                                     reportid: data.reportid,
-                                    directoryid: data.directoryid,
+                                    url: data.url,
                                     type: data.type,
                                     description:data.description
                                 };
                                 vm.edit();
                             }
                         }, {name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],
-                        title: "操作", width: "15%"
+                        title: "操作", width: "20%"
                     },{field: "", title: ""}
                 ]
             });
@@ -99,7 +92,8 @@
                                         undefined : options.data.sort[0].dir,
                                     'page': options.data.page,
                                     'pageSize': options.data.pageSize,
-                                    'value': $('#search-input').val()
+                                    'value': $('#search-input').val(),
+                                    'directoryid':directoryid
                                 },
                                 method: 'POST',
                                 success: function (result) {
@@ -141,8 +135,9 @@
                                 id: {editable: false, nullable: true},
                                 name: {type: "string", nullable: false},
                                 reportid: {type: "string", nullable: false},
-                                directoryid: {type: "string", nullable: false},
-                                type: {type: "string", nullable: false}
+                                url: {type: "string", nullable: false},
+                                type: {type: "string", nullable: false},
+                                description: {type: "string", nullable: false}
                             }
                         }
                     },
@@ -179,7 +174,7 @@
                 this.layItem = layer.open({
                     title: '添加报表信息',
                     type: 2,
-                    area: ['450px', '55%'],
+                    area: ['500px', '340px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/bo/report_info_update.html',
@@ -194,7 +189,7 @@
                 this.layItem = layer.open({
                     title: '编辑报表信息',
                     type: 2,
-                    area: ['450px', '55%'],
+                    area: ['500px', '340px'],
                     fixed: false, //不固定
                     maxmin: true,
                     content: '/bo/report_info_update.html',

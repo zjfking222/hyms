@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Repository
 public interface BOInfoMapper {
-    List<BOInfo> selectReport(@Param("value") String value, @Param("sort") String sort, @Param("dir") String dir);
-    Integer selectReportAll(@Param("value") String value);
+    List<BOInfo> selectReport(@Param("value") String value, @Param("sort") String sort, @Param("dir") String dir, @Param("directoryid") String directoryid);
+    Integer selectReportAll(@Param("value") String value, @Param("directoryid") String directoryid);
     Integer insertReport(BOInfo reportInfos);
     Integer updateReport(BOInfo reportInfo);
     Integer deleteReport(@Param("id") int id);
@@ -45,4 +45,13 @@ public interface BOInfoMapper {
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
     List<BOInfo> selectOwnByEmp(@Param("empnum") String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询当前报表id的数据量
+     * @Date 2018/12/18 14:16
+     * @Param [reportid]
+     * @return java.lang.Integer
+     **/
+    Integer countInfoByReportid(@Param("reportid") String reportid);
 }

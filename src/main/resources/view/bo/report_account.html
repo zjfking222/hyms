@@ -6,80 +6,34 @@
     <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
-    <style>
-        .input-group{
-            margin: 20px auto;
-            width: 80%;
-        }
-        .input-group button:hover,.input-group button:focus,.input-group button:active{
-            background: white!important;
-        }
-        a:hover{
-            text-decoration:none;
-        }
-        #btn-submit{
-            margin-left: 215px;
-        }
-    </style>
 </head>
-<body>
-    <div class="input-group">
-        <div class="input-group-btn">
-            <button class="btn btn-default" id="btn-id">
-                <span class="glyphicon glyphicon-pencil">账号
-                </span>
-            </button>
-        </div>
-        <input type="text" class="form-control" id="accountid">
+<body style="width: 80%; margin: 10px auto">
+    <div class="form-group">
+        <label for="accountid">账号</label>
+        <input class="form-control input-sm-8" id="accountid" type="text" placeholder="输入账号名称">
     </div>
-    <div class="input-group">
-        <div class="input-group-btn">
-            <button class="btn btn-default" id="btn-type">
-                <span class="glyphicon glyphicon-pencil">类别
-                </span>
-            </button>
-        </div>
-        <input type="text" class="form-control" id="type">
+
+    <div class="form-group">
+        <label for="type">类别</label>
+        <input class="form-control input-sm-8" type="text" id="type" placeholder="输入类别">
     </div>
-    <div class="input-group">
-        <div class="input-group-btn">
-            <button class="btn btn-default" id="btn-password">
-                <span class="glyphicon glyphicon-pencil">密码
-                </span>
-            </button>
-        </div>
-        <input type="password" class="form-control" id="password">
+
+    <div class="form-group">
+        <label for="password">密码</label>
+        <input class="form-control input-sm-8" type="password" id="password" placeholder="输入密码">
     </div>
-    <div class="input-group">
-        <div class="input-group-btn">
-            <button class="btn btn-default" id="btn-description">
-                <span class="glyphicon glyphicon-pencil">描述
-                </span>
-            </button>
-        </div>
-        <textarea type="text" class="form-control" id="description"></textarea>
+
+    <div class="form-group">
+        <label for="description">描述</label>
+        <textarea type="text" class="form-control" id="description" placeholder="输入描述信息"></textarea>
     </div>
-    <a class="layui-btn" id="btn-submit">确定</a>
-    <a class="layui-btn layui-btn-primary" id="btn-cancel">取消</a>
+    <a id="btn-submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
 
     <script src="/statics/plugins/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script>
         //父页面操作对象
         var index = parent.layer.getFrameIndex(window.name);
-        //获得焦点
-        $('#btn-id').on('click',function () {
-            $('#accountid').focus();
-        });
-        $('#btn-type').on('click',function () {
-            $('#type').focus();
-        });
-        $('#btn-password').on('click',function () {
-            $('#password').focus();
-        });
-        $('#btn-description').on('click',function () {
-            $('#description').focus();
-        });
         //编辑页面赋值
         if(!(parent.pushData.id === -1)){
             $('#accountid').val(parent.pushData.accountid);
@@ -121,9 +75,6 @@
                 }
             });
 
-        });
-        $('#btn-cancel').on('click',function () {
-            parent.layer.close(index);
         });
     </script>
 </body>

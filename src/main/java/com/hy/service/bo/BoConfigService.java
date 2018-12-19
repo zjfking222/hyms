@@ -11,8 +11,8 @@ import java.util.List;
  * @Description:BO报表权限配置服务方法接口
  */
 public interface BoConfigService {
-    List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir);
-    Integer getReportInfoTotal(String value);
+    List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir, String directoryid);
+    Integer getReportInfoTotal(String value, String directoryid);
     boolean addReportInfo(BOInfo reportInfos);
     boolean setReportInfo(BOInfo reportInfo);
     boolean delReportInfo(int id);
@@ -141,4 +141,49 @@ public interface BoConfigService {
      * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      **/
     List<BOCatalogueDto> getReportTreeByEmp(String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前BO账号下的人员数量
+     * @Date 2018/12/13 17:16
+     * @Param [accountid]
+     * @return int
+     **/
+    int getAccEmpCount(String accountid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取全部报表目录
+     * @Date 2018/12/14 9:51
+     * @Param []
+     * @return java.util.List<com.hy.dto.BOCatalogueDto>
+     **/
+    List<BOCatalogueDto> getAllCatalogue();
+
+    /**
+     * @Author 钱敏杰
+     * @Description 新增或更新目录
+     * @Date 2018/12/17 9:35
+     * @Param [dto]
+     * @return void
+     **/
+    void updateCatalogue(BOCatalogueDto dto);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除目录
+     * @Date 2018/12/17 16:03
+     * @Param [id]
+     * @return void
+     **/
+    void deleteCatalogue(String id);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前报表id的报表数量
+     * @Date 2018/12/18 14:19
+     * @Param [reportid]
+     * @return java.lang.Integer
+     **/
+    Integer getInfoCount(String reportid);
 }

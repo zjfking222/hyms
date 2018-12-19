@@ -45,13 +45,13 @@ public class BoConfigServiceImpl implements BoConfigService {
     private BOPermissionMapper reportPermissionMapper;
 
     @Override
-    public List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir){
+    public List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir, String directoryid){
         PageHelper.startPage(pageNum,pageSize);
-        return reportInfoMapper.selectReport(value,sort,dir);
+        return reportInfoMapper.selectReport(value,sort,dir,directoryid);
     }
     @Override
-    public Integer getReportInfoTotal(String value){
-        return reportInfoMapper.selectReportAll(value);
+    public Integer getReportInfoTotal(String value, String directoryid){
+        return reportInfoMapper.selectReportAll(value, directoryid);
     }
 
     @Override
@@ -245,7 +245,7 @@ public class BoConfigServiceImpl implements BoConfigService {
         //查询出全部目录结构
         List<BOCatalogue> list = reportCatalogueMapper.selectAll();
         //查询出全部报表信息
-        List<BOInfo> rList = reportInfoMapper.selectReport(null, null, null);
+        List<BOInfo> rList = reportInfoMapper.selectReport(null, null, null, null);
         //循环目录结构，生成以id为key的map结构
         if(list != null && list.size() >0 && rList != null && rList.size() >0){
             List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class );
@@ -422,7 +422,7 @@ public class BoConfigServiceImpl implements BoConfigService {
      **/
     @Override
     public List<BOCatalogueDto> getReportTreeByEmp(String empnum){
-        Map<Integer, BOCatalogueDto> cataMap = null;
+        List<BOCatalogueDto> returnList = null;
         //查询出全部目录结构
         List<BOCatalogue> list = reportCatalogueMapper.selectAll();
         //查询出当前人员的BO账号下的全部报表信息
@@ -435,10 +435,109 @@ public class BoConfigServiceImpl implements BoConfigService {
             //已选中的数据
             List<BOInfo> checked = reportInfoMapper.selectOwnByEmp(empnum);
             //整理树的结构
-            cataMap = this.arrageCatalogue(catalogues, rList, checked);
+            Map<Integer, BOCatalogueDto> cataMap = this.arrageCatalogue(catalogues, rList, checked);
+            returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
         }
-        List<BOCatalogueDto> returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
         return returnList;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前BO账号下的人员数量
+     * @Date 2018/12/13 17:16
+     * @Param [accountid]
+     * @return int
+     **/
+    @Override
+    public int getAccEmpCount(String accountid){
+        List<BOAccadRelation> list = reportAccadRelation.getListByAccountid(accountid);
+        if(list != null){
+            return list.size();
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取全部报表目录
+     * @Date 2018/12/14 9:51
+     * @Param []
+     * @return java.util.List<com.hy.dto.BOCatalogueDto>
+     **/
+    @Override
+    public List<BOCatalogueDto> getAllCatalogue(){
+        List<BOCatalogueDto> returnList = null;
+        //查询出全部目录结构
+        List<BOCatalogue> list = reportCatalogueMapper.selectAll();
+        if(list != null && list.size() >0) {
+            List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class);
+            //list转map
+            Map<Integer, BOCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(BOCatalogueDto:: getId, a ->a, (k1, k2)->k1));
+            //形成树结构
+            this.setListToTree(cataMap, catalogues);
+            returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
+        }
+        return returnList;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 新增或更新目录
+     * @Date 2018/12/17 9:35
+     * @Param [dto]
+     * @return void
+     **/
+    @Override
+    public void updateCatalogue(BOCatalogueDto dto){
+        BOCatalogue catalogue = DTOUtil.populate(dto, BOCatalogue.class);
+        catalogue.setModifier(SecurityUtil.getLoginid());
+        //判断是新增还是执行更新
+        if(catalogue.getId() == null){
+            catalogue.setCreater(SecurityUtil.getLoginid());
+            //调用新增操作
+            int i = reportCatalogueMapper.insertSelective(catalogue);
+            if(i <= 0){
+                throw new RuntimeException("添加目录数据失败！");
+            }
+        }else{
+            //调用更新操作
+            int i = reportCatalogueMapper.updateByPrimaryKeySelective(catalogue);
+            if(i <= 0){
+                throw new RuntimeException("更新目录数据失败！");
+            }
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除目录
+     * @Date 2018/12/17 16:03
+     * @Param [id]
+     * @return void
+     **/
+    @Override
+    public void deleteCatalogue(String id){
+        if(StringUtils.isNotEmpty(id)){
+            Integer rid = Integer.parseInt(id);
+            int i = reportCatalogueMapper.deleteByPrimaryKey(rid);
+            if(i <= 0){
+                throw new RuntimeException("删除目录数据失败！");
+            }
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前报表id的报表数量
+     * @Date 2018/12/18 14:19
+     * @Param [reportid]
+     * @return java.lang.Integer
+     **/
+    @Override
+    public Integer getInfoCount(String reportid){
+        Integer num = reportInfoMapper.countInfoByReportid(reportid);
+        return num;
     }
 
     /**
@@ -474,6 +573,8 @@ public class BoConfigServiceImpl implements BoConfigService {
                         }
                         break;
                     }
+                }else{
+                    break;
                 }
             }
         }
@@ -514,6 +615,19 @@ public class BoConfigServiceImpl implements BoConfigService {
                 }
             }
         }
+        //形成树结构
+        this.setListToTree(cataMap, catalogues);
+        return cataMap;
+    }
+    
+    /**
+     * @Author 钱敏杰
+     * @Description //TODO
+     * @Date 2018/12/14 9:29
+     * @Param [cataMap, catalogues]
+     * @return void
+     **/
+    private void setListToTree(Map<Integer, BOCatalogueDto> cataMap, List<BOCatalogueDto> catalogues){
         //循环目录list结构，生成树的格式
         for(BOCatalogueDto cata:catalogues){
             if(cata.getPid() != null){
@@ -533,6 +647,5 @@ public class BoConfigServiceImpl implements BoConfigService {
                 cataMap.remove(cata.getId());
             }
         }
-        return cataMap;
     }
 }

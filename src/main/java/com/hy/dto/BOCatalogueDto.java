@@ -25,7 +25,7 @@ public class BOCatalogueDto {
     private List<BOCatalogueDto> items;
     //是否选中：true 选中，false 不选中
     private boolean checked;
-    //是否展开当前目录，默认打开：true 打开，false 不打开
+    //是否展开当前目录：true 打开，false 不打开
     private boolean expanded = true;
     //需要新增的报表id
     private String[] addReports;

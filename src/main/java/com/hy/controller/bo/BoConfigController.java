@@ -27,10 +27,10 @@ public class BoConfigController {
     //报表列表
     @RequestMapping("/getReportInfo")
     public ResultObj getReportInfo(int page, int pageSize, @RequestParam(required = false) String value, @RequestParam(required = false) String sort,
-                                   @RequestParam(required = false) String dir) {
+                                   @RequestParam(required = false) String dir, String directoryid) {
         Map<String, Object> map = new HashMap<>();
-        map.put("data", boConfigService.getReportInfo(page, pageSize, value, sort, dir));
-        map.put("total", boConfigService.getReportInfoTotal(value));
+        map.put("data", boConfigService.getReportInfo(page, pageSize, value, sort, dir, directoryid));
+        map.put("total", boConfigService.getReportInfoTotal(value, directoryid));
         return ResultObj.success(map);
     }
 
@@ -213,9 +213,94 @@ public class BoConfigController {
         return ResultObj.success(tree);
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 更改人员权限
+     * @Date 2018/12/13 17:11
+     * @Param [catalogueDto]
+     * @return com.hy.common.ResultObj
+     **/
     @PostMapping("/account/updateAllByEmp")
     public ResultObj updateAllByEmp(@RequestBody BOCatalogueDto catalogueDto){
         boConfigService.saveEmpReport(catalogueDto);
         return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前账号的配置人员数量
+     * @Date 2018/12/13 17:17
+     * @Param [accountid]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/getAccEmpCount")
+    public ResultObj getAccEmpCount(String accountid){
+        int i = boConfigService.getAccEmpCount(accountid);
+        return ResultObj.success(i);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取全部报表目录
+     * @Date 2018/12/14 9:52
+     * @Param []
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/getAllCatalogue")
+    public ResultObj getAllCatalogue(){
+        List<BOCatalogueDto> list = boConfigService.getAllCatalogue();
+        return ResultObj.success(list);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 更改目录数据
+     * @Date 2018/12/17 9:38
+     * @Param [dto]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/updateCatalogue")
+    public ResultObj updateCatalogue(BOCatalogueDto dto){
+        boConfigService.updateCatalogue(dto);
+        return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询当前目录下的报表数目
+     * @Date 2018/12/18 11:05
+     * @Param [id]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/getReportInfoCount")
+    public ResultObj getReportInfoCount(String id) {
+        Integer num = boConfigService.getReportInfoTotal(null, id);
+        return ResultObj.success(num);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除目录数据
+     * @Date 2018/12/17 16:04
+     * @Param [id]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/deleteCatalogue")
+    public ResultObj deleteCatalogue(String id){
+        boConfigService.deleteCatalogue(id);
+        return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前报表id的报表数目
+     * @Date 2018/12/18 14:22
+     * @Param [reportid]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/getReportInfoCountByReportid")
+    public ResultObj getReportInfoCountByReportid(String reportid) {
+        Integer num = boConfigService.getInfoCount(reportid);
+        return ResultObj.success(num);
     }
 }
