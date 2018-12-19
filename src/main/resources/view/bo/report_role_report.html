@@ -17,8 +17,8 @@
     var ListData;
     var oldReport = [];
 
-    function dataSourceList(rid, accountid) {
-        return FetchData({rid: rid, accountid: accountid},'POST','/bo/roleReport/getRoleReport',false).data;
+    function dataSourceList(rid) {
+        return FetchData({rid: rid},'POST','/bo/roleReport/getRoleReport',false).data;
     }
 
     $(function () {
@@ -59,8 +59,7 @@
             }
             //请求参数
             var postData = {
-                rid:parent.pushData.rid,
-                accountid:parent.pushData.accountid,
+                rid:parent.pushRid,
                 addReports:add,
                 delReports:del
             };
@@ -77,7 +76,7 @@
         }
 
         ListData = new kendo.data.HierarchicalDataSource({
-            data: dataSourceList(parent.pushData.rid, parent.pushData.accountid)
+            data: dataSourceList(parent.pushRid)
         });
 
         $("#treeview").kendoTreeView({

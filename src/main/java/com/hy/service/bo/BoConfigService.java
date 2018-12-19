@@ -173,7 +173,7 @@ public interface BoConfigService {
      * @Date 2018/12/17 10:28
      **/
     //查询并生成树
-    List<BOCatalogueDto> getRoleReportTree(int rid, String accountid);
+    List<BOCatalogueDto> getRoleReportTree(int rid);
     //增删角色报表
     void saveRoleReport(BOCatalogueDto catalogueDto);
 

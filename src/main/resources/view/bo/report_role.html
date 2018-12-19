@@ -198,7 +198,12 @@
     function dataSourceSearch(value) {
         return FetchData({value: value}, 'POST', '/role/getRole', false).data;
     }
-
+    function refresh(rid) {
+        $('#treeview').attr('src', 'report_role_report.html?id' + rid);
+        pushRid = rid;
+        $("#rolenav li[data-id=" + rid + "]").addClass('active')
+            .siblings("li").removeClass('active');
+    }
     var vm = new Vue({
         el: '#left',
         data: {
@@ -261,10 +266,7 @@
                     });
             },
             onChoose: function (rid) {
-                $('#treeview').attr('src', 'report_role_report.html?id' + rid);
-                pushRid = rid;
-                $("#rolenav li[data-id=" + rid + "]").addClass('active')
-                    .siblings("li").removeClass('active');
+                refresh(rid);
             }
         }
     });

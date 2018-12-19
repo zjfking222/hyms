@@ -7,7 +7,7 @@
 </head>
 <style>
     .btn{
-        padding: 1px 12px;
+        padding: 0px 12px;
     }
 </style>
 <body style="width: 80% ;margin: 10px auto">
@@ -24,30 +24,30 @@
     <div class="form-group" style="margin-bottom: 0">
         <label>BO账号</label>
         <div class="form-group" style="margin-bottom: 0">
-            <div style="display: inline-block" v-for="acc in account">
+            <div style="display: inline-block;width: 24%" v-for="acc in account">
                 <input name="BO" :id="acc.accountid" type="checkbox" style="height: 15px;width: 15px"/>
-                <p style="display: inline-block">{{acc.accountid}}</p>
+                <p style="display: inline-block;vertical-align: middle;margin-top: 2px;">{{acc.accountid}}</p>
             </div>
         </div>
     </div>
     <div class="form-group">
-        <label>人员搜索</label>
+        <label>搜索人员</label>
         <div class="form-group">
-            <div class="form-control" style="display: inline-block;width: 50%;min-height:34px;height: auto!important;text-align: left;" id="search-pan">
-                <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;"
+            <div class="form-control" style="display: inline-block;width: 50%;min-height:34px;text-align: left;vertical-align: middle;" id="search-pan">
+                <a href="javascript:;" class="btn btn-default" style="min-width: 70px!important;"
                    v-for="hr in search" @click="onAdd(hr.id,hr.loginid,hr.lastname)">{{hr.lastname}}</a>
             </div>
-            <input class="form-control" placeholder="输入人员全名或工号" style="display:inline-block;width: 33%" id="search-info">
-            <div class="form-control" style="display: inline-block;width: 15%;">
+            <input class="form-control" placeholder="输入人员全名或工号" style="display:inline-block;width: 38%;vertical-align: middle" id="search-info">
+            <div class="form-control" style="display: inline-block;width: 10%;vertical-align: middle;margin-left: -5px">
                 <a style="color: black!important;" href="javascript:;" id="search" class="btn-block">搜索</a>
             </div>
         </div>
     </div>
     <div class="form-group">
         <label for="add-pan">已添人员</label>
-        <div class="form-control" style="min-height:34px;height: auto!important;text-align: left" id="add-pan">
+        <div class="form-control" style="min-height:34px;text-align: left;height: auto!important;" id="add-pan">
             <a href="javascript:;" class="btn btn-default"
-               style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
+               style="min-width: 70px!important;"
                v-for="hr in result" @click="onDel(hr.id)">{{hr.lastname}}</a>
         </div>
     </div>
@@ -192,6 +192,7 @@
                         FetchData(JSON.stringify(postData), 'POST', '/bo/roleAd/setRoleAd', false, true).code === 0 ?
                             parent.layer.msg('修改成功') :
                             parent.layer.msg('修改失败');
+                        window.parent.refresh(parent.pushRid);
                         parent.layer.close(index);
                     }
                 }
