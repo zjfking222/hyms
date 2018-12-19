@@ -4,6 +4,7 @@ import com.hy.common.ResultObj;
 import com.hy.dto.*;
 import com.hy.enums.ResultCode;
 import com.hy.model.BOInfo;
+import com.hy.model.BORoleAd;
 import com.hy.service.bo.BoConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,6 +217,78 @@ public class BoConfigController {
     @PostMapping("/account/updateAllByEmp")
     public ResultObj updateAllByEmp(@RequestBody BOCatalogueDto catalogueDto){
         boConfigService.saveEmpReport(catalogueDto);
+        return ResultObj.success();
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色查删controller
+     * @Date 2018/12/13 10:38
+     **/
+    @PostMapping("/role/getRole")
+    public ResultObj getRole(@RequestParam(required = false) String value){
+        List<BORoleDto> boRoleDtosList = boConfigService.getRole(value);
+        return ResultObj.success(boRoleDtosList);
+    }
+
+
+    @PostMapping("/role/delRole")
+    public ResultObj delRole(int id){
+        return boConfigService.delRole(id) ?
+                ResultObj.success() :
+                ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色AD域员工号关系表增删查(包含角色BO账号增删、角色表增删改)controller
+     * @Date 2018/12/13 17:26
+     **/
+    @PostMapping("/roleAd/getRoleAd")
+    public ResultObj getRoleAd(int rid){
+        return ResultObj.success(boConfigService.getRoleAd(rid));
+    }
+
+    @PostMapping("/roleAd/addRoleAd")
+    public ResultObj addRoleAd(@RequestBody SysRolesUserDto dto){
+        return boConfigService.addRoleAd(dto) ?
+        ResultObj.success() :
+        ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+    }
+
+    @PostMapping("/roleAd/setRoleAd")
+    public ResultObj setRoleAd(@RequestBody SysRolesUserDto dto){
+        return boConfigService.setRoleAd(dto) ?
+                ResultObj.success() :
+                ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、BO账号关系表查询controller
+     * @Date 2018/12/15 8:59
+     **/
+    @PostMapping("/roleAccount/getRoleAcc")
+    public ResultObj getRoleAcc(int rid){
+        return ResultObj.success(boConfigService.getRoleAccount(rid));
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、报表关系表增删查controller
+     * @Date 2018/12/17 10:33
+     **/
+    //查询并生成树
+    @PostMapping("/roleReport/getRoleReport")
+    public ResultObj getRoleReportTree(int rid, String accountid){
+        List<BOCatalogueDto> tree = boConfigService.getRoleReportTree(rid, accountid);
+        return ResultObj.success(tree);
+    }
+
+    //增删角色报表
+    @PostMapping("/roleReport/setRoleReport")
+    public ResultObj setRoleReport(@RequestBody BOCatalogueDto catalogueDto){
+        boConfigService.saveRoleReport(catalogueDto);
         return ResultObj.success();
     }
 }

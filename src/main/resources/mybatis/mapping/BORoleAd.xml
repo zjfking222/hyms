@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.BORoleAdMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BORoleAd" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="rid" property="rid" jdbcType="INTEGER" />
+        <result column="empnum" property="empnum" jdbcType="VARCHAR" />
+        <result column="empname" property="empname" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, rid, empnum, empname, creater, created, modifier, modified
+    </sql>
+    <select id="selectRoleAd" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List" />
+        from bo_role_ad
+        where rid = #{rid,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertRoleAd"  parameterType="com.hy.model.BORoleAd">
+        insert into bo_role_ad
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="rid != null" >
+                rid,
+            </if>
+            <if test="empnum != null" >
+                empnum,
+            </if>
+            <if test="empname != null" >
+                empname,
+            </if>
+            <if test="creater != null" >
+                creater,
+            </if>
+            <if test="created != null" >
+                created,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="modified != null" >
+                modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="rid != null" >
+                #{rid,jdbcType=INTEGER},
+            </if>
+            <if test="empnum != null" >
+                #{empnum,jdbcType=VARCHAR},
+            </if>
+            <if test="empname != null" >
+                #{empname,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null" >
+                #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null" >
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modified != null" >
+                #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteRoleAd" parameterType="com.hy.model.BORoleAd">
+        delete from bo_role_ad
+        where id = #{id}
+    </delete>
+    <delete id="deleteRoleAdAll" parameterType="com.hy.model.BORoleAd">
+        delete from bo_role_ad
+        where rid = #{rid}
+    </delete>
+</mapper>

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @Auther: 钱敏杰
@@ -43,55 +44,66 @@ public class BoConfigServiceImpl implements BoConfigService {
     private BOAccInfoMapper reportAccInfoMapper;
     @Autowired
     private BOPermissionMapper reportPermissionMapper;
+    @Autowired
+    private BORoleMapper boRoleMapper;
+    @Autowired
+    private BORoleAdMapper boRoleAdMapper;
+    @Autowired
+    private BORoleAccountMapper boRoleAccountMapper;
+    @Autowired
+    private BORoleReportMapper boRoleReportMapper;
 
     @Override
-    public List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir){
-        PageHelper.startPage(pageNum,pageSize);
-        return reportInfoMapper.selectReport(value,sort,dir);
+    public List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir) {
+        PageHelper.startPage(pageNum, pageSize);
+        return reportInfoMapper.selectReport(value, sort, dir);
     }
+
     @Override
-    public Integer getReportInfoTotal(String value){
+    public Integer getReportInfoTotal(String value) {
         return reportInfoMapper.selectReportAll(value);
     }
 
     @Override
-    public boolean addReportInfo(BOInfo reportInfos){
+    public boolean addReportInfo(BOInfo reportInfos) {
         reportInfos.setCreater(SecurityUtil.getLoginid());
         reportInfos.setModifier(SecurityUtil.getLoginid());
         return reportInfoMapper.insertReport(reportInfos) == 1;
     }
+
     @Override
-    public boolean setReportInfo(BOInfo reportInfo){
+    public boolean setReportInfo(BOInfo reportInfo) {
         reportInfo.setModifier(SecurityUtil.getLoginid());
         return reportInfoMapper.updateReport(reportInfo) == 1;
     }
+
     @Override
-    public boolean delReportInfo(int id){
+    public boolean delReportInfo(int id) {
         return reportInfoMapper.deleteReport(id) == 1;
     }
 
     /**
+     * @return java.util.List<com.hy.dto.ReportAccountDto>
      * @Author 钱敏杰
      * @Description 根据accountid查询BO账号
      * @Date 2018/12/3 16:42
      * @Param [accountid]
-     * @return java.util.List<com.hy.dto.ReportAccountDto>
      **/
     @Override
-    public List<BOAccountDto> selectByAccountid(String accountid){
+    public List<BOAccountDto> selectByAccountid(String accountid) {
         List<BOAccount> list = reportAccount.selectByAccountid(accountid);
         return DTOUtil.populateList(list, BOAccountDto.class);
     }
 
     /**
+     * @return com.hy.model.ReportAccount
      * @Author 钱敏杰
      * @Description 新增BO账号
      * @Date 2018/12/3 17:02
      * @Param [dto]
-     * @return com.hy.model.ReportAccount
      **/
     @Override
-    public int addAccount(BOAccountDto dto){
+    public int addAccount(BOAccountDto dto) {
         BOAccount account = DTOUtil.populate(dto, BOAccount.class);
         account.setCreater(SecurityUtil.getLoginid());
         account.setModifier(SecurityUtil.getLoginid());
@@ -99,70 +111,70 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     /**
+     * @return int
      * @Author 钱敏杰
      * @Description 更新BO账号信息
      * @Date 2018/12/3 17:04
      * @Param [dto]
-     * @return int
      **/
     @Override
-    public int updateAccount(BOAccountDto dto){
+    public int updateAccount(BOAccountDto dto) {
         BOAccount account = DTOUtil.populate(dto, BOAccount.class);
         account.setModifier(SecurityUtil.getLoginid());
         return reportAccount.updateByPrimaryKeySelective(account);
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 根据主键删除BO账号
      * @Date 2018/12/12 10:23
      * @Param [id]
-     * @return void
      **/
     @Override
     @Transactional
-    public void deleteAccount(String id){
+    public void deleteAccount(String id) {
         int rid = Integer.parseInt(id);
         BOAccount account = reportAccount.selectByPrimaryKey(rid);
         //删除BO账号与员工的关联关系数据
         int i = reportAccadRelation.deleteByAccountid(account.getAccountid());
-        if(i < 0){
+        if (i < 0) {
             throw new RuntimeException("删除BO账号与所有AD域账号关联数据失败！");
         }
         //删除BO账号下配置的报表关联关系数据
         i = reportAccInfoMapper.deleteByAccountid(account.getAccountid());
-        if(i < 0){
+        if (i < 0) {
             throw new RuntimeException("删除BO账号与所有报表的关联数据失败！");
         }
         //删除BO账号数据
         i = reportAccount.deleteByPrimaryKey(rid);
-        if(i <= 0){
+        if (i <= 0) {
             throw new RuntimeException("删除BO账号失败！");
         }
     }
 
     /**
+     * @return java.util.List<com.hy.dto.HrmResourceDto>
      * @Author 钱敏杰
      * @Description 根据BO账号查询AD域员工账号信息
      * @Date 2018/12/6 14:10
      * @Param [accountid]
-     * @return java.util.List<com.hy.dto.HrmResourceDto>
      **/
     @Override
-    public List<HrmResourceDto> getUsersByAccountid(String accountid){
+    public List<HrmResourceDto> getUsersByAccountid(String accountid) {
         List<BOAccadRelation> list = reportAccadRelation.getListByAccountid(accountid);
         List<HrmResourceDto> resultList = null;
         try {
             //判断是否存在需要查询的员工号
-            if(list != null && list.size() >0){
+            if (list != null && list.size() > 0) {
                 String filterString = null;
-                if(list.size() >1){//根据员工号数组拼接查询语句
+                if (list.size() > 1) {//根据员工号数组拼接查询语句
                     filterString = "(|";
-                    for(int i=0;i<list.size();i++){
+                    for (int i = 0; i < list.size(); i++) {
                         filterString += "(sAMAccountName=" + list.get(i).getEmpnum() + ")";
                     }
                     filterString += ")";
-                }else{
+                } else {
                     filterString = "(sAMAccountName=" + list.get(0).getEmpnum() + ")";
                 }
                 //查询多个员工号
@@ -188,34 +200,34 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 保存BO账号与AD域账号的关系数据
      * @Date 2018/12/6 15:23
      * @Param [dto]
-     * @return void
      **/
     @Override
     @Transactional
     public void buildRelation(SysRolesUserDto dto) {
         int i = 0;
         //循环执行删除
-        for (SysRolesUserDelDto del: dto.getrHrmResources()){
+        for (SysRolesUserDelDto del : dto.getrHrmResources()) {
             i = reportAccadRelation.deleteByAccEmp(dto.getName(), del.getUid());
-            if(i <= 0){
+            if (i <= 0) {
                 throw new RuntimeException("删除BO账号与AD域账号关联数据失败！");
             }
             i = reportPermissionMapper.deleteByEmp(del.getUid());
-            if(i < 0){//可能为0，未配置报表
+            if (i < 0) {//可能为0，未配置报表
                 throw new RuntimeException("删除BO账号下该员工所有已配置报表的关联数据失败！");
             }
         }
         //新增
         List<BOAccadRelation> addList = null;
-        if(dto.getnHrmResources() != null && dto.getnHrmResources().length >0){
+        if (dto.getnHrmResources() != null && dto.getnHrmResources().length > 0) {
             addList = new ArrayList<>();
             BOAccadRelation relation = null;
-            for (HrmResourceDto add: dto.getnHrmResources()){
-                if(StringUtils.isNotEmpty(add.getLoginid()) && StringUtils.isNotEmpty(dto.getName())){
+            for (HrmResourceDto add : dto.getnHrmResources()) {
+                if (StringUtils.isNotEmpty(add.getLoginid()) && StringUtils.isNotEmpty(dto.getName())) {
                     relation = new BOAccadRelation();
                     relation.setAccountid(dto.getName());
                     relation.setCreater(SecurityUtil.getLoginid());
@@ -226,29 +238,29 @@ public class BoConfigServiceImpl implements BoConfigService {
                 }
             }
             i = reportAccadRelation.insertBatch(addList);
-            if(i < addList.size()){
+            if (i < addList.size()) {
                 throw new RuntimeException("新增BO账号与AD域账号关联数据失败！");
             }
         }
     }
 
     /**
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      * @Author 钱敏杰
      * @Description 获取全部目录及报表树，以及当前BO账号选中的报表
      * @Date 2018/12/10 14:21
      * @Param [accountid]
-     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      **/
     @Override
-    public List<BOCatalogueDto> getAllReportTree(String accountid){
+    public List<BOCatalogueDto> getAllReportTree(String accountid) {
         Map<Integer, BOCatalogueDto> cataMap = null;
         //查询出全部目录结构
         List<BOCatalogue> list = reportCatalogueMapper.selectAll();
         //查询出全部报表信息
         List<BOInfo> rList = reportInfoMapper.selectReport(null, null, null);
         //循环目录结构，生成以id为key的map结构
-        if(list != null && list.size() >0 && rList != null && rList.size() >0){
-            List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class );
+        if (list != null && list.size() > 0 && rList != null && rList.size() > 0) {
+            List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class);
             //移除空目录
             removeNullNode(catalogues, rList);
             //已选中的数据
@@ -261,34 +273,34 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     /**
+     * @return java.util.List<com.hy.dto.ReportInfoDto>
      * @Author 钱敏杰
      * @Description 根据BO账户获取关联的BO报表
      * @Date 2018/12/8 15:08
      * @Param [accountid]
-     * @return java.util.List<com.hy.dto.ReportInfoDto>
      **/
     @Override
-    public List<BOInfo> getReportInfoByAcc(String accountid){
+    public List<BOInfo> getReportInfoByAcc(String accountid) {
         List<BOInfo> list = reportInfoMapper.selectByAccountid(accountid);
         return list;
     }
 
     /**
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      * @Author 钱敏杰
      * @Description 获取当前BO账号下的目录及报表树，以及当前员工选中的报表
      * @Date 2018/12/10 11:48
      * @Param [accountid]
-     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      **/
     @Override
-    public List<BOCatalogueDto> getAccReportTree(String accountid, String empnum){
+    public List<BOCatalogueDto> getAccReportTree(String accountid, String empnum) {
         Map<Integer, BOCatalogueDto> cataMap = null;
         //查询出全部目录结构
         List<BOCatalogue> list = reportCatalogueMapper.selectAll();
         //查询出当前BO账号下的全部报表信息
         List<BOInfo> rList = reportInfoMapper.selectByAccountid(accountid);
         //循环目录结构，生成以id为key的map结构
-        if(list != null && list.size() >0 && rList != null && rList.size() >0){
+        if (list != null && list.size() > 0 && rList != null && rList.size() > 0) {
             List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class);
             //移除空目录
             removeNullNode(catalogues, rList);
@@ -302,45 +314,45 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     /**
+     * @return java.util.List<com.hy.model.ReportInfo>
      * @Author 钱敏杰
      * @Description 根据员工号获取关联的BO报表
      * @Date 2018/12/10 14:16
      * @Param [empnum]
-     * @return java.util.List<com.hy.model.ReportInfo>
      **/
     @Override
-    public List<BOInfo> getReportInfoByEmp(String empnum){
+    public List<BOInfo> getReportInfoByEmp(String empnum) {
         List<BOInfo> list = reportInfoMapper.selectOwnByEmp(empnum);
         return list;
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 新增或删除BO账号与报表的关联数据
      * @Date 2018/12/11 9:07
      * @Param [catalogueDto]
-     * @return void
      **/
     @Override
     @Transactional
-    public void saveAccountReport(BOCatalogueDto catalogueDto){
-        if(catalogueDto != null){
+    public void saveAccountReport(BOCatalogueDto catalogueDto) {
+        if (catalogueDto != null) {
             int i;
-            if(catalogueDto.getDelReports() != null && catalogueDto.getDelReports().length >0){
+            if (catalogueDto.getDelReports() != null && catalogueDto.getDelReports().length > 0) {
                 //存在需要删除的数据，则执行删除操作
-                for(String reportid:catalogueDto.getDelReports()){
+                for (String reportid : catalogueDto.getDelReports()) {
                     i = reportAccInfoMapper.deleteByAccReport(catalogueDto.getAccountid(), reportid);
-                    if(i <= 0){
+                    if (i <= 0) {
                         throw new RuntimeException("删除BO账号与报表关联数据失败！");
                     }
                 }
             }
-            if(catalogueDto.getAddReports() != null && catalogueDto.getAddReports().length >0){
+            if (catalogueDto.getAddReports() != null && catalogueDto.getAddReports().length > 0) {
                 //存在需要新增的数据，则执行新增操作
                 List<BOAccInfo> addList = new ArrayList<>();
                 BOAccInfo accInfo = null;
-                for(String reportid:catalogueDto.getAddReports()){
-                    if(StringUtils.isNotEmpty(reportid) && StringUtils.isNotEmpty(catalogueDto.getAccountid())){
+                for (String reportid : catalogueDto.getAddReports()) {
+                    if (StringUtils.isNotEmpty(reportid) && StringUtils.isNotEmpty(catalogueDto.getAccountid())) {
                         accInfo = new BOAccInfo();
                         accInfo.setAccountid(catalogueDto.getAccountid());
                         accInfo.setReportid(reportid);
@@ -350,7 +362,7 @@ public class BoConfigServiceImpl implements BoConfigService {
                     }
                 }
                 i = reportAccInfoMapper.insertAccReportBatch(addList);
-                if(i < addList.size()){
+                if (i < addList.size()) {
                     throw new RuntimeException("新增BO账号与报表关联数据失败！");
                 }
             }
@@ -358,32 +370,32 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 新增或删除员工号与报表的关联数据（员工权限与BO账号无关）
      * @Date 2018/12/11 10:38
      * @Param [catalogueDto]
-     * @return void
      **/
     @Override
     @Transactional
-    public void saveEmpReport(BOCatalogueDto catalogueDto){
-        if(catalogueDto != null){
+    public void saveEmpReport(BOCatalogueDto catalogueDto) {
+        if (catalogueDto != null) {
             int i;
-            if(catalogueDto.getDelReports() != null && catalogueDto.getDelReports().length >0){
+            if (catalogueDto.getDelReports() != null && catalogueDto.getDelReports().length > 0) {
                 //存在需要删除的数据，则执行删除操作
-                for(String reportid:catalogueDto.getDelReports()){
+                for (String reportid : catalogueDto.getDelReports()) {
                     i = reportPermissionMapper.deleteByEmpReport(catalogueDto.getEmpnum(), reportid);
-                    if(i <= 0){
+                    if (i <= 0) {
                         throw new RuntimeException("删除员工与报表关联数据失败！");
                     }
                 }
             }
-            if(catalogueDto.getAddReports() != null && catalogueDto.getAddReports().length >0){
+            if (catalogueDto.getAddReports() != null && catalogueDto.getAddReports().length > 0) {
                 //存在需要新增的数据，则执行新增操作
                 List<BOPermission> addList = new ArrayList<>();
                 BOPermission permission = null;
-                for(String reportid:catalogueDto.getAddReports()){
-                    if(StringUtils.isNotEmpty(reportid) && StringUtils.isNotEmpty(catalogueDto.getEmpnum())){
+                for (String reportid : catalogueDto.getAddReports()) {
+                    if (StringUtils.isNotEmpty(reportid) && StringUtils.isNotEmpty(catalogueDto.getEmpnum())) {
                         permission = new BOPermission();
                         permission.setEmpnum(catalogueDto.getEmpnum());
                         permission.setReportid(reportid);
@@ -393,7 +405,7 @@ public class BoConfigServiceImpl implements BoConfigService {
                     }
                 }
                 i = reportPermissionMapper.insertEmpReportBatch(addList);
-                if(i < addList.size()){
+                if (i < addList.size()) {
                     throw new RuntimeException("新增BO账号与报表关联数据失败！");
                 }
             }
@@ -401,34 +413,34 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     /**
+     * @return java.util.List<com.hy.dto.ReportAccadRelationDto>
      * @Author 钱敏杰
      * @Description 根据员工号或员工姓名查询所有已关联的员工信息
      * @Date 2018/12/12 14:22
      * @Param [empnum]
-     * @return java.util.List<com.hy.dto.ReportAccadRelationDto>
      **/
     @Override
-    public List<BOAccadRelationDto> getAccountEmp(String empnum){
+    public List<BOAccadRelationDto> getAccountEmp(String empnum) {
         List<BOAccadRelation> list = reportAccadRelation.getAccountEmp(empnum);
         return DTOUtil.populateList(list, BOAccadRelationDto.class);
     }
 
     /**
+     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      * @Author 钱敏杰
      * @Description 查询当前员工所有BO账号下的报表权限树及其选中值
      * @Date 2018/12/12 16:02
      * @Param [empnum]
-     * @return java.util.List<com.hy.dto.ReportCatalogueDto>
      **/
     @Override
-    public List<BOCatalogueDto> getReportTreeByEmp(String empnum){
+    public List<BOCatalogueDto> getReportTreeByEmp(String empnum) {
         Map<Integer, BOCatalogueDto> cataMap = null;
         //查询出全部目录结构
         List<BOCatalogue> list = reportCatalogueMapper.selectAll();
         //查询出当前人员的BO账号下的全部报表信息
         List<BOInfo> rList = reportInfoMapper.selectAllByEmp(empnum);
         //循环目录结构，生成以id为key的map结构
-        if(list != null && list.size() >0 && rList != null && rList.size() >0){
+        if (list != null && list.size() > 0 && rList != null && rList.size() > 0) {
             List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class);
             //移除空目录
             removeNullNode(catalogues, rList);
@@ -442,34 +454,34 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     /**
+     * @return void
      * @Author 钱敏杰
      * @Description 删除空节点目录
      * @Date 2018/12/10 9:15
      * @Param [catalogues, rList]
-     * @return void
      **/
-    private void removeNullNode(List<BOCatalogueDto> catalogues, List<BOInfo> rList){
+    private void removeNullNode(List<BOCatalogueDto> catalogues, List<BOInfo> rList) {
         //存放需保留的id
         Map<Integer, Boolean> keepMap = new HashMap<>();
         //list转map
-        Map<Integer, BOCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(BOCatalogueDto:: getId, a ->a, (k1, k2)->k1));
-        for(BOInfo info:rList){
+        Map<Integer, BOCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(BOCatalogueDto::getId, a -> a, (k1, k2) -> k1));
+        for (BOInfo info : rList) {
             //取出报表数据中的目录id
             Integer dirid = info.getDirectoryid();
             keepMap.put(dirid, true);
             BOCatalogueDto catalogue = null;
             int i = 0;
-            while(true){
+            while (true) {
                 //取出当前目录节点数据
                 catalogue = cataMap.get(dirid);
-                if(catalogue != null){
-                    if(catalogue.getPid() != null){
+                if (catalogue != null) {
+                    if (catalogue.getPid() != null) {
                         //若当前节点存在父节点，则需要保留此父节点
                         dirid = catalogue.getPid();
                         keepMap.put(dirid, true);
                         i++;
-                    }else{//不存在父节点，则循环结束
-                        if(i >0){
+                    } else {//不存在父节点，则循环结束
+                        if (i > 0) {
                             keepMap.put(dirid, true);
                         }
                         break;
@@ -479,48 +491,48 @@ public class BoConfigServiceImpl implements BoConfigService {
         }
         //从列表catalogues中删除不需要保留的数据
         Iterator<BOCatalogueDto> iter = catalogues.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             BOCatalogueDto catalogueDto = iter.next();
-            if(!keepMap.containsKey(catalogueDto.getId())){
+            if (!keepMap.containsKey(catalogueDto.getId())) {
                 iter.remove();
             }
         }
     }
 
     /**
+     * @return java.util.Map<java.lang.Integer               ,               com.hy.dto.ReportCatalogueDto>
      * @Author 钱敏杰
      * @Description 整理当前目录与报表数据，合并成树结构map，并判断当前数据是否选中
      * @Date 2018/12/10 14:08
      * @Param [catalogues, rList, checked]
-     * @return java.util.Map<java.lang.Integer,com.hy.dto.ReportCatalogueDto>
      **/
-    private Map<Integer, BOCatalogueDto> arrageCatalogue(List<BOCatalogueDto> catalogues, List<BOInfo> rList, List<BOInfo> checked){
+    private Map<Integer, BOCatalogueDto> arrageCatalogue(List<BOCatalogueDto> catalogues, List<BOInfo> rList, List<BOInfo> checked) {
         //list转map
-        Map<Integer, BOCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(BOCatalogueDto:: getId, a ->a, (k1, k2)->k1));
-        Map<Integer, BOInfo> infoMap = checked.stream().collect(Collectors.toMap(BOInfo:: getId, a ->a, (k1, k2)->k1));
+        Map<Integer, BOCatalogueDto> cataMap = catalogues.stream().collect(Collectors.toMap(BOCatalogueDto::getId, a -> a, (k1, k2) -> k1));
+        Map<Integer, BOInfo> infoMap = checked.stream().collect(Collectors.toMap(BOInfo::getId, a -> a, (k1, k2) -> k1));
         //循环报表信息将报表信息加入map相应key下
-        for(BOInfo info:rList){
+        for (BOInfo info : rList) {
             BOCatalogueDto dto = cataMap.get(info.getDirectoryid());
             //将报表数据添加到相应目录下
-            if(dto != null){
-                if(dto.getItems() == null){
+            if (dto != null) {
+                if (dto.getItems() == null) {
                     dto.setItems(new ArrayList<>());
                 }
                 //将报表对象存入目录dto对象中使用
-                if(infoMap.containsKey(info.getId())){//若为选中项，则设置“checked”属性为true
+                if (infoMap.containsKey(info.getId())) {//若为选中项，则设置“checked”属性为true
                     dto.getItems().add(new BOCatalogueDto(info.getId(), info.getName(), info.getDirectoryid(), null, info.getReportid(), info.getType(), true, true));
-                }else {
+                } else {
                     dto.getItems().add(new BOCatalogueDto(info.getId(), info.getName(), info.getDirectoryid(), null, info.getReportid(), info.getType(), false, true));
                 }
             }
         }
         //循环目录list结构，生成树的格式
-        for(BOCatalogueDto cata:catalogues){
-            if(cata.getPid() != null){
+        for (BOCatalogueDto cata : catalogues) {
+            if (cata.getPid() != null) {
                 //将子目录添加到父目录下
                 BOCatalogueDto dto = cataMap.get(cata.getPid());
-                if(dto != null){
-                    if(dto.getItems() == null){
+                if (dto != null) {
+                    if (dto.getItems() == null) {
                         dto.setItems(new ArrayList<>());
                     }
                     dto.getItems().add(cata);
@@ -528,11 +540,217 @@ public class BoConfigServiceImpl implements BoConfigService {
             }
         }
         //移除非首菜单项（含有父id）
-        for(BOCatalogueDto cata:catalogues){
-            if(cata.getPid() != null){
+        for (BOCatalogueDto cata : catalogues) {
+            if (cata.getPid() != null) {
                 cataMap.remove(cata.getId());
             }
         }
         return cataMap;
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色查、删serviceImpl
+     * @Date 2018/12/13 10:46
+     **/
+    @Override
+    public List<BORoleDto> getRole(String value) {
+        List<BORole> boRolesList = boRoleMapper.selectRole(value);
+        return DTOUtil.populateList(boRolesList, BORoleDto.class);
+    }
+
+    @Override
+    //删除角色时，若存在人员，不能删除；还未做判断！
+    public boolean delRole(int id) {
+        boRoleMapper.deleteRole(id);
+        boRoleAdMapper.deleteRoleAdAll(id);
+        boRoleAccountMapper.deleteRoleAccountAll(id);
+        return true;
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、AD员工号关系表增删改查(删包含在改中)，以及角色增、改,角色BO账号增删serviceImpl
+     * @Date 2018/12/13 17:49
+     **/
+    @Override
+    public List<HrmResourceDto> getRoleAd(int rid) {
+        List<BORoleAd> boRoleAdsList = boRoleAdMapper.selectRoleAd(rid);
+        List<HrmResourceDto> result = new ArrayList<>();
+        if (boRoleAdsList.size() != 0) {
+            for (int i = 0; i < boRoleAdsList.size(); i++) {
+                HrmResourceDto dto = new HrmResourceDto();
+                dto.setId(boRoleAdsList.get(i).getId());
+                dto.setLoginid(boRoleAdsList.get(i).getEmpnum());
+                dto.setLastname(boRoleAdsList.get(i).getEmpname());
+                result.add(dto);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addRoleAd(SysRolesUserDto dto) {
+        try {
+            //新增角色名称、描述
+            BORole boRole = new BORole();
+            boRole.setName(dto.getName());
+            boRole.setDescription(dto.getDescription());
+            boRole.setCreater(SecurityUtil.getLoginid());
+            boRole.setModifier(SecurityUtil.getLoginid());
+            boRoleMapper.insertRole(boRole);
+            //循环添加BO账号
+            for (BORoleAccountDto boRoleAccountDto : dto.getBoRoleAccounts()) {
+                boRoleAccountMapper.insertRoleAccount(new BORoleAccount(boRole.getId(), boRoleAccountDto.getAccountid(),
+                        SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+            }
+            //循环添加人员ad账号
+            for (HrmResourceDto hrmResourceDto : dto.getnHrmResources()) {
+                boRoleAdMapper.insertRoleAd(new BORoleAd(boRole.getId(), hrmResourceDto.getLoginid(), hrmResourceDto.getLastname(),
+                        SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+            }
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setRoleAd(SysRolesUserDto dto) {
+        try {
+            //修改角色名称、描述
+            BORole boRole = new BORole();
+            boRole.setId(dto.getRid());
+            boRole.setName(dto.getName());
+            boRole.setDescription(dto.getDescription());
+            boRole.setModifier(SecurityUtil.getLoginid());
+            boRoleMapper.updateRole(boRole);
+            List<BORoleAccount> boRoleAccountList = boRoleAccountMapper.selectRoleAccount(dto.getRid());
+            boolean judgeAdd = false;
+            int size = boRoleAccountList.size();
+            //循环添加BO账号
+            if (dto.getBoRoleAccounts().length > 0) {
+                for (BORoleAccountDto accountAddDto : dto.getBoRoleAccounts()) {
+                    if (size > 0) {
+                        for (int i = 0; i < size; i++) {
+                            if (accountAddDto.getAccountid().equals(boRoleAccountList.get(i).getAccountid())) {
+                                judgeAdd = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!judgeAdd) {
+                        boRoleAccountMapper.insertRoleAccount(new BORoleAccount(accountAddDto.getRid(), accountAddDto.getAccountid(),
+                                SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+                    }
+                    judgeAdd = false;
+                }
+            }
+            //循环删除BO账号
+            for (int j = 0; j < dto.getDelAcc().length; j++) {
+                boRoleAccountMapper.deleteRoleAccount(dto.getDelAcc()[j]);
+            }
+            //循环删除人员ad账号
+            for (SysRolesUserDelDto delDto : dto.getrHrmResources()) {
+                boRoleAdMapper.deleteRoleAd(Integer.parseInt(delDto.getUid()));
+            }
+            //循环添加人员ad账号
+            for (HrmResourceDto hrmResourceDto : dto.getnHrmResources()) {
+                boRoleAdMapper.insertRoleAd(new BORoleAd(dto.getRid(), hrmResourceDto.getLoginid(), hrmResourceDto.getLastname(),
+                        SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+            }
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            throw e;
+        }
+
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、BO账号关系表增删查serviceImpl
+     * @Date 2018/12/15
+     **/
+    @Override
+    public List<BORoleAccountDto> getRoleAccount(int rid) {
+        List<BORoleAccount> boRoleAccountList = boRoleAccountMapper.selectRoleAccount(rid);
+        return DTOUtil.populateList(boRoleAccountList, BORoleAccountDto.class);
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、报表关系表增删查serviceImpl
+     * @Date 2018/12/17 10:33
+     **/
+    //查询并生成树
+    @Override
+    public List<BOCatalogueDto> getRoleReportTree(int rid, String accountid) {
+        Map<Integer, BOCatalogueDto> cataMap = null;
+        //查询全部目录结构
+        List<BOCatalogue> catalogues = reportCatalogueMapper.selectAll();
+        //查询当前BO账号下的全部报表信息
+        List<BOInfo> boInfos = reportInfoMapper.selectByAccountid(accountid);
+        //循环目录结构，生成以id为key的map结构
+        if (catalogues != null && catalogues.size() > 0 && boInfos != null && boInfos.size() > 0) {
+            List<BOCatalogueDto> catalogueDtoList = DTOUtil.populateList(catalogues, BOCatalogueDto.class);
+            //移除空目录
+            removeNullNode(catalogueDtoList, boInfos);
+            //已选中的数据
+            List<BOInfo> checked = this.getReportInfoByRid(rid);
+            //整理树结构
+            cataMap = this.arrageCatalogue(catalogueDtoList, boInfos, checked);
+        }
+        List<BOCatalogueDto> returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
+        return returnList;
+    }
+
+    //增删角色报表
+    @Override
+    public void saveRoleReport(BOCatalogueDto boCatalogueDto) {
+        if (boCatalogueDto != null) {
+            int i;
+            if (boCatalogueDto.getDelReports() != null && boCatalogueDto.getDelReports().length > 0) {
+                //存在需要删除的数据，则执行删除操作
+                for (String reportid : boCatalogueDto.getDelReports()) {
+                    i = boRoleReportMapper.deleteByRoleReport(boCatalogueDto.getRid(), reportid);
+                    if (i < 0) {
+                        throw new RuntimeException("删除角色与报表相关数据失败！");
+                    }
+                }
+            }
+            if (boCatalogueDto.getAddReports() != null && boCatalogueDto.getAddReports().length > 0) {
+                //存在需要新增的数据，则执行新增操作
+                List<BORoleReport> addList = new ArrayList<>();
+                BORoleReport boRoleReport = null;
+                for (String reportid : boCatalogueDto.getAddReports()) {
+                    if (StringUtils.isNotEmpty(reportid)) {
+                        boRoleReport = new BORoleReport();
+                        boRoleReport.setRid(boCatalogueDto.getRid());
+                        boRoleReport.setReportid(reportid);
+                        boRoleReport.setCreater(SecurityUtil.getLoginid());
+                        boRoleReport.setModifier(SecurityUtil.getLoginid());
+                        addList.add(boRoleReport);
+                    }
+                }
+                i = boRoleReportMapper.insertRoleReport(addList);
+                if (i < addList.size()) {
+                    throw new RuntimeException("新增角色与报表关联数据失败");
+                }
+            }
+        }
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 查询当前角色所拥有的报表serviceImpl
+     * @Date 2018/12/17 11:10
+     **/
+    @Override
+    public List<BOInfo> getReportInfoByRid(int rid) {
+        return reportInfoMapper.selectOwnByRole(rid);
     }
 }

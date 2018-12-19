@@ -45,4 +45,13 @@ public interface BOInfoMapper {
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
     List<BOInfo> selectOwnByEmp(@Param("empnum") String empnum);
+
+    /**
+     * @Author 沈超宇
+     * @Description 查询当前角色所拥有的报表
+     * @Date 2018/12/17 9:50
+     * @Param [rid]
+     * @return java.util.List<com.hy.model.ReportInfo>
+     **/
+    List<BOInfo> selectOwnByRole(@Param("rid") int rid);
 }
