@@ -1,7 +1,7 @@
 package com.hy.mapper.ms;
 
 import com.hy.model.BOPermission;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
