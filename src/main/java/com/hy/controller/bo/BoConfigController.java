@@ -285,8 +285,8 @@ public class BoConfigController {
      **/
     //查询并生成树
     @PostMapping("/roleReport/getRoleReport")
-    public ResultObj getRoleReportTree(int rid, String accountid){
-        List<BOCatalogueDto> tree = boConfigService.getRoleReportTree(rid, accountid);
+    public ResultObj getRoleReportTree(int rid){
+        List<BOCatalogueDto> tree = boConfigService.getRoleReportTree(rid);
         return ResultObj.success(tree);
     }
 

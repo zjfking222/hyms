@@ -802,12 +802,13 @@ public class BoConfigServiceImpl implements BoConfigService {
      **/
     //查询并生成树
     @Override
-    public List<BOCatalogueDto> getRoleReportTree(int rid, String accountid) {
+    public List<BOCatalogueDto> getRoleReportTree(int rid) {
         Map<Integer, BOCatalogueDto> cataMap = null;
+        List<BOCatalogueDto> returnList = null;
         //查询全部目录结构
         List<BOCatalogue> catalogues = reportCatalogueMapper.selectAll();
         //查询当前BO账号下的全部报表信息
-        List<BOInfo> boInfos = reportInfoMapper.selectByAccountid(accountid);
+        List<BOInfo> boInfos = reportInfoMapper.selectAllByRole(rid);
         //循环目录结构，生成以id为key的map结构
         if (catalogues != null && catalogues.size() > 0 && boInfos != null && boInfos.size() > 0) {
             List<BOCatalogueDto> catalogueDtoList = DTOUtil.populateList(catalogues, BOCatalogueDto.class);
@@ -818,7 +819,9 @@ public class BoConfigServiceImpl implements BoConfigService {
             //整理树结构
             cataMap = this.arrageCatalogue(catalogueDtoList, boInfos, checked);
         }
-        List<BOCatalogueDto> returnList = new ArrayList(Arrays.asList(cataMap.values().toArray()));
+        if(cataMap != null){
+            returnList= new ArrayList(Arrays.asList(cataMap.values().toArray()));
+        }
         return returnList;
     }
 

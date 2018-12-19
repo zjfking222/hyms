@@ -48,6 +48,15 @@ public interface BOInfoMapper {
 
     /**
      * @Author 沈超宇
+     * @Description 获取当前角色所具有的BO账号下的所有报表
+     * @Date 2018/12/19 9:17
+     * @Param [rid]
+     * @return java.util.List<com.hy.model.ReportInfo>
+     **/
+    List<BOInfo> selectAllByRole(@Param("rid") int rid);
+
+    /**
+     * @Author 沈超宇
      * @Description 查询当前角色所拥有的报表
      * @Date 2018/12/17 9:50
      * @Param [rid]

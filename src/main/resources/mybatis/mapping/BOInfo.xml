@@ -81,6 +81,12 @@
         select count(1) from bo_info
         where reportid = #{reportid}
     </select>
+    <select id="selectAllByRole" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+            distinct i.id, i.name, i.reportid, i.directoryid, i.type,i.description
+        from bo_info i,bo_acc_info ai where i.reportid=ai.reportid and ai.accountid in
+        (select distinct r.accountid from bo_role_account r where r.rid = #{rid, jdbcType=INTEGER})
+    </select>
     <select id="selectOwnByRole" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
             distinct i.id, i.name, i.reportid, i.directoryid, i.type,i.description
