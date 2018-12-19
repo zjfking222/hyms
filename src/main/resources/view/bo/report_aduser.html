@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>AD域账号</title>
+    <title>BO账号含有的AD域账号</title>
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
@@ -38,14 +38,11 @@
                     // filterable: true,
                     columnMenu: true,
                     sortable: true,
-                    toolbar: [{
-                        template: '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.edit()"><span class="k-icon k-i-edit"></span>编辑</a>'
-                    }],
                     columns: [
                         {field: "id", title: "员工号", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
                         {field: "lastname", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
                         {
-                            command: [{name: "permission", text: "授权", iconClass: "k-icon k-i-edit",
+                            command: [{name: "permission", text: "删除", iconClass: "k-icon k-i-edit",
                                 click: function (e) {
                                     e.preventDefault();
                                     var tr = $(e.target).closest("tr");
@@ -116,32 +113,25 @@
                         serverSorting: true
                     });
                 },
-                edit:function () {
-                    layer.open({
-                        title:'编辑人员',
-                        type: 2,
-                        area: ['700px', '80%'],
-                        fixed: false, //不固定
-                        maxmin: true,
-                        shadeClose: true,
-                        content: '/bo/report_addaduser.html',
-                        end: function () {
-                            location.reload()
+                delete:function () {
+                    $.ajax({
+                        url: "/bo/account/getADUsers",
+                        data: {
+                            'accountid': accountid
+                        },
+                        method:'POST',
+                        success: function (result) {
+                            if (result.code === 0){
+                                //移除页面数据
+                                layer.msg("删除成功");
+                            }else{
+                                layer.msg("删除失败，请重新尝试");
+                            }
+                        },
+                        error: function () {
+                            layer.msg("删除失败，请检查网络");
                         }
                     });
-                },
-                accredit:function () {
-                    layer.open({
-                        title:'授权',
-                        type:2,
-                        area:['70%','90%'],
-                        fixed: true,//固定
-                        maxmin:true,
-                        shadeClose: true,
-                        content: '/bo/report_aduser_permission.html',
-                        end: function () {
-                        }
-                    })
                 }
             }
         });
