@@ -14,8 +14,8 @@ import java.util.List;
 @Repository
 public interface BORoleAccountMapper {
     List<BORoleAccount> selectRoleAccount(@Param("rid") int rid);
-    Integer insertRoleAccount(BORoleAccount boRoleAccount);
-    Integer deleteRoleAccount(@Param("id") int id);
+    Integer insertRoleAccount(List<BORoleAccount> boRoleAccount);
+    Integer deleteRoleAccount(int[] array);
     Integer deleteRoleAccountAll(@Param("rid") int rid);//删除角色时，删除对应角色、BO账号关系表中的数据
     Integer deleteByRidAcc(@Param("rid") int rid, @Param("accountid") String accountid);//根据角色、BO账号删除对应的数据
 }

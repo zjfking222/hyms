@@ -21,11 +21,16 @@
     <insert id="insertRoleAccount" parameterType="com.hy.model.BORoleAccount">
         insert into bo_role_account (rid, accountid, creater, modifier)
         values
-        (#{rid}, #{accountid}, #{creater}, #{modifier})
+        <foreach collection="list" item="item" separator=",">
+            (#{item.rid}, #{item.accountid}, #{item.creater}, #{item.modifier})
+        </foreach>
     </insert>
     <delete id="deleteRoleAccount" parameterType="java.lang.Integer">
         delete from bo_role_account
-        where id = #{id}
+        where id in
+        <foreach collection="array" item="item" open="(" separator="," close=")">
+         #{item}
+        </foreach>
     </delete>
     <delete id="deleteRoleAccountAll" parameterType="com.hy.model.BORoleAccount">
         delete from bo_role_account
