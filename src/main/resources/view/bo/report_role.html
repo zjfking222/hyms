@@ -194,16 +194,19 @@
             });
         return response.responseJSON;
     };
-//获取角色信息
+
+    //获取角色信息
     function dataSourceSearch(value) {
         return FetchData({value: value}, 'POST', '/role/getRole', false).data;
     }
+
     function refresh(rid) {
         $('#treeview').attr('src', 'report_role_report.html?id' + rid);
         pushRid = rid;
         $("#rolenav li[data-id=" + rid + "]").addClass('active')
             .siblings("li").removeClass('active');
     }
+
     var vm = new Vue({
         el: '#left',
         data: {
@@ -254,13 +257,20 @@
             onDel: function (id) {
                 layer.confirm('确认删除吗？删除后将不可恢复。', {btn: ['删除', '取消']},
                     function () {
-                        FetchData({id: id}, "POST", "/role/delRole");
-                        layer.msg('删除成功！', {
-                            time: 500,
-                            end: function () {
-                                vm.data1 = dataSourceSearch($("#search").val())
-                            }
-                        });
+                        //如果角色下有人员不能删
+                        var ad = FetchData({rid: id}, "POST", "/roleAd/getRoleAd",false).data.length;
+                        if (ad > 0) {
+                            alert("角色下存在人员，无法删除,请先删除人员！");
+                            window.location.reload();
+                        } else {
+                            FetchData({id: id}, "POST", "/role/delRole");
+                            layer.msg('删除成功！', {
+                                time: 500,
+                                end: function () {
+                                    vm.data1 = dataSourceSearch($("#search").val())
+                                }
+                            });
+                        }
                     },
                     function () {
                     });

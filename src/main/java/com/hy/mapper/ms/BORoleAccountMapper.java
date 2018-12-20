@@ -17,4 +17,5 @@ public interface BORoleAccountMapper {
     Integer insertRoleAccount(BORoleAccount boRoleAccount);
     Integer deleteRoleAccount(@Param("id") int id);
     Integer deleteRoleAccountAll(@Param("rid") int rid);//删除角色时，删除对应角色、BO账号关系表中的数据
+    Integer deleteByRidAcc(@Param("rid") int rid, @Param("accountid") String accountid);//根据角色、BO账号删除对应的数据
 }

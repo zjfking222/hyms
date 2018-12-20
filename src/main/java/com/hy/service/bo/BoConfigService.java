@@ -150,6 +150,7 @@ public interface BoConfigService {
      **/
     List<BORoleDto> getRole(String value);
     boolean delRole(int id);
+    List<BORoleDto> getRoleByAcc(String accountid);//根据BO账号查询对应的角色信息
 
     /**
      * @Author 沈超宇
@@ -166,6 +167,13 @@ public interface BoConfigService {
      * @Date 2018/12/15 8:36
      **/
     List<BORoleAccountDto> getRoleAccount(int rid);
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、BO账号关系表根据角色BO账号删除对应数据service
+     * @Date 2018/12/19 17:02
+     **/
+    boolean delByRidAcc(int rid, String accountid);
 
     /**
      * @Author 沈超宇

@@ -21,6 +21,11 @@
             and ( name like concat('%',#{value},'%'))
         </if>
     </select>
+    <select id="selectRoleByAcc" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from bo_role r
+        where r.id in (select a.rid from bo_role_account a where a.accountid = #{accountid})
+    </select>
     <insert id="insertRole"  parameterType="com.hy.model.BORole" useGeneratedKeys="true" keyProperty="id">
         insert into bo_role
         (name, description, creater, modifier)
