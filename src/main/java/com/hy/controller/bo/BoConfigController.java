@@ -135,6 +135,19 @@ public class BoConfigController {
 
     /**
      * @Author 钱敏杰
+     * @Description 删除当前账号下当前人员的权限
+     * @Date 2018/12/19 16:17
+     * @Param [accountid, empnum]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping(value = "/account/deleteEmpAccount")
+    public ResultObj deleteEmpAccount(String accountid, String empnum) {
+        boConfigService.deleteEmpAccount(accountid, empnum);
+        return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
      * @Description 获取当前BO账号的所有报表授权
      * @Date 2018/12/8 15:33
      * @Param [accountid]
@@ -373,5 +386,11 @@ public class BoConfigController {
     public ResultObj getReportInfoCountByReportid(String reportid) {
         Integer num = boConfigService.getInfoCount(reportid);
         return ResultObj.success(num);
+    }
+
+    @PostMapping("/account/saveEmpAccounts")
+    public ResultObj saveEmpAccounts(BOEmpAccountDto dto){
+        //boConfigService.updateCatalogue(dto);
+        return ResultObj.success();
     }
 }

@@ -247,6 +247,26 @@ public class BoConfigServiceImpl implements BoConfigService {
 
     /**
      * @Author 钱敏杰
+     * @Description 从BO账号中删除该人员
+     * @Date 2018/12/19 16:16
+     * @Param [accountid, empnum]
+     * @return void
+     **/
+    @Override
+    @Transactional
+    public void deleteEmpAccount(String accountid, String empnum){
+        int i = reportAccadRelation.deleteByAccEmp(accountid, empnum);
+        if (i <= 0) {
+            throw new RuntimeException("删除BO账号与AD域账号关联数据失败！");
+        }
+        i = reportPermissionMapper.deleteByEmp(empnum);
+        if (i < 0) {//可能为0，未配置报表
+            throw new RuntimeException("删除BO账号下该员工所有已配置报表的关联数据失败！");
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
      * @Description 获取全部目录及报表树，以及当前BO账号选中的报表
      * @Date 2018/12/10 14:21
      * @Param [accountid]

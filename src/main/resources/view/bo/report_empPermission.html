@@ -133,10 +133,15 @@
 <body>
     <div id="left" class="sidebar" style="width: 262px;">
         <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
+        <button id="btn-add" @click="onAdd"></button>
         <ul class="nav nav-sidebar" id="rolenav">
             <li v-for="business in data1" :data-id="business.empnum" @click="onChoose(business.empnum)">
                 <div class="item1">
                     <a class="item-a">{{business.empname}}</a>
+                </div>
+                <div class="item2">
+                    <button class="btn-edit" @click="onEdit(business.id, business.accountid, business.type, business.password, business.description)"></button>
+                    <button class="btn-del" @click="onDel(business.id, business.accountid)"></button>
                 </div>
             </li>
         </ul>
@@ -175,6 +180,74 @@
                 this.data1 = accountSearch("");
             },
             methods: {
+                //新增
+                onAdd:function () {
+                    //新增操作标记
+                    pushData = {
+                        id: -1,
+                    };
+                    //打开弹窗
+                    layer.open({
+                        title:'新增BO账号',
+                        type: 2,
+                        area: ['500px', '340px'],
+                        fixed: false, //不固定
+                        maxmin: false,
+                        resize:false,
+                        content: '/bo/report_addaduser.html',
+                        end: function () {
+                            vm.data1 = accountSearch("");
+                        }
+                    });
+                },
+                //修改
+                onEdit:function (id,accountid,type,password,description) {
+                    pushData = {
+                        id:id,
+                        accountid:accountid,
+                        type:type,
+                        password:password,
+                        description:description
+                    };
+                    layer.open({
+                        title:'修改BO账号',
+                        type: 2,
+                        area: ['500px', '340px'],
+                        fixed: false, //不固定
+                        maxmin: false,
+                        resize:false,
+                        shadeClose: true,
+                        content: '/bo/report_account.html?random='+ Math.random(),
+                        end: function () {
+                            vm.data1 = accountSearch("");
+                        }
+                    });
+                },
+                //删除
+                onDel:function (id,accountid) {
+                    //判断账号下是否有人员，若存在人员，则不能删除
+                    var num = FetchData({accountid:accountid},"POST","/bo/account/getAccEmpCount", false);
+                    if(num.data > 0){
+                        layer.msg("存在使用人员，不能删除账号");
+                    }else{
+                        layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
+                            function () {
+                                var resp = FetchData({id:id},"POST","/bo/account/deleteAccount", false);
+                                if(resp && resp.code == '0'){
+                                    layer.msg('删除成功！',{time:500,
+                                        end:function () {
+                                            vm.data1 = accountSearch("");
+                                            $('#treeview').attr('src','/index/blank.html');
+                                        }});
+                                }else{
+                                    layer.msg("删除失败");
+                                }
+                            },
+                            function () {
+                            }
+                        );
+                    }
+                },
                 //打开右侧界面
                 onChoose:function (empnum) {
                     $('#treeview').attr('src','report_allEmpInfoTree.html');

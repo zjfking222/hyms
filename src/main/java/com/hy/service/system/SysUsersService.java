@@ -42,4 +42,13 @@ public interface SysUsersService {
      * @return java.util.List<com.hy.dto.SysUserDto>
      **/
     List<SysUserDto> searchUsers(String value);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据条件查询单个用户
+     * @Date 2018/12/19 18:20
+     * @Param [value]
+     * @return com.hy.dto.SysUserDto
+     **/
+    SysUserDto searchUser(String value);
 }

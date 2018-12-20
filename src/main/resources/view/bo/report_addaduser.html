@@ -2,32 +2,30 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>编辑人员</title>
+    <title>添加人员与BO账号</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="width: 80% ;margin: 10px auto">
     <div id="app">
         <div class="input-group">
-            <input class="form-control" placeholder="输入员工号或姓名搜索" style="display:inline-block!important;" id="search-info">
+            <input class="form-control" placeholder="输入员工号或姓名搜索" style="display:inline-block!important;" id="search-info"/>
             <span class="input-group-addon" style="background: white;">
                   <a style="color: black!important;" href="javascript:;" id="search" class="btn-block">搜索</a>
                 </span>
         </div>
-
         <div class="form-group">
-            <label for="add-pan">已添账号</label>
-            <div class="form-control" style="min-height:34px;height: auto!important;text-align: left" id="add-pan">
-                <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
-                   v-for="hr in result" @click="onDel(hr.id)">{{hr.lastname}}</a>
+            <label for="search-pan">当前账号</label>
+            <div style="min-height:34px;height: auto!important;text-align: left" class="form-control" id="search-pan">
+                <input class="form-control" value="search.lastname" style="display:inline-block!important;"/>
             </div>
         </div>
-
         <div class="form-group">
-            <label for="search-pan">搜索账号</label>
-            <div style="min-height:34px;height: auto!important;text-align: left" class="form-control" id="search-pan">
-
-                <a href="javascript:;" class="btn btn-default" style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
-                   v-for="hr in search" @click="onAdd(hr.id,hr.loginid,hr.lastname)">{{hr.lastname}}</a>
+            <label>选择BO账号</label>
+            <div class="form-group" style="margin-bottom: 0">
+                <div style="display: inline-block;width: 24%" v-for="acc in account">
+                    <input name="BO" :id="acc.accountid" type="checkbox" style="height: 15px;width: 15px"/>
+                    <p style="display: inline-block;vertical-align: middle;margin-top: 2px;">{{acc.accountid}}</p>
+                </div>
             </div>
         </div>
         <button id="submit"  class="btn btn-success" @click="onSubmit()" style="width:100%;margin-top: 1rem!important;">保&nbsp;&nbsp;&nbsp;存</button>
@@ -37,35 +35,42 @@
     <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
     <script>
-        var del = [];
-        var add = [];
         var index = parent.layer.getFrameIndex(window.name);
-        var postData;
         $(function () {
             //查询ad域用户
             function dataSearch(search) {
-                return FetchData({search:search},'POST','/system/users/getAllUsersFromAd',false).data;
+                return FetchData({search:search},'POST','/system/users/getUserFromAd',false).data;
             }
-            //查询关联数据
+            //查询全部BO账号
+            function getAccount() {
+                return FetchData({accountid: ''}, 'POST', '/bo/account/getAccount', false).data;
+            }
+            /*//查询关联数据
             function dataSource(accountid) {
                 var resultData = FetchData({accountid:accountid},'POST','/bo/account/getADUsers',false).data;
                 if(resultData){
                     return resultData;
                 }
                 return [];
-            }
+            }*/
             var vm = new Vue({
                 el: '#app',
                 data: {
                     search: [],
-                    result: dataSource(parent.accountid)
+                    account: getAccount()
                 },
                 methods:{
                     //搜索
                     onSearch: function (search) {
                         vm.search = dataSearch(search);
+                        /*
+                        var add_item = {
+                            'id':emp.id,
+                            'loginid':emp.loginid,
+                            'lastname':emp.name
+                        };*/
                     },
-                    //添加
+                    /*//添加
                     onAdd: function (id,loginid,name) {
                         var isExist = false;
                         var add_item = {
@@ -108,15 +113,16 @@
                                 break;
                             }
                         }
-                    },
+                    },*/
                     //提交
                     onSubmit:function () {
-                        postData = {
-                            name:parent.accountid,
-                            nHrmResources:add,
-                            rHrmResources:del
+                        //获取已选中的BO账号
+                        var checked = [];
+                        var postData = {
+                            emp:vm.search,
+                            accounts:checked
                         };
-                        FetchData(JSON.stringify(postData),'POST','/bo/account/saveAccAdRelation',false,true).code === 0?
+                        FetchData(JSON.stringify(postData),'POST','/bo/account/saveEmpAccounts',false,true).code === 0?
                             parent.layer.msg('修改成功'):
                             parent.layer.msg('登陆失效');
                         parent.layer.close(index);

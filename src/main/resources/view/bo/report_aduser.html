@@ -29,7 +29,7 @@
                     selectable:"row",
                     dataSource: this.dataSource,
                     editable: {
-                        confirmation: true,
+                        confirmation: "确定删除？",
                         mode: "popup",
                         window: {
                             title: "新增"
@@ -42,17 +42,7 @@
                         {field: "id", title: "员工号", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
                         {field: "lastname", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
                         {
-                            command: [{name: "permission", text: "删除", iconClass: "k-icon k-i-edit",
-                                click: function (e) {
-                                    e.preventDefault();
-                                    var tr = $(e.target).closest("tr");
-                                    var data = this.dataItem(tr);
-                                    pushData = {
-                                        accountid: accountid,
-                                        empnum: data.id
-                                    };
-                                    vm.accredit();
-                                }}], title: " ", width: "150px"
+                            command: [{name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: "操作", width: "150px"
                         },{field: "", title: ""}
                     ]
                 });
@@ -77,6 +67,27 @@
                                     },
                                     error: function () {
                                         options.error("数据查询失败");
+                                    }
+                                });
+                            },
+                            destroy: function(options){
+                                $.ajax({
+                                    url: "/bo/account/deleteEmpAccount",
+                                    data: {"accountid":accountid,"empnum":options.data.id},
+                                    method:'POST',
+                                    success: function (result) {
+                                        if (result.code === 0){
+                                            //移除页面数据
+                                            options.success(result);
+                                            layer.msg("删除成功");
+                                        }else{
+                                            options.error(result);
+                                            layer.msg("删除失败，请重新尝试");
+                                        }
+                                    },
+                                    error: function () {
+                                        options.error(result);
+                                        layer.msg("删除失败，请检查网络");
                                     }
                                 });
                             }
@@ -111,26 +122,6 @@
                             }
                         },
                         serverSorting: true
-                    });
-                },
-                delete:function () {
-                    $.ajax({
-                        url: "/bo/account/getADUsers",
-                        data: {
-                            'accountid': accountid
-                        },
-                        method:'POST',
-                        success: function (result) {
-                            if (result.code === 0){
-                                //移除页面数据
-                                layer.msg("删除成功");
-                            }else{
-                                layer.msg("删除失败，请重新尝试");
-                            }
-                        },
-                        error: function () {
-                            layer.msg("删除失败，请检查网络");
-                        }
                     });
                 }
             }
