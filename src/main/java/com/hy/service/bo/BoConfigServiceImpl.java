@@ -693,12 +693,23 @@ public class BoConfigServiceImpl implements BoConfigService {
         return DTOUtil.populateList(boRolesList, BORoleDto.class);
     }
 
+    /**
+     * @Author 沈超宇
+     * @Description 根据BO账号查询对应的角色信息serviceImpl
+     * @Date 2018/12/19 16:35
+     **/
     @Override
-    //删除角色时，若存在人员，不能删除；还未做判断！
+    public List<BORoleDto> getRoleByAcc(String accountid){
+        List<BORole> boRolesList = boRoleMapper.selectRoleByAcc(accountid);
+        return DTOUtil.populateList(boRolesList, BORoleDto.class);
+    }
+
+    @Override
+    //删除角色时，若存在人员，不能删除,无人员时，删除角色、角色BO账号关联表、角色报表关联表相关数据
     public boolean delRole(int id) {
         boRoleMapper.deleteRole(id);
-        boRoleAdMapper.deleteRoleAdAll(id);
         boRoleAccountMapper.deleteRoleAccountAll(id);
+        boRoleReportMapper.deleteByRole(id);
         return true;
     }
 
@@ -813,6 +824,16 @@ public class BoConfigServiceImpl implements BoConfigService {
     public List<BORoleAccountDto> getRoleAccount(int rid) {
         List<BORoleAccount> boRoleAccountList = boRoleAccountMapper.selectRoleAccount(rid);
         return DTOUtil.populateList(boRoleAccountList, BORoleAccountDto.class);
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、BO账号关系表根据角色BO账号删除对应数据serviceImpl
+     * @Date 2018/12/19 17:04
+     **/
+    @Override
+    public boolean delByRidAcc(int rid, String accountid){
+        return boRoleAccountMapper.deleteByRidAcc(rid, accountid) == 1;
     }
 
     /**

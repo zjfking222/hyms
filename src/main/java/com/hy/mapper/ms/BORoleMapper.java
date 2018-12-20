@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface BORoleMapper {
     List<BORole> selectRole(@Param("value") String value);
+    List<BORole> selectRoleByAcc(@Param("accountid") String accountid);//根据BO账号查询对应的角色信息
     Integer insertRole(BORole boRole);
     Integer updateRole(BORole boRole);
     Integer deleteRole(@Param("id") int id);

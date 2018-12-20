@@ -238,6 +238,7 @@ public class BoConfigController {
         boConfigService.saveEmpReport(catalogueDto);
         return ResultObj.success();
     }
+
     /**
      * @Author 沈超宇
      * @Description 角色查删controller
@@ -249,6 +250,16 @@ public class BoConfigController {
         return ResultObj.success(boRoleDtosList);
     }
 
+    /**
+     * @Author 沈超宇
+     * @Description 根据BO账号查询对应的角色信息controller
+     * @Date 2018/12/19 16:38
+     **/
+    @PostMapping("/role/getRoleByAcc")
+    public ResultObj getRoleByAcc(String accountid){
+        List<BORoleDto> boRoleDtosList = boConfigService.getRoleByAcc(accountid);
+        return ResultObj.success(boRoleDtosList);
+    }
 
     @PostMapping("/role/delRole")
     public ResultObj delRole(int id){
@@ -289,6 +300,18 @@ public class BoConfigController {
     @PostMapping("/roleAccount/getRoleAcc")
     public ResultObj getRoleAcc(int rid){
         return ResultObj.success(boConfigService.getRoleAccount(rid));
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 角色、BO账号关系表根据角色BO账号删除对应数据controller
+     * @Date 2018/12/19 17:07
+     **/
+    @PostMapping("/roleAccount/delByRidAcc")
+    public ResultObj delByRidAcc(int rid, String accountid){
+        return boConfigService.delByRidAcc(rid, accountid) ?
+                ResultObj.success() :
+                ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
     }
 
     /**

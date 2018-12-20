@@ -31,4 +31,8 @@
         delete from bo_role_account
         where rid = #{rid}
     </delete>
+    <delete id="deleteByRidAcc" parameterType="com.hy.model.BORoleAccount">
+        delete from bo_role_account
+        where rid = #{rid} and accountid = #{accountid}
+    </delete>
 </mapper>
