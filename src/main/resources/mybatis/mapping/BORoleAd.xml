@@ -20,63 +20,18 @@
         where rid = #{rid,jdbcType=VARCHAR}
     </select>
     <insert id="insertRoleAd"  parameterType="com.hy.model.BORoleAd">
-        insert into bo_role_ad
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                id,
-            </if>
-            <if test="rid != null" >
-                rid,
-            </if>
-            <if test="empnum != null" >
-                empnum,
-            </if>
-            <if test="empname != null" >
-                empname,
-            </if>
-            <if test="creater != null" >
-                creater,
-            </if>
-            <if test="created != null" >
-                created,
-            </if>
-            <if test="modifier != null" >
-                modifier,
-            </if>
-            <if test="modified != null" >
-                modified,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="rid != null" >
-                #{rid,jdbcType=INTEGER},
-            </if>
-            <if test="empnum != null" >
-                #{empnum,jdbcType=VARCHAR},
-            </if>
-            <if test="empname != null" >
-                #{empname,jdbcType=VARCHAR},
-            </if>
-            <if test="creater != null" >
-                #{creater,jdbcType=VARCHAR},
-            </if>
-            <if test="created != null" >
-                #{created,jdbcType=TIMESTAMP},
-            </if>
-            <if test="modifier != null" >
-                #{modifier,jdbcType=VARCHAR},
-            </if>
-            <if test="modified != null" >
-                #{modified,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
+        insert into bo_role_ad (rid, empnum, empname, creater, modifier)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.rid}, #{item.empnum}, #{item.empname}, #{item.creater}, #{item.modifier})
+        </foreach>
     </insert>
     <delete id="deleteRoleAd" parameterType="com.hy.model.BORoleAd">
         delete from bo_role_ad
-        where id = #{id}
+        where id in
+        <foreach collection="array" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </delete>
     <delete id="deleteRoleAdAll" parameterType="com.hy.model.BORoleAd">
         delete from bo_role_ad

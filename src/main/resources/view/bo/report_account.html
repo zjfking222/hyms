@@ -45,6 +45,8 @@
         $('#btn-submit').on('click',function () {
             var data = {};
             var msg = "";
+            var check = window.parent.accountSearch("");
+            var judge = false;
             if(parent.pushData.id === -1){
                 data.id = "";
                 msg = "添加";
@@ -56,25 +58,34 @@
             data.type = $('#type').val();
             data.password = $('#password').val();
             data.description = $('#description').val();
-            $.ajax({
-                async: false,
-                url: '/bo/account/updateAccount',
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                success: function (result) {
-                    if(result.code === 0){
-                        parent.layer.msg(msg + "成功");
-                        parent.layer.close(index);
-                    }else{
+            for(var i = 0; i < check.length; i++){
+                if(check[i].accountid === data.accountid){
+                    judge = true;
+                    break;
+                }
+            }
+            if(!judge){
+                $.ajax({
+                    async: false,
+                    url: '/bo/account/updateAccount',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (result) {
+                        if(result.code === 0){
+                            parent.layer.msg(msg + "成功");
+                            parent.layer.close(index);
+                        }else{
+                            parent.layer.msg(msg + "失败");
+                        }
+                    },
+                    error:function () {
                         parent.layer.msg(msg + "失败");
                     }
-                },
-                error:function () {
-                    parent.layer.msg(msg + "失败");
-                }
-            });
-
+                });
+            }else {
+                parent.layer.msg("BO账号已存在，请重新填写BO账号！")
+            }
         });
     </script>
 </body>

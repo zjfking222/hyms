@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public interface BORoleAdMapper {
     List<BORoleAd> selectRoleAd(@Param("rid") int rid);
-    Integer insertRoleAd(BORoleAd boRoleAd);
-    Integer deleteRoleAd(int id);
-    Integer deleteRoleAdAll(int rid);//角色删除后，对应角色、AD员工号关系表中的数据也删除
+    Integer insertRoleAd(List<BORoleAd> boRoleAd);
+    Integer deleteRoleAd(int[] array);
 }

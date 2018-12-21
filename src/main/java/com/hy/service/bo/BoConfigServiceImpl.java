@@ -795,12 +795,17 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     @Override
+    @Transactional
     //删除角色时，若存在人员，不能删除,无人员时，删除角色、角色BO账号关联表、角色报表关联表相关数据
     public boolean delRole(int id) {
-        boRoleMapper.deleteRole(id);
-        boRoleAccountMapper.deleteRoleAccountAll(id);
-        boRoleReportMapper.deleteByRole(id);
-        return true;
+        int i = boRoleMapper.deleteRole(id);
+        if(i > 0){
+            boRoleAccountMapper.deleteRoleAccountAll(id);
+            boRoleReportMapper.deleteByRole(id);
+            return true;
+        }else {
+            throw new RuntimeException("删除角色失败！");
+        }
     }
 
     /**
@@ -834,18 +839,30 @@ public class BoConfigServiceImpl implements BoConfigService {
             boRole.setDescription(dto.getDescription());
             boRole.setCreater(SecurityUtil.getLoginid());
             boRole.setModifier(SecurityUtil.getLoginid());
-            boRoleMapper.insertRole(boRole);
-            //循环添加BO账号
-            for (BORoleAccountDto boRoleAccountDto : dto.getBoRoleAccounts()) {
-                boRoleAccountMapper.insertRoleAccount(new BORoleAccount(boRole.getId(), boRoleAccountDto.getAccountid(),
-                        SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+            int i = boRoleMapper.insertRole(boRole);
+            if(i > 0){
+                List<BORoleAccount> boRoleAccountList = new ArrayList<>();
+                List<BORoleAd> boRoleAds = new ArrayList<>();
+                //添加BO账号(存入List)
+                for (BORoleAccountDto boRoleAccountDto : dto.getBoRoleAccounts()) {
+                    boRoleAccountList.add(new BORoleAccount(boRole.getId(), boRoleAccountDto.getAccountid(),
+                            SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+                }
+                if(boRoleAccountList.size() > 0){
+                    boRoleAccountMapper.insertRoleAccount(boRoleAccountList);
+                }
+                //添加人员ad账号(存入List)
+                for (HrmResourceDto hrmResourceDto : dto.getnHrmResources()) {
+                    boRoleAds.add(new BORoleAd(boRole.getId(), hrmResourceDto.getLoginid(), hrmResourceDto.getLastname(),
+                            SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+                }
+                if(boRoleAds.size() > 0){
+                    boRoleAdMapper.insertRoleAd(boRoleAds);
+                }
+                return true;
+            }else {
+                return false;
             }
-            //循环添加人员ad账号
-            for (HrmResourceDto hrmResourceDto : dto.getnHrmResources()) {
-                boRoleAdMapper.insertRoleAd(new BORoleAd(boRole.getId(), hrmResourceDto.getLoginid(), hrmResourceDto.getLastname(),
-                        SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
-            }
-            return true;
         } catch (Exception e) {
             System.out.println(e);
             throw e;
@@ -864,38 +881,56 @@ public class BoConfigServiceImpl implements BoConfigService {
             boRole.setModifier(SecurityUtil.getLoginid());
             boRoleMapper.updateRole(boRole);
             List<BORoleAccount> boRoleAccountList = boRoleAccountMapper.selectRoleAccount(dto.getRid());
+            Map<String, String> map = new HashMap<>();
+            List<BORoleAccount> boRoleAccounts = new ArrayList<>();
+            List<BORoleAd> boRoleAds = new ArrayList<>();
             boolean judgeAdd = false;
             int size = boRoleAccountList.size();
-            //循环添加BO账号
+            //添加BO账号(存入List)
+            //将开始选中的BO账号与最后的比较，找出要添加的BO账号
+            IntStream.range(0, size).forEach(i ->{
+                map.put(boRoleAccountList.get(i).getAccountid(), boRoleAccountList.get(i).getAccountid());
+            });
             if (dto.getBoRoleAccounts().length > 0) {
                 for (BORoleAccountDto accountAddDto : dto.getBoRoleAccounts()) {
                     if (size > 0) {
-                        for (int i = 0; i < size; i++) {
-                            if (accountAddDto.getAccountid().equals(boRoleAccountList.get(i).getAccountid())) {
-                                judgeAdd = true;
-                                break;
-                            }
+                        if (map.containsKey(accountAddDto.getAccountid())) {
+                            judgeAdd = true;
                         }
                     }
                     if (!judgeAdd) {
-                        boRoleAccountMapper.insertRoleAccount(new BORoleAccount(accountAddDto.getRid(), accountAddDto.getAccountid(),
+                        boRoleAccounts.add(new BORoleAccount(accountAddDto.getRid(), accountAddDto.getAccountid(),
                                 SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
                     }
                     judgeAdd = false;
                 }
             }
-            //循环删除BO账号
-            for (int j = 0; j < dto.getDelAcc().length; j++) {
-                boRoleAccountMapper.deleteRoleAccount(dto.getDelAcc()[j]);
+            if(boRoleAccounts.size() > 0){
+                boRoleAccountMapper.insertRoleAccount(boRoleAccounts);
             }
-            //循环删除人员ad账号
-            for (SysRolesUserDelDto delDto : dto.getrHrmResources()) {
-                boRoleAdMapper.deleteRoleAd(Integer.parseInt(delDto.getUid()));
+            //删除BO账号
+            if(dto.getDelAcc().length > 0){
+                boRoleAccountMapper.deleteRoleAccount(dto.getDelAcc());
             }
-            //循环添加人员ad账号
-            for (HrmResourceDto hrmResourceDto : dto.getnHrmResources()) {
-                boRoleAdMapper.insertRoleAd(new BORoleAd(dto.getRid(), hrmResourceDto.getLoginid(), hrmResourceDto.getLastname(),
-                        SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+            //删除人员ad账号
+            if(dto.getrHrmResources().length > 0){
+                int[] array = new int[dto.getrHrmResources().length];
+                int x = 0;
+                for (SysRolesUserDelDto delDto : dto.getrHrmResources()) {
+                    array[x] = Integer.parseInt(delDto.getUid());
+                    x++;
+                }
+                boRoleAdMapper.deleteRoleAd(array);
+            }
+            //添加人员ad账号(存入List)
+            if(dto.getnHrmResources().length > 0){
+                for (HrmResourceDto hrmResourceDto : dto.getnHrmResources()) {
+                    boRoleAds.add(new BORoleAd(dto.getRid(), hrmResourceDto.getLoginid(), hrmResourceDto.getLastname(),
+                            SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
+                }
+            }
+            if(boRoleAds.size() > 0){
+                boRoleAdMapper.insertRoleAd(boRoleAds);
             }
             return true;
         } catch (Exception e) {
@@ -958,6 +993,7 @@ public class BoConfigServiceImpl implements BoConfigService {
 
     //增删角色报表
     @Override
+    @Transactional
     public void saveRoleReport(BOCatalogueDto boCatalogueDto) {
         if (boCatalogueDto != null) {
             int i;

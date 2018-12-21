@@ -50,11 +50,11 @@
                     '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
-                    {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '10%'},
-                    {field: "name", title: "报表名称", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
-                    {field: "type", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
-                    {field: "url", title: "url", headerAttributes: {"class": "grid-algin-center"}, width: '15%'},
-                    {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '25%'},
+                    {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "name", title: "报表名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "type", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "url", title: "url", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
                     {
                         command: [{
                             name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -73,7 +73,7 @@
                                 vm.edit();
                             }
                         }, {name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],
-                        title: "操作", width: "20%"
+                        title: "操作", width: "155px"
                     },{field: "", title: ""}
                 ]
             });
