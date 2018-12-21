@@ -64,7 +64,7 @@
                         parent.layer.msg(msg + "成功");
                         //更改当前页面显示的目录
                         if(parent.currentCata.node.id === -1){
-                            window.parent.addKendoNode($('#name').val());
+                            window.parent.addKendoNode(result.data, $('#name').val());
                         }else{
                             window.parent.editKendoNode($('#name').val());
                         }

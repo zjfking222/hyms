@@ -87,13 +87,14 @@
             return response.responseJSON;
         };
         //添加节点
-        function addKendoNode(name){
+        function addKendoNode(id, name){
             var tree = $("#treeview").data("kendoTreeView");
             var selectedNode = tree.select();
             if(selectedNode.length == 0){
                 selectedNode = null;
             }
             tree.append({
+                id:id,
                 name: name
             }, selectedNode);
             $("span.k-in").addClass("widthFull");

@@ -19,7 +19,7 @@
         <include refid="Base_Column_List" />
         from bo_catalogue
     </select>
-    <insert id="insertSelective" parameterType="com.hy.model.BOCatalogue" >
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.hy.model.BOCatalogue" >
         insert into bo_catalogue
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >

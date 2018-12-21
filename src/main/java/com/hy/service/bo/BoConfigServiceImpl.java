@@ -610,10 +610,10 @@ public class BoConfigServiceImpl implements BoConfigService {
      * @Description 新增或更新目录
      * @Date 2018/12/17 9:35
      * @Param [dto]
-     * @return void
+     * @return int
      **/
     @Override
-    public void updateCatalogue(BOCatalogueDto dto){
+    public int updateCatalogue(BOCatalogueDto dto){
         BOCatalogue catalogue = DTOUtil.populate(dto, BOCatalogue.class);
         catalogue.setModifier(SecurityUtil.getLoginid());
         //判断是新增还是执行更新
@@ -624,12 +624,16 @@ public class BoConfigServiceImpl implements BoConfigService {
             if(i <= 0){
                 throw new RuntimeException("添加目录数据失败！");
             }
+            //返回主键
+            return catalogue.getId();
         }else{
             //调用更新操作
             int i = reportCatalogueMapper.updateByPrimaryKeySelective(catalogue);
             if(i <= 0){
                 throw new RuntimeException("更新目录数据失败！");
             }
+            //返回主键
+            return catalogue.getId();
         }
     }
 

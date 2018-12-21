@@ -407,8 +407,8 @@ public class BoConfigController {
      **/
     @PostMapping("/account/updateCatalogue")
     public ResultObj updateCatalogue(BOCatalogueDto dto){
-        boConfigService.updateCatalogue(dto);
-        return ResultObj.success();
+        int i =boConfigService.updateCatalogue(dto);
+        return ResultObj.success(i);
     }
 
     /**

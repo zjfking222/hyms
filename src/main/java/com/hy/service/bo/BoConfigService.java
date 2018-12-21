@@ -251,9 +251,9 @@ public interface BoConfigService {
      * @Description 新增或更新目录
      * @Date 2018/12/17 9:35
      * @Param [dto]
-     * @return void
+     * @return int
      **/
-    void updateCatalogue(BOCatalogueDto dto);
+    int updateCatalogue(BOCatalogueDto dto);
 
     /**
      * @Author 钱敏杰
