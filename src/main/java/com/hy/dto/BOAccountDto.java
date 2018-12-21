@@ -1,7 +1,5 @@
 package com.hy.dto;
 
-import java.util.Date;
-
 /**
  * @Auther: 钱敏杰
  * @Date: 2018/12/3 9:26
@@ -19,6 +17,8 @@ public class BOAccountDto {
     private String password;
     //描述
     private String description;
+    //是否已选中：true 选中；false 未选中
+    private boolean checked;
 
     public Integer getId() {
         return id;
@@ -58,5 +58,13 @@ public class BOAccountDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

@@ -145,6 +145,33 @@ public interface BoConfigService {
 
     /**
      * @Author 钱敏杰
+     * @Description 获取当前员工绑定的BO账号id数据
+     * @Date 2018/12/20 14:01
+     * @Param [empnum]
+     * @return java.util.List<java.lang.String>
+     **/
+    List<String> getEmpAccounts(String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 保存人员拥有的BO账号权限变化
+     * @Date 2018/12/20 16:05
+     * @Param [dto]
+     * @return void
+     **/
+    void saveEmpAccounts(BOEmpAccountDto dto);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除BO操作人员及其相关权限
+     * @Date 2018/12/20 17:09
+     * @Param [empnum]
+     * @return void
+     **/
+    void deleteEmp(String empnum);
+
+    /**
+     * @Author 钱敏杰
      * @Description 查询当前员工所有BO账号下的报表权限树及其选中值
      * @Date 2018/12/12 16:02
      * @Param [empnum]

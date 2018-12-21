@@ -67,4 +67,22 @@ public interface BOAccadRelationMapper {
      * @return java.util.List<com.hy.model.ReportAccadRelation>
      **/
     List<BOAccadRelation> getAccountEmp(@Param("empnum") String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号查询已绑定的全部BO账号
+     * @Date 2018/12/20 9:59
+     * @Param [empnum]
+     * @return java.util.List<com.hy.model.BOAccadRelation>
+     **/
+    List<BOAccadRelation> getEmpAccounts (@Param("empnum") String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除员工的所有BO账号权限
+     * @Date 2018/12/20 17:05
+     * @Param [empnum]
+     * @return int
+     **/
+    int deleteByEmp(@Param("empnum")String empnum);
 }

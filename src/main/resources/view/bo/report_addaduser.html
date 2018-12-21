@@ -10,20 +10,19 @@
         <div class="input-group">
             <input class="form-control" placeholder="输入员工号或姓名搜索" style="display:inline-block!important;" id="search-info"/>
             <span class="input-group-addon" style="background: white;">
-                  <a style="color: black!important;" href="javascript:;" id="search" class="btn-block">搜索</a>
+                  <a style="color: black!important;" href="javascript:" id="search" class="btn-block">搜索</a>
                 </span>
         </div>
         <div class="form-group">
-            <label for="search-pan">当前账号</label>
-            <div style="min-height:34px;height: auto!important;text-align: left" class="form-control" id="search-pan">
-                <input class="form-control" value="search.lastname" style="display:inline-block!important;"/>
-            </div>
+            <label>当前账号</label>
+            <label class="form-control" style="display:inline-block!important;" id="userlabel"></label>
         </div>
         <div class="form-group">
             <label>选择BO账号</label>
             <div class="form-group" style="margin-bottom: 0">
                 <div style="display: inline-block;width: 24%" v-for="acc in account">
-                    <input name="BO" :id="acc.accountid" type="checkbox" style="height: 15px;width: 15px"/>
+                    <input v-if="acc.checked" name="BO" :value="acc.accountid" type="checkbox" style="height: 15px;width: 15px" checked="checked"/>
+                    <input v-else name="BO" :value="acc.accountid" type="checkbox" style="height: 15px;width: 15px"/>
                     <p style="display: inline-block;vertical-align: middle;margin-top: 2px;">{{acc.accountid}}</p>
                 </div>
             </div>
@@ -34,8 +33,10 @@
 
     <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+    <script src="/statics/plugins/layer/layer.js"></script>
     <script>
         var index = parent.layer.getFrameIndex(window.name);
+        var oldAccount;
         $(function () {
             //查询ad域用户
             function dataSearch(search) {
@@ -43,88 +44,91 @@
             }
             //查询全部BO账号
             function getAccount() {
-                return FetchData({accountid: ''}, 'POST', '/bo/account/getAccount', false).data;
-            }
-            /*//查询关联数据
-            function dataSource(accountid) {
-                var resultData = FetchData({accountid:accountid},'POST','/bo/account/getADUsers',false).data;
-                if(resultData){
-                    return resultData;
+                var allAccount =  FetchData({accountid: ''}, 'POST', '/bo/account/getAccount', false).data;
+                //若为更新，则需要确定已选中的BO账号
+                if(parent.pushEmp.empnum != -1){
+                    //已选中的BO账号
+                    var checked = checkedAccountSearch(parent.pushEmp.empnum);
+                    oldAccount = checked;
+                    //循环检查选中BO账号
+                    if(allAccount != null && allAccount.length >0 && checked != null && checked.length >0){
+                        for(var i=0;i<allAccount.length;i++){
+                            var account = allAccount[i];
+                            if($.inArray(account.accountid, checked) >=0){
+                                allAccount[i].checked = true;
+                            }
+                        }
+                    }
                 }
-                return [];
-            }*/
+                return allAccount;
+            }
+            //使用员工号查询bo账号
+            function checkedAccountSearch(empnum) {
+                return FetchData({empnum: empnum},'POST','/bo/account/getEmpAccounts',false).data;
+            }
             var vm = new Vue({
                 el: '#app',
                 data: {
                     search: [],
                     account: getAccount()
                 },
+                created:function (){
+                    //修改操作页面加载当前员工数据
+                    if(parent.pushEmp.empnum != -1){
+                        //显示当前员工
+                        this.search.empnum = parent.pushEmp.empnum;
+                        this.search.empname = parent.pushEmp.empname;
+                        $("#userlabel").text(parent.pushEmp.empname);
+                        //更新操作禁止更改员工
+                        $("#search-info").attr("disabled","disabled");
+                    }
+                },
                 methods:{
                     //搜索
                     onSearch: function (search) {
-                        vm.search = dataSearch(search);
-                        /*
-                        var add_item = {
-                            'id':emp.id,
-                            'loginid':emp.loginid,
-                            'lastname':emp.name
-                        };*/
-                    },
-                    /*//添加
-                    onAdd: function (id,loginid,name) {
-                        var isExist = false;
-                        var add_item = {
-                            'id':id,
-                            'loginid':loginid,
-                            'lastname':name
-                        };
-                        if(vm.result && vm.result.length >0){
-                            for(var j = 0 ; j < vm.result.length ; j++){
-                                if(vm.result[j].id === add_item.id){
-                                    isExist = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if(!isExist){
-                            add.push(add_item);
-                            vm.result.push(add_item)
+                        var data = dataSearch(search);
+                        vm.search.empnum = data.id;
+                        vm.search.empname = data.lastname;
+                        if(vm.search == null){
+                            $("#userlabel").text("");
+                        }else{
+                            $("#userlabel").text(vm.search.empname);
                         }
                     },
-                    //删除
-                    onDel: function (id) {
-                        var isExist = false;
-                        for(var i = 0 ; i < add.length ; i++){
-                            if(add[i].id === id){
-                                add.splice(i,1);
-                                isExist = true;
-                            }
-                        }
-                        if(!isExist){
-                            var del_item ={
-                                uid: id
-                            };
-                            del.push(del_item);
-                        }
-                        //显示
-                        for(var j = 0 ; j < vm.result.length ; j++){
-                            if(vm.result[j].id === id){
-                                vm.result.splice(j,1);
-                                break;
-                            }
-                        }
-                    },*/
                     //提交
                     onSubmit:function () {
-                        //获取已选中的BO账号
-                        var checked = [];
+                        if(parent.pushEmp.empnum == -1){
+                            var result = FetchData(JSON.stringify(postData),'POST','/bo/account/getEmpAccounts',false,true);
+                            if(result.code == 0){
+                                if(result.data.length >0){
+                                    layer.msg('已存在该人员，无需添加');
+                                    return;
+                                }
+                            }else{
+                                layer.msg('提交失败，请重新尝试');
+                                return;
+                            }
+                        }
+                        //获取
+                        var add = [];
+                        var del = [];
+                        $("input[type='checkbox']").each(function() {
+                            if ($(this).is(":checked") && $.inArray($(this).val(), oldAccount) == -1) {
+                                add.push($(this).val());
+                            }
+                            if((!$(this).is(":checked")) && $.inArray($(this).val(), oldAccount) >=0){
+                                del.push($(this).val());
+                            }
+                        });
                         var postData = {
-                            emp:vm.search,
-                            accounts:checked
+                            empnum:vm.search.empnum,
+                            empname:vm.search.empname,
+                            addAccounts:add,
+                            delAccounts:del
                         };
                         FetchData(JSON.stringify(postData),'POST','/bo/account/saveEmpAccounts',false,true).code === 0?
                             parent.layer.msg('修改成功'):
-                            parent.layer.msg('登陆失效');
+                            parent.layer.msg('修改失败');
                         parent.layer.close(index);
                     }
                 }

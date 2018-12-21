@@ -40,4 +40,13 @@ public interface BOPermissionMapper {
      * @return int
      **/
     int insertEmpReportBatch(List<BOPermission> list);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除人员的全部报表权限
+     * @Date 2018/12/20 17:08
+     * @Param [empnum]
+     * @return int
+     **/
+    int deleteAllByEmp(@Param("empnum") String empnum);
 }

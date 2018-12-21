@@ -9,24 +9,44 @@ import java.util.List;
  */
 public class BOEmpAccountDto {
 
-    //人员
-    private SysUserDto emp;
-    //BO账号
-    private List<BOAccountDto> accounts;
+    //员工号
+    private String empnum;
+    //人员名称
+    private String empname;
+    //新增的BO账号
+    private List<String> addAccounts;
+    //删除的BO账号
+    private List<String> delAccounts;
 
-    public List<BOAccountDto> getAccounts() {
-        return accounts;
+    public String getEmpnum() {
+        return empnum;
     }
 
-    public void setAccounts(List<BOAccountDto> accounts) {
-        this.accounts = accounts;
+    public void setEmpnum(String empnum) {
+        this.empnum = empnum;
     }
 
-    public SysUserDto getEmp() {
-        return emp;
+    public String getEmpname() {
+        return empname;
     }
 
-    public void setEmp(SysUserDto emp) {
-        this.emp = emp;
+    public void setEmpname(String empname) {
+        this.empname = empname;
+    }
+
+    public List<String> getAddAccounts() {
+        return addAccounts;
+    }
+
+    public void setAddAccounts(List<String> addAccounts) {
+        this.addAccounts = addAccounts;
+    }
+
+    public List<String> getDelAccounts() {
+        return delAccounts;
+    }
+
+    public void setDelAccounts(List<String> delAccounts) {
+        this.delAccounts = delAccounts;
     }
 }

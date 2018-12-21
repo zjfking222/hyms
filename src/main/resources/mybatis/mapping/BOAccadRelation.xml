@@ -49,4 +49,16 @@
             where empnum like concat('%',#{empnum,jdbcType=VARCHAR},'%') or empname like concat('%',#{empnum,jdbcType=VARCHAR},'%')
         </if>
     </select>
+    <select id="getEmpAccounts" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from bo_accad_relation
+        <if test="empnum != null and empnum !=''">
+            where empnum = #{empnum,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <delete id="deleteByEmp">
+        delete from bo_accad_relation
+      where empnum = #{empnum,jdbcType=VARCHAR}
+    </delete>
 </mapper>

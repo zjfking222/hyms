@@ -59,7 +59,7 @@
                 }
                 //请求参数
                 var postData = {
-                    empnum:parent.pushEmp,
+                    empnum:parent.pushEmp.empnum,
                     addReports:add,
                     delReports:del
                 };
@@ -75,7 +75,7 @@
             }
             //获取菜单并生成数据对象
             ListData =  new kendo.data.HierarchicalDataSource({
-                data: dataSourceList(parent.pushEmp)
+                data: dataSourceList(parent.pushEmp.empnum)
             });
             //初始化菜单树
             $("#treeview").kendoTreeView({

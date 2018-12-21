@@ -148,6 +148,45 @@ public class BoConfigController {
 
     /**
      * @Author 钱敏杰
+     * @Description 获取当前员工拥有的BO账号
+     * @Date 2018/12/20 9:41
+     * @Param [empnum]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/getEmpAccounts")
+    public ResultObj getEmpAccounts(String empnum){
+        List<String> list = boConfigService.getEmpAccounts(empnum);
+        return ResultObj.success(list);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 更改当前人员的BO账号权限
+     * @Date 2018/12/20 16:06
+     * @Param [dto]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/saveEmpAccounts")
+    public ResultObj saveEmpAccounts(@RequestBody BOEmpAccountDto dto){
+        boConfigService.saveEmpAccounts(dto);
+        return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除BO报表操作人员及其相关权限
+     * @Date 2018/12/20 17:11
+     * @Param [empnum]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/account/deleteEmp")
+    public ResultObj deleteEmp(String empnum){
+        boConfigService.deleteEmp(empnum);
+        return ResultObj.success();
+    }
+
+    /**
+     * @Author 钱敏杰
      * @Description 获取当前BO账号的所有报表授权
      * @Date 2018/12/8 15:33
      * @Param [accountid]
@@ -411,9 +450,5 @@ public class BoConfigController {
         return ResultObj.success(num);
     }
 
-    @PostMapping("/account/saveEmpAccounts")
-    public ResultObj saveEmpAccounts(BOEmpAccountDto dto){
-        //boConfigService.updateCatalogue(dto);
-        return ResultObj.success();
-    }
+
 }

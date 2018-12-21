@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @Auther: 钱敏杰
@@ -444,6 +443,97 @@ public class BoConfigServiceImpl implements BoConfigService {
     public List<BOAccadRelationDto> getAccountEmp(String empnum) {
         List<BOAccadRelation> list = reportAccadRelation.getAccountEmp(empnum);
         return DTOUtil.populateList(list, BOAccadRelationDto.class);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前员工绑定的BO账号id数据
+     * @Date 2018/12/20 14:01
+     * @Param [empnum]
+     * @return java.util.List<java.lang.String>
+     **/
+    @Override
+    public List<String> getEmpAccounts(String empnum){
+        List<BOAccadRelation> list = reportAccadRelation.getEmpAccounts(empnum);
+        List<String> returnList = null;
+        if(list != null && list.size() >0){
+            returnList = new ArrayList<>();
+            for(BOAccadRelation relation:list){
+                if(StringUtils.isNotEmpty(relation.getAccountid())){
+                    returnList.add(relation.getAccountid());
+                }
+            }
+        }
+        return returnList;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 保存人员拥有的BO账号权限变化
+     * @Date 2018/12/20 16:05
+     * @Param [dto]
+     * @return void
+     **/
+    @Override
+    @Transactional
+    public void saveEmpAccounts(BOEmpAccountDto dto){
+        if(dto != null && StringUtils.isNotEmpty(dto.getEmpnum())){
+            //检查是否存在新增的BO账号权限，有则保存
+            if(dto.getAddAccounts() != null && dto.getAddAccounts().size() >0){
+                List<BOAccadRelation> addList = new ArrayList<>();
+                BOAccadRelation relation = null;
+                //生成保存对象
+                for(String accountid:dto.getAddAccounts()){
+                    if(StringUtils.isNotEmpty(accountid)){
+                        relation = new BOAccadRelation();
+                        relation.setAccountid(accountid);
+                        relation.setEmpnum(dto.getEmpnum());
+                        relation.setEmpname(dto.getEmpname());
+                        relation.setCreater(SecurityUtil.getLoginid());
+                        relation.setModifier(SecurityUtil.getLoginid());
+                        addList.add(relation);
+                    }
+                }
+                int i = reportAccadRelation.insertBatch(addList);
+                if(i <= 0){
+                    throw new RuntimeException("保存人员账号权限数据失败");
+                }
+            }
+            //检查是否有删除的BO账号权限，有则删除
+            if(dto.getDelAccounts() != null && dto.getDelAccounts().size() >0){
+                //循环执行删除操作
+                for(String accountid:dto.getDelAccounts()){
+                    int i = reportAccadRelation.deleteByAccEmp(accountid, dto.getEmpnum());
+                    if(i <= 0){
+                        throw new RuntimeException("删除人员账号权限数据失败");
+                    }
+                }
+            }
+        }else{
+            throw new RuntimeException("数据为空，无法执行");
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除BO操作人员及其相关权限
+     * @Date 2018/12/20 17:09
+     * @Param [empnum]
+     * @return void
+     **/
+    @Override
+    @Transactional
+    public void deleteEmp(String empnum){
+        if(StringUtils.isNotEmpty(empnum)){
+            int i = reportAccadRelation.deleteByEmp(empnum);
+            if(i <= 0){
+                throw new RuntimeException("删除人员全部账号权限数据失败");
+            }
+            i = reportPermissionMapper.deleteAllByEmp(empnum);
+            if(i < 0){
+                throw new RuntimeException("删除人员全部报表权限数据失败");
+            }
+        }
     }
 
     /**
