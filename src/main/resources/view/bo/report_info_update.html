@@ -47,6 +47,8 @@
             $('#type').val(data.type);
             $('#url').val(data.url);
             $('#description').val(data.description);
+            //修改的报表id不给修改
+            $('#reportid').attr("disabled","disabled");
         }
         $('#submit').on('click', function () {
             if($('#reportid').val() == ''){

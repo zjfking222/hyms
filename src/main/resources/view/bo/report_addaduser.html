@@ -98,9 +98,10 @@
                     //提交
                     onSubmit:function () {
                         if(parent.pushEmp.empnum == -1){
-                            var result = FetchData(JSON.stringify(postData),'POST','/bo/account/getEmpAccounts',false,true);
+                            var param = vm.search.empnum;
+                            var result = FetchData({empnum:param},'POST','/bo/account/getEmpAccounts',false);
                             if(result.code == 0){
-                                if(result.data.length >0){
+                                if(result.data && result.data.length >0){
                                     layer.msg('已存在该人员，无需添加');
                                     return;
                                 }

@@ -267,7 +267,8 @@
                             layer.msg('删除成功！', {
                                 time: 500,
                                 end: function () {
-                                    vm.data1 = dataSourceSearch($("#search").val())
+                                    vm.data1 = dataSourceSearch($("#search").val());
+                                    $('#treeview').attr('src','/index/blank.html');
                                 }
                             });
                         }
