@@ -916,6 +916,8 @@ public class BoConfigServiceImpl implements BoConfigService {
             //删除BO账号
             if(dto.getDelAcc().length > 0){
                 boRoleAccountMapper.deleteRoleAccount(dto.getDelAcc());
+                //删除当前BO账号下的当前角色已配置的报表(删除BO账号后该账号下的部分已配置的报表权限且不在其他角色所拥有的BO账号下的权限应删除)
+                boRoleReportMapper.deleteReportByRole(dto.getRid());
             }
             //删除人员ad账号
             if(dto.getrHrmResources().length > 0){

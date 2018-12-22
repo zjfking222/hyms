@@ -28,4 +28,11 @@
         delete from bo_role_report
         where rid = #{rid}
     </delete>
+    <delete id="deleteReportByRole">
+        delete from bo_role_report
+        where rid = #{rid} and reportid not in
+        (select i.reportid from bo_acc_info i where i.accountid in
+          (select a.accountid from bo_role_account a where a.rid= #{rid})
+        )
+    </delete>
 </mapper>
