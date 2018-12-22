@@ -1,4 +1,4 @@
-var pageCount = 2;
+var pageCount = 12;
 var index = 1;
 $(function(){
     $('#loading').fadeOut(0);
