@@ -976,7 +976,7 @@ public class BoConfigServiceImpl implements BoConfigService {
         if(i >= 0){
             return true;
         }else{
-            return false;
+            throw new RuntimeException("删除角色已配置权限数据失败");
         }
     }
 
