@@ -964,8 +964,20 @@ public class BoConfigServiceImpl implements BoConfigService {
      * @Date 2018/12/19 17:04
      **/
     @Override
+    @Transactional
     public boolean delByRidAcc(int rid, String accountid){
-        return boRoleAccountMapper.deleteByRidAcc(rid, accountid) == 1;
+        int i = boRoleAccountMapper.deleteByRidAcc(rid, accountid);
+        if(i >0){
+            //删除当前BO账号下的当前角色已配置的报表(删除BO账号后该账号下的部分已配置的报表权限且不在其他角色所拥有的BO账号下的权限应删除)
+            i = boRoleReportMapper.deleteReportByRole(rid);
+        }else{
+            throw new RuntimeException("删除角色BO账号关联数据失败");
+        }
+        if(i >= 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
