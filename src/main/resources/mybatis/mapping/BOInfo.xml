@@ -61,6 +61,10 @@
         delete from bo_info
         where id = #{id}
     </delete>
+    <delete id="deleteReportByrid" parameterType="java.lang.String">
+        delete from bo_info
+        where reportid = #{reportid}
+    </delete>
     <select id="selectByAccountid" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.url

@@ -17,6 +17,15 @@ public interface BoConfigService {
     boolean addReportInfo(BOInfo reportInfos);
     boolean setReportInfo(BOInfo reportInfo);
     boolean delReportInfo(int id);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除报表及其所有关联数据
+     * @Date 2018/12/24 17:14
+     * @Param [reportid]
+     * @return void
+     **/
+    void delReportInfo(String reportid);
     /**
      * @Author 钱敏杰
      * @Description 根据accountid查询BO账号

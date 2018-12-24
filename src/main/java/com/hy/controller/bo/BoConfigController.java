@@ -48,11 +48,17 @@ public class BoConfigController {
                 ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 删除BO报表及其关联数据
+     * @Date 2018/12/24 16:47
+     * @Param [reportid]
+     * @return com.hy.common.ResultObj
+     **/
     @RequestMapping("/delReportInfo")
-    public ResultObj delReportInfo(int id){
-        return boConfigService.delReportInfo(id)?
-                ResultObj.success():
-                ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
+    public ResultObj delReportInfo(String reportid){
+        boConfigService.delReportInfo(reportid);
+        return ResultObj.success();
     }
 
     /**

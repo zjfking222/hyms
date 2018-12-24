@@ -21,6 +21,15 @@ public interface BOInfoMapper {
 
     /**
      * @Author 钱敏杰
+     * @Description 根据reportid删除报表信息
+     * @Date 2018/12/24 16:51
+     * @Param [reportid]
+     * @return int
+     **/
+    int deleteReportByrid(@Param("reportid") String reportid);
+
+    /**
+     * @Author 钱敏杰
      * @Description 根据BO账号id查询关联报表信息
      * @Date 2018/12/8 11:00
      * @Param [accountid]

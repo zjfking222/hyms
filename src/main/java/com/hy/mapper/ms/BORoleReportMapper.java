@@ -28,4 +28,13 @@ public interface BORoleReportMapper {
      * @return java.lang.Integer
      **/
     Integer deleteReportByRole(@Param("rid") int rid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除当前报表的所有关联数据
+     * @Date 2018/12/24 17:08
+     * @Param [reportid]
+     * @return int
+     **/
+    int deleteByReportid(@Param("reportid") String reportid);
 }

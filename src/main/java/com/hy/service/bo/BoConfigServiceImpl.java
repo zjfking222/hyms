@@ -84,6 +84,41 @@ public class BoConfigServiceImpl implements BoConfigService {
 
     /**
      * @Author 钱敏杰
+     * @Description 删除报表及其所有关联数据
+     * @Date 2018/12/24 17:14
+     * @Param [reportid]
+     * @return void
+     **/
+    @Override
+    @Transactional
+    public void delReportInfo(String reportid) {
+        //删除报表数据
+        int i = reportInfoMapper.deleteReportByrid(reportid);
+        if(i >0){
+            //删除当前报表的BO账号与报表的关联关系数据
+            i = reportAccInfoMapper.deleteByReportid(reportid);
+            if(i >=0){
+                //删除当前报表的角色与报表的关联关系数据
+                i = boRoleReportMapper.deleteByReportid(reportid);
+                if(i >0){
+                    //删除当前报表的人员与报表的关联关系数据
+                    i = reportPermissionMapper.deleteByReportid(reportid);
+                    if(i <=0){
+                        throw new RuntimeException("删除当前报表的人员与报表的关联关系数据失败");
+                    }
+                }else{
+                    throw new RuntimeException("删除当前报表的角色与报表的关联关系数据失败");
+                }
+            }else{
+                throw new RuntimeException("删除当前报表的BO账号与报表的关联关系数据失败");
+            }
+        }else{
+            throw new RuntimeException("删除报表数据失败");
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
      * @Description 根据accountid查询BO账号
      * @Date 2018/12/3 16:42
      * @Param [accountid]

@@ -49,4 +49,13 @@ public interface BOPermissionMapper {
      * @return int
      **/
     int deleteAllByEmp(@Param("empnum") String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除当前报表的所有关联数据
+     * @Date 2018/12/24 17:11
+     * @Param [reportid]
+     * @return int
+     **/
+    int deleteByReportid(@Param("reportid") String reportid);
 }
