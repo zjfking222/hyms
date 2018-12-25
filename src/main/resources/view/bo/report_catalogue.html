@@ -87,7 +87,7 @@
             return response.responseJSON;
         };
         //添加节点
-        function addKendoNode(id, name){
+        function addKendoNode(id, name, description){
             var tree = $("#treeview").data("kendoTreeView");
             var selectedNode = tree.select();
             if(selectedNode.length == 0){
@@ -95,17 +95,19 @@
             }
             tree.append({
                 id:id,
-                name: name
+                name: name,
+                description:description
             }, selectedNode);
             $("span.k-in").addClass("widthFull");
         }
         //编辑节点
-        function editKendoNode(name){
+        function editKendoNode(name, description){
             var tree = $("#treeview").data("kendoTreeView");
             var selectedNode = tree.select();
             //修改实际值
             var oldname = tree.dataItem(selectedNode).name;
             tree.dataItem(selectedNode).name = name;
+            tree.dataItem(selectedNode).description = description;
             //修改显示值
             var html = $(".k-state-selected")[0].innerHTML;
             html = html.replace(oldname, name);
@@ -212,6 +214,17 @@
                 if (selectedNode.length == 0) {
                     layer.msg("请选中需要编辑的目录");
                 }else{
+                    var tree = $("#treeview").data("kendoTreeView");
+                    //添加当前选中节点数据
+                    currentCata.node = [];
+                    currentCata.node.name = tree.dataItem(selectedNode).name;
+                    currentCata.node.id = tree.dataItem(selectedNode).id;
+                    if(tree.dataItem(selectedNode).pid != null){
+                        currentCata.node.pid = tree.dataItem(selectedNode).pid;
+                        //取父节点名称
+                        currentCata.node.pidName = tree.dataSource.get(tree.dataItem(selectedNode).pid).name;
+                    }
+                    currentCata.node.description = tree.dataItem(selectedNode).description;
                     //打开修改界面
                     layer.open({
                         title:'修改当前目录',

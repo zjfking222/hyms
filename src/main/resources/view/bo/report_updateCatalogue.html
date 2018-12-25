@@ -64,9 +64,9 @@
                         parent.layer.msg(msg + "成功");
                         //更改当前页面显示的目录
                         if(parent.currentCata.node.id === -1){
-                            window.parent.addKendoNode(result.data, $('#name').val());
+                            window.parent.addKendoNode(result.data, $('#name').val(), $('#description').val());
                         }else{
-                            window.parent.editKendoNode($('#name').val());
+                            window.parent.editKendoNode($('#name').val(), $('#description').val());
                         }
                         parent.layer.close(index);
                     }else{
