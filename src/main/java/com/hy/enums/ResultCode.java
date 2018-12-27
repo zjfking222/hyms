@@ -9,7 +9,7 @@ public enum ResultCode {
     ERROR_USER_VERCODE_CREATE(1006, "验证码生成失败"),
     ERROR_UNKNOWN(2001, "未知异常"),
     ERROR_INVALID_PARAMETER(2002, "方法参数错误"),
-    ERROR_FUNCTION_NO_ACCESS(2003, "对此方法无访问权限"),
+    ERROR_FUNCTION_NO_ACCESS(2003, "无访问权限"),
     ERROR_NO_RESOURCE(2004, "未找到任何资源"),
     ERROR_UPLOAD_FAILED(2006, "文件上传失败"),
     ERROR_DATA_FAILED(2007,"文件数据为空或数据已存在"),

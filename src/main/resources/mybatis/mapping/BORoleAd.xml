@@ -37,4 +37,9 @@
         delete from bo_role_ad
         where rid = #{rid}
     </delete>
+    <select id="countRoleByEmp" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1)
+        from bo_role_ad
+        where empnum = #{empnum,jdbcType=VARCHAR}
+    </select>
 </mapper>

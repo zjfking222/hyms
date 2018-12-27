@@ -61,4 +61,9 @@
         delete from bo_accad_relation
       where empnum = #{empnum,jdbcType=VARCHAR}
     </delete>
+    <select id="countAccByEmp" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1)
+        from bo_accad_relation
+        where empnum = #{empnum,jdbcType=VARCHAR}
+    </select>
 </mapper>

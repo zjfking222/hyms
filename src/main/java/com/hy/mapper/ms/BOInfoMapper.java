@@ -44,7 +44,7 @@ public interface BOInfoMapper {
      * @Param [empnum]
      * @return java.util.List<com.hy.model.ReportInfo>
      **/
-    List<BOInfo> selectAllByEmp(@Param("empnum") String empnum);
+    List<BOInfo> selectAllByEmpAcc(@Param("empnum") String empnum);
 
     /**
      * @Author 钱敏杰
@@ -81,4 +81,22 @@ public interface BOInfoMapper {
      * @return java.lang.Integer
      **/
     Integer countInfoByReportid(@Param("reportid") String reportid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description //TODO
+     * @Date 2018/12/25 17:17
+     * @Param [empnum]
+     * @return java.util.List<com.hy.model.BOInfo>
+     **/
+    List<BOInfo> selectAllByEmpRole(@Param("empnum") String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 分页查询当前员工相应目录下所拥有的报表
+     * @Date 2018/12/26 10:20
+     * @Param [directoryid, empnum]
+     * @return java.util.List<com.hy.model.BOInfo>
+     **/
+    List<BOInfo> selectEmpReport(@Param("directoryid") String directoryid, @Param("empnum") String empnum);
 }

@@ -281,4 +281,13 @@ public interface BoConfigService {
      * @return java.lang.Integer
      **/
     Integer getInfoCount(String reportid);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前人员的全部BO报表目录
+     * @Date 2018/12/26 8:43
+     * @Param [empnum]
+     * @return java.util.List<com.hy.dto.BOCatalogueDto>
+     **/
+    List<BOCatalogueDto> getCatalogueByEmp(String empnum);
 }

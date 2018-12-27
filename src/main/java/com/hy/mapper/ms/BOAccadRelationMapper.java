@@ -85,4 +85,13 @@ public interface BOAccadRelationMapper {
      * @return int
      **/
     int deleteByEmp(@Param("empnum")String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 统计当前用户含有的BO账号数量
+     * @Date 2018/12/25 11:02
+     * @Param [empnum]
+     * @return java.lang.Integer
+     **/
+    Integer countAccByEmp(@Param("empnum") String empnum);
 }

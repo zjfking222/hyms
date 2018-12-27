@@ -129,7 +129,7 @@
                 }
                 currentCata.node.description = tree.dataItem(selectedNode).description;
                 //打开子页面
-                $('#info').attr('src','/bo/report_info.html');
+                $('#info').attr('src','/bo/console/report_info.html');
             }
             $(".addButton").kendoButton({
                 icon: "add"
@@ -205,7 +205,7 @@
                     fixed: false, //不固定
                     maxmin: false,
                     resize:false,
-                    content: '/bo/report_updateCatalogue.html'
+                    content: '/bo/console/report_updateCatalogue.html'
                 });
             });
             //编辑目录
@@ -233,7 +233,7 @@
                         fixed: false, //不固定
                         maxmin: false,
                         resize:false,
-                        content: '/bo/report_updateCatalogue.html'
+                        content: '/bo/console/report_updateCatalogue.html'
                     });
                 }
             });

@@ -70,7 +70,7 @@
         i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.url
         from bo_info i,bo_acc_info ai where i.reportid=ai.reportid and ai.accountid=#{accountid,jdbcType=VARCHAR}
     </select>
-    <select id="selectAllByEmp" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <select id="selectAllByEmpAcc" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         distinct i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.url
         from bo_info i,bo_acc_info ai where i.reportid=ai.reportid and ai.accountid in
@@ -95,5 +95,22 @@
         select
             distinct i.id, i.name, i.reportid, i.directoryid, i.type,i.description
         from bo_info i,bo_role_report r where i.reportid=r.reportid and r.rid=#{rid,jdbcType=INTEGER}
+    </select>
+    <select id="selectAllByEmpRole" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        distinct i.id, i.name, i.reportid, i.directoryid, i.type,i.description, i.url
+        from bo_info i,bo_role_report rr where i.reportid=rr.reportid and rr.rid in
+				(select distinct r.rid from bo_role_ad r where r.empnum=#{empnum,jdbcType=VARCHAR});
+    </select>
+    <select id="selectEmpReport" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bo_info where reportid in
+        (select p.reportid from bo_permission p where p.empnum=#{empnum}
+        union
+        select distinct rr.reportid from bo_role_ad ra,bo_role_report rr where ra.empnum=#{empnum}
+        and ra.rid = rr.rid
+        )
+        and directoryid=#{directoryid}
     </select>
 </mapper>
