@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.List;
 
+/**
+ * @Auther: 沈超宇
+ * @Date: 2018/12/22 10:40
+ * @Description:衢州news_banner图serciceImpl
+ */
 @Service
 public class BiPictureServiceImpl implements BiPictureService {
     @Autowired

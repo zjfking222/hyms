@@ -823,7 +823,10 @@ public class BoConfigServiceImpl implements BoConfigService {
                             SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
                 }
                 if(boRoleAccountList.size() > 0){
-                    boRoleAccountMapper.insertRoleAccount(boRoleAccountList);
+                    int addRa = boRoleAccountMapper.insertRoleAccount(boRoleAccountList);
+                    if(addRa <= 0){
+                        throw new RuntimeException("添加BO账号失败！");
+                    }
                 }
                 //添加人员ad账号(存入List)
                 for (HrmResourceDto hrmResourceDto : dto.getnHrmResources()) {
@@ -831,11 +834,14 @@ public class BoConfigServiceImpl implements BoConfigService {
                             SecurityUtil.getLoginid(), SecurityUtil.getLoginid()));
                 }
                 if(boRoleAds.size() > 0){
-                    boRoleAdMapper.insertRoleAd(boRoleAds);
+                    int addRad = boRoleAdMapper.insertRoleAd(boRoleAds);
+                    if(addRad <= 0){
+                        throw new RuntimeException("添加人员ad账号失败！");
+                    }
                 }
                 return true;
             }else {
-                return false;
+                throw new RuntimeException("新增角色失败！");
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -853,7 +859,12 @@ public class BoConfigServiceImpl implements BoConfigService {
             boRole.setName(dto.getName());
             boRole.setDescription(dto.getDescription());
             boRole.setModifier(SecurityUtil.getLoginid());
-            boRoleMapper.updateRole(boRole);
+            if(!boRole.getName().equals("") || !boRole.getDescription().equals("")){
+                int update = boRoleMapper.updateRole(boRole);
+                if(update <= 0){
+                    throw new RuntimeException("更新角色信息失败！");
+                }
+            }
             List<BORoleAccount> boRoleAccountList = boRoleAccountMapper.selectRoleAccount(dto.getRid());
             Map<String, String> map = new HashMap<>();
             List<BORoleAccount> boRoleAccounts = new ArrayList<>();
@@ -880,13 +891,22 @@ public class BoConfigServiceImpl implements BoConfigService {
                 }
             }
             if(boRoleAccounts.size() > 0){
-                boRoleAccountMapper.insertRoleAccount(boRoleAccounts);
+                int addRa = boRoleAccountMapper.insertRoleAccount(boRoleAccounts);
+                if(addRa <= 0){
+                    throw new RuntimeException("新增角色BO账号失败！");
+                }
             }
             //删除BO账号
             if(dto.getDelAcc().length > 0){
-                boRoleAccountMapper.deleteRoleAccount(dto.getDelAcc());
+                int delRa = boRoleAccountMapper.deleteRoleAccount(dto.getDelAcc());
+                if(delRa <= 0){
+                    throw new RuntimeException("删除角色BO账号失败！");
+                }
                 //删除当前BO账号下的当前角色已配置的报表(删除BO账号后该账号下的部分已配置的报表权限且不在其他角色所拥有的BO账号下的权限应删除)
-                boRoleReportMapper.deleteReportByRole(dto.getRid());
+                int delRr = boRoleReportMapper.deleteReportByRole(dto.getRid());
+                if(delRr < 0){
+                    throw new RuntimeException("删除删除当前BO账号下的当前角色已配置的报表失败！");
+                }
             }
             //删除人员ad账号
             if(dto.getrHrmResources().length > 0){
@@ -896,7 +916,10 @@ public class BoConfigServiceImpl implements BoConfigService {
                     array[x] = Integer.parseInt(delDto.getUid());
                     x++;
                 }
-                boRoleAdMapper.deleteRoleAd(array);
+                int delRad = boRoleAdMapper.deleteRoleAd(array);
+                if(delRad <= 0){
+                    throw new RuntimeException("删除人员ad账号失败！");
+                }
             }
             //添加人员ad账号(存入List)
             if(dto.getnHrmResources().length > 0){
@@ -906,7 +929,10 @@ public class BoConfigServiceImpl implements BoConfigService {
                 }
             }
             if(boRoleAds.size() > 0){
-                boRoleAdMapper.insertRoleAd(boRoleAds);
+                int addRad = boRoleAdMapper.insertRoleAd(boRoleAds);
+                if(addRad <= 0){
+                    throw new RuntimeException("添加人员ad账号失败！");
+                }
             }
             return true;
         } catch (Exception e) {

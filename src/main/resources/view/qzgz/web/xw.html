@@ -145,6 +145,7 @@
         gallery.slider({
             interval: 3000//自动轮播周期，若为0则不自动播放，默认为0；
         });
+        //mui-slider 监听事件
         document.querySelector('.mui-slider').addEventListener('slide', function (event) {
             for (var x = 0; x < change.length; x++) {
                 if (event.detail.slideNumber === change[x].order) {

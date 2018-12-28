@@ -133,6 +133,10 @@
                     }
                 },
                 onSubmit: function () {
+                    if($('#name').val() == ''){
+                        parent.layer.msg('角色名称不能为空！');
+                        return;
+                    }
                     var obj;
                     obj = $("input[name='BO']");
                     var addList = [];

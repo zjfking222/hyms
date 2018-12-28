@@ -17,6 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.List;
 
+/**
+ * @Auther: 沈超宇
+ * @Date: 2018/12/22 11:09
+ * @Description:衢州news_banner图controller
+ */
 @RestController
 @RequestMapping("/qzgz")
 public class NewsBannerController {
@@ -74,6 +79,7 @@ public class NewsBannerController {
     }
 
     @PostMapping("/admin/delNewsBanner")
+    //删除banner图
     public ResultObj delNewsBanner(int id){
         return bannerService.delNewsBanner(id) ?
                 ResultObj.success() :
