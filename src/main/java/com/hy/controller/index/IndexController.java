@@ -12,6 +12,7 @@ import com.hy.config.workplus.WorkPlusUtils;
 import com.hy.dto.PermissionDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.PermissionService;
+import com.hy.utils.VerificationCodeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -25,7 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -43,13 +46,27 @@ public class IndexController {
     @Value("${spring.redis.cachekey.commonkey}")
     private String cacheKey;
     private String tokenKey = "ht_wp:access_token";
+    //登录验证码保存key
+    private String loginkey = "loginVerCode";
 
     @RequestMapping(value = "/index/login", method = RequestMethod.POST)
     public ResultObj login(@RequestBody Map<String, String> logininfo) {
         Subject subject = SecurityUtils.getSubject();
+        String code = logininfo.get("code");
         UsernamePasswordToken token = new UsernamePasswordToken(logininfo.get("loginid"), logininfo.get("password"));
         try {
-            subject.login(token);
+            //取出保存的验证码
+            String rcode = (String)SecurityUtil.getAttribute(loginkey);
+            //不区分大小写
+            rcode = rcode.toLowerCase();
+            code = code.toLowerCase();
+            if(StringUtils.isNotEmpty(code) && code.equals(rcode)){
+                //使该验证码失效
+                SecurityUtil.removeAttribute(loginkey);
+                subject.login(token);
+            }else{
+                return ResultObj.error(ResultCode.ERROR_USER_VERIFICATIONCODE);
+            }
         } catch (UnknownAccountException lae) {
             token.clear();
             return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
@@ -180,7 +197,30 @@ public class IndexController {
         cache.put( tokenKey, info, expire);
     }
 
-
+    /**
+     * @Author 钱敏杰
+     * @Description 生成登录验证码
+     * @Date 2018/12/27 17:39
+     * @Param [response]
+     * @return com.hy.common.ResultObj
+     **/
+    @GetMapping("/index/getLoginCode")
+    public ResultObj getLoginCode(HttpServletResponse response){
+        try {
+            //获取长度为4，屏蔽部分字母数字的验证码
+            String code = VerificationCodeUtil.getRandomCode(4, "0oO1iIl");
+            //将code保存到session中
+            SecurityUtil.setAttribute(loginkey, code);
+            //生成验证码图片
+            BufferedImage image = VerificationCodeUtil.getCodeImage(95,40, code);
+            //输出到页面
+            ImageIO.write(image,"jpg", response.getOutputStream());
+        } catch (IOException e) {
+            logger.error("验证码生成异常！", e);
+            return ResultObj.error(ResultCode.ERROR_USER_VERCODE_CREATE);
+        }
+        return ResultObj.success();
+    }
 
 }
 

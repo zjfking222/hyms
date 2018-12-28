@@ -187,6 +187,8 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/qzgz/upload/**", "anon");
         //AJAX登录判断
         filterChainDefinitionMap.put("/index/login", "anon");
+        //登录验证码
+        filterChainDefinitionMap.put("/index/getLoginCode", "anon");
         filterChainDefinitionMap.put("/index/logout", " logout");
         //恒拓app接入验证
         filterChainDefinitionMap.put("/index/app/workPlusLogin", "anon");

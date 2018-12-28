@@ -17,7 +17,7 @@
         .fly-marginTop{margin-top: 5px;}
         .fly-panel{margin-bottom: 15px; border-radius: 2px; background-color: #fff; box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
         .fly-panel[pad20]{padding: 20px;}
-        .jie-row li{position: relative; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dotted #c9c9c9; font-size: 0;}
+        .jie-row li{position: relative; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dotted #c9c9c9; font-size: 0;width: 50%;float: left;}
         .jie-row li *{position: relative; display:inline-block; *display:inline; *zoom:1; vertical-align: top; line-height: 20px; font-size:12px;}
         .jie-row li span{padding: 0 6px; margin-right: 10px; background-color: #393d49; color:#fff; font-size:12px;margin-left: 10%;}
         .jie-row li a{padding-right:15px; font-size:16px;font-family:"微软雅黑";}
@@ -35,9 +35,9 @@
         <div class="fly-panel fly-panel-user">
             <div class="layui-tab-content" style="padding: 20px 0;">
                 <div class="layui-tab-item layui-show" id="boreports">
-                    <ul class="mine-view jie-row" v-for="(item, index) in dataSource">
-                        <li>
-                            <span>{{ index }}</span>
+                    <ul class="mine-view jie-row">
+                        <li v-for="(item, index) in dataSource">
+                            <span>{{ index+1 }}</span>
                             <a class="jie-title" target="_blank" href="javascript:">{{ item.name }}</a>
                         </li>
                     </ul>
