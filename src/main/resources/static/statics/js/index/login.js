@@ -21,6 +21,8 @@ function submitLogin() {
                 goPAGE();
                 res = true;
             } else {
+                $("#alertMsg").text(data.msg);
+                $("#imgcode").attr("src", '/index/getLoginCode?time='+ new Date().getTime());
                 $('.alert-danger').removeClass('display-hide');
             }
         },
@@ -54,9 +56,11 @@ function goPAGE() {
 }
 //改变验证码
 $(document).ready(function(){
+    //网页端点击事件
     $("#imgcode").click(function(){
         $("#imgcode").attr("src", '/index/getLoginCode?time='+ new Date().getTime());
     });
+    //移动端点击事件
     $("#imgcode").touch(function(){
         $("#imgcode").attr("src", '/index/getLoginCode?time='+ new Date().getTime());
     });

@@ -61,8 +61,6 @@ public class IndexController {
             rcode = rcode.toLowerCase();
             code = code.toLowerCase();
             if(StringUtils.isNotEmpty(code) && code.equals(rcode)){
-                //使该验证码失效
-                SecurityUtil.removeAttribute(loginkey);
                 subject.login(token);
             }else{
                 return ResultObj.error(ResultCode.ERROR_USER_VERIFICATIONCODE);
@@ -72,7 +70,10 @@ public class IndexController {
             return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
         } catch (AuthenticationException e) {
             token.clear();
-            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, logininfo.get("password"));
+            return ResultObj.error(ResultCode.ERROR_USER_UNMATCH);
+        } finally {
+            //使该验证码失效
+            SecurityUtil.removeAttribute(loginkey);
         }
         return ResultObj.success();
     }
