@@ -1,10 +1,9 @@
-package com.hy.service.qzgz.impl;
+package com.hy.service.baseinfo;
 
 import com.hy.common.SecurityUtil;
 import com.hy.dto.BiPictureDto;
-import com.hy.mapper.ms.QzgzNewsBannerMapper;
+import com.hy.mapper.ms.BiPictureMapper;
 import com.hy.model.BiPicture;
-import com.hy.service.qzgz.NewsBannerService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,9 @@ import java.io.File;
 import java.util.List;
 
 @Service
-public class NewsBannerServiceImpl implements NewsBannerService {
+public class BiPictureServiceImpl implements BiPictureService {
     @Autowired
-    private QzgzNewsBannerMapper newsBannerMapper;
+    private BiPictureMapper newsBannerMapper;
 
     @Override
     //查询banner图

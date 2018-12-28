@@ -12,7 +12,7 @@ import java.util.List;
  * @Description:衢州公众news_banner表增删查
  */
 @Repository
-public interface QzgzNewsBannerMapper {
+public interface BiPictureMapper {
     //查询banner图
     List<BiPicture> selectNewsBanner();
     //新增banner图

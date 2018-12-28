@@ -25,6 +25,10 @@
         line-height: 3.6rem;
     }
 
+    .mui-segmented-control.mui-scroll-wrapper{
+        height: 40px;
+    }
+
 </style>
 <body>
 <div id="app">
@@ -43,9 +47,9 @@
             </div>
         </div>
         <div class="mui-slider-indicator">
-            <div v-for="i in indicator" style="display: inline-block">
-                <div class="mui-indicator" :id="i.id" @click="onChange(i.id)"
-                     style="background: white!important;"></div>
+            <div v-for="(i, index) in indicator" style="display: inline-block">
+                <div class="mui-indicator" v-if="index === 0" :id="i.id" @click="onChange(i.id)" style="background: #aaa;"></div>
+                <div class="mui-indicator" v-else :id="i.id" @click="onChange(i.id)" style="background: white;"></div>
             </div>
         </div>
     </div>
@@ -54,26 +58,13 @@
             <div id="sliderSegmentedControl"
                  class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
                 <div class="mui-scroll">
-                    <p class="mui-control-item mui-active" name="政法新闻">
-                        政法新闻
-                    </p>
-                    <p class="mui-control-item" name="经济新闻">
-                        经济新闻
-                    </p>
-                    <p class="mui-control-item" name="文教卫生新闻">
-                        文教卫生新闻
-                    </p>
-                    <p class="mui-control-item" name="体育新闻">
-                        体育新闻
-                    </p>
-                    <p class="mui-control-item" name="社会新闻">
-                        社会新闻
-                    </p>
+                    <p class="mui-control-item mui-active" v-for="(nt,index) in newsType" v-if="index === 0" :name="nt.name">{{nt.name}}</p>
+                    <p class="mui-control-item" v-for="(nt,index) in newsType" v-if="index !== 0" :name="nt.name">{{nt.name}}</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="mui-table-view mui-table-view-chevron" style="top: 238px;">
+    <div class="mui-table-view mui-table-view-chevron" style="top: 240px;">
         <div v-for="n in news" class="mui-table-view-cell">
             <a :href="n.url" class="mui-navigate-right">
                 <div style="font-size: 18px;font-weight: bold">{{n.title}}</div>
@@ -93,19 +84,23 @@
     var firstPage = 1, page = 1, pageSize = 8;
     $(function () {
         function dataBanner() {
-            return FetchData(null, 'POST', '/admin/getNewsBanner', false).data;
+            return FetchData(null, 'POST', '/qzgz/admin/getNewsBanner', false).data;
         }
 
         function dataType() {
-            return FetchData(null, 'POST', '/web/getNewsType', false).data;
+            return FetchData(null, 'POST', '/qzgz/web/getNewsType', false).data;
         }
 
         function dataNews(type, num) {
-            return FetchData({type: type, num: num}, 'POST', '/web/getNewsByType', false).data;
+            return FetchData({type: type, num: num}, 'POST', '/qzgz/web/getNewsByType', false).data;
         }
 
         function dataNewsTotal(type) {
-            return FetchData({type: type}, 'POST', '/web/getNewsByTypeTotal', false).data;
+            return FetchData({type: type}, 'POST', '/qzgz/web/getNewsByTypeTotal', false).data;
+        }
+
+        function dataNewsType() {
+            return FetchData(null, 'POST', '/qzgz/admin/getNewsType', false).data;
         }
 
         var all = dataBanner();
@@ -123,15 +118,18 @@
             $('#end').attr("src", end);
         }
         var type = dataType();
+        var newsType = dataNewsType();
         var vm = new Vue({
             el: '#app',
             data: {
                 banner: all,
                 indicator: indicator,
                 type: type,
-                news: dataNews('政法新闻', pageSize * firstPage)
+                news: dataNews(newsType[0].name, pageSize * firstPage),
+                newsType: newsType
             },
             methods: {
+                //点击小圆点切换banner图
                 onChange: function (id) {
                     if (all.length > 1) {
                         for (var j = 0; j < all.length; j++) {
@@ -155,7 +153,9 @@
                 }
             }
         });
+        // 初始取到第一个新闻类型
         var typename = $('.mui-control-item').attr('name');
+        //点击新闻类型改变字体颜色，并改变news数据
         $('.mui-control-item').on('touchend',function () {
             $('.mui-control-item').css('color','#000');
             $(this).css('color','#007aff');
@@ -175,6 +175,7 @@
         } else {
             $('#tip').html('无更多新闻');
         }
+        //点击分页
         $('#tip').on('click', function () {
             if ((page+1) * pageSize <= newsTotal || ((page + 1) * pageSize > newsTotal && page * pageSize < newsTotal)) {
                 page++;
@@ -194,7 +195,7 @@
         var response =
             $.ajax({
                 async: async,
-                url: "/qzgz" + param,
+                url: param,
                 type: method,
                 dataType: 'json',
                 data: data,

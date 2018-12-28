@@ -1,4 +1,4 @@
-package com.hy.service.qzgz;
+package com.hy.service.baseinfo;
 
 import com.hy.dto.BiPictureDto;
 
@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * @Auther: 沈超宇
  * @Date: 2018/12/22 9:56
- * @Description:衢州news_banner增删查service
+ * @Description:BiPicture表service
  */
-public interface NewsBannerService {
+public interface BiPictureService {
     //查询banner图
     List<BiPictureDto> getNewsBanner();
     //新增banner图

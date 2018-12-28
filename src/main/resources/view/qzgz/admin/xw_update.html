@@ -6,7 +6,7 @@
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="width: 80%; margin: 10px auto">
-<form>
+<form id="app">
     <div class="form-group">
         <label for="date">日期</label>
         <input class="form-control input-sm-8" id="date" type="date" placeholder="输入日期">
@@ -26,24 +26,30 @@
     <div class="form-group">
         <label for="type">新闻类型</label>
         <select class="form-control input-sm-8" id="type">
-            <option value="" selected>请选择新闻类型</option>
-            <option value="政法新闻">政法新闻</option>
-            <option value="经济新闻">经济新闻</option>
-            <option value="文教卫生新闻">文教卫生新闻</option>
-            <option value="体育新闻">体育新闻</option>
-            <option value="社会新闻">社会新闻</option>
+            <option value="" selected>请选择新闻类型...</option>
+            <option v-for="t in type" :value="t.name">{{t.name}}</option>
         </select>
     </div>
     <a id="submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
 </form>
 </body>
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
     var data, postData;
     var index = parent.layer.getFrameIndex(window.name);
     $(function () {
         data = parent.pushData;
+        function dataType() {
+            return FetchData(null, 'POST', '/qzgz/admin/getNewsType', false).data;
+        }
+        var vm =new Vue({
+            el: '#app',
+            data: {
+                type: dataType()
+            }
+        });
         if (data.id === 0) {
 
         } else {
