@@ -1,23 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>更新联系人信息</title>
+    <title>更新新闻类型</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="width: 80%; margin: 10px auto">
 <form>
     <div class="form-group">
-        <label for="name">联系人</label>
-        <input class="form-control input-sm-8" id="name" placeholder="输入联系人">
-    </div>
-    <div class="form-group">
-        <label for="phone">电话</label>
-        <input class="form-control input-sm-8" id="phone" placeholder="输入电话">
-    </div>
-    <div class="form-group">
-        <label for="email">email</label>
-        <input class="form-control input-sm-8" id="email" placeholder="输入email">
+        <label for="name">新闻类型</label>
+        <input class="form-control input-sm-8" id="name" placeholder="输入新闻类型">
     </div>
     <a id="submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
 </form>
@@ -31,42 +23,30 @@
         data = parent.pushData;
         if (data.id === 0) {
 
-        } else {
+        }else {
             $('#name').val(data.name);
-            $('#phone').val(data.phone);
-            $('#email').val(data.email);
         }
         $('#submit').on('click', function () {
-            if ($('#name').val() == '') {
-                layer.msg('联系人必填');
-                return;
-            }
-            if ($('#phone').val() == ''){
-                layer.msg('电话必填');
-                return;
-            }
-            if ($('#email').val() == ''){
-                layer.msg('email必填')
+            if($('#name').val() == ''){
+                layer.msg('新闻类型必填！');
                 return;
             }
             postData = {
                 id: data.id,
-                name: $('#name').val(),
-                phone: $('#phone').val(),
-                email: $('#email').val()
+                name: $('#name').val()
             };
-            if (data.id === 0) {
-                var postBack = FetchData(postData, 'POST', '/admin/addLinkman', false);
-                if (postBack.code === 0) {
+            if(data.id === 0){
+                var postBack = FetchData(postData, 'POST', '/qzgz/admin/addNewsType', false);
+                if(postBack.code === 0){
                     postData.id = postBack.data;
                     parent.vm.dataSource.add(postData);
                     parent.layer.msg('添加成功');
-                } else {
-                    parent.layer.msg('添加失败')
+                }else {
+                    parent.layer.msg('添加失败');
                 }
                 parent.layer.close(index);
-            } else {
-                if (FetchData(postData, 'POST', '/admin/setLinkman', false)) {
+            }else {
+                if (FetchData(postData, 'POST', '/qzgz/admin/setNewsType', false)) {
                     parent.vm.dataSource.pushUpdate(postData);
                     parent.layer.msg('修改成功');
                 } else {
@@ -79,7 +59,7 @@
     var FetchData = function (data, method, param, async) {
         var response = $.ajax({
             async: async,
-            url: "/qzgz" + param,
+            url: param,
             type: method,
             dataType: 'json',
             data: data,

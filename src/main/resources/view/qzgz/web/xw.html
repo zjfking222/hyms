@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>新闻</title>
+    <link rel="stylesheet" href="/statics/plugins/mui/css/mui.min.css">
+</head>
+<style>
+    * {
+        touch-action: pan-y;
+    }
+
+    /*不调用 preventDefault 函数 ，提升页面滑动的流畅度*/
+
+    .mui-control-item {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .load-tip {
+        font-size: 16px;
+        text-align: center;
+        line-height: 3.6rem;
+    }
+
+</style>
+<body>
+<div id="app">
+    <div class="mui-slider" style="height: 200px;position: fixed;">
+        <div class="mui-slider-group mui-slider-loop">
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img id="end"
+                                                                                    style="max-height:200px;width:100%"/></a>
+            </div>
+            <div class="mui-slider-item" v-for="b in banner"><a href="#"><img :id="b.id"
+                                                                              style="max-height:200px;width:100%"
+                                                                              :src="b.url"/></a></div>
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img id="first"
+                                                                                    style="max-height:200px;width:100%"/></a>
+            </div>
+        </div>
+        <div class="mui-slider-indicator">
+            <div v-for="i in indicator" style="display: inline-block">
+                <div class="mui-indicator" :id="i.id" @click="onChange(i.id)"
+                     style="background: white!important;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-content">
+        <div id="slider" class="mui-slider" style="top: 200px;background-color: #F2F2F2;position: fixed">
+            <div id="sliderSegmentedControl"
+                 class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+                <div class="mui-scroll">
+                    <p class="mui-control-item mui-active" name="政法新闻">
+                        政法新闻
+                    </p>
+                    <p class="mui-control-item" name="经济新闻">
+                        经济新闻
+                    </p>
+                    <p class="mui-control-item" name="文教卫生新闻">
+                        文教卫生新闻
+                    </p>
+                    <p class="mui-control-item" name="体育新闻">
+                        体育新闻
+                    </p>
+                    <p class="mui-control-item" name="社会新闻">
+                        社会新闻
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-table-view mui-table-view-chevron" style="top: 238px;">
+        <div v-for="n in news" class="mui-table-view-cell">
+            <a :href="n.url" class="mui-navigate-right">
+                <div style="font-size: 18px;font-weight: bold">{{n.title}}</div>
+                <div style="font-size: 15px;color: #8F8F8F;display: inline-block;">{{n.description}}</div>
+                <div style="font-size: 15px;color: #8F8F8F;display: inline-block;float: right">{{n.date}}</div>
+            </a>
+        </div>
+        <div class="load-tip">
+            <span id="tip" style="float: none"></span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/mui/js/mui.min.js"></script>
+<script>
+    var firstPage = 1, page = 1, pageSize = 8;
+    $(function () {
+        function dataBanner() {
+            return FetchData(null, 'POST', '/admin/getNewsBanner', false).data;
+        }
+
+        function dataType() {
+            return FetchData(null, 'POST', '/web/getNewsType', false).data;
+        }
+
+        function dataNews(type, num) {
+            return FetchData({type: type, num: num}, 'POST', '/web/getNewsByType', false).data;
+        }
+
+        function dataNewsTotal(type) {
+            return FetchData({type: type}, 'POST', '/web/getNewsByTypeTotal', false).data;
+        }
+
+        var all = dataBanner();
+        var first, end, newsTotal;
+        var indicator = [];
+        var change = [];
+        if (all.length > 1) {
+            first = all[0].url;
+            end = all[all.length - 1].url;
+            for (var i = 0; i < all.length; i++) {
+                indicator.push({id: all[i].id});
+                change.push({order: i, id: all[i].id});
+            }
+            $('#first').attr("src", first);
+            $('#end').attr("src", end);
+        }
+        var type = dataType();
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                banner: all,
+                indicator: indicator,
+                type: type,
+                news: dataNews('政法新闻', pageSize * firstPage)
+            },
+            methods: {
+                onChange: function (id) {
+                    if (all.length > 1) {
+                        for (var j = 0; j < all.length; j++) {
+                            if (change[j].id === id) {
+                                gallery.slider().gotoItem(change[j].order);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        var gallery = mui('.mui-slider');
+        gallery.slider({
+            interval: 3000//自动轮播周期，若为0则不自动播放，默认为0；
+        });
+        document.querySelector('.mui-slider').addEventListener('slide', function (event) {
+            for (var x = 0; x < change.length; x++) {
+                if (event.detail.slideNumber === change[x].order) {
+                    $('.mui-indicator').css("background", "#fff");
+                    $('.mui-slider-indicator .mui-active.mui-indicator').css("background", "#aaa");
+                }
+            }
+        });
+        var typename = $('.mui-control-item').attr('name');
+        $('.mui-control-item').on('touchend',function () {
+            $('.mui-control-item').css('color','#000');
+            $(this).css('color','#007aff');
+            typename = $(this).attr('name');
+            vm.news = dataNews(typename, pageSize * firstPage);
+            page = firstPage;
+            newsTotal = dataNewsTotal(typename);
+            if (page * pageSize < newsTotal) {
+                $('#tip').html('点击查看更多新闻');
+            } else {
+                $('#tip').html('无更多新闻');
+            }
+        });
+        newsTotal = dataNewsTotal(typename);
+        if (page * pageSize < newsTotal) {
+            $('#tip').html('点击查看更多新闻');
+        } else {
+            $('#tip').html('无更多新闻');
+        }
+        $('#tip').on('click', function () {
+            if ((page+1) * pageSize <= newsTotal || ((page + 1) * pageSize > newsTotal && page * pageSize < newsTotal)) {
+                page++;
+                vm.news = dataNews(typename, page * pageSize);
+                if ((page + 1) * pageSize <= newsTotal) {
+                    $('#tip').html('点击查看更多新闻');
+                } else if ((page + 1) * pageSize > newsTotal && page * pageSize < newsTotal) {
+                    $('#tip').html('点击查看更多新闻');
+                } else {
+                    $('#tip').html('无更多新闻');
+                }
+            } else {
+            }
+        });
+    });
+    var FetchData = function (data, method, param, async) {
+        var response =
+            $.ajax({
+                async: async,
+                url: "/qzgz" + param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                success: function (dataSource) {
+                    return dataSource;
+                }
+            });
+        return response.responseJSON;
+    };
+</script>
+</body>
+</html>
