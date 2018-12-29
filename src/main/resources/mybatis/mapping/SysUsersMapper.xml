@@ -37,7 +37,7 @@
       creater, modifier,oaloginid, oauserid,employeenumber)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{sex,jdbcType=BIT}, #{mobile,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, #{deptid,jdbcType=SMALLINT},
-      #{creater,jdbcType=INTEGER},  #{modifier,jdbcType=INTEGER}, #{oaloginid,jdbcType=VARCHAR}, #{oauserid,jdbcType=INTEGER},#{employeenumber,jdbcType=VARCHAR}
+      #{creater,jdbcType=VARCHAR},  #{modifier,jdbcType=VARCHAR}, #{oaloginid,jdbcType=VARCHAR}, #{oauserid,jdbcType=INTEGER},#{employeenumber,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysUsers" >

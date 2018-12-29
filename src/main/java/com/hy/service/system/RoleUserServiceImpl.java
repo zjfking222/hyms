@@ -39,12 +39,20 @@ public class RoleUserServiceImpl implements RoleUserService{
             sysRolesMapper.updateByPrimaryKey(sysRoles);
 
             for (SysRolesUserDelDto delhr : sysRolesUserDto.getrHrmResources()){
-                sysRoleUserMapper.deleteByRidnUid(DTOUtil.populate(delhr,SysRoleUser.class));
+                SysRoleUser user = DTOUtil.populate(delhr,SysRoleUser.class);
+                user.setRid(Integer.valueOf(delhr.getRid()));
+                int i = sysRoleUserMapper.deleteByRidnUid(user);
+                if(i<= 0){
+                    throw new RuntimeException("人员角色权限删除失败！");
+                }
             }
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRolesUserDto.getRid(),
+                int i = sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRolesUserDto.getRid(),
                         hr.getId().toString(),hr.getLoginid(),hr.getLastname()));
+                if(i<= 0){
+                    throw new RuntimeException("人员角色权限添加失败！");
+                }
             }
             return true;
 

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>报表目录</title>
+    <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css" />
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css" />
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.mobile.min.css" />
+    <style>
+        html{
+            height: 100%;
+            overflow-y: hidden;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+        }
+        iframe{
+            padding:0;
+            margin:0;
+            border-width:0;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: block;
+            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+            background-color: #f5f5f5;
+            border-right: 1px solid #eee;
+        }
+        #treeview{
+            position: absolute;
+            left: 20px;
+            border: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        .k-icon.k-i-delete{
+            float: right;
+            padding-right: 70px;
+        }
+        .widthFull{
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="left" class="sidebar" style="width: 262px;">
+        <button type="button" class="addButton" id="addTreeView">添加</button>
+        <button type="button" class="editButton" id="editSelectedTreeview">编辑</button>
+        <div id="treeview"></div>
+    </div>
+    <iframe id="info" style="width: 100%;height: 100%;padding-left: 262px;">
+    </iframe>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/statics/plugins/layer/layer.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+    <script id="treeview-template" type="text/kendo-ui-template">
+        <lable>
+        #: item.name #
+        </lable>
+        <a class='k-icon k-i-delete'></a>
+    </script>
+    <script>
+        var currentCata = [];
+        //ajax调用
+        var FetchData = function (data, method, param, async) {
+            var response =
+                $.ajax({
+                    async: async,
+                    url: param,
+                    type: method,
+                    dataType: 'json',
+                    data: data,
+                    success: function (dataSource) {
+                        return dataSource;
+                    }});
+            return response.responseJSON;
+        };
+        //添加节点
+        function addKendoNode(id, name, description){
+            var tree = $("#treeview").data("kendoTreeView");
+            var selectedNode = tree.select();
+            if(selectedNode.length == 0){
+                selectedNode = null;
+            }
+            tree.append({
+                id:id,
+                name: name,
+                description:description
+            }, selectedNode);
+            $("span.k-in").addClass("widthFull");
+        }
+        //编辑节点
+        function editKendoNode(name, description){
+            var tree = $("#treeview").data("kendoTreeView");
+            var selectedNode = tree.select();
+            //修改实际值
+            var oldname = tree.dataItem(selectedNode).name;
+            tree.dataItem(selectedNode).name = name;
+            tree.dataItem(selectedNode).description = description;
+            //修改显示值
+            var html = $(".k-state-selected")[0].innerHTML;
+            html = html.replace(oldname, name);
+            $(".k-state-selected")[0].innerHTML = html;
+        }
+        $(function () {
+            //打开报表信息页面
+            function onSelect(e){
+                var tree = $("#treeview").data("kendoTreeView");
+                var selectedNode = e.node;
+                //添加当前选中节点数据
+                currentCata.node = [];
+                currentCata.node.name = tree.dataItem(selectedNode).name;
+                currentCata.node.id = tree.dataItem(selectedNode).id;
+                if(tree.dataItem(selectedNode).pid != null){
+                    currentCata.node.pid = tree.dataItem(selectedNode).pid;
+                    //取父节点名称
+                    currentCata.node.pidName = tree.dataSource.get(tree.dataItem(selectedNode).pid).name;
+                }
+                currentCata.node.description = tree.dataItem(selectedNode).description;
+                //打开子页面
+                $('#info').attr('src','/bo/console/report_info.html');
+            }
+            $(".addButton").kendoButton({
+                icon: "add"
+            });
+            $(".editButton").kendoButton({
+                icon: "edit"
+            });
+            var data = FetchData('','POST','/bo/account/getAllCatalogue',false).data;
+            //初始化菜单树
+            var treeview = $("#treeview").kendoTreeView({
+                template:kendo.template($("#treeview-template").html()),
+                dataSource: data,
+                dataTextField: "name",//以name字段作为显示
+                select: onSelect
+            }).data("kendoTreeView");
+            //删除当前目录
+            $(document).on("click", ".k-icon.k-i-delete", function() {
+                var selectedNode = treeview.select();
+                if (selectedNode.length == 0) {
+                    layer.msg("请选中需要删除的目录");
+                }else{
+                    //判断当前树下是否存在内容（目录或报表），若不存在，则执行删除
+                    if(treeview.dataItem(selectedNode).hasChildren){
+                        layer.msg("存在子节点，不能删除");
+                    }else{
+                        //查询当前目录所含有的报表数目
+                        var id = treeview.dataItem(selectedNode).id;
+                        var returnResult = FetchData({id:id},'POST','/bo/account/getReportInfoCount',false);
+                        if(returnResult.code === 0){
+                            if(returnResult.data >0){
+                                layer.msg("存在报表，不能删除");
+                            }else{
+                                layer.confirm('确认删除吗？删除后将不可恢复。',{btn:['删除','取消']},
+                                    function () {
+                                        var result = FetchData({id:treeview.dataItem(selectedNode).id},'POST','/bo/account/deleteCatalogue',false);
+                                        if(result.code == 0){
+                                            layer.msg('删除成功！',{time:100,
+                                                end:function () {//必须添加end，否则confirm弹出框不会关闭?
+                                                    treeview.remove(selectedNode);
+                                                    $('#info').attr('src','/index/blank.html');
+                                                }});
+                                        }else {
+                                            layer.msg("删除失败，请重新尝试");
+                                        }
+                                    },
+                                    function () {
+                                    }
+                                );
+                            }
+                        }
+                    }
+                }
+            });
+            //添加目录
+            $(document).on("click", "#addTreeView", function() {
+                var selectedNode = treeview.select();
+                currentCata.node = [];
+                currentCata.node.id = -1;
+                if (selectedNode.length == 0) {
+                    selectedNode = null;
+                    //添加当前选中节点数据
+                    currentCata.node.pid = -1;
+                }else{
+                    //添加当前选中节点数据
+                    currentCata.node.pid = treeview.dataItem(selectedNode).id;
+                    currentCata.node.pidName = treeview.dataItem(selectedNode).name;
+                }
+                //打开新增界面
+                layer.open({
+                    title:'添加目录',
+                    type: 2,
+                    area: ['500px', '340px'],
+                    fixed: false, //不固定
+                    maxmin: false,
+                    resize:false,
+                    content: '/bo/console/report_updateCatalogue.html'
+                });
+            });
+            //编辑目录
+            $(document).on("click", "#editSelectedTreeview", function() {
+                var selectedNode = treeview.select();
+                if (selectedNode.length == 0) {
+                    layer.msg("请选中需要编辑的目录");
+                }else{
+                    var tree = $("#treeview").data("kendoTreeView");
+                    //添加当前选中节点数据
+                    currentCata.node = [];
+                    currentCata.node.name = tree.dataItem(selectedNode).name;
+                    currentCata.node.id = tree.dataItem(selectedNode).id;
+                    if(tree.dataItem(selectedNode).pid != null){
+                        currentCata.node.pid = tree.dataItem(selectedNode).pid;
+                        //取父节点名称
+                        currentCata.node.pidName = tree.dataSource.get(tree.dataItem(selectedNode).pid).name;
+                    }
+                    currentCata.node.description = tree.dataItem(selectedNode).description;
+                    //打开修改界面
+                    layer.open({
+                        title:'修改当前目录',
+                        type: 2,
+                        area: ['500px', '340px'],
+                        fixed: false, //不固定
+                        maxmin: false,
+                        resize:false,
+                        content: '/bo/console/report_updateCatalogue.html'
+                    });
+                }
+            });
+            //添加树的样式，在树自身初始化时无法添加样式
+            $("span.k-in").addClass("widthFull");
+        });
+    </script>
+</body>
+</html>

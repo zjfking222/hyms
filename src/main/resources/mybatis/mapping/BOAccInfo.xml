@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.BOAccInfoMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BOAccInfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="accountid" property="accountid" jdbcType="VARCHAR" />
+        <result column="reportid" property="reportid" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, accountid, reportid, creater, created, modifier, modified
+    </sql>
+    <delete id="deleteByAccReport">
+        delete from bo_acc_info
+      where accountid = #{accountid,jdbcType=VARCHAR} and reportid = #{reportid,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByAccountid">
+        delete from bo_acc_info
+      where accountid = #{accountid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertAccReportBatch" parameterType="java.util.List">
+        insert into bo_acc_info
+        (accountid, reportid, creater, modifier)
+        VALUES
+        <foreach collection ="list" item="item" separator =",">
+            (#{item.accountid,jdbcType=VARCHAR}, #{item.reportid,jdbcType=VARCHAR}, #{item.creater,jdbcType=VARCHAR}, #{item.modifier,jdbcType=VARCHAR})
+        </foreach >
+    </insert>
+    <delete id="deleteByReportid">
+        delete from bo_acc_info
+      where reportid = #{reportid,jdbcType=VARCHAR}
+    </delete>
+</mapper>
