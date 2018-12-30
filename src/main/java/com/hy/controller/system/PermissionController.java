@@ -30,6 +30,7 @@ public class PermissionController {
      */
     @RequestMapping(value = "/menus/get", method = RequestMethod.POST)
     public ResultObj getMenus(@RequestBody Map<String, Object> map) {
+        //Map filter = (Map)map.get("filter");
         if (map.containsKey("p")) {
             List<PermissionDto> list = permissionService.getParentMenus();
             return ResultObj.success(list);

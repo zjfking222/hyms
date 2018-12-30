@@ -11,13 +11,13 @@ public class QzgzStudy {
 
     private String content;
 
-    private Integer creater;
+    private String creater;
 
     private String creatername;
 
     private Date created;
 
-    private Integer modifier;
+    private String modifier;
 
     private Date modified;
 
@@ -45,11 +45,11 @@ public class QzgzStudy {
         this.content = content == null ? null : content.trim();
     }
 
-    public Integer getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(Integer creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -68,11 +68,11 @@ public class QzgzStudy {
         this.created = created;
     }
 
-    public Integer getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(Integer modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

@@ -53,7 +53,7 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
         List<MmReceiptStay> mmReceiptStays = DTOUtil.populateList(mmReceiptStayFetchDtos, MmReceiptStay.class);
 
         IntStream.range(0, mmReceiptStays.size()).forEach(i -> {
-            mmReceiptStays.get(i).setModifier(SecurityUtil.getUserId());
+            mmReceiptStays.get(i).setModifier(SecurityUtil.getLoginid());
             mmReceiptStays.get(i).setDate(DateUtil.breviary(mmReceiptStayFetchDtos.get(i).getDate()));
         });
 
@@ -67,8 +67,8 @@ public class ReceiptStayServiceImpl implements ReceiptStayService {
 
         IntStream.range(0, mmReceiptStays.size()).forEach(i -> {
             mmReceiptStays.get(i).setDate(DateUtil.breviary(mmReceiptStayFetchDtos.get(i).getDate()));
-            mmReceiptStays.get(i).setModifier(SecurityUtil.getUserId());
-            mmReceiptStays.get(i).setCreater(SecurityUtil.getUserId());
+            mmReceiptStays.get(i).setModifier(SecurityUtil.getLoginid());
+            mmReceiptStays.get(i).setCreater(SecurityUtil.getLoginid());
             mmReceiptStays.get(i).setDomain(SecurityUtil.getDepartmentId());
         });
 

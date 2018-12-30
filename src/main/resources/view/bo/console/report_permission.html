@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>报表权限</title>
+    <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+            width: 100%;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+        }
+        td{
+            text-align: center;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: block;
+            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+            background-color: #f5f5f5;
+            border-right: 1px solid #eee;
+        }
+        /* Sidebar navigation */
+        .nav-sidebar {
+            margin-right: -21px; /* 20px padding + 1px border */
+            margin-bottom: 20px;
+            margin-left: -20px;
+        }
+        .nav-sidebar > li > a {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .active {
+            color: #fff;
+            background-color: #2A2D33;
+        }
+        .active a{
+            color: #fff;
+        }
+        .item1{
+            display: inline;
+            margin-left: 20px;
+            line-height: 35px;
+        }
+        #search{
+            width: 180px;
+            display: inline-block;
+        }
+        #treeview{
+            border: 0;
+            width: 100%;
+            height: 100%;
+            padding-left: 262px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            overflow-x: hidden;
+            overflow-y: auto;
+            border-right: 1px solid #eee;
+        }
+        li:hover{
+            background: #eee;
+        }
+        ul{
+            padding-top: 20px;
+        }
+        .active:hover{
+            background-color: #2A2D33;
+        }
+        .item1 {
+            margin-left: 20px;
+            line-height: 35px;
+            cursor: default;
+        }
+        .item1 a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="left" class="sidebar" style="width: 262px;">
+        <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
+        <ul class="nav nav-sidebar" id="rolenav">
+            <li v-for="business in data1" :data-id="business.id" @click="onChoose(business.id, business.accountid)">
+                <div class="item1">
+                    <a class="item-a">{{business.accountid}}</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <iframe id="treeview">
+    </iframe>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/statics/plugins/vue/vue.min.js"></script>
+    <script src="/statics/plugins/layer/layer.js"></script>
+    <script>
+        var pushRid;
+        //ajax调用
+        var FetchData = function (data, method, param, async) {
+            var response =
+                $.ajax({
+                    async: async,
+                    url: param,
+                    type: method,
+                    dataType: 'json',
+                    data: data,
+                    success: function (dataSource) {
+                        return dataSource;
+                    }});
+            return response.responseJSON;
+        };
+        //vue对象
+        var vm = new Vue({
+            el: '#left',
+            data: {
+                data0:'',
+                data1: ''
+            },
+            created:function () {
+                this.data1 = accountSearch("");
+            },
+            methods: {
+                //打开右侧界面
+                onChoose:function (rid, accountid) {
+                    $('#treeview').attr('src','report_accountTab.html');
+                    pushRid = accountid;
+                    $("#rolenav li[data-id="+rid+"]").addClass('active')
+                        .siblings("li").removeClass('active');
+                }
+            }
+        });
+        //使用accountid查询bo账号
+        function accountSearch(accountid) {
+            return FetchData({accountid: accountid},'POST','/bo/account/getAccount',false).data;
+        }
+        $(function () {
+            $(document).keyup(function(event){
+                if(event.keyCode === 13){
+                    vm.data1 = accountSearch($("#search").val());
+                    $("li").removeClass('active');
+                    $('#treeview').attr('src','/index/blank.html');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

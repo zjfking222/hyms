@@ -12,16 +12,16 @@ public class CrmFirms {
     private String email;
     private int btid;
     private String remark;
-    private int creater;
+    private String creater;
     private String created;
-    private int modifier;
+    private String modifier;
     private String modified;
     private int domain;
 
     public CrmFirms() {
     }
 
-    public CrmFirms(String name, String phone, String address, String contacter, String cmobile, String cphone, String email, int btid, String remark, int creater, int modifier, int domain) {
+    public CrmFirms(String name, String phone, String address, String contacter, String cmobile, String cphone, String email, int btid, String remark, String creater, String modifier, int domain) {
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -116,11 +116,11 @@ public class CrmFirms {
         this.remark = remark;
     }
 
-    public int getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(int creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -132,11 +132,11 @@ public class CrmFirms {
         this.created = created;
     }
 
-    public int getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

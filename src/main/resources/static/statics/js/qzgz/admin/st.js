@@ -1,228 +1,198 @@
-var pushPlusDay;
-$(function () {
-
-    $('.choosePage').fadeOut(0);
-
-    function dataSource() {
-        return FetchData({page:1,number:1000},'POST','/web/getCanteen',false).data;
-    }
-    function dataSourceState1() {
-        return FetchData({page:1,number:1000,state:1},'POST','/web/getCanteen',false).data;
-    }
-    function dataSourceTodays(plusDay) {
-        return FetchData({plusDay:plusDay},'POST','/web/getTodaysCanteen',false).data;
-    }
-    function dataSourceSearch(name,state) {
-        return {canteens:FetchData({name:name,state:state},'POST','/admin/getCanteenByName',false).data}
-    }
-    //按钮是否只显示已上架的菜
-    var isDataSourcePointAll = false;
-
-    var vm =
-    new Vue({
-        el:'#app',
-        data: {
-            data1:dataSourceState1(),
-            day: 0,
-            data2:
+var pushData;
+var vm = new Vue({
+    el: "",
+    data: {
+        dataSource: [],
+        activeItem: {id: 0, title: "", content: ""},
+        layItem: null
+    },
+    created: function () {
+        this.getDataSource();
+        $("#grid").kendoGrid({
+            dataSource: this.dataSource,
+            editable: {
+                confirmation: true,
+                mode: "popup",
+                window: {
+                    title: "新增"
+                }
+            },
+            columnMenu: true,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            toolbar: [{
+                template: '<span class="date">日期</span><input type="date" class="calendar-grid" id="calendar"/>' +
+                '<span class="type">类型</span><select class="k-search"  id="classify"><option value="" selected></option><option value="1">早餐</option><option value="2">午餐</option><option value="3">晚餐</option><option value="4">夜宵</option></select>' +
+                '<input type="text" class="k-input" id="search-input"/>' +
+                '<a role="button"  class="k-button k-button-icontext"  href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>' +
+                '<a role="button" class="k-button k-button-icontext"  href="/down/excel?url=' + encodeURIComponent('/qzgz/template/st.xlsx') + '"><span class="k-icon k-i-download"></span>模板文件</a>' +
+                '<a role="button" class="k-button k-button-icontext"  href="javascript:;" onclick="vm.batchadd()"><span class="k-icon k-i-excel"></span>导入EXCEL</a>'
+            }],
+            columns: [
+                {field: "name", title: "名称", headerAttributes: {"class": "grid-algin-center"}, width: '250px'},
+                {field: "meal", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                {field: "type", title: "品种", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                // {field: "price", title: "价格", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},//价格先不用
                 {
-                    name:'',
-                    type:'',
-                    search:'',
-                    dataTodays: dataSourceTodays(0)
+                    command: [{
+                        name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"
+                    }], title: "操作", width: "150px"
                 },
-            show:function (id, meal) {
-                for(var i = 0 ; i < this.data2.dataTodays.length ; i++)
-                {
-                    if(id === this.data2.dataTodays[i].canteen_id && meal === this.data2.dataTodays[i].meal)
-                    {
-                        return false;
+                {field: "", title: "", headerAttributes: {"class": "grid-algin-center"}}
+            ]
+        })
+    },
+    methods: {
+        getDataSource: function () {
+            this.dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: function (options) {
+                        $.ajax({
+                            url: "/qzgz/admin/getCanteen",
+                            data: {
+                                'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
+                                    undefined : options.data.sort[0].field,
+                                'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?
+                                    undefined : options.data.sort[0].dir,
+                                'page': options.data.page,
+                                'pageSize': options.data.pageSize,
+                                'value': $('#search-input').val(),
+                                'date': $('#calendar').val(),
+                                'meal': $('#classify').val()
+                            },
+                            method: 'POST',
+                            success: function (result) {
+                                if (result.code === 0) {
+                                    for (var i = 0; i < result.data.data.length; i++) {
+                                        switch (result.data.data[i].meal) {
+                                            case 1:
+                                                result.data.data[i].meal = '早餐';
+                                                break;
+                                            case 2:
+                                                result.data.data[i].meal = '午餐';
+                                                break;
+                                            case 3:
+                                                result.data.data[i].meal = '晚餐';
+                                                break;
+                                            case 4:
+                                                result.data.data[i].meal = '夜宵';
+                                                break;
+                                        }
+                                    }
+                                    options.success({data: result.data.data, total: result.data.total});
+                                }
+                                else {
+                                    options.error(result);
+                                }
+                            },
+                            error: function (result) {
+                                options.error(result);
+                            }
+                        });
+                    },
+                    destroy: function (options) {
+                        $.ajax({
+                            url: "/qzgz/admin/deleteCanteen",
+                            data: {
+                                'id': options.data.id
+                            },
+                            method: 'POST',
+                            success: function (result) {
+                                if (result.code === 0) {
+                                    options.success(result);
+                                    layer.msg('删除成功！', {time: 1000, icon: 1});
+                                }
+                                else
+                                    options.error(result);
+                            },
+                            error: function (result) {
+                                options.error(result);
+                            }
+                        });
                     }
-                }
-                return true;
-            }
+                },
+                schema: {
+                    data: "data",
+                    total: "total",
+                    model: {
+                        id: "id",
+                        fields: {
+                            id: {editable: false, nullable: true},
+                            name: {type: "string", nullable: false},
+                            meal: {type: "string", nullable: false},
+                            type: {type: "string", nullable: false}
+                            // price: {type: "string", nullable: false}
+                        }
+                    }
+                },
+                error: function (e) {
+                    this.cancelChanges();
+                    console.log(e);
+                    if (e.errors) {
+                        layer.alert(e.errors.msg, {icon: 2});
+                    }
+                    else if (e.xhr.msg) {
+                        layer.alert(e.xhr.msg, {icon: 2});
+                    }
+                    else {
+                        layer.alert("发生错误，请联系管理员", {icon: 2});
+                    }
+                },
+                requestEnd: function (e) {
+                    var response = e.response;
+                    if (response) {
+                        response.type = e.type;
+                    }
+                },
+                pageSize: 15,
+                serverPaging: true,
+                serverSorting: true
+            });
         },
-        methods: {
-            onclick:function (val) {
-                this.$data.day = val;
-                vm.$data.data1 = dataSourceState1();
-                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
-            },
-            onshowpart:function () {
-                // this.$data.data1 = dataSourceState1();
-                this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
-                isDataSourcePointAll = false;
-            },
-            onshowall:function () {
-                // this.$data.data1 = dataSource();
-                this.$data.data1 = dataSourceSearch(vm.data2.search);
-                isDataSourcePointAll = true;
-            },
-            onaddsubmit:function () {
-                FetchData({name:this.$data.data2.name,type:this.$data.data2.type},
-                    'POST','/admin/addCanteen',false);
-                    isDataSourcePointAll ?
-                        this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-                this.$data.data2.name='';
-                this.$data.data2.type='';
-            },
-            oneditstate:function (isGounding, id) {
-                isGounding === 0?
-                FetchData({id:id,state:0},
-                        'POST','/admin/updateCanteenState',false):
-                FetchData({id:id,state:1},
-                        'POST','/admin/updateCanteenState',false);
-
-                // isDataSourcePointAll ?
-                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-                isDataSourcePointAll ?
-                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
-                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
-            },
-            ondeletetoday:function (id,meal) {
-                FetchData({id:id,meal:meal,plusDay:this.$data.day},'POST','/admin/removeTodaysCanteen',false);
-
-                // isDataSourcePointAll ?
-                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-                isDataSourcePointAll ?
-                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
-                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
-            },
-            oninserttoday:function (id,meal) {
-                FetchData({id:id,meal:meal,plusDay:this.$data.day},'POST','/admin/addTodaysCanteen',false);
-
-                // isDataSourcePointAll ?
-                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-                isDataSourcePointAll ?
-                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
-                vm.data2.dataTodays = dataSourceTodays(this.$data.day);
-            },
-            oneditinfo:function (name,type,id) {
-                if (FetchData({name:name,type:type,id:id},'POST','/admin/updateCanteen',false).code===0)
-                {
-                    layer.open({
-                        title: '成功'
-                        ,content: '修改已经生效！'
-                    });
+        search: function () {
+            $("#grid").data("kendoGrid").dataSource.read();
+        },
+        batchadd:function () {
+            layer.close(vm.layItem);
+            this.layItem = layer.open({
+                title: '添加菜单',
+                type: 2,
+                area: ['700px', '80%'],
+                fixed: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                content: '/qzgz/admin/st_batch.html',
+                end: function () {
+                    $("#grid").data("kendoGrid").dataSource.read()
                 }
-                else
-                {
-                    layer.open({
-                        title: '失败'
-                        ,content: '验证失效，请重新登陆！'
-                    });
-                }
-
-                // isDataSourcePointAll ?
-                //     this.$data.data1 = dataSource(): this.$data.data1 = dataSourceState1();
-                isDataSourcePointAll ?
-                    this.$data.data1 = dataSourceSearch(vm.data2.search):this.$data.data1 = dataSourceSearch(vm.data2.search,"1");
-            },
-            onsearch:function (name) {
-                isDataSourcePointAll ?
-                    this.$data.data1 = dataSourceSearch(name):this.$data.data1 = dataSourceSearch(name,"1");
-            },
-            onreset:function () {
-                $('#search-input').val('');
-                vm.data2.search = '';
-                isDataSourcePointAll ?
-                    this.$data.data1 = dataSourceSearch(name):this.$data.data1 = dataSourceSearch(name,"1");
-            }
+            })
         }
-    });
-
-    /*
-    ** 按钮组件初始化与显示控制
-    ** 不参与逻辑
-     */
-    $('.tr-add').fadeOut(0);
-    $('.btn-showStateAll').click(function () {
-        $(this).fadeOut(0);
-        $('.btn-showState1').fadeIn(500);
-    });
-    $('.btn-addNew').click(function () {
-        $('.tr-add').fadeIn(500);
-    });
-    $('.btn-addCancel,.btn-addCommit').click(function () {
-        $('.tr-add').fadeOut(0);
-    });
-    $('.btn-showState1').fadeOut(0).click(function () {
-        $(this).fadeOut(0);
-        $('.btn-showStateAll').fadeIn(500);
-    });
-    $('.btn-showTodays').click(function () {
-        pushPlusDay = vm.$data.day;
-        layer.open({
-            title:'明日食堂',
-            type: 2,
-            area: ['700px', '600px'],
-            fixed: false, //不固定
-            maxmin: true,
-            content: '/qzgz/admin/st_today.html',
-            end: function () {
-                isDataSourcePointAll ?
-                    vm.$data.data1 = dataSource(): vm.$data.data1 = dataSourceState1();
-                vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
-            }
-        });
-    });
-
-    // $("[name='checkbox']").bootstrapSwitch({
-    //     onText:"今日菜单",
-    //     offText:"明日菜单",
-    //     onColor:"info",
-    //     offColor:"warning",
-    //     handleWidth:70
-    // }).on('switchChange.bootstrapSwitch', function(event, state) {
-    //     if(state){
-    //         vm.$data.day = 0;
-    //         vm.$data.data1 = dataSourceState1();
-    //         vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
-    //     }
-    //     else {
-    //         vm.$data.day = 1;
-    //         vm.$data.data1 = dataSourceState1();
-    //         vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
-    //     }
-    // });
-    laydate.render({
-        elem: '#date'
-        ,trigger: 'click'
-        ,btns: ['confirm']
-        ,calendar: true
-        ,done: function(value, date){
-            vm.$data.day = DateDiff(new Date().toLocaleDateString(),value);
-            vm.$data.data1 = dataSourceState1();
-            vm.data2.dataTodays = dataSourceTodays(vm.$data.day);
-        }
-    });
-
-    function DateDiff(sDate1, sDate2){
-        var aDate,oDate1,oDate2,iDays;
-        aDate = sDate1.split("/");
-        oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
-        aDate = sDate2.split("-");
-        oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
-        iDays = parseInt((oDate2 - oDate1)/ 1000/ 60/ 60/ 24);
-        return iDays
     }
-
-    $('.nav-tab li').on('click',function () {
-        $(this).addClass('active').siblings().removeClass('active');
-        $('.'+$(this).attr('data-id')).fadeIn(0).siblings('div').fadeOut(0);
-    })
 });
-
 var FetchData = function (data, method, param, async) {
-    var response =
-        $.ajax({
-            async: async,
-            url: "/qzgz"+param,
-            type: method,
-            dataType: 'json',
-            data: data,
-            success: function (dataSource) {
-                return dataSource;
-            }});
+    var response = $.ajax({
+        async: async,
+        url:  param,
+        type: method,
+        dataType: 'String',
+        data: data,
+        success: function (dataSource) {
+            return dataSource
+        }
+    });
     return response.responseJSON;
 };
+$(function () {
+    var date= new Date($.ajax({async: false}).getResponseHeader("Date"));
+    var yy, mm, dd;
+    yy = date.getFullYear();
+    mm = ((date.getMonth() + 1) > 9) ? (date.getMonth() + 1) : ("0" + (date.getMonth() + 1));
+    dd = (date.getDate() <= 9) ? ("0" + date.getDate()) : (date.getDate());
+    var dateString = yy + "-" + mm + "-" + dd;
+    $('#calendar').val(dateString);
+});
+

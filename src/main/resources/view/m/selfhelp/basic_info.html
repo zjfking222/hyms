@@ -8,131 +8,162 @@
     <link rel="stylesheet" type="text/css" href="/statics/css/m/app.css"/>
 </head>
 <body style="background-color: #fff;">
-    <ul class="mui-table-view">
+    <ul class="mui-table-view" id="basicInfoData">
         <li class="mui-table-view-cell mui-collapse mui-active">
             <a class="mui-navigate-right" href="#">个人信息</a>
             <div class="mui-collapse-content">
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>姓名</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">姓名</div>
+                    <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.name }}</div>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXX</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">身份证号码</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zid }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>身份证号码</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">工号</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.pernr }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXXXXXXXXXXXXX</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">入职日期</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.hiredate }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>工号</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">部门</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zbm }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXX</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">职位</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zgw }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>入职日期</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">工龄</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zsl }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXXXXX</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">籍贯</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.gbort }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>部门</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">最高学历</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zxl }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXX</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>职位</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXX</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>工龄</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>X</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>籍贯</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXX</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>最高学历</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXX</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>手机号码</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXXXXXXXXX</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">手机号码</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ base.zphone }}</span>
+                    <div style="clear: both"></div>
                 </div>
             </div>
         </li>
         <li class="mui-table-view-cell mui-collapse mui-active">
             <a class="mui-navigate-right" href="#">合同要素</a>
             <div class="mui-collapse-content">
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>合同类型</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">合同类型</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ contract.zhtype }}</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXX</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>合同截止日期</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXXXXXXXXX</span>
+                <div class="mui-col-sm-12 mui-col-xs-12">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">合同截止日期</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ contract.zhtjz }}</span>
+                    <div style="clear: both"></div>
                 </div>
             </div>
         </li>
         <li class="mui-table-view-cell mui-collapse mui-active">
             <a class="mui-navigate-right" href="#">职称</a>
             <div class="mui-collapse-content">
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>内部职称</span>
+                <div class="mui-col-sm-12 mui-col-xs-12" style="background-color: #efeff4;">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">职称类型</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">名称</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXXXXXXXXX</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>外部职称</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXXXXXXXXXX</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>技能等级</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>XXXXX</span>
+                <div v-for="item1 in techtitle">
+                    <div class="mui-col-sm-12 mui-col-xs-12">
+                        <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ item1.z_zclx }}</span>
+                        <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ item1.z_mc }}</span>
+                        <div style="clear: both"></div>
+                    </div>
                 </div>
             </div>
         </li>
         <li class="mui-table-view-cell mui-collapse mui-active">
             <a class="mui-navigate-right" href="#">资格证书</a>
             <div class="mui-collapse-content">
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p" style="background-color: #efeff4;">
-                    <span>资格证书名称</span>
+                <div class="mui-col-sm-12 mui-col-xs-12" style="background-color: #efeff4;">
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">资格证书名称</span>
+                    <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">资格证书到期日</span>
+                    <div style="clear: both"></div>
                 </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p" style="background-color: #efeff4;">
-                    <span>资格证书到期日</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>资格证1</span>
-                </div>
-                <div class="mui-col-sm-6 mui-col-xs-6 content-cell-p">
-                    <span>2020-10-10</span>
+                <div v-for="item2 in certificate">
+                    <div class="mui-col-sm-12 mui-col-xs-12">
+                        <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ item2.z_zgmc }}</span>
+                        <span class="mui-col-sm-6 mui-col-xs-6 content-cell-p">{{ item2.z_zsdq }}</span>
+                        <div style="clear: both"></div>
+                    </div>
                 </div>
             </div>
         </li>
     </ul>
 
     <script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        //初始化vue对象
+        var vm = new Vue({
+            el:"#basicInfoData",
+            data:{
+                base:{},
+                contract: {},
+                techtitle:{},
+                certificate:{}
+            },
+            mounted (){//挂载el
+                mui.init();
+            },
+            created: function(){
+                var data = this.getBasicInfo();
+                this.base = data.base;
+                this.contract = data.ht;
+                this.techtitle = data.tt;
+                this.certificate = data.qc;
+            },
+            methods:{
+                //从后台获取全部数据
+                getBasicInfo:function(){
+                    var result;
+                    mui.ajax('/app/selfhelp/getBasicInfo',{
+                        dataType:'json',//服务器返回json格式数据
+                        type:'post',//HTTP请求类型
+                        timeout:10000,//超时时间设置为10秒；
+                        headers:{'Content-Type':'application/json'},
+                        async: false,
+                        success:function(data){
+                            if (data.code == 0) {
+                                //添加数据到返回值
+                                result = data.data;
+                            }else {
+                                console.log(data.msg)
+                            }
+                        },
+                        error:function(xhr,type,errorThrown){
+                            //异常处理；
+                            console.log(type);
+                        }
+                    });
+                    return result;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

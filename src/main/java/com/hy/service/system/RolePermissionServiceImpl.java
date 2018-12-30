@@ -123,8 +123,8 @@ public class RolePermissionServiceImpl implements RolePermissionService{
 
             List<SysRolePermission> sysRolePermissions = DTOUtil.populateList(sysRolePermissionDtos,SysRolePermission.class);
             for (SysRolePermission s: sysRolePermissions){
-                s.setCreater(SecurityUtil.getUserId());
-                s.setModifier(SecurityUtil.getUserId());
+                s.setCreater(SecurityUtil.getLoginid());
+                s.setModifier(SecurityUtil.getLoginid());
                 rolePermissionMapper.insertSelective(s);
             }
             return true;

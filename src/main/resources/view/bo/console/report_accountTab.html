@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BO账号数据查询</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
+    <style>
+        html{
+            height: 100%;
+            overflow-y: hidden;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        iframe{
+            padding:0;
+            margin:0;
+            border-width:0;
+        }
+        .tab-content{
+            height: calc(100% - 41px);
+        }
+        .tab-pane{
+            height: 100%;
+        }
+        .iframeview{
+            border: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            overflow-x: hidden;
+            overflow-y: auto;
+            border-right: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active">
+            <a href="#empTab" data-toggle="tab">人员</a>
+        </li>
+        <li>
+            <a href="#roleTab" data-toggle="tab">角色</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="empTab" class="tab-pane active">
+            <iframe class="iframeview" src="/bo/console/report_aduser.html"></iframe>
+        </div>
+        <div id="roleTab" class="tab-pane active">
+            <iframe class="iframeview" src="/bo/console/report_roleTab.html"></iframe>
+        </div>
+    </div>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+    <script src="/statics/plugins/vue/vue.min.js"></script>
+    <script src="/statics/plugins/layer/layer.js"></script>
+    <script>
+        var accountid = parent.pushRid;
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    </script>
+</body>
+</html>

@@ -13,9 +13,9 @@ public class AdDepartment {
     private String olddn;
     private String date;
     private String time;
-    private int creater;
+    private String creater;
     private Date created;
-    private int modifier;
+    private String modifier;
     private Date modified;
 
     public int getId() {
@@ -98,11 +98,11 @@ public class AdDepartment {
         this.time = time;
     }
 
-    public int getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(int creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -114,11 +114,11 @@ public class AdDepartment {
         this.created = created;
     }
 
-    public int getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

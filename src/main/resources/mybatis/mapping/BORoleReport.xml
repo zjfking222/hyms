@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.BORoleReportMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BORoleReport" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="rid" property="rid" jdbcType="INTEGER" />
+        <result column="reportid" property="reportid" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, rid, reportid, creater, created, modifier, modified
+    </sql>
+    <insert id="insertRoleReport" parameterType="com.hy.model.BORoleReport">
+        insert into bo_role_report (rid, reportid, creater, modifier)
+        values
+        <foreach collection ="list" item="item" separator =",">
+            (#{item.rid}, #{item.reportid}, #{item.creater}, #{item.modifier})
+        </foreach >
+    </insert>
+    <delete id="deleteByRoleReport" parameterType="com.hy.model.BORoleReport">
+        delete from bo_role_report
+        where rid = #{rid} and reportid = #{reportid}
+    </delete>
+    <delete id="deleteByRole" parameterType="com.hy.model.BORoleReport">
+        delete from bo_role_report
+        where rid = #{rid}
+    </delete>
+    <delete id="deleteReportByRole">
+        delete from bo_role_report
+        where rid = #{rid} and reportid not in
+        (select i.reportid from bo_acc_info i where i.accountid in
+          (select a.accountid from bo_role_account a where a.rid= #{rid})
+        )
+    </delete>
+    <delete id="deleteByReportid" parameterType="java.lang.String">
+        delete from bo_role_report
+        where reportid = #{reportid}
+    </delete>
+</mapper>

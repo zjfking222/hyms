@@ -5,9 +5,9 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="enable" property="enable" jdbcType="BIT" />
-    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -28,7 +28,7 @@
       creater, created, modifier, 
       modified)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
-      #{creater,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER}, 
+      #{creater,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR},
       #{modified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysRoles" >
@@ -70,13 +70,13 @@
         #{enable,jdbcType=BIT},
       </if>
       <if test="creater != null" >
-        #{creater,jdbcType=INTEGER},
+        #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        #{modifier,jdbcType=INTEGER},
+        #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         #{modified,jdbcType=TIMESTAMP},
@@ -93,13 +93,13 @@
         enable = #{enable,jdbcType=BIT},
       </if>
       <if test="creater != null" >
-        creater = #{creater,jdbcType=INTEGER},
+        creater = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         created = #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        modifier = #{modifier,jdbcType=INTEGER},
+        modifier = #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         modified = #{modified,jdbcType=TIMESTAMP},
@@ -111,7 +111,7 @@
     update sys_roles
     set name = #{name,jdbcType=VARCHAR},
       enable = #{enable,jdbcType=BIT},
-      modifier = #{modifier,jdbcType=INTEGER},
+      modifier = #{modifier,jdbcType=VARCHAR},
       modified = #{modified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

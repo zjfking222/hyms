@@ -53,8 +53,11 @@ public class ShiroUsernamePasswordToken extends UsernamePasswordToken {
      * @param username      用户名
      * @param authenticated 是否已认证
      */
-    public ShiroUsernamePasswordToken(String username, boolean authenticated) {
+    public ShiroUsernamePasswordToken(String username, boolean authenticated, String password) {
         this.setUsername(username);
+        this.setPassword(password.toCharArray());
+        this.setRememberMe(false);
+        this.setHost(null);
         this.authenticated = authenticated;
     }
 

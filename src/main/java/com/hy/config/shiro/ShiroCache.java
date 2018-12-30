@@ -14,7 +14,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
 
     private static Logger logger = LoggerFactory.getLogger(ShiroCache.class);
 
-    private static final String DEFAULT_CACHE_KEY_PREFIX = "hymsCache:";
+    private static final String DEFAULT_CACHE_KEY_PREFIX = "hyms:";
     private String keyPrefix = DEFAULT_CACHE_KEY_PREFIX;
 
     private RedisTemplate<K, V> redisTemplate;
@@ -53,6 +53,14 @@ public class ShiroCache<K, V> implements Cache<K, V> {
         return old;
     }
 
+
+    public V put(K k, V v, int expire) throws CacheException {
+        logger.debug("创建缓存:{}", k);
+        V old = get(k);
+        redisTemplate.opsForValue().set(getkeyPrefix(k), v, expire, TimeUnit.SECONDS);
+        return old;
+    }
+
     @Override
     public V remove(K k) throws CacheException {
         logger.debug("删除缓存:{}", k);
@@ -75,6 +83,17 @@ public class ShiroCache<K, V> implements Cache<K, V> {
     @Override
     public Set<K> keys() {
         return redisTemplate.keys(getkeyPrefix("*"));
+    }
+
+    /**
+     * @Author 詹继锋
+     * @Date 2018/12/4 20:03
+     * @Description 是否存在key
+      * @Param: k
+     * @return boolean
+     */
+    public boolean hasKey(K k) {
+       return redisTemplate.hasKey(getkeyPrefix(k));
     }
 
     @Override

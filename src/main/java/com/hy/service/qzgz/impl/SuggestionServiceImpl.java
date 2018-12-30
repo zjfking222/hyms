@@ -22,8 +22,8 @@ public class SuggestionServiceImpl implements SuggestionService {
     @Override
     public boolean addSuggestion(SuggestionDto suggestionDto) {
         QzgzSuggestion suggestion = DTOUtil.populate(suggestionDto,QzgzSuggestion.class);
-        suggestion.setCreater(-1);
-        suggestion.setModifier(-1);
+        suggestion.setCreater("-1");
+        suggestion.setModifier("-1");
         return suggestionMapper.insertSuggestion(suggestion) == 1;
     }
 
@@ -50,7 +50,7 @@ public class SuggestionServiceImpl implements SuggestionService {
         QzgzSuggestion suggestion = new QzgzSuggestion();
         suggestion.setId(id);
         suggestion.setState(state);
-        suggestion.setModifier(SecurityUtil.getUserId());
+        suggestion.setModifier(SecurityUtil.getLoginid());
         return suggestionMapper.updateStateOfSuggestion(suggestion) == 1;
     }
 }

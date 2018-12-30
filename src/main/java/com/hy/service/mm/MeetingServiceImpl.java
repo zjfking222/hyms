@@ -31,8 +31,8 @@ public class MeetingServiceImpl implements MeetingService{
         meeting.setEnddate(DateUtil.translate(mmMeetingDto.getEnddate()));
         meeting.setDeadline(DateUtil.translate(mmMeetingDto.getDeadline()));
 
-        meeting.setCreater(SecurityUtil.getUserId());
-        meeting.setModifier(SecurityUtil.getUserId());
+        meeting.setCreater(SecurityUtil.getLoginid());
+        meeting.setModifier(SecurityUtil.getLoginid());
         meeting.setDomain(SecurityUtil.getDepartmentId());
 
         mmMeetingMapper.insertMmMeeting(meeting);
@@ -50,7 +50,7 @@ public class MeetingServiceImpl implements MeetingService{
         meeting.setEnddate(DateUtil.translate(mmMeetingDto.getEnddate()));
         meeting.setDeadline(DateUtil.translate(mmMeetingDto.getDeadline()));
 
-        meeting.setModifier(SecurityUtil.getUserId());
+        meeting.setModifier(SecurityUtil.getLoginid());
 
         return mmMeetingMapper.updateMmMeeting(meeting) == 1;
     }

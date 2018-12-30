@@ -1,13 +1,14 @@
 package com.hy.controller.system;
 
 import com.hy.common.ResultObj;
+import com.hy.dto.SysUserDto;
 import com.hy.dto.SysUsersNewDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.SysUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -67,5 +68,31 @@ public class SysUsersController {
         }catch (Exception e){
             return ResultObj.error(ResultCode.ERROR_UNKNOWN);
         }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 从ad域中查询全部相关账号信息
+     * @Date 2018/11/16 8:51
+     * @Param [search]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("users/getAllUsersFromAd")
+    public ResultObj getAllUsersFromAd( @RequestParam(required = false) String search) {
+        List<SysUserDto> list = sysUsersService.searchUsers(search);
+        return ResultObj.success(list);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 从ad域中查询单个账号信息
+     * @Date 2018/12/19 18:21
+     * @Param [search]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("users/getUserFromAd")
+    public ResultObj getUserFromAd( @RequestParam(required = false) String search) {
+        SysUserDto dto = sysUsersService.searchUser(search);
+        return ResultObj.success(dto);
     }
 }

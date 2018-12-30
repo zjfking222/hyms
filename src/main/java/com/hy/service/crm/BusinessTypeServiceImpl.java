@@ -19,8 +19,8 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
     @Override
     public boolean addBusinessType(CrmBusinesstypeDto businesstypeDto) {
         CrmBusinesstype crmBusinesstype = DTOUtil.populate(businesstypeDto, CrmBusinesstype.class);
-        crmBusinesstype.setCreater(SecurityUtil.getUserId());
-        crmBusinesstype.setModifier(SecurityUtil.getUserId());
+        crmBusinesstype.setCreater(SecurityUtil.getLoginid());
+        crmBusinesstype.setModifier(SecurityUtil.getLoginid());
         return crmBusinesstypeMapper.insertBusinesstype(crmBusinesstype) == 1;
     }
 
@@ -32,7 +32,7 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
     @Override
     public boolean setBusinessType(CrmBusinesstypeDto businesstypeDto) {
         CrmBusinesstype crmBusinesstype = DTOUtil.populate(businesstypeDto, CrmBusinesstype.class);
-        crmBusinesstype.setModifier(SecurityUtil.getUserId());
+        crmBusinesstype.setModifier(SecurityUtil.getLoginid());
         return crmBusinesstypeMapper.updateBusinesstype(crmBusinesstype) == 1;
     }
 
@@ -53,6 +53,6 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 
     @Override
     public List<CrmBusinesstypeDto> getBusinessTypeByUid() {
-        return DTOUtil.populateList(crmBusinesstypeMapper.selectBusinesstypeByUid(SecurityUtil.getUserId()),CrmBusinesstypeDto.class);
+        return DTOUtil.populateList(crmBusinesstypeMapper.selectBusinesstypeByUid(SecurityUtil.getLoginid()),CrmBusinesstypeDto.class);
     }
 }

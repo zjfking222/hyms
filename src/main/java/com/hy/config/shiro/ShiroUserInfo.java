@@ -1,11 +1,14 @@
 package com.hy.config.shiro;
 
-public class ShiroUserInfo {
+import java.io.Serializable;
 
-    private String id;
+public class ShiroUserInfo implements Serializable {
+
+    private String loginid;
     private String name;
     private String email;
     private String phone;
+    private String depid;
     private String depname;
     private String duty;
     private String password;
@@ -13,26 +16,28 @@ public class ShiroUserInfo {
     public ShiroUserInfo() {
     }
 
-    public ShiroUserInfo(String id, String name, String password, String depname) {
-        this(id, name, password, depname, null, null, null);
+    public ShiroUserInfo(String loginid, String name) {
+        this(loginid, name, null);
     }
 
-    public ShiroUserInfo(String id, String name, String password, String depname, String duty, String email, String phone) {
-        this.id = id;
+
+    public ShiroUserInfo(String loginid, String name, String password) {
+        this(loginid, name, password, null, null, null);
+    }
+
+    public ShiroUserInfo(String loginid, String name, String password, String depid, String depname, String duty) {
+        this(loginid, name, password, depid, depname, duty, null, null);
+    }
+
+    public ShiroUserInfo(String loginid, String name, String password, String depid, String depname, String duty, String email, String phone) {
+        this.loginid = loginid;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.depname = depname;
+        this.depid = depid;
         this.duty = duty;
         this.password = password;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getPassword() {
@@ -81,6 +86,22 @@ public class ShiroUserInfo {
 
     public void setDuty(String duty) {
         this.duty = duty;
+    }
+
+    public String getLoginid() {
+        return loginid;
+    }
+
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
+    }
+
+    public String getDepid() {
+        return depid;
+    }
+
+    public void setDepid(String depid) {
+        this.depid = depid;
     }
 
 }

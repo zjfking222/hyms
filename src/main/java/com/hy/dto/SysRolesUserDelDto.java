@@ -1,22 +1,22 @@
 package com.hy.dto;
 
 public class SysRolesUserDelDto {
-    private int rid;
-    private int uid;
+    private String rid;
+    private String uid;
 
-    public int getRid() {
+    public String getRid() {
         return rid;
     }
 
-    public void setRid(int rid) {
+    public void setRid(String rid) {
         this.rid = rid;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 }

@@ -20,13 +20,13 @@ public class MmReceipt {
     private String departureremark;
     private String returntype;
     private int returnfollower;
-    private int uid;
+    private String uid;
     private String remark;
     private String implement;
     private int domain;
-    private int creater;
+    private String creater;
     private String created;
-    private int modifier;
+    private String modifier;
     private String modified;
     private boolean state;
     private String lastname;
@@ -159,11 +159,11 @@ public class MmReceipt {
         this.departureremark = departureremark;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -191,11 +191,11 @@ public class MmReceipt {
         this.domain = domain;
     }
 
-    public int getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(int creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -207,11 +207,11 @@ public class MmReceipt {
         this.created = created;
     }
 
-    public int getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

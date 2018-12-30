@@ -2,11 +2,17 @@ package com.hy.service.ad;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hy.common.ResultObj;
+import com.hy.config.jco.JcoUtil;
 import com.hy.dto.AdDepartmentDto;
 import com.hy.enums.ResultCode;
 import com.hy.mapper.ms.AdDepartmentMapper;
 import com.hy.model.AdDepartment;
+import com.hy.model.LdapDepartment;
 import com.hy.utils.DTOUtil;
+import com.sap.conn.jco.AbapException;
+import com.sap.conn.jco.JCoDestination;
+import com.sap.conn.jco.JCoFunction;
+import com.sap.conn.jco.JCoTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +43,8 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
                 adDepartments.get(i).setDate(date);
                 adDepartments.get(i).setTime(time);
                 adDepartments.get(i).setState(state);
-                adDepartments.get(i).setCreater(-1);
-                adDepartments.get(i).setModifier(-1);
+                adDepartments.get(i).setCreater("-1");
+                adDepartments.get(i).setModifier("-1");
             });
             return adDepartmentMapper.insertAdDepartment(adDepartments) == adDepartments.size();
         } catch (Exception e) {
@@ -105,5 +111,33 @@ public class AdDepartmentServiceImpl implements AdDepartmentService {
             System.out.println(e);
             return null;
         }
+    }
+
+    @Override
+    public List<LdapDepartment> getSapDepartment() {
+        try {
+            JCoDestination destination = JcoUtil.getInstance("ABAP_AS");
+            List<LdapDepartment> depList = new ArrayList<>();
+            JCoFunction function = destination.getRepository().getFunction("ZHR_AD001_ORGEH_INFO");//从对象仓库中获取 RFM 函数：获取公司列表
+            if (function == null)
+                throw new RuntimeException("ZHR_AD001_ORGEH_INFO not found in SAP.");
+            try {
+                function.execute(destination);
+            } catch (AbapException e) {
+                System.out.println(e.toString());
+            }
+            JCoTable codes = function.getTableParameterList().getTable("ZHRS_ORGEH");
+
+            IntStream.range(0, codes.getNumRows()).forEach(i -> {
+                codes.setRow(i);
+                depList.add(new LdapDepartment(codes.getString("ZBMID"),codes.getString("ZBMMC"),codes.getString("ZCXBZ"),
+                        codes.getString("ZSJBM"),codes.getString("ZSJMC")));
+            });
+            return depList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

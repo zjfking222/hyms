@@ -23,11 +23,11 @@ public class PermissionServiceImpl implements PermissionService {
         return sysPermissionMapper.selectAll();
     }
     @Override
-    public List<SysPermission> getByUserId(int userId) {
+    public List<SysPermission> getByUserId(String userId) {
         return sysPermissionMapper.selectByUserId(userId);
     }
 
-    public List<PermissionDto> getUserMenus(int userId) {
+    public List<PermissionDto> getUserMenus(String userId) {
         List<SysPermission> list = sysPermissionMapper.selectUserMenus(userId);
 
         Map<Integer, PermissionDto> map = new LinkedHashMap<Integer, PermissionDto>();
@@ -78,8 +78,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public PermissionDto addMenus(PermissionDto dto) {
         SysPermission sysPermission = DTOUtil.populate(dto, SysPermission.class);
-        sysPermission.setCreater(SecurityUtil.getUserId());
-        sysPermission.setModifier(SecurityUtil.getUserId());
+        sysPermission.setCreater(SecurityUtil.getLoginid());
+        sysPermission.setModifier(SecurityUtil.getLoginid());
         int id = sysPermissionMapper.insertSelective(sysPermission);
         sysPermission = sysPermissionMapper.selectByPrimaryKey(sysPermission.getId());
         return DTOUtil.populate(sysPermission, PermissionDto.class);
@@ -88,7 +88,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public int updateMenus(PermissionDto dto) {
         SysPermission sysPermission = DTOUtil.populate(dto, SysPermission.class);
-        sysPermission.setModifier(SecurityUtil.getUserId());
+        sysPermission.setModifier(SecurityUtil.getLoginid());
         return sysPermissionMapper.updateByPrimaryKeySelective(sysPermission);
     }
 
@@ -98,7 +98,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDto> getUserMenus(int userId, int fieldType) {
+    public List<PermissionDto> getUserMenus(String userId, int fieldType) {
         // 查询数据库
         List<SysPermission> list = sysPermissionMapper.selectUserFieldMenus(userId, fieldType);
 

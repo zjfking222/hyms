@@ -18,24 +18,25 @@ public class SysUsers {
 
     private Short deptid;
 
-    private Integer creater;
+    private String creater;
 
     private Date created;
 
-    private Integer modifier;
+    private String modifier;
 
     private Date modified;
 
     private String oaloginid;
 
     private Integer oauserid;
+    //员工号
+    private String employeenumber;
 
-    public SysUsers(String name, Integer creater, Integer modifier, String oaloginid, Integer oauserid) {
+    public SysUsers(String name, String creater, String modifier, String employeenumber) {
         this.name = name;
         this.creater = creater;
         this.modifier = modifier;
-        this.oaloginid = oaloginid;
-        this.oauserid = oauserid;
+        this.employeenumber = employeenumber;
     }
 
     public SysUsers() {
@@ -114,11 +115,11 @@ public class SysUsers {
     }
 
 
-    public Integer getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(Integer creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -130,11 +131,11 @@ public class SysUsers {
         this.created = created;
     }
 
-    public Integer getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(Integer modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 
@@ -147,4 +148,11 @@ public class SysUsers {
     }
 
 
+    public String getEmployeenumber() {
+        return employeenumber;
+    }
+
+    public void setEmployeenumber(String employeenumber) {
+        this.employeenumber = employeenumber;
+    }
 }

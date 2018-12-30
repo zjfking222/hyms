@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.BORoleAdMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BORoleAd" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="rid" property="rid" jdbcType="INTEGER" />
+        <result column="empnum" property="empnum" jdbcType="VARCHAR" />
+        <result column="empname" property="empname" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, rid, empnum, empname, creater, created, modifier, modified
+    </sql>
+    <select id="selectRoleAd" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List" />
+        from bo_role_ad
+        where rid = #{rid,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertRoleAd"  parameterType="com.hy.model.BORoleAd">
+        insert into bo_role_ad (rid, empnum, empname, creater, modifier)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.rid}, #{item.empnum}, #{item.empname}, #{item.creater}, #{item.modifier})
+        </foreach>
+    </insert>
+    <delete id="deleteRoleAd" parameterType="com.hy.model.BORoleAd">
+        delete from bo_role_ad
+        where id in
+        <foreach collection="array" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteRoleAdAll" parameterType="com.hy.model.BORoleAd">
+        delete from bo_role_ad
+        where rid = #{rid}
+    </delete>
+    <select id="countRoleByEmp" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1)
+        from bo_role_ad
+        where empnum = #{empnum,jdbcType=VARCHAR}
+    </select>
+</mapper>

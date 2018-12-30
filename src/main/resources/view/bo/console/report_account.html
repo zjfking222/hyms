@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BO账号</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+<body style="width: 80%; margin: 10px auto">
+    <div class="form-group">
+        <label for="accountid">账号</label>
+        <input class="form-control input-sm-8" id="accountid" type="text" placeholder="输入账号名称">
+    </div>
+
+    <div class="form-group">
+        <label for="type">类别</label>
+        <input class="form-control input-sm-8" type="text" id="type" placeholder="输入类别">
+    </div>
+
+    <div class="form-group">
+        <label for="password">密码</label>
+        <input class="form-control input-sm-8" type="password" id="password" placeholder="输入密码">
+    </div>
+
+    <div class="form-group">
+        <label for="description">描述</label>
+        <textarea type="text" class="form-control" id="description" placeholder="输入描述信息"></textarea>
+    </div>
+    <a id="btn-submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        //父页面操作对象
+        var index = parent.layer.getFrameIndex(window.name);
+        //编辑页面赋值
+        if(!(parent.pushData.id === -1)){
+            $('#accountid').val(parent.pushData.accountid);
+            $('#type').val(parent.pushData.type);
+            $('#password').val(parent.pushData.password);
+            $('#description').val(parent.pushData.description);
+            $('#accountid').attr("disabled","disabled");
+        }
+        //提交
+        $('#btn-submit').on('click',function () {
+            var data = {};
+            var msg = "";
+
+            var judge = false;
+            if(parent.pushData.id === -1){
+                data.id = "";
+                msg = "添加";
+            }else {
+                data.id = parent.pushData.id;
+                msg = "修改";
+            }
+            data.accountid = $('#accountid').val();
+            data.type = $('#type').val();
+            data.password = $('#password').val();
+            data.description = $('#description').val();
+            if(parent.pushData.id == -1){
+                var check = window.parent.accountSearch("");
+                for(var i = 0; i < check.length; i++){
+                    if(check[i].accountid === data.accountid){
+                        judge = true;
+                        break;
+                    }
+                }
+            }
+            if(!judge){
+                $.ajax({
+                    async: false,
+                    url: '/bo/account/updateAccount',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (result) {
+                        if(result.code === 0){
+                            parent.layer.msg(msg + "成功");
+                            parent.layer.close(index);
+                        }else{
+                            parent.layer.msg(msg + "失败");
+                        }
+                    },
+                    error:function () {
+                        parent.layer.msg(msg + "失败");
+                    }
+                });
+            }else {
+                parent.layer.msg("BO账号已存在，请重新填写BO账号！")
+            }
+        });
+    </script>
+</body>
+</html>

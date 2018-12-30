@@ -16,7 +16,7 @@ public class VerificationCodeUtil {
 
     /**
      * @Author 钱敏杰
-     * @Description 生成随机验证码字符串
+     * @Description 生成随机数字+(大小写)字母的验证码字符串
      * @Date 2018/11/5 8:56
      * @Param [length：验证码长度, exChars：不能出现的字符]
      * @return java.lang.String
@@ -31,6 +31,24 @@ public class VerificationCodeUtil {
                 buf.append((char)t);
                 i++;
             }
+        }
+        return buf.toString();
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 生成随机数字的验证码字符串
+     * @Date 2018/11/21 11:02
+     * @Param [length]
+     * @return java.lang.String
+     **/
+    public static String getRandomNumberCode(int length){
+        StringBuffer buf = new StringBuffer();
+        int i = 0;
+        while(i<length){
+            int t = random.nextInt(10);
+            buf.append(t + "");
+            i++;
         }
         return buf.toString();
     }

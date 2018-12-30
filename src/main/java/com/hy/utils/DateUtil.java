@@ -109,4 +109,44 @@ public class DateUtil {
             return days;
         }
     }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前年月的第一天的日期
+     * @Date 2018/11/10 15:11
+     * @Param [year, month]
+     * @return java.util.Calendar
+     **/
+    public static Calendar getFirstDayOfMonth(int year,int month){
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR,year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最小天数
+        int firstDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH);
+        //设置日历中月份的最小天数
+        cal.set(Calendar.DAY_OF_MONTH, firstDay);
+        return cal;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前年月的最后一天的日期
+     * @Date 2018/11/10 15:11
+     * @Param [year, month]
+     * @return java.util.Calendar
+     **/
+    public static Calendar getLastDayOfMonth(int year,int month){
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR,year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最大天数
+        int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        //设置日历中月份的最大天数
+        cal.set(Calendar.DAY_OF_MONTH, lastDay);
+        return cal;
+    }
 }

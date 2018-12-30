@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BO账号含有的AD域账号</title>
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
+    <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+<body>
+    <div id="grid"></div>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+    <script src="/statics/plugins/vue/vue.min.js"></script>
+    <script src="/statics/plugins/layer/layer.js"></script>
+    <script>
+        var accountid;
+        var vm = new Vue({
+            el: "",
+            data:{
+                dataSource: [],
+                activeItem: {id: 0, title: "", content: ""},
+            },
+            created:function () {
+                accountid = parent.accountid;
+                this.getDataSource();
+                $("#grid").kendoGrid({
+                    selectable:"row",
+                    dataSource: this.dataSource,
+                    editable: {
+                        confirmation: "确定删除？",
+                        mode: "popup",
+                        window: {
+                            title: "新增"
+                        }
+                    },
+                    // filterable: true,
+                    columnMenu: true,
+                    sortable: true,
+                    columns: [
+                        {field: "id", title: "员工号", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
+                        {field: "lastname", title: "姓名", headerAttributes: {"class": "grid-algin-center"}, width: "150px"},
+                        {
+                            command: [{name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}], title: "操作", width: "150px"
+                        },{field: "", title: ""}
+                    ]
+                });
+            },
+            methods:{
+                getDataSource: function () {
+                    this.dataSource = new kendo.data.DataSource({
+                        transport: {
+                            read: function (options) {
+                                $.ajax({
+                                    url: "/bo/account/getADUsers",
+                                    data: {
+                                        'accountid': accountid
+                                    },
+                                    method:'POST',
+                                    success: function (result) {
+                                        if (result.code === 0){
+                                            options.success({data: result.data});
+                                        }
+                                        else
+                                            options.error(result.msg);
+                                    },
+                                    error: function () {
+                                        options.error("数据查询失败");
+                                    }
+                                });
+                            },
+                            destroy: function(options){
+                                $.ajax({
+                                    url: "/bo/account/deleteEmpAccount",
+                                    data: {"accountid":accountid,"empnum":options.data.id},
+                                    method:'POST',
+                                    success: function (result) {
+                                        if (result.code === 0){
+                                            //移除页面数据
+                                            options.success(result);
+                                            layer.msg("删除成功");
+                                        }else{
+                                            options.error(result);
+                                            layer.msg("删除失败，请重新尝试");
+                                        }
+                                    },
+                                    error: function () {
+                                        options.error(result);
+                                        layer.msg("删除失败，请检查网络");
+                                    }
+                                });
+                            }
+                        },
+                        schema: {
+                            data: "data",
+                            model: {
+                                id: "id",
+                                fields: {
+                                    id: {type: "string", nullable: false},
+                                    lastname: {type: "string", nullable: false}
+                                }
+                            }
+                        },
+                        error: function (e) {
+                            this.cancelChanges();
+                            console.log(e);
+                            if (e.errors) {
+                                layer.alert(e.errors.msg, {icon: 2});
+                            }
+                            else if (e.xhr.msg) {
+                                layer.alert(e.xhr.msg, {icon: 2});
+                            }
+                            else {
+                                layer.alert("发生错误，请联系管理员", {icon: 2});
+                            }
+                        },
+                        requestEnd: function (e) {
+                            var response = e.response;
+                            if (response) {
+                                response.type = e.type;
+                            }
+                        },
+                        serverSorting: true
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

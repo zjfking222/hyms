@@ -3,12 +3,12 @@
 <mapper namespace="com.hy.mapper.ms.SysRoleUserMapper" >
   <resultMap id="BaseResultMap" type="com.hy.model.SysRoleUser" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     <result column="rid" property="rid" jdbcType="INTEGER" />
-    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
     <result column="loginid" property="loginid" jdbcType="VARCHAR" />
     <result column="lastname" property="lastname" jdbcType="VARCHAR" />
   </resultMap>
@@ -30,9 +30,9 @@
       modifier, modified, rid, 
       uid, loginid, lastname
       )
-    values (#{id,jdbcType=INTEGER}, #{creater,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, 
-      #{modifier,jdbcType=INTEGER}, #{modified,jdbcType=TIMESTAMP}, #{rid,jdbcType=INTEGER}, 
-      #{uid,jdbcType=INTEGER}, #{loginid,jdbcType=VARCHAR}, #{lastname,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{modifier,jdbcType=VARCHAR}, #{modified,jdbcType=TIMESTAMP}, #{rid,jdbcType=INTEGER},
+      #{uid,jdbcType=VARCHAR}, #{loginid,jdbcType=VARCHAR}, #{lastname,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hy.model.SysRoleUser" >
@@ -71,13 +71,13 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="creater != null" >
-        #{creater,jdbcType=INTEGER},
+        #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        #{modifier,jdbcType=INTEGER},
+        #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         #{modified,jdbcType=TIMESTAMP},
@@ -86,7 +86,7 @@
         #{rid,jdbcType=INTEGER},
       </if>
       <if test="uid != null" >
-        #{uid,jdbcType=INTEGER},
+        #{uid,jdbcType=VARCHAR},
       </if>
       <if test="loginid != null" >
         #{loginid,jdbcType=VARCHAR},
@@ -100,13 +100,13 @@
     update sys_role_user
     <set >
       <if test="creater != null" >
-        creater = #{creater,jdbcType=INTEGER},
+        creater = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="created != null" >
         created = #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="modifier != null" >
-        modifier = #{modifier,jdbcType=INTEGER},
+        modifier = #{modifier,jdbcType=VARCHAR},
       </if>
       <if test="modified != null" >
         modified = #{modified,jdbcType=TIMESTAMP},
@@ -115,7 +115,7 @@
         rid = #{rid,jdbcType=INTEGER},
       </if>
       <if test="uid != null" >
-        uid = #{uid,jdbcType=INTEGER},
+        uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="loginid != null" >
         loginid = #{loginid,jdbcType=VARCHAR},
@@ -128,12 +128,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hy.model.SysRoleUser" >
     update sys_role_user
-    set creater = #{creater,jdbcType=INTEGER},
+    set creater = #{creater,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
-      modifier = #{modifier,jdbcType=INTEGER},
+      modifier = #{modifier,jdbcType=VARCHAR},
       modified = #{modified,jdbcType=TIMESTAMP},
       rid = #{rid,jdbcType=INTEGER},
-      uid = #{uid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=VARCHAR},
       loginid = #{loginid,jdbcType=VARCHAR},
       lastname = #{lastname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

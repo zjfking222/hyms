@@ -18,14 +18,14 @@ public interface PermissionService {
      * @param userId 用户id
      * @return 权限列表
      */
-    List<SysPermission> getByUserId(int userId);
+    List<SysPermission> getByUserId(String userId);
     /**
      * 获取用户的菜单权限列表
      *
      * @param userId 用于ID
      * @return 菜单列表
      */
-    List<PermissionDto> getUserMenus(int userId);
+    List<PermissionDto> getUserMenus(String userId);
 
     /**
      * 获取菜单 用于角色管理
@@ -83,5 +83,5 @@ public interface PermissionService {
      * @Param [userId, fieldType]
      * @return java.util.List<com.hy.dto.PermissionDto>
      **/
-    List<PermissionDto> getUserMenus(int userId, int fieldType);
+    List<PermissionDto> getUserMenus(String userId, int fieldType);
 }

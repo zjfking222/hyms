@@ -26,8 +26,8 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public int addHotel(BiHotelDto biHotelDto) {
         BiHotel hotel = DTOUtil.populate(biHotelDto, BiHotel.class);
-        hotel.setCreater(SecurityUtil.getUserId());//创建人
-        hotel.setModifier(SecurityUtil.getUserId());//最后修改人
+        hotel.setCreater(SecurityUtil.getLoginid());//创建人
+        hotel.setModifier(SecurityUtil.getLoginid());//最后修改人
         biHotelMapper.insertBiHotel(hotel);
         return hotel.getId();
     }
@@ -42,14 +42,14 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public boolean updateHotel(BiHotelDto biHotelDto){
         BiHotel update=DTOUtil.populate(biHotelDto,BiHotel.class);
-        update.setModifier(SecurityUtil.getUserId());
+        update.setModifier(SecurityUtil.getLoginid());
         return biHotelMapper.updateBiHotel(update)==1;
     }
 
     @Override
     public boolean deleteHotel(BiHotelDto biHotelDto){
         BiHotel delete=DTOUtil.populate(biHotelDto,BiHotel.class);
-        delete.setModifier(SecurityUtil.getUserId());
+        delete.setModifier(SecurityUtil.getLoginid());
         return biHotelMapper.deleteBiHotel(delete)==1;
     }
 

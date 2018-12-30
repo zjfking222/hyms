@@ -10,11 +10,13 @@ public class SysUsersDto {
     private String oaloginid;
 
     private Integer oauserid;
+    //员工号
+    private String employeenumber;
 
-    public SysUsersDto(int id, String oaloginid, String name) {
+    public SysUsersDto(int id, String name, String employeenumber) {
         this.id = id;
-        this.oaloginid = oaloginid;
         this.name = name;
+        this.employeenumber = employeenumber;
     }
 
     public SysUsersDto() {
@@ -60,6 +62,14 @@ public class SysUsersDto {
 
     public void setOauserid(Integer oauserid) {
         this.oauserid = oauserid;
+    }
+
+    public String getEmployeenumber() {
+        return employeenumber;
+    }
+
+    public void setEmployeenumber(String employeenumber) {
+        this.employeenumber = employeenumber;
     }
 }
 

@@ -8,9 +8,9 @@ public class QzgzAdmin {
     private String userpass;
     private String token;
     private int auth;
-    private int creater;
+    private String creater;
     private Date created;
-    private int modifier;
+    private String modifier;
     private Date modified;
 
     public int getId() {
@@ -53,11 +53,11 @@ public class QzgzAdmin {
         this.auth = auth;
     }
 
-    public int getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(int creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -69,11 +69,11 @@ public class QzgzAdmin {
         this.created = created;
     }
 
-    public int getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

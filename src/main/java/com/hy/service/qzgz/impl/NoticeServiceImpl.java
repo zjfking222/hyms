@@ -49,9 +49,9 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public QzgzNoticeDto add(QzgzNoticeDto dto) {
         QzgzNotice qzgzNotice = DTOUtil.populate(dto, QzgzNotice.class);
-        qzgzNotice.setCreater(SecurityUtil.getUserId());
+        qzgzNotice.setCreater(SecurityUtil.getLoginid());
         qzgzNotice.setCreatername(SecurityUtil.getUserName());
-        qzgzNotice.setModifier(SecurityUtil.getUserId());
+        qzgzNotice.setModifier(SecurityUtil.getLoginid());
         qzgzNotice.setModifiername(SecurityUtil.getUserName());
         int id = qzgzNoticeMapper.insertSelective(qzgzNotice);
         return this.getNotice(qzgzNotice.getId());
@@ -60,7 +60,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public int update(QzgzNoticeDto dto) {
         QzgzNotice qzgzNotice = DTOUtil.populate(dto, QzgzNotice.class);
-        qzgzNotice.setModifier(SecurityUtil.getUserId());
+        qzgzNotice.setModifier(SecurityUtil.getLoginid());
         qzgzNotice.setModifiername(SecurityUtil.getUserName());
         return qzgzNoticeMapper.updateByPrimaryKeySelective(qzgzNotice);
     }

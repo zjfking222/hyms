@@ -1,3 +1,5 @@
+//app主页面标记
+var parentFlag = "hyms";
 //初始化vue对象
 var vm = new Vue({
     el:"#appmenulist",
@@ -54,7 +56,6 @@ function getMenuList() {
             console.log(type);
         }
     });
-    //genggai
     return result;
 }
 
@@ -70,6 +71,12 @@ function loadIframe(url, param){
 function updateTitle(title){
     //新页面标题
     $("#appmaintitle").text(title);
+}
+
+//提供子页面调用退出登录
+function app_logout() {
+    localStorage.clear();
+    window.location.href = '/index/logout';
 }
 
 //竖屏处理

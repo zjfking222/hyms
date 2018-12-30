@@ -3,6 +3,7 @@ package com.hy.service.ad;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hy.config.jco.JcoDestinationDataProvider;
+import com.hy.config.jco.JcoUtil;
 import com.hy.dto.AdStaffDto;
 import com.hy.mapper.ms.AdStaffMapper;
 import com.hy.model.AdStaff;
@@ -22,26 +23,26 @@ public class AdStaffServiceImpl implements AdStaffService {
     @Autowired
     private AdStaffMapper adStaffMapper;
 
-    private void getProvider(){
-        // 获取单例
-        JcoDestinationDataProvider myProvider = JcoDestinationDataProvider.getInstance();
-        Environment.registerDestinationDataProvider(myProvider);
-        Properties connectProperties = new Properties();
-        connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, "192.168.100.152");
-        connectProperties.setProperty(DestinationDataProvider.JCO_SYSNR, "00");
-        connectProperties.setProperty(DestinationDataProvider.JCO_CLIENT, "800");
-        connectProperties.setProperty(DestinationDataProvider.JCO_USER, "BG_OA");
-        connectProperties.setProperty(DestinationDataProvider.JCO_PASSWD, "Huay20180401");
-        connectProperties.setProperty(DestinationDataProvider.JCO_LANG, "zh");
-        String destinationName = "ABAP_AS";
-        myProvider.addDestination(destinationName, connectProperties);
-    }
+//    private void getProvider(){
+//        // 获取单例
+//        JcoDestinationDataProvider myProvider = JcoDestinationDataProvider.getInstance();
+//        Environment.registerDestinationDataProvider(myProvider);
+//        Properties connectProperties = new Properties();
+//        connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, "192.168.100.152");
+//        connectProperties.setProperty(DestinationDataProvider.JCO_SYSNR, "00");
+//        connectProperties.setProperty(DestinationDataProvider.JCO_CLIENT, "800");
+//        connectProperties.setProperty(DestinationDataProvider.JCO_USER, "BG_OA");
+//        connectProperties.setProperty(DestinationDataProvider.JCO_PASSWD, "Huay20180401");
+//        connectProperties.setProperty(DestinationDataProvider.JCO_LANG, "zh");
+//        String destinationName = "ABAP_AS";
+//        myProvider.addDestination(destinationName, connectProperties);
+//    }
     //sap端获取人员和部门
     @Override
     public List<AdStaff> getSapStaff(){
-        getProvider();
         try {
-            JCoDestination destination = JCoDestinationManager.getDestination("ABAP_AS");
+//            JCoDestination destination = JCoDestinationManager.getDestination("ABAP_AS");
+            JCoDestination destination = JcoUtil.getInstance("ABAP_AS");
             List<AdStaff> staffList = new ArrayList<>();
             JCoFunction function = destination.getRepository().getFunction("ZHR_AD002_PERSON_INFO");//从对象仓库中获取 RFM 函数：获取公司列表
             if (function == null)
@@ -85,8 +86,8 @@ public class AdStaffServiceImpl implements AdStaffService {
                 adStaff.get(i).setDate(date);
                 adStaff.get(i).setTime(time);
                 adStaff.get(i).setState(state);
-                adStaff.get(i).setCreater(-1);
-                adStaff.get(i).setModifier(-1);
+                adStaff.get(i).setCreater("-1");
+                adStaff.get(i).setModifier("-1");
             });
             return adStaffMapper.insertStaff(adStaff) == adStaff.size();
         } catch (Exception e) {

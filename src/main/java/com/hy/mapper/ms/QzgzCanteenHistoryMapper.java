@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface QzgzCanteenHistoryMapper {
-    int insertCanteenHistory (@Param("canteen") QzgzCanteenHistory qzgzCanteenHistory, @Param("plusDay")int plusDay);
-    List<QzgzCanteenHistory> selectCanteenHistory(@Param("plusDay")int plusDay);
-    int deleteCanteenHistory(@Param("canteen_id") int canteen_id, @Param("meal") int meal,@Param("plusDay")int plusDay);
-    List<QzgzCanteenView> selectViewOfHistory();
-    List<QzgzCanteenHistoryListItem> selectCanteenHistoryByDay(@Param("plusDay")int plusDay);
+//    int insertCanteenHistory (@Param("canteen") QzgzCanteenHistory qzgzCanteenHistory, @Param("plusDay")int plusDay);
+//    List<QzgzCanteenHistory> selectCanteenHistory(@Param("plusDay")int plusDay);
+//    int deleteCanteenHistory(@Param("canteen_id") int canteen_id, @Param("meal") int meal,@Param("plusDay")int plusDay);
+//    List<QzgzCanteenView> selectViewOfHistory();
+//    List<QzgzCanteenHistoryListItem> selectCanteenHistoryByDay(@Param("plusDay")int plusDay);
 }

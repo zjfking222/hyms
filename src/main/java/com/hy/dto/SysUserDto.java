@@ -2,11 +2,11 @@ package com.hy.dto;
 
 public class SysUserDto {
 
-    private int id;
+    private String id;
     private String loginid;
     private String lastname;
 
-    public SysUserDto(int id, String loginid, String lastname) {
+    public SysUserDto(String id, String loginid, String lastname) {
         this.id = id;
         this.loginid = loginid;
         this.lastname = lastname;
@@ -15,11 +15,11 @@ public class SysUserDto {
     public SysUserDto() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

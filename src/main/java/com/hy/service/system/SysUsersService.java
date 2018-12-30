@@ -1,5 +1,6 @@
 package com.hy.service.system;
 
+import com.hy.dto.SysUserDto;
 import com.hy.dto.SysUsersDto;
 import com.hy.dto.SysUsersNewDto;
 import com.hy.model.HrmResource;
@@ -24,5 +25,30 @@ public interface SysUsersService {
      * @return List
      */
     List<HrmResource> getUsersBySearch(String value);
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号获取用户信息
+     * @Date 2018/11/14 14:13
+     * @Param [employeenumber]
+     * @return java.util.List<com.hy.dto.SysUsersDto>
+     **/
+    SysUsersDto getUsersByEmpnum(String employeenumber);
 
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号或员工姓名查询条件查询员工信息
+     * @Date 2018/11/16 8:32
+     * @Param [value]
+     * @return java.util.List<com.hy.dto.SysUserDto>
+     **/
+    List<SysUserDto> searchUsers(String value);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据条件查询单个用户
+     * @Date 2018/12/19 18:20
+     * @Param [value]
+     * @return com.hy.dto.SysUserDto
+     **/
+    SysUserDto searchUser(String value);
 }

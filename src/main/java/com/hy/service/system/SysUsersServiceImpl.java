@@ -2,12 +2,21 @@ package com.hy.service.system;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
+import com.hy.config.ldap.LdapUtil;
+import com.hy.dto.SysUserDto;
 import com.hy.dto.SysUsersDto;
 import com.hy.dto.SysUsersNewDto;
 import com.hy.mapper.ms.SysUsersMapper;
 import com.hy.model.HrmResource;
 import com.hy.model.SysUsers;
 import com.hy.utils.DTOUtil;
+import com.unboundid.ldap.sdk.Filter;
+import com.unboundid.ldap.sdk.LDAPException;
+import com.unboundid.ldap.sdk.SearchResult;
+import com.unboundid.ldap.sdk.SearchResultEntry;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +28,8 @@ import java.util.stream.IntStream;
 
 @Service
 public class SysUsersServiceImpl implements SysUsersService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SysUsersServiceImpl.class);
     @Autowired
     private SysUsersMapper sysUsersMapper;
 
@@ -32,8 +43,7 @@ public class SysUsersServiceImpl implements SysUsersService {
     public boolean addUsers(SysUsersNewDto sysUsersNewDto){
         try {
             for (SysUsersDto hr: sysUsersNewDto.getnHrmResources()){
-                sysUsersMapper.insertSelective(new SysUsers(hr.getName(), SecurityUtil.getUserId(), SecurityUtil.getUserId(),
-                       hr.getOaloginid(),hr.getId()));
+                sysUsersMapper.insertSelective(new SysUsers(hr.getName(), SecurityUtil.getUserInfo().getLoginid(), SecurityUtil.getUserInfo().getLoginid(),hr.getId().toString()));
             }
             return true;
         }catch (Exception e){
@@ -91,11 +101,86 @@ public class SysUsersServiceImpl implements SysUsersService {
         List<HrmResource> hrm = new LinkedList<>();
         IntStream.range(0, users.size()).forEach(i -> {
             HrmResource hr = new HrmResource();
-            hr.setLoginid(users.get(i).getOaloginid());
+            hr.setLoginid(users.get(i).getEmployeenumber());
             hr.setLastname(users.get(i).getName());
-            hr.setId(users.get(i).getOauserid());
+            hr.setId(users.get(i).getEmployeenumber());
             hrm.add(hr);
         });
         return hrm;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号获取用户信息
+     * @Date 2018/11/14 14:13
+     * @Param [employeenumber]
+     * @return java.util.List<com.hy.dto.SysUsersDto>
+     **/
+    @Override
+    public SysUsersDto getUsersByEmpnum(String employeenumber){
+        SysUsers sysUsers = sysUsersMapper.selectByEmpnum(employeenumber);
+        SysUsersDto dto = new SysUsersDto(sysUsers.getId(),sysUsers.getName(),sysUsers.getEmployeenumber());
+        return dto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据员工号或员工姓名查询条件查询员工信息
+     * @Date 2018/11/16 8:32
+     * @Param [value]
+     * @return java.util.List<com.hy.dto.SysUserDto>
+     **/
+    @Override
+    public List<SysUserDto> searchUsers(String value){
+        List<SysUserDto> resultList = null;
+        try {
+            if(StringUtils.isNotEmpty(value)){
+                //模糊查询员工号与姓名字段
+                Filter filter = Filter.create("(|(sAMAccountName="+ value +")(sn="+ value +"))");
+                SearchResult searchResult = LdapUtil.searchResult(null, null, filter);
+                if (null != searchResult && searchResult.getEntryCount() > 0) {
+                    resultList = new ArrayList<>();
+                    SysUserDto dto = null;
+                    for (SearchResultEntry entry : searchResult.getSearchEntries()) {
+                        dto = new SysUserDto();
+                        dto.setId(entry.getAttributeValue("sAMAccountName"));
+                        dto.setLoginid(entry.getAttributeValue("sAMAccountName"));
+                        dto.setLastname(entry.getAttributeValue("sn"));
+                        resultList.add(dto);
+                    }
+                }
+            }
+        } catch (LDAPException e) {
+            logger.error("从ad域查询员工信息异常！", e);
+        }
+        return resultList;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据条件查询单个用户
+     * @Date 2018/12/19 18:20
+     * @Param [value]
+     * @return com.hy.dto.SysUserDto
+     **/
+    @Override
+    public SysUserDto searchUser(String value){
+        SearchResult searchResult;
+        SysUserDto resultDto = null;
+        try {
+            //模糊查询员工号与姓名字段
+            Filter filter = Filter.create("(|(sAMAccountName="+ value +")(sn="+ value +"))");
+            searchResult = LdapUtil.searchResult(null, null, filter);
+            if (null != searchResult && searchResult.getEntryCount() > 0) {
+                SearchResultEntry entry = searchResult.getSearchEntries().get(0);
+                resultDto = new SysUserDto();
+                resultDto.setId(entry.getAttributeValue("sAMAccountName"));
+                resultDto.setLoginid(entry.getAttributeValue("sAMAccountName"));
+                resultDto.setLastname(entry.getAttributeValue("sn"));
+            }
+        } catch (LDAPException e) {
+            logger.error("从ad域查询员工信息异常！", e);
+        }
+        return resultDto;
     }
 }

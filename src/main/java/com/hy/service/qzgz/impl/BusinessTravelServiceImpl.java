@@ -27,8 +27,8 @@ public class BusinessTravelServiceImpl implements BusinessTravelService{
         QzgzBusinessTravel businessTravel = new QzgzBusinessTravel();
         businessTravel.setTitle(title);
         businessTravel.setImg(img);
-        businessTravel.setCreater(SecurityUtil.getUserId());
-        businessTravel.setModifier(SecurityUtil.getUserId());
+        businessTravel.setCreater(SecurityUtil.getLoginid());
+        businessTravel.setModifier(SecurityUtil.getLoginid());
         return businessTravelMapper.insertBusinessTravel(businessTravel) == 1;
     }
 
@@ -43,7 +43,7 @@ public class BusinessTravelServiceImpl implements BusinessTravelService{
         businessTravel.setTitle(businessTravelDto.getTitle());
         businessTravel.setImg(businessTravelDto.getImg());
         businessTravel.setId(businessTravelDto.getId());
-        businessTravel.setModifier(SecurityUtil.getUserId());
+        businessTravel.setModifier(SecurityUtil.getLoginid());
         return businessTravelMapper.updateBusinessTravel(businessTravel) == 1;
     }
 }

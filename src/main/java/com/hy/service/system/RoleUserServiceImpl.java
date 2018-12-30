@@ -32,19 +32,27 @@ public class RoleUserServiceImpl implements RoleUserService{
 
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setModifier(SecurityUtil.getUserId());
+            sysRoles.setModifier(SecurityUtil.getLoginid());
             sysRoles.setName(sysRolesUserDto.getName());
             sysRoles.setEnable(true);
             sysRoles.setId(sysRolesUserDto.getRid());
             sysRolesMapper.updateByPrimaryKey(sysRoles);
 
             for (SysRolesUserDelDto delhr : sysRolesUserDto.getrHrmResources()){
-                sysRoleUserMapper.deleteByRidnUid(DTOUtil.populate(delhr,SysRoleUser.class));
+                SysRoleUser user = DTOUtil.populate(delhr,SysRoleUser.class);
+                user.setRid(Integer.valueOf(delhr.getRid()));
+                int i = sysRoleUserMapper.deleteByRidnUid(user);
+                if(i<= 0){
+                    throw new RuntimeException("人员角色权限删除失败！");
+                }
             }
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId(), SecurityUtil.getUserId(),sysRolesUserDto.getRid(),
-                        hr.getId(),hr.getLoginid(),hr.getLastname()));
+                int i = sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRolesUserDto.getRid(),
+                        hr.getId().toString(),hr.getLoginid(),hr.getLastname()));
+                if(i<= 0){
+                    throw new RuntimeException("人员角色权限添加失败！");
+                }
             }
             return true;
 
@@ -59,16 +67,16 @@ public class RoleUserServiceImpl implements RoleUserService{
     public boolean addRoleUser(SysRolesUserDto sysRolesUserDto) {
         try{
             SysRoles sysRoles = new SysRoles();
-            sysRoles.setCreater(SecurityUtil.getUserId());
-            sysRoles.setModifier(SecurityUtil.getUserId());
+            sysRoles.setCreater(SecurityUtil.getLoginid());
+            sysRoles.setModifier(SecurityUtil.getLoginid());
             sysRoles.setEnable(true);
             sysRoles.setName(sysRolesUserDto.getName());
             sysRolesMapper.insertSelective(sysRoles);
             System.out.println(sysRoles.getId());
 
             for (HrmResourceDto hr: sysRolesUserDto.getnHrmResources()){
-                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getUserId(), SecurityUtil.getUserId(),sysRoles.getId(),
-                        hr.getId(),hr.getLoginid(),hr.getLastname()));
+                sysRoleUserMapper.insertSelective(new SysRoleUser(SecurityUtil.getLoginid(), SecurityUtil.getLoginid(),sysRoles.getId(),
+                        hr.getId().toString(),hr.getLoginid(),hr.getLastname()));
             }
             return true;
         }catch (Exception e){

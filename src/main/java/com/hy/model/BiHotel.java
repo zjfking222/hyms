@@ -13,9 +13,9 @@ public class BiHotel {
     private String email;
     private int star;
     private String remark;
-    private int creater;
+    private String creater;
     private Date created;
-    private int modifier;
+    private String modifier;
     private Date modified;
 
     public int getId() { return id; }
@@ -86,11 +86,11 @@ public class BiHotel {
         this.remark = remark;
     }
 
-    public int getCreater() {
+    public String getCreater() {
         return creater;
     }
 
-    public void setCreater(int creater) {
+    public void setCreater(String creater) {
         this.creater = creater;
     }
 
@@ -102,11 +102,11 @@ public class BiHotel {
         this.created = created;
     }
 
-    public int getModifier() {
+    public String getModifier() {
         return modifier;
     }
 
-    public void setModifier(int modifier) {
+    public void setModifier(String modifier) {
         this.modifier = modifier;
     }
 

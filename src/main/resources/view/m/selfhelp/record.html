@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="/statics/css/m/calendar.css"/>
 	</head>
 	<body style="background-color: #fff;">
-		<div class="mui-content" style="background-color: #fff;">
+		<div id="recordData">
 			<div class="mui-col-sm-12 mui-col-xs-12" id="calendar-show">
 			</div>
 			<div class="mui-col-sm-12 mui-col-xs-12" id="calendar-detail">
@@ -16,21 +16,17 @@
 					<div class="mui-table-view-cell mui-title">
 						<span id="calendar-detail-title"></span>
 					</div>
-					<div class="mui-table-view-cell mui-collapse">
-						位置：XX
-					</div>
-					<div class="mui-table-view-cell mui-collapse">
-						最早刷卡时间：8:00
-					</div>
-					<div class="mui-table-view-cell mui-collapse">
-						最晚刷卡时间：17:00
-					</div>
+					<div class="mui-table-view-cell mui-collapse earliest-time"></div>
+					<div class="mui-table-view-cell mui-collapse earliest-position"></div>
+					<div class="mui-table-view-cell mui-collapse latest-time"></div>
+					<div class="mui-table-view-cell mui-collapse latest-position"></div>
 				</div>
 			</div>
 		</div>
 
 		<script src="/statics/plugins/jquery/jquery.min.js"></script>
 		<script src="/statics/plugins/mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/statics/plugins/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/js/m/calendar.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/statics/js/m/selfhelp/record.js" type="text/javascript" charset="utf-8"></script>
 	</body>

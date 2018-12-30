@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>报表管理</title>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
+</head>
+<body>
+    <div id="treeview" style="padding-left: 20px;">
+    </div>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.culture.zh-CN.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+    <script>
+        var ListData;
+        var oldReport = [];
+        function dataSourceList(empnum) {
+            return FetchData({empnum: empnum},'POST','/bo/account/getReportByEmp',false).data;
+        }
+        $(function () {
+            //获取最终的已选中子节点到checkedNodes中
+            function checkedNodeIds(nodes, checkedNodes) {
+                for (var i = 0; i < nodes.length; i++) {
+                    if (nodes[i].hasChildren) {
+                        checkedNodeIds(nodes[i].children.view(), checkedNodes);
+                    }else{
+                        if (nodes[i].checked) {
+                            checkedNodes.push(nodes[i].reportid);
+                        }
+                    }
+                }
+            }
+            //选中或取消选中事件
+            function onCheck() {
+                var treeView = $("#treeview").data("kendoTreeView");
+                var checkedNodes = [];
+                checkedNodeIds(treeView.dataSource.view(), checkedNodes);
+                //需要删除的
+                var del = [];
+                if(oldReport && oldReport.length >0){
+                    for(var i = 0 ; i < oldReport.length ; i++){
+                        if($.inArray(oldReport[i], checkedNodes) == -1){
+                            del.push(oldReport[i]);
+                        }
+                    }
+                }
+                //需要增加的
+                var add = [];
+                if(checkedNodes && checkedNodes.length >0){
+                    for(var i = 0 ; i < checkedNodes.length ; i++){
+                        if($.inArray(checkedNodes[i], oldReport) == -1){
+                            add.push(checkedNodes[i]);
+                        }
+                    }
+                }
+                //请求参数
+                var postData = {
+                    empnum:parent.pushEmp.empnum,
+                    addReports:add,
+                    delReports:del
+                };
+                //提交
+                if(FetchData(JSON.stringify(postData),'POST','/bo/account/updateAllByEmp',false,true).code !== 0){
+                    parent.layer.msg('授权失败，请重新尝试！',{time:1000,
+                        end:function () {
+                            parent.$('#treeview').attr('src','report_allEmpInfoTree.html');
+                        }});
+                }
+                //替换操作后的选中报表
+                oldReport = checkedNodes;
+            }
+            //获取菜单并生成数据对象
+            ListData =  new kendo.data.HierarchicalDataSource({
+                data: dataSourceList(parent.pushEmp.empnum)
+            });
+            //初始化菜单树
+            $("#treeview").kendoTreeView({
+                checkboxes: {
+                    checkChildren: true
+                },
+                dataSource: ListData,
+                dataTextField: "name",//以name字段作为显示
+                check: onCheck
+            });
+            //添加当前已选中的报表id到oldReport中
+            var treeView = $("#treeview").data("kendoTreeView");
+            var nodes = treeView.dataSource.view();
+            checkedNodeIds(nodes, oldReport);
+        });
+        var FetchData = function (data, method, param, async,contentType) {
+            var response =
+                $.ajax({
+                    async: async,
+                    url: param,
+                    type: method,
+                    dataType: 'json',
+                    data: data,
+                    contentType:contentType? "application/json;charset=utf-8":
+                        "application/x-www-form-urlencoded;charset=UTF-8",
+                    success: function (dataSource) {
+                        return dataSource;
+                    }});
+            return response.responseJSON;
+        };
+    </script>
+</body>
+</html>

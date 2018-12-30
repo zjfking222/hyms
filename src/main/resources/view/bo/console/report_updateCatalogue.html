@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>添加或修改目录</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80% ;margin: 10px auto">
+    <div class="form-group">
+        <label for="name">名称</label>
+        <input type="text" class="form-control" id="name" placeholder="输入目录名称">
+    </div>
+    <div class="form-group">
+        <label for="name">父节点</label>
+        <select id="pidSelect" class="form-control" disabled="disabled">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="description">描述</label>
+        <textarea class="form-control" id="description" placeholder="输入描述内容"></textarea>
+    </div>
+    <button id="btn-submit" class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</button>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        //父页面操作对象
+        var index = parent.layer.getFrameIndex(window.name);
+        //添加select项
+        if(!(parent.currentCata.node.pid === -1)){
+            $("#pidSelect").append("<option value="+ parent.currentCata.node.pid +">"+parent.currentCata.node.pidName+"</option>");
+            $("#pidSelect").val(parent.currentCata.node.pid);
+        }
+        //编辑页面赋值
+        if(!(parent.currentCata.node.id === -1)){
+            $('#name').val(parent.currentCata.node.name);
+            $('#pidSelect').val(parent.currentCata.node.pid);
+            $('#description').val(parent.currentCata.node.description);
+        }
+        //提交
+        $('#btn-submit').on('click',function () {
+            var data = {};
+            var msg = "";
+            if(parent.currentCata.node.id === -1){
+                data.id = "";
+                msg = "添加";
+            }else {
+                data.id = parent.currentCata.node.id;
+                msg = "修改";
+            }
+            data.name = $('#name').val();
+            data.pid = $('#pidSelect').val();
+            data.description = $('#description').val();
+            $.ajax({
+                async: false,
+                url: '/bo/account/updateCatalogue',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (result) {
+                    if(result.code === 0){
+                        parent.layer.msg(msg + "成功");
+                        //更改当前页面显示的目录
+                        if(parent.currentCata.node.id === -1){
+                            window.parent.addKendoNode(result.data, $('#name').val(), $('#description').val());
+                        }else{
+                            window.parent.editKendoNode($('#name').val(), $('#description').val());
+                        }
+                        parent.layer.close(index);
+                    }else{
+                        parent.layer.msg(msg + "失败");
+                    }
+                },
+                error:function () {
+                    parent.layer.msg(msg + "失败");
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
