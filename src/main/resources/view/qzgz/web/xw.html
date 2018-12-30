@@ -119,13 +119,19 @@
         }
         var type = dataType();
         var newsType = dataNewsType();
+        var name;
+        if(newsType.length > 0){
+            name = newsType[0].name
+        }else {
+            name = null
+        }
         var vm = new Vue({
             el: '#app',
             data: {
                 banner: all,
                 indicator: indicator,
                 type: type,
-                news: dataNews(newsType[0].name, pageSize * firstPage),
+                news: dataNews(name, pageSize * firstPage),
                 newsType: newsType
             },
             methods: {
@@ -142,9 +148,16 @@
             }
         });
         var gallery = mui('.mui-slider');
-        gallery.slider({
-            interval: 3000//自动轮播周期，若为0则不自动播放，默认为0；
-        });
+        if(indicator.length > 1){
+            gallery.slider({
+                interval: 3000//自动轮播周期，若为0则不自动播放，默认为0；
+            });
+        }else {
+            gallery.slider({
+                interval: 0//自动轮播周期，若为0则不自动播放，默认为0；
+            });
+        }
+
         //mui-slider 监听事件
         document.querySelector('.mui-slider').addEventListener('slide', function (event) {
             for (var x = 0; x < change.length; x++) {
