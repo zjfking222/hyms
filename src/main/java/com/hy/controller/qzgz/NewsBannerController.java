@@ -85,4 +85,10 @@ public class NewsBannerController {
                 ResultObj.success() :
                 ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
     }
+
+    @PostMapping("/web/getNewsBanner")
+    //web查询banner图
+    public ResultObj getNewsBannerWeb(){
+        return ResultObj.success(bannerService.getNewsBanner());
+    }
 }

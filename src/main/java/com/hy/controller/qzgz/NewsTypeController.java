@@ -46,4 +46,10 @@ public class NewsTypeController {
                 ResultObj.success() :
                 ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
     }
+
+    @PostMapping("/web/getNewsTypeWeb")
+    //查询新闻类型
+    public ResultObj getNewsTypeWeb(){
+        return ResultObj.success(sysDictService.getNewsType());
+    }
 }

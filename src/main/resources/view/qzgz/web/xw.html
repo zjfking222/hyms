@@ -84,7 +84,7 @@
     var firstPage = 1, page = 1, pageSize = 8;
     $(function () {
         function dataBanner() {
-            return FetchData(null, 'POST', '/qzgz/admin/getNewsBanner', false).data;
+            return FetchData(null, 'POST', '/qzgz/web/getNewsBanner', false).data;
         }
 
         function dataType() {
@@ -100,7 +100,7 @@
         }
 
         function dataNewsType() {
-            return FetchData(null, 'POST', '/qzgz/admin/getNewsType', false).data;
+            return FetchData(null, 'POST', '/qzgz/web/getNewsTypeWeb', false).data;
         }
 
         var all = dataBanner();
