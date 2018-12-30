@@ -138,6 +138,9 @@
                 icon: "edit"
             });
             var data = FetchData('','POST','/bo/account/getAllCatalogue',false).data;
+            if(!data){//防止空数据时目录树初始化失败
+                data = []
+            }
             //初始化菜单树
             var treeview = $("#treeview").kendoTreeView({
                 template:kendo.template($("#treeview-template").html()),
