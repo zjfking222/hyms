@@ -1,12 +1,15 @@
 package com.hy.service.system;
 
+import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
 import com.hy.dto.SysDictDto;
 import com.hy.mapper.ms.SysDictMapper;
 import com.hy.model.SysDict;
 import com.hy.utils.DTOUtil;
+import com.microsoft.sqlserver.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,27 +26,145 @@ public class SysDictServiceImpl implements SysDictService{
     @Override
     //查询衢州新闻类型（未删除）
     public List<SysDictDto> getNewsType(){
-        int pid = sysDictMapper.selectQzgzNewsTypeId().getId();
-        List<SysDict> sysDict = sysDictMapper.selectQzgzNewsType(pid);
+        List<SysDict> sysDict = sysDictMapper.selectChildByCode("qzgz_news_type");
         return DTOUtil.populateList(sysDict, SysDictDto.class);
     }
     //新增衢州新闻类型
     public boolean addNewsType(SysDictDto sysDictDto){
         SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
-        int pid = sysDictMapper.selectQzgzNewsTypeId().getId();
-        sysDict.setPid(pid);
+        SysDict pdict = sysDictMapper.selectByCode("qzgz_news_type");
+        sysDict.setPid(pdict.getId());
         sysDict.setCreater(SecurityUtil.getLoginid());
         sysDict.setModifier(SecurityUtil.getLoginid());
-        return sysDictMapper.insertQzgzNewsType(sysDict) == 1;
+        return sysDictMapper.insert(sysDict) == 1;
     }
     //修改衢州新闻类型
     public boolean setNewsType(SysDictDto sysDictDto){
         SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
         sysDict.setModifier(SecurityUtil.getLoginid());
-        return sysDictMapper.updateQzgzNewsType(sysDict) == 1;
+        return sysDictMapper.updateByPrimaryKeySelective(sysDict) == 1;
     }
     //删除衢州新闻类型
     public boolean delNewsType(int id){
-        return sysDictMapper.deleteQzgzNewsType(id) == 1;
+        return sysDictMapper.deleteByPrimaryKey(id) == 1;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据条件分页查询数据字典
+     * @Date 2018/12/30 10:19
+     * @Param [pageNum, pageSize, sort, dir, value]
+     * @return java.util.List<com.hy.dto.SysDictDto>
+     **/
+    @Override
+    public List<SysDictDto> getDictsPage(Integer pageNum, Integer pageSize, String sort, String dir, String value){
+        PageHelper.startPage(pageNum, pageSize);
+        List<SysDict> dicts = sysDictMapper.selectDictsPage(sort, dir, value);
+        List<SysDictDto> dictDtos = DTOUtil.populateList(dicts, SysDictDto.class);
+        return dictDtos;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据条件统计全部数据量
+     * @Date 2018/12/30 10:21
+     * @Param [value]
+     * @return java.lang.Integer
+     **/
+    public Integer getDictCount(String value){
+        Integer count = sysDictMapper.countDicts(value);
+        return count;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 在父节点下根据查询条件查询子节点
+     * @Date 2018/12/29 14:06
+     * @Param [pid, value]
+     * @return java.util.List<com.hy.model.SysDict>
+     **/
+    @Override
+    public List<SysDictDto> getDictChildren(Integer pid, String value){
+        List<SysDict> dicts = sysDictMapper.selectChildren(pid, value);
+        List<SysDictDto> dictDtos = DTOUtil.populateList(dicts, SysDictDto.class);
+        return dictDtos;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 检查当前编码是否重复，若重复则返回true
+     * @Date 2018/12/30 14:49
+     * @Param [code, id]
+     * @return boolean
+     **/
+    @Override
+    public boolean checkCode(String code, Integer id){
+        if(StringUtils.isEmpty(code)){//不存在code值，则不会重复
+            return false;
+        }
+        //检查当前数据的code是否已存在，已存在则不能保存（更新时排除当前id的code不变的情况）
+        int i = sysDictMapper.countrepeat(code, id);
+        if(i >0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 添加或更新数据字典节点数据
+     * @Date 2018/12/29 15:35
+     * @Param [sysDictDto]
+     * @return void
+     **/
+    @Override
+    @Transactional
+    public void updateSysDict(SysDictDto sysDictDto){
+        SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
+        sysDict.setModifier(SecurityUtil.getLoginid());
+        int i;
+        if(sysDict.getId() == null){//添加
+            sysDict.setCreater(SecurityUtil.getLoginid());
+            i = sysDictMapper.insert(sysDict);
+        }else{//更新
+            i = sysDictMapper.updateByPrimaryKey(sysDict);
+        }
+        if(i <= 0){
+            throw new RuntimeException("添加或更新数据字典失败");
+        }
+        //更新子节点中的父节点名称
+        i = sysDictMapper.updatePidname(sysDictDto.getName(), sysDictDto.getId());
+        if(i <0){
+            throw new RuntimeException("更新数据字典子节点失败");
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 删除数据字典数据
+     * @Date 2018/12/29 16:21
+     * @Param [id]
+     * @return void
+     **/
+    @Override
+    public void deleteSysDict(Integer id){
+        int i = sysDictMapper.deleteByPrimaryKey(id);
+        if(i <= 0){
+            throw new RuntimeException("删除数据字典失败");
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据编码查询当前节点的全部子节点
+     * @Date 2018/12/30 16:35
+     * @Param [code]
+     * @return java.util.List<com.hy.dto.SysDictDto>
+     **/
+    @Override
+    public List<SysDictDto> selectByCode(String code){
+        List<SysDict> list = sysDictMapper.selectChildByCode(code);
+        return DTOUtil.populateList(list, SysDictDto.class);
     }
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>低权限添加或修改数据字典</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80% ;margin: 10px auto">
+    <div class="form-group">
+        <label for="name">名称</label>
+        <input type="text" class="form-control" id="name" placeholder="请输入名称"/>
+        <input type="hidden" id="code"/>
+    </div>
+    <div class="form-group">
+        <label for="pidSelect">父节点</label>
+        <select id="pidSelect" class="form-control" disabled="disabled">
+            <option value=""></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="description">描述</label>
+        <textarea class="form-control" id="description" placeholder="请输入描述内容"></textarea>
+    </div>
+    <button id="btn-submit" class="btn btn-success" style="width:100%">提&nbsp;&nbsp;&nbsp;交</button>
+
+<script src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    //父页面操作对象
+    var index = parent.layer.getFrameIndex(window.name);
+    //添加select项
+    if(!(parent.pushData.pid === -1)){
+        if(!parent.pushData.pidname){
+            parent.pushData.pidname = "";
+        }
+        $("#pidSelect").append("<option value="+ parent.pushData.pid +">"+parent.pushData.pidname+"</option>");
+        $("#pidSelect").val(parent.pushData.pid);
+    }
+    //编辑页面赋值
+    if(!(parent.pushData.id === -1)){
+        $('#name').val(parent.pushData.name);
+        $('#code').val(parent.pushData.code);
+        $('#description').val(parent.pushData.description);
+    }
+    //提交
+    $('#btn-submit').on('click',function () {
+        var data = {};
+        var msg = "";
+        if(parent.pushData.id === -1){
+            data.id = "";
+            msg = "添加";
+        }else {
+            data.id = parent.pushData.id;
+            msg = "修改";
+        }
+        data.name = $('#name').val();
+        data.code = $('#code').val();
+        data.pid = $('#pidSelect').val();
+        data.description = $('#description').val();
+        data.pidname = $("#pidSelect").text();
+        $.ajax({
+            async: false,
+            url: '/sysdict/updateSysDict',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (result) {
+                if(result.code === 0){
+                    parent.layer.msg(msg + "成功");
+                    parent.layer.close(index);
+                }else{
+                    parent.layer.msg(result.msg);
+                }
+            },
+            error:function () {
+                parent.layer.msg(msg + "失败");
+            }
+        });
+    });
+</script>
+</body>
+</html>
