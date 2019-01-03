@@ -57,12 +57,21 @@ public interface SysDictService {
 
     /**
      * @Author 钱敏杰
-     * @Description 添加或更新数据字典节点数据
+     * @Description 更新数据字典节点数据
      * @Date 2018/12/29 15:35
      * @Param [sysDictDto]
      * @return void
      **/
     void updateSysDict(SysDictDto sysDictDto);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 添加数据字典节点数据
+     * @Date 2019/1/3 14:12
+     * @Param [sysDictDto]
+     * @return void
+     **/
+    void addSysDict(SysDictDto sysDictDto);
 
     /**
      * @Author 钱敏杰

@@ -4,6 +4,7 @@ import com.hy.common.ResultObj;
 import com.hy.dto.SysDictDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.SysDictService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +51,11 @@ public class SysDictController {
         if(sysDictService.checkCode(sysDictDto.getCode(), sysDictDto.getId())){
             return ResultObj.error(ResultCode.ERROR_DATA_REPEAT);
         }else{
-            sysDictService.updateSysDict(sysDictDto);
+            if(sysDictDto.getId() == null){//新增
+                sysDictService.addSysDict(sysDictDto);
+            }else{//更新
+                sysDictService.updateSysDict(sysDictDto);
+            }
             return ResultObj.success();
         }
     }

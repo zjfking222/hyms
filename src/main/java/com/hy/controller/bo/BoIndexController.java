@@ -1,7 +1,9 @@
 package com.hy.controller.bo;
 
+import com.crystaldecisions.sdk.exception.SDKException;
 import com.hy.common.ResultObj;
 import com.hy.common.SecurityUtil;
+import com.hy.config.sapbo.BoUtil;
 import com.hy.dto.BOCatalogueDto;
 import com.hy.dto.BOInfoDto;
 import com.hy.enums.ResultCode;
@@ -105,7 +107,7 @@ public class BoIndexController {
      * @Param [directoryid]
      * @return com.hy.common.ResultObj
      **/
-    @RequestMapping("/bo/index/getRealReport")
+    @RequestMapping(value = "/bo/index/getRealReport", method = RequestMethod.GET)
     public void getRealReport(@RequestParam String reportid, HttpServletResponse response) {
         String url =  boIndexService.getRealReport(reportid);
         try {

@@ -123,13 +123,7 @@ public class SysDictServiceImpl implements SysDictService{
     public void updateSysDict(SysDictDto sysDictDto){
         SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
         sysDict.setModifier(SecurityUtil.getLoginid());
-        int i;
-        if(sysDict.getId() == null){//添加
-            sysDict.setCreater(SecurityUtil.getLoginid());
-            i = sysDictMapper.insert(sysDict);
-        }else{//更新
-            i = sysDictMapper.updateByPrimaryKey(sysDict);
-        }
+        int i = sysDictMapper.updateByPrimaryKey(sysDict);
         if(i <= 0){
             throw new RuntimeException("添加或更新数据字典失败");
         }
@@ -137,6 +131,24 @@ public class SysDictServiceImpl implements SysDictService{
         i = sysDictMapper.updatePidname(sysDictDto.getName(), sysDictDto.getId());
         if(i <0){
             throw new RuntimeException("更新数据字典子节点失败");
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 添加数据字典节点数据
+     * @Date 2019/1/3 14:12
+     * @Param [sysDictDto]
+     * @return void
+     **/
+    @Override
+    public void addSysDict(SysDictDto sysDictDto){
+        SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
+        sysDict.setModifier(SecurityUtil.getLoginid());
+        sysDict.setCreater(SecurityUtil.getLoginid());
+        int i = sysDictMapper.insert(sysDict);
+        if(i <= 0){
+            throw new RuntimeException("添加或更新数据字典失败");
         }
     }
 
