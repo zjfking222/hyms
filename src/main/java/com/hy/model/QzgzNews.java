@@ -13,7 +13,7 @@ public class QzgzNews {
     private String date;
     private String description;
     private String url;
-    private String type;
+    private int type;
     private String creater;
     private Date created;
     private String modifier;
@@ -59,11 +59,11 @@ public class QzgzNews {
         this.url = url;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

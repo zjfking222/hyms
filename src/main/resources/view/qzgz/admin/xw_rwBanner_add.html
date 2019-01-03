@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>添加banner图</title>
+    <title>添加人物banner图</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/statics/plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
     <!--下面css需要用到-->
@@ -25,13 +25,13 @@
         var path;
         $("#input-b1").fileinput({
             language: 'zh',
-            uploadUrl: '/qzgz/admin/saveBanner',
+            uploadUrl: '/qzgz/admin/saveBannerFigure',
             allowedFileExtensions: ['jpg', 'png', 'gif'],
             maxFileCount: 1,
             allowedFileTypes: ['image'],
             //设置上传图片大小
             previewSettings: {
-                image: {width: "750px", height: "400px"}
+                image: {width: "450px", height: "200px"}
             },
             //文件名替换
             slugCallback: function (filename) {
@@ -60,7 +60,8 @@
             if (FetchData({
                 title: $('#title').val(),
                 url: $('#url').val(),
-                path: path
+                path: path,
+                type: parent.pushCode
             }, 'POST', '/qzgz/admin/addNewsBanner', false).code === 0) {
                 parent.location.reload();
             }

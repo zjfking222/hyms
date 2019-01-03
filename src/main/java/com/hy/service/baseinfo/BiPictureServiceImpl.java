@@ -23,15 +23,14 @@ public class BiPictureServiceImpl implements BiPictureService {
 
     @Override
     //查询banner图
-    public List<BiPictureDto> getNewsBanner() {
-        return DTOUtil.populateList(newsBannerMapper.selectNewsBanner(), BiPictureDto.class);
+    public List<BiPictureDto> getNewsBanner(String type) {
+        return DTOUtil.populateList(newsBannerMapper.selectNewsBanner(type), BiPictureDto.class);
     }
 
     @Override
     //新增banner图
     public boolean addNewsBanner(BiPictureDto bannerDto) {
         BiPicture banner = DTOUtil.populate(bannerDto, BiPicture.class);
-        banner.setType("qzgz_xw_banner");
         banner.setCreater(SecurityUtil.getLoginid());
         banner.setModifier(SecurityUtil.getLoginid());
         return newsBannerMapper.insertNewsBanner(banner) == 1;

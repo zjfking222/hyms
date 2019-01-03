@@ -11,9 +11,11 @@ import java.util.List;
  */
 public interface SysDictService {
     //查询衢州新闻类型（未删除）
-    List<SysDictDto> getNewsType();
-    //新增衢州新闻类型
-    boolean addNewsType(SysDictDto sysDictDto);
+    List<SysDictDto> getNewsType(String code);
+    //新增衢州动态新闻类型
+    boolean addNewsTypeActive(SysDictDto sysDictDto);
+    //新增衢州人物新闻类型
+    boolean addNewsTypeFigure(SysDictDto sysDictDto);
     //修改衢州新闻类型
     boolean setNewsType(SysDictDto sysDictDto);
     //删除衢州新闻类型

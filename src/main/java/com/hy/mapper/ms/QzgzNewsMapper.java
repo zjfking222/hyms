@@ -1,6 +1,7 @@
 package com.hy.mapper.ms;
 
 import com.hy.model.QzgzNews;
+import com.hy.model.SysDict;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,10 +14,12 @@ import java.util.List;
  */
 @Repository
 public interface QzgzNewsMapper {
-    //查询新闻信息
-    List<QzgzNews> selectNews(@Param("value") String value, @Param("sort") String sort, @Param("dir") String dir);
-    //查询新闻信息总条数，用于分页
-    Integer selectNewsTotal(@Param("value") String value);
+    //根据新闻类型id查询新闻信息
+    List<QzgzNews> selectNews(@Param("value") String value, @Param("sort") String sort, @Param("dir") String dir,@Param("list")  List<SysDict> list);
+    //根据新闻类型id查询新闻信息总条数，用于分页
+    Integer selectNewsTotal(@Param("value") String value, @Param("list") List<SysDict> list);
+    //删除新闻类型时根据type查询是否有新闻
+    Integer selectNewTypeDel(@Param("type") int type);
     //新增新闻
     Integer insertNews(QzgzNews qzgzNews);
     //修改新闻信息
@@ -24,9 +27,9 @@ public interface QzgzNewsMapper {
     //删除新闻
     Integer deleteNews(@Param("id") int id);
     //查询新闻类型
-    List<QzgzNews> selectNewsType();
+    List<QzgzNews> selectNewsType(@Param("list") List<SysDict> list);
     //根据新闻类型查询新闻并分页
-    List<QzgzNews> selectNewsByType(@Param("type") String type, @Param("num") int num);
+    List<QzgzNews> selectNewsByType(@Param("type") int type, @Param("num") int num);
     //根据新闻类型查询新闻总数
-    Integer selectNewsByTypeTotal(@Param("type") String type);
+    Integer selectNewsByTypeTotal(@Param("type") int type);
 }

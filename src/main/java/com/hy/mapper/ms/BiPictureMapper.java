@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface BiPictureMapper {
     //查询banner图
-    List<BiPicture> selectNewsBanner();
+    List<BiPicture> selectNewsBanner(@Param("type") String type);
     //新增banner图
     Integer insertNewsBanner(BiPicture biPicture);
     //删除banner图

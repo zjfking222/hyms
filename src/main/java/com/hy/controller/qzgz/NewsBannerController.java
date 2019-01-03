@@ -29,23 +29,24 @@ public class NewsBannerController {
     private BiPictureService bannerService;
     @Value("${upload.location}")
     private String location;
-    private final String UPLOAD_URL="/qzgz/upload/banners/";
+    private final String UPLOAD_URL="/qzgz/upload/";
 
     @PostMapping("/admin/getNewsBanner")
     //查询banner图
-    public ResultObj getNewsBanner(){
-        return ResultObj.success(bannerService.getNewsBanner());
+    public ResultObj getNewsBanner(String type){
+        return ResultObj.success(bannerService.getNewsBanner(type));
     }
 
-    @PostMapping("/admin/saveBanner")
-    //保存banner图
-    public ResultObj saveBanner(@RequestParam("file")MultipartFile[] file){
+    @PostMapping("/admin/saveBannerActive")
+    //保存动态新闻banner图
+    public ResultObj saveBannerActive(@RequestParam("file")MultipartFile[] file){
         try {
+            String dt = "dtBanners/";
             String fileName = file[0].getOriginalFilename();
             String filePath = null;
-            String url = UPLOAD_URL + fileName;
+            String url = UPLOAD_URL + dt + fileName;
             boolean check = false;
-            List<BiPictureDto> biPictures = bannerService.getNewsBanner();
+            List<BiPictureDto> biPictures = bannerService.getNewsBanner("qzgz_news_active");
             for (int i = 0; i < biPictures.size(); i++){
                 if(biPictures.get(i).getUrl().equals(url)){
                     check = true;
@@ -54,7 +55,41 @@ public class NewsBannerController {
             }
             if(!check){
                 File path = new File(ResourceUtils.getURL("file:").getPath()
-                        + location + UPLOAD_URL);
+                        + location + UPLOAD_URL + dt);
+                filePath = path.getAbsolutePath();
+                FileUtil.uploadFile(file[0].getBytes(), filePath, fileName);
+                BiPictureDto biPictureDto = new BiPictureDto();
+                biPictureDto.setUrl(url);
+                biPictureDto.setPath(filePath + File.separator + fileName);
+                return ResultObj.success(biPictureDto);
+            }else {
+                return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
+        }
+    }
+
+    @PostMapping("/admin/saveBannerFigure")
+    //保存动态新闻banner图
+    public ResultObj saveBannerFigure(@RequestParam("file")MultipartFile[] file){
+        try {
+            String rw = "rwBanners/";
+            String fileName = file[0].getOriginalFilename();
+            String filePath = null;
+            String url = UPLOAD_URL + rw + fileName;
+            boolean check = false;
+            List<BiPictureDto> biPictures = bannerService.getNewsBanner("qzgz_news_figure");
+            for (int i = 0; i < biPictures.size(); i++){
+                if(biPictures.get(i).getUrl().equals(url)){
+                    check = true;
+                    break;
+                }
+            }
+            if(!check){
+                File path = new File(ResourceUtils.getURL("file:").getPath()
+                        + location + UPLOAD_URL + rw);
                 filePath = path.getAbsolutePath();
                 FileUtil.uploadFile(file[0].getBytes(), filePath, fileName);
                 BiPictureDto biPictureDto = new BiPictureDto();
@@ -88,7 +123,7 @@ public class NewsBannerController {
 
     @PostMapping("/web/getNewsBanner")
     //web查询banner图
-    public ResultObj getNewsBannerWeb(){
-        return ResultObj.success(bannerService.getNewsBanner());
+    public ResultObj getNewsBannerWeb(String type){
+        return ResultObj.success(bannerService.getNewsBanner(type));
     }
 }
