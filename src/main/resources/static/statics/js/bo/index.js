@@ -100,8 +100,6 @@ var vm = new Vue({
             pushData.id = id;
             //页面都用此地址获取数据
             var url = "/bo/display/list_common.html";
-            if (url == null)
-                return;
             var y = url.replace(/(^http(s*):)|(\?[\s\S]*$)/g, "");
             var selected = false;
             var tabs = $("#app_tabsheader>li");
@@ -126,6 +124,39 @@ var vm = new Vue({
             var u = this.tabsBody(this.tabsPage.index).find(".layadmin-iframe");
             u[0].contentWindow.location.href = url;
             layui.element.tabChange("layadmin-layout-tabs", id);
+            this.tabsBodyChange(this.tabsPage.index, {url: url, text: name});
+            if (this.screen() < 2)
+                this.sideFlexible();
+        },
+        reportClick: function (reportid, name) {
+            //保存当前参数给tab页面使用
+            pushData.reportid = reportid;
+            //页面都用此地址获取数据
+            var url = "/bo/display/show_report.html";
+            var y = url.replace(/(^http(s*):)|(\?[\s\S]*$)/g, "");
+            var selected = false;
+            var tabs = $("#app_tabsheader>li");
+            tabs.each(function (e) {
+                var layid = $(this).attr("lay-id");
+                if (layid == reportid) {
+                    selected = true;
+                    vm.tabsPage.index = e;
+                }
+            });
+            if (!selected) {
+                $("#app_body").append(['<div class="layui-tab-item layadmin-tabsbody-item layui-show">',
+                    '<iframe src="' + url + '" frameborder="0" class="layadmin-iframe"></iframe>',
+                    "</div>"].join(""));
+                this.tabsPage.index = tabs.length;
+                layui.element.tabAdd("layadmin-layout-tabs", {
+                    title: "<span>" + name + "</span>",
+                    id: reportid,
+                    attr: y
+                });
+            }
+            var u = this.tabsBody(this.tabsPage.index).find(".layadmin-iframe");
+            u[0].contentWindow.location.href = url;
+            layui.element.tabChange("layadmin-layout-tabs", reportid);
             this.tabsBodyChange(this.tabsPage.index, {url: url, text: name});
             if (this.screen() < 2)
                 this.sideFlexible();
