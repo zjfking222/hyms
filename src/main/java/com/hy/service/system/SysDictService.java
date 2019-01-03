@@ -10,16 +10,8 @@ import java.util.List;
  * @Description:基础信息数据字典表service
  */
 public interface SysDictService {
-    //查询衢州新闻类型（未删除）
-    List<SysDictDto> getNewsType(String code);
-    //新增衢州动态新闻类型
-    boolean addNewsTypeActive(SysDictDto sysDictDto);
-    //新增衢州人物新闻类型
-    boolean addNewsTypeFigure(SysDictDto sysDictDto);
-    //修改衢州新闻类型
-    boolean setNewsType(SysDictDto sysDictDto);
-    //删除衢州新闻类型
-    boolean delNewsType(int id);
+    //根据编码查询当前节点
+    SysDictDto getByCode(String code);
 
     /**
      * @Author 钱敏杰

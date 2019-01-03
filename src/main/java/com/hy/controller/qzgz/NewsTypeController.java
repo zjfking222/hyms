@@ -2,7 +2,6 @@ package com.hy.controller.qzgz;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.SysDictDto;
-import com.hy.enums.ResultCode;
 import com.hy.service.system.SysDictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,41 +22,39 @@ public class NewsTypeController {
     @PostMapping("/admin/getNewsType")
     //查询新闻类型
     public ResultObj getNewsType(String code){
-        return ResultObj.success(sysDictService.getNewsType(code));
-    }
-    @PostMapping("/admin/addNewsTypeActive")
-    //新增动态新闻类型
-    public ResultObj addNewsTypeActive(SysDictDto sysDictDto){
-        return sysDictService.addNewsTypeActive(sysDictDto) ?
-                ResultObj.success() :
-                ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        return ResultObj.success(sysDictService.selectByCode(code));
     }
 
-    @PostMapping("/admin/addNewsTypeFigure")
-    //新增动态新闻类型
-    public ResultObj addNewsTypeFigure(SysDictDto sysDictDto){
-        return sysDictService.addNewsTypeFigure(sysDictDto) ?
-                ResultObj.success() :
-                ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+    @PostMapping("/admin/getByCode")
+    //根据编码查询当前节点
+    public ResultObj getByCode(String code){
+        SysDictDto dictDto = sysDictService.getByCode(code);
+        return ResultObj.success(dictDto);
     }
+
+    @PostMapping("/admin/addNewsType")
+    //新增新闻类型
+    public ResultObj addNewsType(SysDictDto sysDictDto){
+        sysDictService.addSysDict(sysDictDto);
+        return ResultObj.success();
+    }
+
     @PostMapping("/admin/setNewsType")
     //修改新闻类型
     public ResultObj setNewsType(SysDictDto sysDictDto){
-        return sysDictService.setNewsType(sysDictDto) ?
-                ResultObj.success() :
-                ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
+        sysDictService.updateSysDict(sysDictDto);
+        return ResultObj.success();
     }
     @PostMapping("/admin/delNewsType")
     //删除新闻类型
     public ResultObj delNewsType(int id){
-        return sysDictService.delNewsType(id) ?
-                ResultObj.success() :
-                ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
+        sysDictService.deleteSysDict(id);
+        return ResultObj.success();
     }
 
     @PostMapping("/web/getNewsTypeWeb")
     //查询新闻类型
     public ResultObj getNewsTypeWeb(String code){
-        return ResultObj.success(sysDictService.getNewsType(code));
+        return ResultObj.success(sysDictService.selectByCode(code));
     }
 }

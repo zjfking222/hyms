@@ -24,52 +24,10 @@ public class SysDictServiceImpl implements SysDictService{
     private SysDictMapper sysDictMapper;
 
     @Override
-    //查询衢州新闻类型（未删除）
-    public List<SysDictDto> getNewsType(String code){
-        List<SysDict> sysDict = sysDictMapper.selectChildByCode(code);
-        return DTOUtil.populateList(sysDict, SysDictDto.class);
-    }
-
-    @Override
-    //新增衢州动态新闻类型
-    public boolean addNewsTypeActive(SysDictDto sysDictDto){
-        SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
-        SysDict pdict = sysDictMapper.selectByCode("qzgz_news_active");
-        if(pdict == null){
-            return false;
-        }
-        sysDict.setPid(pdict.getId());
-        sysDict.setCreater(SecurityUtil.getLoginid());
-        sysDict.setModifier(SecurityUtil.getLoginid());
-        return sysDictMapper.insert(sysDict) == 1;
-    }
-
-    @Override
-    //新增衢州人物新闻类型
-    public boolean addNewsTypeFigure(SysDictDto sysDictDto){
-        SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
-        SysDict pdict = sysDictMapper.selectByCode("qzgz_news_figure");
-        if(pdict == null){
-            return false;
-        }
-        sysDict.setPid(pdict.getId());
-        sysDict.setCreater(SecurityUtil.getLoginid());
-        sysDict.setModifier(SecurityUtil.getLoginid());
-        return sysDictMapper.insert(sysDict) == 1;
-    }
-
-    @Override
-    //修改动态衢州新闻类型
-    public boolean setNewsType(SysDictDto sysDictDto){
-        SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
-        sysDict.setModifier(SecurityUtil.getLoginid());
-        return sysDictMapper.updateByPrimaryKeySelective(sysDict) == 1;
-    }
-
-    @Override
-    //删除动态衢州新闻类型
-    public boolean delNewsType(int id){
-        return sysDictMapper.deleteByPrimaryKey(id) == 1;
+    //根据编码查询当前节点
+    public SysDictDto getByCode(String code){
+        SysDict pdict = sysDictMapper.selectByCode(code);
+        return DTOUtil.populate(pdict, SysDictDto.class);
     }
 
     /**

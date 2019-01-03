@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * @Auther: 沈超宇
@@ -37,72 +36,39 @@ public class NewsBannerController {
         return ResultObj.success(bannerService.getNewsBanner(type));
     }
 
+    private BiPictureDto codeFile(String code, MultipartFile[] file){
+        try {
+            String fileName = file[0].getOriginalFilename();
+            String filePath = null;
+            String url = UPLOAD_URL + code + fileName;
+            File path = new File(ResourceUtils.getURL("file:").getPath()
+                    + location + UPLOAD_URL + code);
+            filePath = path.getAbsolutePath();
+            FileUtil.uploadFile(file[0].getBytes(), filePath, fileName);
+            BiPictureDto biPictureDto = new BiPictureDto();
+            biPictureDto.setUrl(url);
+            biPictureDto.setPath(filePath + File.separator + fileName);
+            return biPictureDto;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @PostMapping("/admin/saveBannerActive")
     //保存动态新闻banner图
     public ResultObj saveBannerActive(@RequestParam("file")MultipartFile[] file){
-        try {
-            String dt = "dtBanners/";
-            String fileName = file[0].getOriginalFilename();
-            String filePath = null;
-            String url = UPLOAD_URL + dt + fileName;
-            boolean check = false;
-            List<BiPictureDto> biPictures = bannerService.getNewsBanner("qzgz_news_active");
-            for (int i = 0; i < biPictures.size(); i++){
-                if(biPictures.get(i).getUrl().equals(url)){
-                    check = true;
-                    break;
-                }
-            }
-            if(!check){
-                File path = new File(ResourceUtils.getURL("file:").getPath()
-                        + location + UPLOAD_URL + dt);
-                filePath = path.getAbsolutePath();
-                FileUtil.uploadFile(file[0].getBytes(), filePath, fileName);
-                BiPictureDto biPictureDto = new BiPictureDto();
-                biPictureDto.setUrl(url);
-                biPictureDto.setPath(filePath + File.separator + fileName);
-                return ResultObj.success(biPictureDto);
-            }else {
-                return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
-        }
+        String dt = "dtBanners/";
+        BiPictureDto biPictureDto = codeFile(dt, file);
+        return biPictureDto != null ? ResultObj.success(biPictureDto) : ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
     }
 
     @PostMapping("/admin/saveBannerFigure")
     //保存动态新闻banner图
     public ResultObj saveBannerFigure(@RequestParam("file")MultipartFile[] file){
-        try {
-            String rw = "rwBanners/";
-            String fileName = file[0].getOriginalFilename();
-            String filePath = null;
-            String url = UPLOAD_URL + rw + fileName;
-            boolean check = false;
-            List<BiPictureDto> biPictures = bannerService.getNewsBanner("qzgz_news_figure");
-            for (int i = 0; i < biPictures.size(); i++){
-                if(biPictures.get(i).getUrl().equals(url)){
-                    check = true;
-                    break;
-                }
-            }
-            if(!check){
-                File path = new File(ResourceUtils.getURL("file:").getPath()
-                        + location + UPLOAD_URL + rw);
-                filePath = path.getAbsolutePath();
-                FileUtil.uploadFile(file[0].getBytes(), filePath, fileName);
-                BiPictureDto biPictureDto = new BiPictureDto();
-                biPictureDto.setUrl(url);
-                biPictureDto.setPath(filePath + File.separator + fileName);
-                return ResultObj.success(biPictureDto);
-            }else {
-                return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
-        }
+        String rw = "rwBanners/";
+        BiPictureDto biPictureDto = codeFile(rw, file);
+        return biPictureDto != null ? ResultObj.success(biPictureDto) : ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
     }
 
     @PostMapping("/admin/addNewsBanner")

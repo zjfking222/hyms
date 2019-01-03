@@ -17,6 +17,7 @@
 <a class="btn btn-primary" id="submit">提&nbsp;&nbsp;&nbsp;交</a>
 
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/jquery-md5/jquery.md5.js"></script>
 <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/statics/plugins/layer/layer.js"></script>
 <script>
@@ -35,7 +36,8 @@
             },
             //文件名替换
             slugCallback: function (filename) {
-                return filename.replace('(', '_').replace(']', '_');
+                var date = new Date();
+                return $.md5(date.toString()) + filename;
             }
         }).on("fileuploaded", function (event, data) {
             if (data.response.data === null){
