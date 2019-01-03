@@ -394,17 +394,13 @@ public class BoConfigServiceImpl implements BoConfigService {
             allList.addAll(rList);
         }
         //整理目录，剔除不含有报表的目录
-        if (list != null && list.size() > 0 && rList != null && rList.size() > 0) {
+        if (list != null && list.size() > 0 && allList.size() > 0) {
             List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class);
             //移除空目录
             this.removeNullNode(catalogues, allList);
             //整理树的结构
             //list转map
             cataMap = catalogues.stream().collect(Collectors.toMap(BOCatalogueDto::getId, a -> a, (k1, k2) -> k1));
-            //循环报表信息将报表信息加入map相应key下
-            for (BOInfo info : rList) {
-                BOCatalogueDto dto = cataMap.get(info.getDirectoryid());
-            }
             this.setListToTree(cataMap, catalogues);
         }
         //返回目录树

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>跳转报表展示页面</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+
+    <script src="/statics/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        //父页面操作对象
+        var index = parent.layer.getFrameIndex(window.name);
+        var data = {};
+        data.reportid = reportid = parent.pushData.reportid;
+        $.ajax({
+            async: false,
+            url: '/bo/index/getRealReport',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (result) {
+            },
+            error:function () {
+                parent.layer.msg("打开报表失败，请重试");
+                parent.layer.close(index);
+            }
+        });
+    </script>
+</body>
+</html>

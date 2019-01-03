@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,5 +96,22 @@ public class BoIndexController {
         String loginid =  SecurityUtil.getLoginid();
         List<BOInfoDto> list =  boIndexService.getDisplayReport(directoryid, loginid);
         return ResultObj.success(list);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 打开当前BO报表
+     * @Date 2019/1/3 8:13
+     * @Param [directoryid]
+     * @return com.hy.common.ResultObj
+     **/
+    @RequestMapping("/bo/index/getRealReport")
+    public void getRealReport(@RequestParam String reportid, HttpServletResponse response) {
+        String url =  boIndexService.getRealReport(reportid);
+        try {
+            response.sendRedirect(url);
+        } catch (IOException e) {
+            logger.error("重定向到"+ url +"失败", e);
+        }
     }
 }

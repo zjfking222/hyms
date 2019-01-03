@@ -38,7 +38,7 @@
                     <ul class="mine-view jie-row">
                         <li v-for="(item, index) in dataSource">
                             <span>{{ index+1 }}</span>
-                            <a class="jie-title" target="_blank" href="javascript:">{{ item.name }}</a>
+                            <a class="jie-title" target="_blank" href="javascript:" @click="openReport(item.reportid)">{{ item.name }}</a>
                         </li>
                     </ul>
                 </div>
@@ -50,14 +50,45 @@
     <script src="/statics/plugins/vue/vue.min.js"></script>
     <script src="/statics/plugins/layer/layer.js"></script>
     <script>
+        var pushData;
         var vm = new Vue({
             el: "#boreports",
             data: {
                 dataSource: getDataSource()
             },
             methods: {
-                openReport:function () {
+                openReport:function (reportid) {
                     //打开报表展示
+                    pushData = {
+                        reportid: reportid
+                    };
+                    layer.open({
+                        title:'新增角色信息',
+                        type: 2,
+                        area: ['700px', '85%'],
+                        fixed: false, //不固定
+                        maxmin: true,
+                        shadeClose: true,
+                        content: '/bo/display/show_report.html',
+                        /*end: function () {
+                            vm.dataSource = getDataSource()
+                        }*/
+                    });
+                    /*$.ajax({
+                        url: "/bo/index/",
+                        data: {
+                            'reportid':reportid
+                        },
+                        dataType: 'json',
+                        method: 'POST',
+                        async: false,
+                        success: function (data) {
+                            if (data.code === 0) {
+                                var url =  data.data;
+                                //以url为地址打开新页面
+                            }
+                        }
+                    });*/
                 }
             }
         });

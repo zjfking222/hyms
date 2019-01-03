@@ -58,7 +58,7 @@ public class BoUtil {
      */
     public static String getToekn(String boLogonId, String password) throws SDKException {
         String token = null;
-        ShiroCache<Serializable, Object> cache = (ShiroCache) redisCacheManager.getCache(casekey);
+        /*ShiroCache<Serializable, Object> cache = (ShiroCache) redisCacheManager.getCache(casekey);
         String key = boConfig.getCacheKey() + boLogonId + ":";
         if (cache.hasKey(key)) {
             BoToken boToken = (BoToken) cache.get(key);
@@ -66,9 +66,9 @@ public class BoUtil {
             if (date.getTime() < boToken.getExpire().getTime())
                 token = boToken.getToken();
         }
-        if (StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token)) {*/
             token = BoUtil.getBOToekn(boLogonId, password);
-        }
+       // }
         return token;
     }
 
