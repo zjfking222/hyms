@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface BiPictureService {
     //查询banner图
-    List<BiPictureDto> getNewsBanner();
+    List<BiPictureDto> getNewsBanner(String type);
     //新增banner图
     boolean addNewsBanner(BiPictureDto biPictureDto);
     //删除banner图

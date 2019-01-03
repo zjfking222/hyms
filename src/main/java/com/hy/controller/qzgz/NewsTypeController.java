@@ -22,13 +22,21 @@ public class NewsTypeController {
 
     @PostMapping("/admin/getNewsType")
     //查询新闻类型
-    public ResultObj getNewsType(){
-        return ResultObj.success(sysDictService.getNewsType());
+    public ResultObj getNewsType(String code){
+        return ResultObj.success(sysDictService.getNewsType(code));
     }
-    @PostMapping("/admin/addNewsType")
-    //新增新闻类型
-    public ResultObj addNewsType(SysDictDto sysDictDto){
-        return sysDictService.addNewsType(sysDictDto) ?
+    @PostMapping("/admin/addNewsTypeActive")
+    //新增动态新闻类型
+    public ResultObj addNewsTypeActive(SysDictDto sysDictDto){
+        return sysDictService.addNewsTypeActive(sysDictDto) ?
+                ResultObj.success() :
+                ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+    }
+
+    @PostMapping("/admin/addNewsTypeFigure")
+    //新增动态新闻类型
+    public ResultObj addNewsTypeFigure(SysDictDto sysDictDto){
+        return sysDictService.addNewsTypeFigure(sysDictDto) ?
                 ResultObj.success() :
                 ResultObj.error(ResultCode.ERROR_ADD_FAILED);
     }
@@ -49,7 +57,7 @@ public class NewsTypeController {
 
     @PostMapping("/web/getNewsTypeWeb")
     //查询新闻类型
-    public ResultObj getNewsTypeWeb(){
-        return ResultObj.success(sysDictService.getNewsType());
+    public ResultObj getNewsTypeWeb(String code){
+        return ResultObj.success(sysDictService.getNewsType(code));
     }
 }

@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>新闻Banner图</title>
+    <title>动态新闻Banner图</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/statics/plugins/layui/css/layui.css">
     <!--下面css需要用到-->
@@ -42,9 +42,10 @@
 <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/statics/plugins/layer/layer.js"></script>
 <script>
+    var pushCode = parent.code;
     $(function () {
         function dataSource() {
-            return FetchData(null, 'POST', '/qzgz/admin/getNewsBanner', false).data;
+            return FetchData({type: pushCode}, 'POST', '/qzgz/admin/getNewsBanner', false).data;
         }
         var vm = new Vue({
             el: '#app',
@@ -54,12 +55,12 @@
             methods: {
                 onAdd: function () {
                     layer.open({
-                        title:'添加新闻Banner图',
+                        title:'添加动态新闻Banner图',
                         type: 2,
                         area: ['700px', '610px'],
                         fixed: false, //不固定
                         maxmin: true,
-                        content: '/qzgz/admin/xw_banner_add.html'
+                        content: '/qzgz/admin/xw_dtBanner_add.html'
                     });
                 },
                 onbrowse:function (img) {

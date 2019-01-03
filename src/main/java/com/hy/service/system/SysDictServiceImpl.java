@@ -25,26 +25,49 @@ public class SysDictServiceImpl implements SysDictService{
 
     @Override
     //查询衢州新闻类型（未删除）
-    public List<SysDictDto> getNewsType(){
-        List<SysDict> sysDict = sysDictMapper.selectChildByCode("qzgz_news_type");
+    public List<SysDictDto> getNewsType(String code){
+        List<SysDict> sysDict = sysDictMapper.selectChildByCode(code);
         return DTOUtil.populateList(sysDict, SysDictDto.class);
     }
-    //新增衢州新闻类型
-    public boolean addNewsType(SysDictDto sysDictDto){
+
+    @Override
+    //新增衢州动态新闻类型
+    public boolean addNewsTypeActive(SysDictDto sysDictDto){
         SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
-        SysDict pdict = sysDictMapper.selectByCode("qzgz_news_type");
+        SysDict pdict = sysDictMapper.selectByCode("qzgz_news_active");
+        if(pdict == null){
+            return false;
+        }
         sysDict.setPid(pdict.getId());
         sysDict.setCreater(SecurityUtil.getLoginid());
         sysDict.setModifier(SecurityUtil.getLoginid());
         return sysDictMapper.insert(sysDict) == 1;
     }
-    //修改衢州新闻类型
+
+    @Override
+    //新增衢州人物新闻类型
+    public boolean addNewsTypeFigure(SysDictDto sysDictDto){
+        SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
+        SysDict pdict = sysDictMapper.selectByCode("qzgz_news_figure");
+        if(pdict == null){
+            return false;
+        }
+        sysDict.setPid(pdict.getId());
+        sysDict.setCreater(SecurityUtil.getLoginid());
+        sysDict.setModifier(SecurityUtil.getLoginid());
+        return sysDictMapper.insert(sysDict) == 1;
+    }
+
+    @Override
+    //修改动态衢州新闻类型
     public boolean setNewsType(SysDictDto sysDictDto){
         SysDict sysDict = DTOUtil.populate(sysDictDto, SysDict.class);
         sysDict.setModifier(SecurityUtil.getLoginid());
         return sysDictMapper.updateByPrimaryKeySelective(sysDict) == 1;
     }
-    //删除衢州新闻类型
+
+    @Override
+    //删除动态衢州新闻类型
     public boolean delNewsType(int id){
         return sysDictMapper.deleteByPrimaryKey(id) == 1;
     }

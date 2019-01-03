@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>更新人物新闻信息</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80%; margin: 10px auto">
+<form id="app">
+    <div class="form-group">
+        <label for="date">日期</label>
+        <input class="form-control input-sm-8" id="date" type="date" placeholder="输入日期">
+    </div>
+    <div class="form-group">
+        <label for="title">标题</label>
+        <input class="form-control input-sm-8" id="title" placeholder="输入标题">
+    </div>
+    <div class="form-group">
+        <label for="description">描述</label>
+        <input class="form-control input-sm-8" id="description" placeholder="输入描述">
+    </div>
+    <div class="form-group">
+        <label for="url">文字路径</label>
+        <input class="form-control input-sm-8" id="url" placeholder="输入文字路径">
+    </div>
+    <div class="form-group">
+        <label for="type">新闻类型</label>
+        <select class="form-control input-sm-8" id="type">
+            <option value="" selected>请选择新闻类型...</option>
+            <option v-for="t in type" :value="t.id">{{t.name}}</option>
+        </select>
+    </div>
+    <a id="submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var data, postData;
+    var index = parent.layer.getFrameIndex(window.name);
+    $(function () {
+        data = parent.pushData;
+        function dataType() {
+            return FetchData({code: parent.code}, 'POST', '/qzgz/admin/getNewsType', false).data;
+        }
+        var changeType = dataType();
+        var vm =new Vue({
+            el: '#app',
+            data: {
+                type: changeType
+            }
+        });
+        if (data.id === 0) {
+
+        } else {
+            $('#date').val(data.date);
+            $('#title').val(data.title);
+            $('#description').val(data.description);
+            $('#url').val(data.url);
+            for (var j = 0; j < changeType.length; j++){
+                if(data.type === changeType[j].name){
+                    data.type = changeType[j].id;
+                }
+            }
+            $('#type').val(data.type);
+        }
+        $('#submit').on('click', function () {
+            if ($('#date').val() == '') {
+                layer.msg('日期必填');
+                return;
+            }
+            if ($('#title').val() == '') {
+                layer.msg('标题必填');
+                return;
+            }
+            if ($('#url').val() == '') {
+                layer.msg('文字路径必填');
+                return;
+            }
+            if ($('#type').val() == '') {
+                layer.msg('新闻类型必填');
+                return;
+            }
+            postData = {
+                id: data.id,
+                date: $('#date').val(),
+                title: $('#title').val(),
+                description: $('#description').val(),
+                url: $('#url').val(),
+                type: $('#type').val()
+            };
+            if (data.id === 0) {
+                var postBack = FetchData(postData, 'POST', '/qzgz/admin/addNews', false);
+                if (postBack.code === 0) {
+                    postData.id = postBack.data;
+                    parent.vm.dataSource.add(postData);
+                    parent.layer.msg('添加成功');
+                } else {
+                    parent.layer.msg('添加失败');
+                }
+                parent.layer.close(index);
+            } else {
+                if (FetchData(postData, 'POST', '/qzgz/admin/setNews', false)) {
+                    parent.vm.dataSource.pushUpdate(postData);
+                    parent.layer.msg('修改成功');
+                } else {
+                    parent.layer.close('修改失败');
+                }
+                parent.layer.close(index);
+            }
+        })
+    });
+    var FetchData = function (data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    };
+</script>
+</html>
