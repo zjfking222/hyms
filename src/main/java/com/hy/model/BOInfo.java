@@ -21,7 +21,7 @@ public class BOInfo {
     private String type;
     //描述
     private String description;
-    //url链接地址
+    //url链接地址（目前未使用）
     private String url;
     //创建人
     private String creater;

@@ -21,10 +21,6 @@
         <input class="form-control input-sm-8" id="type" placeholder="输入类型">
     </div>
     <div class="form-group">
-        <label for="url">url</label>
-        <input class="form-control input-sm-8" id="url" placeholder="输入链接">
-    </div>
-    <div class="form-group">
         <label for="type">描述</label>
         <textarea class="form-control input-sm-8" id="description" placeholder="输入描述信息"></textarea>
     </div>
@@ -45,7 +41,6 @@
             $('#name').val(data.name);
             $('#reportid').val(data.reportid);
             $('#type').val(data.type);
-            $('#url').val(data.url);
             $('#description').val(data.description);
             //修改的报表id不给修改
             $('#reportid').attr("disabled","disabled");
@@ -61,10 +56,6 @@
             }
             if($('#type').val() == ''){
                 layer.msg('报表类型必填');
-                return;
-            }
-            if($('#url').val() == ''){
-                layer.msg('url必填');
                 return;
             }
             //检查报表id是否已存在，若已存在则不给重复添加
@@ -85,8 +76,7 @@
                 reportid: $('#reportid').val(),
                 directoryid: $('#directoryid').val(),
                 type: $('#type').val(),
-                description:$('#description').val(),
-                url:$('#url').val()
+                description:$('#description').val()
             };
             if (data.id === 0) {
                 var postback = FetchData(postData, 'POST', '/addReportInfo', false);

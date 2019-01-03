@@ -53,7 +53,6 @@
                     {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "name", title: "报表名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "type", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "url", title: "url", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
                     {
                         command: [{
@@ -66,7 +65,6 @@
                                     id: data.id,
                                     name: data.name,
                                     reportid: data.reportid,
-                                    url: data.url,
                                     type: data.type,
                                     description:data.description
                                 };
@@ -135,7 +133,6 @@
                                 id: {editable: false, nullable: true},
                                 name: {type: "string", nullable: false},
                                 reportid: {type: "string", nullable: false},
-                                url: {type: "string", nullable: false},
                                 type: {type: "string", nullable: false},
                                 description: {type: "string", nullable: false}
                             }
