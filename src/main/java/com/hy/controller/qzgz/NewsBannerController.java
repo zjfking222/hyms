@@ -5,16 +5,14 @@ import com.hy.dto.BiPictureDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.baseinfo.BiPictureService;
 import com.hy.utils.FileUtil;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.*;
 
 /**
  * @Auther: 沈超宇
@@ -61,6 +59,49 @@ public class NewsBannerController {
         String dt = "dtBanners/";
         BiPictureDto biPictureDto = codeFile(dt, file);
         return biPictureDto != null ? ResultObj.success(biPictureDto) : ResultObj.error(ResultCode.ERROR_UPLOAD_FAILED);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 可被跨域访问的二进制文件保存方法(暂时测试使用)
+     * @Date 2019/1/5 9:05
+     * @Param [fileName, request]
+     * @return java.lang.String
+     **/
+    @CrossOrigin
+    @PostMapping("/web/saveInputStream")
+    //保存动态新闻banner图
+    public ResultObj saveInputStream(@RequestParam("fileName") String fileName, HttpServletRequest request) {
+        try {
+            BufferedInputStream fileIn = new BufferedInputStream(request.getInputStream());
+            String path = ResourceUtils.getURL("file:").getPath()
+                    + location + UPLOAD_URL + fileName;
+            path = path.substring(2);
+            File file = new File(path);
+            path = file.getAbsolutePath();
+            System.out.println(path);
+            file = new File(path);
+            if(file.exists()){//删除原数据，更新为新的
+                file.delete();
+                file = new File(path);
+            }
+            BufferedOutputStream fileOut = new BufferedOutputStream(new FileOutputStream(file));
+            byte[] buf = new byte[1024];
+            while (true) {
+                // 读取数据
+                int bytesIn = fileIn.read(buf, 0, 1024);
+                if (bytesIn == -1) {
+                    break;
+                } else {
+                    fileOut.write(buf, 0, bytesIn);
+                }
+            }
+            fileOut.flush();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultObj.success();
     }
 
     @PostMapping("/admin/saveBannerFigure")
