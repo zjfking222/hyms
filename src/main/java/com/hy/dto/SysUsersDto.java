@@ -12,6 +12,8 @@ public class SysUsersDto {
     private Integer oauserid;
     //员工号
     private String employeenumber;
+    //密码
+    private String password;
 
     public SysUsersDto(int id, String name, String employeenumber) {
         this.id = id;
@@ -70,6 +72,14 @@ public class SysUsersDto {
 
     public void setEmployeenumber(String employeenumber) {
         this.employeenumber = employeenumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
 

@@ -51,4 +51,13 @@ public interface SysUsersService {
      * @return com.hy.dto.SysUserDto
      **/
     SysUserDto searchUser(String value);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 更新用户信息
+     * @Date 2019/1/4 10:05
+     * @Param [user]
+     * @return boolean
+     **/
+    boolean updateUser(SysUsersDto user);
 }

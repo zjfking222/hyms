@@ -143,7 +143,7 @@
       <if test="enable != null" >
         enable = #{enable,jdbcType=BIT},
       </if>
-      <if test="departmentid != null" >
+      <if test="deptid != null" >
         deptid = #{deptid,jdbcType=SMALLINT},
       </if>
       <if test="creater != null" >

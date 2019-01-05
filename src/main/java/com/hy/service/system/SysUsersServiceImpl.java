@@ -183,4 +183,26 @@ public class SysUsersServiceImpl implements SysUsersService {
         }
         return resultDto;
     }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 更新用户信息
+     * @Date 2019/1/4 10:05
+     * @Param [user]
+     * @return boolean
+     **/
+    @Override
+    public boolean updateUser(SysUsersDto user){
+        if(user.getId() != null){
+            SysUsers sysUsers = DTOUtil.populate(user, SysUsers.class);
+            int i = sysUsersMapper.updateByPrimaryKeySelective(sysUsers);
+            if(i >0){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 }
