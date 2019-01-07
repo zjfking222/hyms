@@ -8,23 +8,17 @@ import java.util.Date;
  * @Description:基础信息数据字典表
  */
 public class SysDict {
-    private int id;
+    private Integer id;
     private String code;
     private String name;
-    private int pid;
-    private int deleteFlag;
+    private Integer pid;
+    private String pidname;
+    private String description;
+    private Integer deleteFlag;
     private String creater;
     private Date created;
     private String modifier;
     private Date modified;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -40,22 +34,6 @@ public class SysDict {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPid() {
-        return pid;
-    }
-
-    public void setPid(int pid) {
-        this.pid = pid;
-    }
-
-    public int getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(int deleteFlag) {
-        this.deleteFlag = deleteFlag;
     }
 
     public String getCreater() {
@@ -88,5 +66,45 @@ public class SysDict {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    public Integer getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPidname() {
+        return pidname;
+    }
+
+    public void setPidname(String pidname) {
+        this.pidname = pidname;
     }
 }

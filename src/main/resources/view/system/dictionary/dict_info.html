@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>报表信息</title>
+    <title>数据字典</title>
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
@@ -16,13 +16,12 @@
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
-    var directoryid = parent.currentCata.node.id;
     var pushData;
     var vm = new Vue({
         el: "",
         data: {
             dataSource: [],
-            activeItem: {id: 0, title: "", content: ""},
+            activeItem: {id: -1, title: "", content: ""},
             layItem: null
         },
         created: function () {
@@ -31,7 +30,7 @@
                 selectable: "row",
                 dataSource: this.dataSource,
                 editable: {
-                    confirmation: true,
+                    confirmation: "确定删除？",
                     mode: "popup",
                     window: {
                         title: "新增"
@@ -50,10 +49,12 @@
                     '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
-                    {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "name", title: "报表名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
-                    {field: "type", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                    {field: "id", title: "id", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "name", title: "名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "pid", title: "父节点", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "pidname", title: "父节点名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "code", title: "编码", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {
                         command: [{
                             name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -63,15 +64,16 @@
                                 var data = this.dataItem(tr);
                                 pushData = {
                                     id: data.id,
+                                    code:data.code,
                                     name: data.name,
-                                    reportid: data.reportid,
-                                    type: data.type,
+                                    pid: data.pid,
+                                    pidname:data.pidname,
                                     description:data.description
                                 };
                                 vm.edit();
                             }
                         }, {name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],
-                        title: "操作", width: "155px"
+                        title: "操作", width: "200px"
                     },{field: "", title: ""}
                 ]
             });
@@ -81,8 +83,17 @@
                 this.dataSource = new kendo.data.DataSource({
                     transport: {
                         read: function (options) {
+                            var a ={
+                                'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
+                                    undefined : options.data.sort[0].field,
+                                    'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?
+                                    undefined : options.data.sort[0].dir,
+                                    'page': options.data.page,
+                                    'pageSize': options.data.pageSize,
+                                    'value': $('#search-input').val()
+                            };
                             $.ajax({
-                                url: "/bo/getReportInfo",
+                                url: "/sysdict/getDictsPage",
                                 data: {
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                         undefined : options.data.sort[0].field,
@@ -90,33 +101,32 @@
                                         undefined : options.data.sort[0].dir,
                                     'page': options.data.page,
                                     'pageSize': options.data.pageSize,
-                                    'value': $('#search-input').val(),
-                                    'directoryid':directoryid
+                                    'value': $('#search-input').val()
                                 },
                                 method: 'POST',
                                 success: function (result) {
                                     if (result.code === 0) {
                                         options.success({data: result.data.data, total: result.data.total});
-                                    }
-                                    else
+                                    }else{
                                         options.error(result);
+                                    }
                                 }
                             });
                         },
                         destroy: function (options) {
                             $.ajax({
-                                url: "/bo/delReportInfo",
+                                url: "/sysdict/deleteSysDict",
                                 data: {
-                                    'reportid': options.data.reportid
+                                    'id': options.data.id
                                 },
                                 method: 'POST',
                                 success: function (result) {
                                     if (result.code === 0) {
                                         options.success(result);
                                         layer.msg('删除成功！', {time: 1000, icon: 1});
-                                    }
-                                    else
+                                    }else{
                                         options.error(result);
+                                    }
                                 },
                                 error: function (result) {
                                     options.error(result);
@@ -131,9 +141,10 @@
                             id: "id",
                             fields: {
                                 id: {editable: false, nullable: true},
+                                code: {type: "string", nullable: false},
                                 name: {type: "string", nullable: false},
-                                reportid: {type: "string", nullable: false},
-                                type: {type: "string", nullable: false},
+                                pid: {type: "string", nullable: false},
+                                pidname:{type: "string", nullable: false},
                                 description: {type: "string", nullable: false}
                             }
                         }
@@ -165,16 +176,33 @@
             },
             add: function () {
                 layer.close(vm.layItem);
-                pushData = {
-                    id: 0
-                };
+                //判断是否有选中的对象
+                var grid = $("#grid").data('kendoGrid');
+                var row = grid.select();
+                var dataItem = grid.dataItem(row);
+                if(dataItem == null){
+                    pushData = {
+                        id: -1,
+                        pid:-1
+                    };
+                }else{
+                    if(dataItem.id && !dataItem.code){
+                        layer.msg("父节点不含有编码，无法创建子节点");
+                        return;
+                    }
+                    pushData = {
+                        id: -1,
+                        pid:dataItem.id,
+                        pidname:dataItem.name
+                    };
+                }
                 this.layItem = layer.open({
-                    title: '添加报表信息',
+                    title: '添加数据字典',
                     type: 2,
                     area: ['500px', '340px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/bo/console/report_info_update.html',
+                    content: '/system/dictionary/dict_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -184,12 +212,12 @@
             edit:function () {
                 layer.close(vm.layItem);
                 this.layItem = layer.open({
-                    title: '编辑报表信息',
+                    title: '编辑数据字典',
                     type: 2,
                     area: ['500px', '340px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/bo/console/report_info_update.html',
+                    content: '/system/dictionary/dict_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()

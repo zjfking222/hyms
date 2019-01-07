@@ -1,24 +1,19 @@
 package com.hy.dto;
 
+import java.util.List;
+
 /**
  * @Auther: 沈超宇
  * @Date: 2018/12/27 14:09
  * @Description:基础信息数据字典表Dto
  */
 public class SysDictDto {
-    private int id;
+    private Integer id;
     private String code;
     private String name;
-    private int pid;
-    private int deleteFlag;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private Integer pid;
+    private String pidname;
+    private String description;
 
     public String getCode() {
         return code;
@@ -36,19 +31,35 @@ public class SysDictDto {
         this.name = name;
     }
 
-    public int getPid() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(Integer pid) {
         this.pid = pid;
     }
 
-    public int getDeleteFlag() {
-        return deleteFlag;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDeleteFlag(int deleteFlag) {
-        this.deleteFlag = deleteFlag;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPidname() {
+        return pidname;
+    }
+
+    public void setPidname(String pidname) {
+        this.pidname = pidname;
     }
 }

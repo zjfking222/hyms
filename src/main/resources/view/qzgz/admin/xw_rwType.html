@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>报表信息</title>
+    <title>人物新闻类型</title>
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
 </head>
 <body>
-    <div id="grid"></div>
+<div id="grid"></div>
 
 <script src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
@@ -16,14 +16,12 @@
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
-    var directoryid = parent.currentCata.node.id;
-    var pushData;
+    var pushCode = parent.code;
     var vm = new Vue({
         el: "",
         data: {
             dataSource: [],
-            activeItem: {id: 0, title: "", content: ""},
-            layItem: null
+            activeItem: {id: 0, title: "", content: ""}
         },
         created: function () {
             this.getDataSource();
@@ -39,21 +37,11 @@
                 },
                 columnMenu: true,
                 sortable: true,
-                pageable: {
-                    refresh: true,
-                    pageSizes: true,
-                    buttonCount: 5
-                },
                 toolbar: [{
-                    template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
-                    '<input type="text" class="k-input" id="search-input"/>' +
-                    '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                    template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>'
                 }],
                 columns: [
-                    {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "name", title: "报表名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
-                    {field: "type", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                    {field: "name", title: "新闻类型", headerAttributes: {"class": "grid-algin-center"}, width: "200px"},
                     {
                         command: [{
                             name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -63,15 +51,12 @@
                                 var data = this.dataItem(tr);
                                 pushData = {
                                     id: data.id,
-                                    name: data.name,
-                                    reportid: data.reportid,
-                                    type: data.type,
-                                    description:data.description
+                                    name: data.name
                                 };
                                 vm.edit();
                             }
                         }, {name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],
-                        title: "操作", width: "155px"
+                        title: "操作", width: "240px"
                     },{field: "", title: ""}
                 ]
             });
@@ -82,59 +67,54 @@
                     transport: {
                         read: function (options) {
                             $.ajax({
-                                url: "/bo/getReportInfo",
-                                data: {
-                                    'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
-                                        undefined : options.data.sort[0].field,
-                                    'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?
-                                        undefined : options.data.sort[0].dir,
-                                    'page': options.data.page,
-                                    'pageSize': options.data.pageSize,
-                                    'value': $('#search-input').val(),
-                                    'directoryid':directoryid
-                                },
+                                url: "/qzgz/admin/getNewsType",
+                                data: {code: pushCode},
                                 method: 'POST',
                                 success: function (result) {
                                     if (result.code === 0) {
-                                        options.success({data: result.data.data, total: result.data.total});
+                                        options.success({data: result.data});
                                     }
                                     else
-                                        options.error(result);
+                                        options.error(result.msg);
+                                },
+                                error: function () {
+                                    options.error("数据查询失败");
                                 }
                             });
                         },
                         destroy: function (options) {
-                            $.ajax({
-                                url: "/bo/delReportInfo",
-                                data: {
-                                    'reportid': options.data.reportid
-                                },
-                                method: 'POST',
-                                success: function (result) {
-                                    if (result.code === 0) {
-                                        options.success(result);
-                                        layer.msg('删除成功！', {time: 1000, icon: 1});
-                                    }
-                                    else
+                            var count = FetchData({type: options.data.id}, 'POST', '/qzgz/admin/getNewsByTypeDel', false).data;
+                            if(count === 0){
+                                $.ajax({
+                                    url: "/qzgz/admin/delNewsType",
+                                    data: {
+                                        'id': options.data.id
+                                    },
+                                    method: 'POST',
+                                    success: function (result) {
+                                        if (result.code === 0) {
+                                            options.success(result);
+                                            layer.msg('删除成功！', {time: 1000, icon: 1});
+                                        }
+                                        else
+                                            options.error(result);
+                                    },
+                                    error: function (result) {
                                         options.error(result);
-                                },
-                                error: function (result) {
-                                    options.error(result);
-                                }
-                            });
+                                    }
+                                });
+                            }else {
+                                layer.msg('该新闻类型存在新闻，无法删除！');
+                                $("#grid").data("kendoGrid").dataSource.read();
+                            }
                         }
                     },
                     schema: {
                         data: "data",
-                        total: "total",
                         model: {
                             id: "id",
                             fields: {
-                                id: {editable: false, nullable: true},
-                                name: {type: "string", nullable: false},
-                                reportid: {type: "string", nullable: false},
-                                type: {type: "string", nullable: false},
-                                description: {type: "string", nullable: false}
+                                name: {type: "string", nullable: false}
                             }
                         }
                     },
@@ -157,9 +137,6 @@
                             response.type = e.type;
                         }
                     },
-                    pageSize: 15,
-                    serverPaging: true,
-                    // serverFiltering: true,
                     serverSorting: true
                 });
             },
@@ -169,12 +146,12 @@
                     id: 0
                 };
                 this.layItem = layer.open({
-                    title: '添加报表信息',
+                    title: '添加人物新闻类型',
                     type: 2,
-                    area: ['500px', '340px'],
+                    area: ['300px', '50%'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/bo/console/report_info_update.html',
+                    content: '/qzgz/admin/xw_rwType_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -184,23 +161,33 @@
             edit:function () {
                 layer.close(vm.layItem);
                 this.layItem = layer.open({
-                    title: '编辑报表信息',
+                    title: '编辑人物新闻类型',
                     type: 2,
-                    area: ['500px', '340px'],
+                    area: ['300px', '50%'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/bo/console/report_info_update.html',
+                    content: '/qzgz/admin/xw_rwType_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
                     }
                 });
-            },
-            search:function () {
-                $("#grid").data("kendoGrid").dataSource.read()
             }
         }
-    })
+    });
+    function FetchData(data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    }
 </script>
 </body>
 </html>

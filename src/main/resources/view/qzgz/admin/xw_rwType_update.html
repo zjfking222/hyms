@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>更新新闻类型</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80%; margin: 10px auto">
+<form>
+    <div class="form-group">
+        <label for="name">新闻类型</label>
+        <input class="form-control input-sm-8" id="name" placeholder="输入新闻类型">
+    </div>
+    <a id="submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var data, postData, pushCode;
+    var index = parent.layer.getFrameIndex(window.name);
+    $(function () {
+        data = parent.pushData;
+        pushCode = parent.pushCode;
+        var pid = FetchData({code: pushCode}, 'POST', '/qzgz/admin/getByCode', false).data.id;
+        if (data.id === 0) {
+
+        }else {
+            $('#name').val(data.name);
+        }
+        $('#submit').on('click', function () {
+            if(pid === null || pid === ''){
+                layer.msg('CODE不存在，请联系管理员！');
+                return;
+            }
+            if($('#name').val() == ''){
+                layer.msg('新闻类型必填！');
+                return;
+            }
+            postData = {
+                id: data.id,
+                name: $('#name').val(),
+                pid: pid
+            };
+            if(data.id === 0){
+                var postBack = FetchData(postData, 'POST', '/qzgz/admin/addNewsType', false);
+                if(postBack.code === 0){
+                    postData.id = postBack.data;
+                    parent.vm.dataSource.add(postData);
+                    parent.layer.msg('添加成功');
+                }else {
+                    parent.layer.msg('添加失败');
+                }
+                parent.layer.close(index);
+            }else {
+                if (FetchData(postData, 'POST', '/qzgz/admin/setNewsType', false)) {
+                    parent.vm.dataSource.pushUpdate(postData);
+                    parent.layer.msg('修改成功');
+                } else {
+                    parent.layer.close('修改失败');
+                }
+                parent.layer.close(index);
+            }
+        })
+    });
+    var FetchData = function (data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    };
+</script>
+</html>

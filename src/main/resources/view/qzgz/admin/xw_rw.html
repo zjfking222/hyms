@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>报表信息</title>
+    <title>新闻</title>
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
 </head>
 <body>
-    <div id="grid"></div>
+<div id="grid"></div>
 
 <script src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
@@ -16,8 +16,9 @@
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
-    var directoryid = parent.currentCata.node.id;
     var pushData;
+    var code = 'qzgz_news_figure';
+    var type = FetchData({code: code}, 'POST', '/qzgz/admin/getNewsType', false).data;
     var vm = new Vue({
         el: "",
         data: {
@@ -47,13 +48,16 @@
                 toolbar: [{
                     template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
                     '<input type="text" class="k-input" id="search-input"/>' +
-                    '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                    '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>' +
+                    '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.editType()"><span class="k-icon k-i-settings"></span>新闻类型维护</a>' +
+                    '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.editBanner()"><span class="k-icon k-i-settings"></span>banner图维护</a>'
                 }],
                 columns: [
-                    {field: "reportid", title: "报表ID", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "name", title: "报表名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
-                    {field: "type", title: "类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                    {field: "date", title: "日期", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "title", title: "标题", headerAttributes: {"class": "grid-algin-center"}, width: '250px'},
+                    {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '140px'},
+                    {field: "url", title: "文字路径", headerAttributes: {"class": "grid-algin-center"}, width: '260px'},
+                    {field: "type", title: "新闻类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {
                         command: [{
                             name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -63,15 +67,16 @@
                                 var data = this.dataItem(tr);
                                 pushData = {
                                     id: data.id,
-                                    name: data.name,
-                                    reportid: data.reportid,
-                                    type: data.type,
-                                    description:data.description
+                                    date: data.date,
+                                    title: data.title,
+                                    description:data.description,
+                                    url: data.url,
+                                    type: data.type
                                 };
                                 vm.edit();
                             }
                         }, {name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],
-                        title: "操作", width: "155px"
+                        title: "操作", width: "165px"
                     },{field: "", title: ""}
                 ]
             });
@@ -82,7 +87,7 @@
                     transport: {
                         read: function (options) {
                             $.ajax({
-                                url: "/bo/getReportInfo",
+                                url: "/qzgz/admin/getNews",
                                 data: {
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                         undefined : options.data.sort[0].field,
@@ -91,11 +96,18 @@
                                     'page': options.data.page,
                                     'pageSize': options.data.pageSize,
                                     'value': $('#search-input').val(),
-                                    'directoryid':directoryid
+                                    'code': code
                                 },
                                 method: 'POST',
                                 success: function (result) {
                                     if (result.code === 0) {
+                                        for (var i = 0; i < result.data.data.length; i++){
+                                            for (var j = 0; j < type.length; j++){
+                                                if(result.data.data[i].type === type[j].id){
+                                                    result.data.data[i].type = type[j].name;
+                                                }
+                                            }
+                                        }
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else
@@ -105,9 +117,9 @@
                         },
                         destroy: function (options) {
                             $.ajax({
-                                url: "/bo/delReportInfo",
+                                url: "/qzgz/admin/delNews",
                                 data: {
-                                    'reportid': options.data.reportid
+                                    'id': options.data.id
                                 },
                                 method: 'POST',
                                 success: function (result) {
@@ -131,10 +143,11 @@
                             id: "id",
                             fields: {
                                 id: {editable: false, nullable: true},
-                                name: {type: "string", nullable: false},
-                                reportid: {type: "string", nullable: false},
-                                type: {type: "string", nullable: false},
-                                description: {type: "string", nullable: false}
+                                date: {type: "string", nullable: false},
+                                title: {type: "string", nullable: false},
+                                description: {type: "string", nullable: false},
+                                url: {type: "string", nullable: false},
+                                type: {type: "string", nullable: false}
                             }
                         }
                     },
@@ -169,12 +182,12 @@
                     id: 0
                 };
                 this.layItem = layer.open({
-                    title: '添加报表信息',
+                    title: '添加人物新闻信息',
                     type: 2,
-                    area: ['500px', '340px'],
+                    area: ['500px', '500px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/bo/console/report_info_update.html',
+                    content: '/qzgz/admin/xw_rw_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -184,12 +197,12 @@
             edit:function () {
                 layer.close(vm.layItem);
                 this.layItem = layer.open({
-                    title: '编辑报表信息',
+                    title: '编辑人物新闻信息',
                     type: 2,
-                    area: ['500px', '340px'],
+                    area: ['500px', '500px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/bo/console/report_info_update.html',
+                    content: '/qzgz/admin/xw_rw_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -198,9 +211,52 @@
             },
             search:function () {
                 $("#grid").data("kendoGrid").dataSource.read()
+            },
+            editType: function () {
+                layer.close(vm.layItem);
+                this.layItem = layer.open({
+                    title: '人物新闻类型',
+                    type: 2,
+                    area: ['60%', '60%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/qzgz/admin/xw_rwType.html',
+                    shadeClose: true,
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
+            },
+            editBanner: function () {
+                layer.close(vm.layItem);
+                this.layItem = layer.open({
+                    title: '人物banner图',
+                    type: 2,
+                    area: ['100%', '100%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/qzgz/admin/xw_rwBanner.html',
+                    shadeClose: true,
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
             }
         }
-    })
+    });
+    function FetchData(data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    }
 </script>
 </body>
 </html>

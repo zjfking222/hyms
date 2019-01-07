@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
 import com.hy.dto.QzgzNewsDto;
 import com.hy.mapper.ms.QzgzNewsMapper;
+import com.hy.mapper.ms.SysDictMapper;
 import com.hy.model.QzgzNews;
+import com.hy.model.SysDict;
 import com.hy.service.qzgz.NewsService;
 import com.hy.utils.DTOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +23,29 @@ import java.util.List;
 public class NewsServiceImpl implements NewsService{
     @Autowired
     private QzgzNewsMapper qzgzNewsMapper;
+    @Autowired
+    private SysDictMapper sysDictMapper;
 
     @Override
-    //查询新闻信息
-    public List<QzgzNewsDto> getNews(String value, String sort, String dir, int page, int pageSize){
+    //查询动态新闻信息
+    public List<QzgzNewsDto> getNews(String value, String sort, String dir, int page, int pageSize, String code){
         PageHelper.startPage(page, pageSize);
-        List<QzgzNews> qzgzNews = qzgzNewsMapper.selectNews(value, sort, dir);
+        List<SysDict> sysDict = sysDictMapper.selectChildByCode(code);
+        List<QzgzNews> qzgzNews = qzgzNewsMapper.selectNews(value, sort, dir, sysDict);
         return DTOUtil.populateList(qzgzNews, QzgzNewsDto.class);
     }
 
     @Override
-    //查询新闻总条数，用于分页
-    public Integer getNewsTotal(String value){
-        return qzgzNewsMapper.selectNewsTotal(value);
+    //查询动态新闻总条数，用于分页
+    public Integer getNewsTotal(String value, String code){
+        List<SysDict> sysDict = sysDictMapper.selectChildByCode(code);
+        return qzgzNewsMapper.selectNewsTotal(value, sysDict);
+    }
+
+    @Override
+    //删除新闻类型时根据type查询是否有新闻
+    public Integer getNewsTypeDel(int type){
+        return qzgzNewsMapper.selectNewTypeDel(type);
     }
 
     @Override
@@ -61,15 +73,16 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     //查询新闻类型
-    public List<QzgzNewsDto> getNewsType(){
-        return DTOUtil.populateList(qzgzNewsMapper.selectNewsType(), QzgzNewsDto.class);
+    public List<QzgzNewsDto> getNewsType(String code){
+        List<SysDict> sysDict = sysDictMapper.selectChildByCode(code);
+        return DTOUtil.populateList(qzgzNewsMapper.selectNewsType(sysDict), QzgzNewsDto.class);
     }
     //根据新闻类型查询新闻
-    public List<QzgzNewsDto> getNewsByType(String type, int num){
+    public List<QzgzNewsDto> getNewsByType(int type, int num){
         return DTOUtil.populateList(qzgzNewsMapper.selectNewsByType(type, num), QzgzNewsDto.class);
     }
     //根据新闻类型查询新闻总数
-    public Integer getNewsByTypeTotal(String type){
+    public Integer getNewsByTypeTotal(int type){
         return qzgzNewsMapper.selectNewsByTypeTotal(type);
     }
 }

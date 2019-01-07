@@ -11,9 +11,11 @@ import java.util.List;
  */
 public interface NewsService {
     //查询新闻
-    List<QzgzNewsDto> getNews(String value, String sort, String dir, int page, int pageSize);
+    List<QzgzNewsDto> getNews(String value, String sort, String dir, int page, int pageSize, String code);
     //查询新闻总条数，用于分页
-    Integer getNewsTotal(String value);
+    Integer getNewsTotal(String value, String code);
+    //删除新闻类型时根据type查询是否有新闻
+    Integer getNewsTypeDel(int type);
     //新增新闻
     boolean addNews(QzgzNewsDto qzgzNewsDto);
     //修改新闻信息
@@ -21,9 +23,9 @@ public interface NewsService {
     //删除新闻
     boolean delNews(int id);
     //查询新闻类型
-    List<QzgzNewsDto> getNewsType();
+    List<QzgzNewsDto> getNewsType(String code);
     //根据新闻类型查询新闻并分页
-    List<QzgzNewsDto> getNewsByType(String value, int num);
+    List<QzgzNewsDto> getNewsByType(int type, int num);
     //根据新闻类型查询新闻总数
-    Integer getNewsByTypeTotal(String type);
+    Integer getNewsByTypeTotal(int type);
 }

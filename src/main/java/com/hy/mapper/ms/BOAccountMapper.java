@@ -23,4 +23,21 @@ public interface BOAccountMapper extends BaseMapper<Integer, BOAccount>{
      **/
     List<BOAccount> selectByAccountid(@Param("accountid")String accountid);
 
+    /**
+     * @Author 钱敏杰
+     * @Description 通过人员账号获取当前人员当前报表所能使用的BO账号信息
+     * @Date 2019/1/2 17:14
+     * @Param [reportid, empnum]
+     * @return com.hy.model.BOAccount
+     **/
+    BOAccount getEmpReportAcc(@Param("reportid")String reportid, @Param("empnum")String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 通过人员角色获取当前人员当前报表所能使用的BO账号信息
+     * @Date 2019/1/2 17:29
+     * @Param [reportid, empnum]
+     * @return com.hy.model.BOAccount
+     **/
+    BOAccount getRoleReportAcc(@Param("reportid")String reportid, @Param("empnum")String empnum);
 }

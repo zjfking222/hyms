@@ -29,11 +29,18 @@ public class NewsController {
     //查询新闻并分页
     public ResultObj getNews(@RequestParam(required = false) String value, int page, int pageSize,
                              @RequestParam(required = false) String sort,
-                             @RequestParam(required = false) String dir){
+                             @RequestParam(required = false) String dir, String code){
         Map<String, Object> map = new HashMap<>();
-        map.put("data", newsService.getNews(value, sort, dir, page, pageSize));
-        map.put("total", newsService.getNewsTotal(value));
+        map.put("data", newsService.getNews(value, sort, dir, page, pageSize, code));
+        map.put("total", newsService.getNewsTotal(value,code));
         return ResultObj.success(map);
+    }
+
+    @PostMapping("/admin/getNewsByTypeDel")
+    //删除新闻类型时根据type查询是否有新闻
+    public ResultObj getNewsByTypeDel(int type){
+        System.out.println(newsService.getNewsTypeDel(type));
+        return ResultObj.success(newsService.getNewsTypeDel(type));
     }
 
     @PostMapping("/admin/addNews")
@@ -62,19 +69,19 @@ public class NewsController {
 
     @PostMapping("/web/getNewsType")
     //查询新闻类型
-    public ResultObj getNewsType(){
-        return ResultObj.success(newsService.getNewsType());
+    public ResultObj getNewsType(String code){
+        return ResultObj.success(newsService.getNewsType(code));
     }
 
     @PostMapping("/web/getNewsByType")
     //根据新闻类型查询新闻并分页
-    public ResultObj getNewsByType(String type, int num){
+    public ResultObj getNewsByType(int type, int num){
         return ResultObj.success(newsService.getNewsByType(type, num));
     }
 
     @PostMapping("/web/getNewsByTypeTotal")
     //根据新闻类型查询新闻总数
-    public ResultObj getNewsByTypeTotal(String type){
+    public ResultObj getNewsByTypeTotal(int type){
         return ResultObj.success(newsService.getNewsByTypeTotal(type));
     }
 }

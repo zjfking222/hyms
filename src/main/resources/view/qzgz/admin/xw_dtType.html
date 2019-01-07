@@ -16,6 +16,7 @@
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
+    var pushCode = parent.code;
     var vm = new Vue({
         el: "",
         data: {
@@ -67,7 +68,7 @@
                         read: function (options) {
                             $.ajax({
                                 url: "/qzgz/admin/getNewsType",
-                                data: null,
+                                data: {code: pushCode},
                                 method: 'POST',
                                 success: function (result) {
                                     if (result.code === 0) {
@@ -82,24 +83,30 @@
                             });
                         },
                         destroy: function (options) {
-                            $.ajax({
-                                url: "/qzgz/admin/delNewsType",
-                                data: {
-                                    'id': options.data.id
-                                },
-                                method: 'POST',
-                                success: function (result) {
-                                    if (result.code === 0) {
-                                        options.success(result);
-                                        layer.msg('删除成功！', {time: 1000, icon: 1});
-                                    }
-                                    else
+                            var count = FetchData({type: options.data.id}, 'POST', '/qzgz/admin/getNewsByTypeDel', false).data;
+                            if(count === 0){
+                                $.ajax({
+                                    url: "/qzgz/admin/delNewsType",
+                                    data: {
+                                        'id': options.data.id
+                                    },
+                                    method: 'POST',
+                                    success: function (result) {
+                                        if (result.code === 0) {
+                                            options.success(result);
+                                            layer.msg('删除成功！', {time: 1000, icon: 1});
+                                        }
+                                        else
+                                            options.error(result);
+                                    },
+                                    error: function (result) {
                                         options.error(result);
-                                },
-                                error: function (result) {
-                                    options.error(result);
-                                }
-                            });
+                                    }
+                                });
+                            }else {
+                                layer.msg('该新闻类型存在新闻，无法删除！');
+                                $("#grid").data("kendoGrid").dataSource.read();
+                            }
                         }
                     },
                     schema: {
@@ -139,12 +146,12 @@
                     id: 0
                 };
                 this.layItem = layer.open({
-                    title: '添加新闻类型',
+                    title: '添加动态新闻类型',
                     type: 2,
                     area: ['300px', '50%'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/qzgz/admin/xw_type_update.html',
+                    content: '/qzgz/admin/xw_dtType_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -154,12 +161,12 @@
             edit:function () {
                 layer.close(vm.layItem);
                 this.layItem = layer.open({
-                    title: '编辑新闻类型',
+                    title: '编辑动态新闻类型',
                     type: 2,
                     area: ['300px', '50%'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/qzgz/admin/xw_type_update.html',
+                    content: '/qzgz/admin/xw_dtType_update.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -167,7 +174,20 @@
                 });
             }
         }
-    })
+    });
+    function FetchData(data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    }
 </script>
 </body>
 </html>

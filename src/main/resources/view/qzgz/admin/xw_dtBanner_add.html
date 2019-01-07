@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>添加banner图</title>
+    <title>添加动态banner图</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/statics/plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
     <!--下面css需要用到-->
@@ -17,6 +17,7 @@
 <a class="btn btn-primary" id="submit">提&nbsp;&nbsp;&nbsp;交</a>
 
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/jquery-md5/jquery.md5.js"></script>
 <script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/statics/plugins/layer/layer.js"></script>
 <script>
@@ -25,17 +26,18 @@
         var path;
         $("#input-b1").fileinput({
             language: 'zh',
-            uploadUrl: '/qzgz/admin/saveBanner',
+            uploadUrl: '/qzgz/admin/saveBannerActive',
             allowedFileExtensions: ['jpg', 'png', 'gif'],
             maxFileCount: 1,
             allowedFileTypes: ['image'],
             //设置上传图片大小
             previewSettings: {
-                image: {width: "750px", height: "400px"}
+                image: {width: "450px", height: "200px"}
             },
             //文件名替换
             slugCallback: function (filename) {
-                return filename.replace('(', '_').replace(']', '_');
+                var date = new Date();
+                return $.md5(date.toString()) + filename;
             }
         }).on("fileuploaded", function (event, data) {
             if (data.response.data === null){
@@ -60,7 +62,8 @@
             if (FetchData({
                 title: $('#title').val(),
                 url: $('#url').val(),
-                path: path
+                path: path,
+                type: parent.pushCode
             }, 'POST', '/qzgz/admin/addNewsBanner', false).code === 0) {
                 parent.location.reload();
             }

@@ -38,7 +38,7 @@
                     <ul class="mine-view jie-row">
                         <li v-for="(item, index) in dataSource">
                             <span>{{ index+1 }}</span>
-                            <a class="jie-title" target="_blank" href="javascript:">{{ item.name }}</a>
+                            <a class="jie-title" target="_blank" href="javascript:" @click="openReport(item.reportid, item.name)">{{ item.name }}</a>
                         </li>
                     </ul>
                 </div>
@@ -50,14 +50,16 @@
     <script src="/statics/plugins/vue/vue.min.js"></script>
     <script src="/statics/plugins/layer/layer.js"></script>
     <script>
+        var pushData;
         var vm = new Vue({
             el: "#boreports",
             data: {
                 dataSource: getDataSource()
             },
             methods: {
-                openReport:function () {
-                    //打开报表展示
+                openReport:function (reportid, name) {
+                    //打开报表tab页展示
+                    window.parent.vm.reportClick(reportid, name);
                 }
             }
         });

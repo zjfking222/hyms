@@ -15,11 +15,11 @@
     <sql id="Base_Column_List">
         id, title, url, path, type, creater, created, modifier, modified
     </sql>
-    <select id="selectNewsBanner" resultMap="BaseResultMap">
+    <select id="selectNewsBanner" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from bi_picture
-        where type = 'qzgz_xw_banner'
+        where type = #{type}
     </select>
     <select id="selectNewsBannerById" resultMap="BaseResultMap">
         select

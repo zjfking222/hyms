@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>新闻</title>
+    <title>人物新闻</title>
     <link rel="stylesheet" href="/statics/plugins/mui/css/mui.min.css">
 </head>
 <style>
@@ -32,7 +32,7 @@
 </style>
 <body>
 <div id="app">
-    <div class="mui-slider" style="height: 200px;position: fixed;">
+    <div class="mui-slider" style="height: 200px;position: fixed;" id="bannerSlider">
         <div class="mui-slider-group mui-slider-loop">
             <!--支持循环，需要重复图片节点-->
             <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img id="end"
@@ -58,8 +58,8 @@
             <div id="sliderSegmentedControl"
                  class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
                 <div class="mui-scroll">
-                    <p class="mui-control-item mui-active" v-for="(nt,index) in newsType" v-if="index === 0" :name="nt.name">{{nt.name}}</p>
-                    <p class="mui-control-item" v-for="(nt,index) in newsType" v-if="index !== 0" :name="nt.name">{{nt.name}}</p>
+                    <p class="mui-control-item mui-active" v-for="(nt,index) in newsType" v-if="index === 0" :name="nt.id">{{nt.name}}</p>
+                    <p class="mui-control-item" v-for="(nt,index) in newsType" v-if="index !== 0" :name="nt.id">{{nt.name}}</p>
                 </div>
             </div>
         </div>
@@ -81,14 +81,15 @@
 <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/statics/plugins/mui/js/mui.min.js"></script>
 <script>
-    var firstPage = 1, page = 1, pageSize = 8;
+    var firstPage = 1, page = 1, pageSize = 20;
+    var code = 'qzgz_news_figure';
     $(function () {
         function dataBanner() {
-            return FetchData(null, 'POST', '/qzgz/web/getNewsBanner', false).data;
+            return FetchData({type: code}, 'POST', '/qzgz/web/getNewsBanner', false).data;
         }
 
         function dataType() {
-            return FetchData(null, 'POST', '/qzgz/web/getNewsType', false).data;
+            return FetchData({code: code}, 'POST', '/qzgz/web/getNewsType', false).data;
         }
 
         function dataNews(type, num) {
@@ -100,7 +101,7 @@
         }
 
         function dataNewsType() {
-            return FetchData(null, 'POST', '/qzgz/web/getNewsTypeWeb', false).data;
+            return FetchData({code: code}, 'POST', '/qzgz/web/getNewsTypeWeb', false).data;
         }
 
         var all = dataBanner();
@@ -121,7 +122,7 @@
         var newsType = dataNewsType();
         var name;
         if(newsType.length > 0){
-            name = newsType[0].name
+            name = newsType[0].id
         }else {
             name = null
         }
@@ -156,6 +157,11 @@
             gallery.slider({
                 interval: 0//自动轮播周期，若为0则不自动播放，默认为0；
             });
+            //当只有banner图数量<1时，禁止滑动
+            document.querySelector('#bannerSlider').addEventListener('touchmove', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            })
         }
 
         //mui-slider 监听事件

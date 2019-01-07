@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>新闻Banner图</title>
+    <title>人物新闻Banner图</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/statics/plugins/layui/css/layui.css">
     <!--下面css需要用到-->
@@ -11,30 +11,30 @@
 </head>
 <body>
 <div class="container-fluid">
-        <div class="row">
-            <div id="app">
-                <div class="table-responsive">
-                    <a type="button" class="btn btn-success btn-sm" @click="onAdd()">添加</a>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                        <tr class="active">
-                            <th class="t1">标题</th>
-                            <th class="t2">Banner图</th>
-                            <th class="t3">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody class="table-hover">
-                        <tr v-for="nb in data1">
-                            <td>{{ nb.title }}</td>
-                            <td><a @click="onbrowse(nb.url)"><img :src=nb.url></a></td>
-                            <td>
-                                <button class="btn btn-success btn-sm" @click="onDel(nb.id)">删除</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <div class="row">
+        <div id="app">
+            <div class="table-responsive">
+                <a type="button" class="btn btn-success btn-sm" @click="onAdd()">添加</a>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th class="t1">标题</th>
+                        <th class="t2">Banner图</th>
+                        <th class="t3">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover">
+                    <tr v-for="nb in data1">
+                        <td>{{ nb.title }}</td>
+                        <td><a @click="onbrowse(nb.url)"><img :src=nb.url></a></td>
+                        <td>
+                            <button class="btn btn-success btn-sm" @click="onDel(nb.id)">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
@@ -42,9 +42,10 @@
 <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/statics/plugins/layer/layer.js"></script>
 <script>
+    var pushCode = parent.code;
     $(function () {
         function dataSource() {
-            return FetchData(null, 'POST', '/qzgz/admin/getNewsBanner', false).data;
+            return FetchData({type: pushCode}, 'POST', '/qzgz/admin/getNewsBanner', false).data;
         }
         var vm = new Vue({
             el: '#app',
@@ -54,12 +55,12 @@
             methods: {
                 onAdd: function () {
                     layer.open({
-                        title:'添加新闻Banner图',
+                        title:'添加人物新闻Banner图',
                         type: 2,
-                        area: ['700px', '610px'],
+                        area: ['700px', '640px'],
                         fixed: false, //不固定
                         maxmin: true,
-                        content: '/qzgz/admin/xw_banner_add.html'
+                        content: '/qzgz/admin/xw_rwBanner_add.html'
                     });
                 },
                 onbrowse:function (img) {
@@ -75,17 +76,17 @@
                 onDel: function (id) {
                     layer.confirm('确认删除吗？删除后将不可恢复。', {btn: ['删除', '取消']},
                         function () {
-                        if(FetchData({id: id}, 'POST', '/qzgz/admin/delNewsBanner', false).code === 0){
-                            layer.msg('删除成功！',{
-                                time: 500,
-                                end: function () {
-                                    vm.data1 = dataSource();
-                                }
-                            });
-                        }else {
-                            layer.msg('删除失败！');
-                        }
-                    }, function () {});
+                            if(FetchData({id: id}, 'POST', '/qzgz/admin/delNewsBanner', false).code === 0){
+                                layer.msg('删除成功！',{
+                                    time: 500,
+                                    end: function () {
+                                        vm.data1 = dataSource();
+                                    }
+                                });
+                            }else {
+                                layer.msg('删除失败！');
+                            }
+                        }, function () {});
                 }
             }
         })

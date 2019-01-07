@@ -17,23 +17,30 @@
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
-    var data, postData;
+    var data, postData, pushCode;
     var index = parent.layer.getFrameIndex(window.name);
     $(function () {
         data = parent.pushData;
+        pushCode = parent.pushCode;
+        var pid = FetchData({code: pushCode}, 'POST', '/qzgz/admin/getByCode', false).data.id;
         if (data.id === 0) {
 
         }else {
             $('#name').val(data.name);
         }
         $('#submit').on('click', function () {
+            if(pid === null || pid === ''){
+                layer.msg('CODE不存在，请联系管理员！');
+                return;
+            }
             if($('#name').val() == ''){
                 layer.msg('新闻类型必填！');
                 return;
             }
             postData = {
                 id: data.id,
-                name: $('#name').val()
+                name: $('#name').val(),
+                pid: pid
             };
             if(data.id === 0){
                 var postBack = FetchData(postData, 'POST', '/qzgz/admin/addNewsType', false);

@@ -27,4 +27,13 @@ public interface BoIndexService {
      * @return java.util.List<com.hy.dto.BOInfoDto>
      **/
     List<BOInfoDto> getDisplayReport(String directoryid, String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前BO报表查看的url地址
+     * @Date 2019/1/3 8:11
+     * @Param [reportid]
+     * @return java.lang.String
+     **/
+    String getRealReport(String reportid);
 }

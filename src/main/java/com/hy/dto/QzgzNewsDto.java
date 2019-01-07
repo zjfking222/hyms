@@ -11,7 +11,7 @@ public class QzgzNewsDto {
     private String date;
     private String description;
     private String url;
-    private String type;
+    private int type;
 
     public int getId() {
         return id;
@@ -53,11 +53,11 @@ public class QzgzNewsDto {
         this.url = url;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 }
