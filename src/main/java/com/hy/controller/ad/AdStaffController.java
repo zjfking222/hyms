@@ -2,11 +2,13 @@ package com.hy.controller.ad;
 
 import com.hy.common.ResultObj;
 
+import com.hy.common.SecurityUtil;
 import com.hy.config.ldap.LdapConfig;
 import com.hy.config.ldap.LdapUtil;
 import com.hy.enums.ResultCode;
 import com.hy.service.ad.AdStaffService;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +55,24 @@ public class AdStaffController {
         try{
             return ResultObj.success(LdapUtil.searchStaffByName(name));
         }catch (Exception e){
+            return ResultObj.error(ResultCode.ERROR_UNKNOWN);
+        }
+    }
+
+    @PostMapping("/staff/getOperator")
+    public ResultObj getOperator(){
+        try {
+            return ResultObj.success(SecurityUtil.getUserName());
+        }catch (SecurityException e){
+            return ResultObj.error(ResultCode.ERROR_UNKNOWN);
+        }
+    }
+
+    @PostMapping("/staff/updateOperator")
+    public ResultObj updateOperator(String id){
+        try {
+            return ResultObj.success(adStaffService.updateOperator(id));
+        }catch (SecurityException e){
             return ResultObj.error(ResultCode.ERROR_UNKNOWN);
         }
     }

@@ -2,11 +2,13 @@ package com.hy.service.ad;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.hy.common.SecurityUtil;
 import com.hy.config.jco.JcoDestinationDataProvider;
 import com.hy.config.jco.JcoUtil;
 import com.hy.dto.AdStaffDto;
 import com.hy.mapper.ms.AdStaffMapper;
 import com.hy.model.AdStaff;
+import com.hy.model.LdapStaff;
 import com.hy.utils.DTOUtil;
 import com.sap.conn.jco.*;
 import com.sap.conn.jco.ext.DestinationDataProvider;
@@ -39,11 +41,11 @@ public class AdStaffServiceImpl implements AdStaffService {
 //    }
     //sap端获取人员和部门
     @Override
-    public List<AdStaff> getSapStaff(){
+    public List<LdapStaff> getSapStaff(){
         try {
 //            JCoDestination destination = JCoDestinationManager.getDestination("ABAP_AS");
             JCoDestination destination = JcoUtil.getInstance("ABAP_AS");
-            List<AdStaff> staffList = new ArrayList<>();
+            List<LdapStaff> staffList = new ArrayList<>();
             JCoFunction function = destination.getRepository().getFunction("ZHR_AD002_PERSON_INFO");//从对象仓库中获取 RFM 函数：获取公司列表
             if (function == null)
                 throw new RuntimeException("ZHR_AD002_PERSON_INFO not found in SAP.");
@@ -56,9 +58,9 @@ public class AdStaffServiceImpl implements AdStaffService {
 
             IntStream.range(0, codes.getNumRows()).forEach(i -> {
                 codes.setRow(i);
-                staffList.add(new AdStaff(Integer.valueOf(codes.getString("ZPERNR")),codes.getString("ZNACHN"),
-                        codes.getString("ZYX"),codes.getString("ZDH"),Integer.valueOf(codes.getString("SBMID")),
-                        codes.getString("SBMTX"), codes.getString("SGWTX")));
+                staffList.add(new LdapStaff(codes.getString("ZPERNR"),codes.getString("ZNACHN"),codes.getString("ZSTATU"),
+                        codes.getString("ZYX"),codes.getString("ZDH"),codes.getString("SBMID"),codes.getString("SBMTX"),
+                        codes.getString("SGWTX")));
             });
             return staffList;
         }catch (Exception e){
@@ -97,7 +99,7 @@ public class AdStaffServiceImpl implements AdStaffService {
     }
 
     @Override
-    public List selectAdStaff(int page,int limit,String date,String time) {
+    public List<AdStaffDto> selectAdStaff(int page,int limit,String date,String time) {
         try {
             int startLine=(page-1)*limit;
 
@@ -113,7 +115,11 @@ public class AdStaffServiceImpl implements AdStaffService {
         }
     }
     @Override
-    public Integer getCount(String date,String time){
+    public Integer getCount(String date, String time){
         return adStaffMapper.getCount(date,time);
+    }
+    @Override
+    public Integer updateOperator(String id){
+        return adStaffMapper.updateOperator(SecurityUtil.getLoginid(), id);
     }
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class AdDepartment {
     private int id;
-    private int did;
+    private String did;
     private String name;
     private String oldname;
     private int parentid;
@@ -17,6 +17,15 @@ public class AdDepartment {
     private Date created;
     private String modifier;
     private Date modified;
+    private int operator;
+
+    public int getOperator() {
+        return operator;
+    }
+
+    public void setOperator(int operator) {
+        this.operator = operator;
+    }
 
     public int getId() {
         return id;
@@ -26,11 +35,11 @@ public class AdDepartment {
         this.id = id;
     }
 
-    public int getDid() {
+    public String getDid() {
         return did;
     }
 
-    public void setDid(int did) {
+    public void setDid(String did) {
         this.did = did;
     }
 
