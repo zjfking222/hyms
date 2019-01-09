@@ -139,4 +139,20 @@
             where accountid like concat('%',#{accountid,jdbcType=VARCHAR},'%')
         </if>
     </select>
+    <select id="getEmpReportAcc" resultType="com.hy.model.BOAccount">
+        select a.accountid,a.password
+        from bo_account a, bo_acc_info i
+        where a.accountid = i.accountid and i.reportid=#{reportid,jdbcType=VARCHAR}
+        and reportid in
+        (select reportid from bo_accad_relation where empnum=#{empnum,jdbcType=VARCHAR})
+        limit 1
+    </select>
+    <select id="getRoleReportAcc" resultType="com.hy.model.BOAccount">
+        select a.accountid,a.password
+        from bo_account a, bo_role_report rr,bo_role_account ra
+        where a.accountid = ra.accountid and rr.rid = ra.rid and rr.reportid=#{reportid,jdbcType=VARCHAR}
+        and rr.reportid in
+        (select distinct rr.reportid from bo_role_ad ra,bo_role_report rr where ra.empnum=#{empnum,jdbcType=VARCHAR} and ra.rid = rr.rid)
+        limit 1
+    </select>
 </mapper>

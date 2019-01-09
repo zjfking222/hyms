@@ -54,7 +54,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
     }
 
 
-    public V put(K k, V v,int expire) throws CacheException {
+    public V put(K k, V v, int expire) throws CacheException {
         logger.debug("创建缓存:{}", k);
         V old = get(k);
         redisTemplate.opsForValue().set(getkeyPrefix(k), v, expire, TimeUnit.SECONDS);
@@ -83,6 +83,17 @@ public class ShiroCache<K, V> implements Cache<K, V> {
     @Override
     public Set<K> keys() {
         return redisTemplate.keys(getkeyPrefix("*"));
+    }
+
+    /**
+     * @Author 詹继锋
+     * @Date 2018/12/4 20:03
+     * @Description 是否存在key
+      * @Param: k
+     * @return boolean
+     */
+    public boolean hasKey(K k) {
+       return redisTemplate.hasKey(getkeyPrefix(k));
     }
 
     @Override

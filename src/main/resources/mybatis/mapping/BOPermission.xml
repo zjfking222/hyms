@@ -30,4 +30,11 @@
             (#{item.empnum,jdbcType=VARCHAR}, #{item.reportid,jdbcType=VARCHAR}, #{item.creater,jdbcType=VARCHAR}, #{item.modifier,jdbcType=VARCHAR})
         </foreach >
     </insert>
+    <delete id="deleteAllByEmp">
+        delete from bo_permission where empnum= #{empnum,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByReportid">
+        delete from bo_permission
+      where reportid = #{reportid,jdbcType=VARCHAR}
+    </delete>
 </mapper>

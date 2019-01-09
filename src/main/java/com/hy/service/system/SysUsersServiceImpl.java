@@ -14,6 +14,7 @@ import com.unboundid.ldap.sdk.Filter;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldap.sdk.SearchResult;
 import com.unboundid.ldap.sdk.SearchResultEntry;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,26 +132,77 @@ public class SysUsersServiceImpl implements SysUsersService {
      **/
     @Override
     public List<SysUserDto> searchUsers(String value){
-        SearchResult searchResult;
         List<SysUserDto> resultList = null;
         try {
-            //模糊查询员工号与姓名字段
-            Filter filter = Filter.create("(|(sAMAccountName="+ value +")(sn="+ value +"))");
-            searchResult = LdapUtil.searchResult(null, null, filter);
-            if (null != searchResult && searchResult.getEntryCount() > 0) {
-                resultList = new ArrayList<>();
-                SysUserDto dto = null;
-                for (SearchResultEntry entry : searchResult.getSearchEntries()) {
-                    dto = new SysUserDto();
-                    dto.setId(entry.getAttributeValue("sAMAccountName"));
-                    dto.setLoginid(entry.getAttributeValue("sAMAccountName"));
-                    dto.setLastname(entry.getAttributeValue("sn"));
-                    resultList.add(dto);
+            if(StringUtils.isNotEmpty(value)){
+                //模糊查询员工号与姓名字段
+                Filter filter = Filter.create("(|(sAMAccountName="+ value +")(sn="+ value +"))");
+                SearchResult searchResult = LdapUtil.searchResult(null, null, filter);
+                if (null != searchResult && searchResult.getEntryCount() > 0) {
+                    resultList = new ArrayList<>();
+                    SysUserDto dto = null;
+                    for (SearchResultEntry entry : searchResult.getSearchEntries()) {
+                        dto = new SysUserDto();
+                        dto.setId(entry.getAttributeValue("sAMAccountName"));
+                        dto.setLoginid(entry.getAttributeValue("sAMAccountName"));
+                        dto.setLastname(entry.getAttributeValue("sn"));
+                        resultList.add(dto);
+                    }
                 }
             }
         } catch (LDAPException e) {
             logger.error("从ad域查询员工信息异常！", e);
         }
         return resultList;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据条件查询单个用户
+     * @Date 2018/12/19 18:20
+     * @Param [value]
+     * @return com.hy.dto.SysUserDto
+     **/
+    @Override
+    public SysUserDto searchUser(String value){
+        SearchResult searchResult;
+        SysUserDto resultDto = null;
+        try {
+            //模糊查询员工号与姓名字段
+            Filter filter = Filter.create("(|(sAMAccountName="+ value +")(sn="+ value +"))");
+            searchResult = LdapUtil.searchResult(null, null, filter);
+            if (null != searchResult && searchResult.getEntryCount() > 0) {
+                SearchResultEntry entry = searchResult.getSearchEntries().get(0);
+                resultDto = new SysUserDto();
+                resultDto.setId(entry.getAttributeValue("sAMAccountName"));
+                resultDto.setLoginid(entry.getAttributeValue("sAMAccountName"));
+                resultDto.setLastname(entry.getAttributeValue("sn"));
+            }
+        } catch (LDAPException e) {
+            logger.error("从ad域查询员工信息异常！", e);
+        }
+        return resultDto;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 更新用户信息
+     * @Date 2019/1/4 10:05
+     * @Param [user]
+     * @return boolean
+     **/
+    @Override
+    public boolean updateUser(SysUsersDto user){
+        if(user.getId() != null){
+            SysUsers sysUsers = DTOUtil.populate(user, SysUsers.class);
+            int i = sysUsersMapper.updateByPrimaryKeySelective(sysUsers);
+            if(i >0){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 }

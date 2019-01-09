@@ -21,6 +21,8 @@ public class BOInfoDto {
     private String type;
     //描述
     private String description;
+    //url链接地址
+    private String url;
 
     public Integer getId() {
         return id;
@@ -68,5 +70,13 @@ public class BOInfoDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

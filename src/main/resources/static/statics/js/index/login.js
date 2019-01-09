@@ -4,6 +4,7 @@
 function submitLogin() {
     var loginid = $('#loginid').val();
     var password = $('#password').val();
+    var code = $("#code").val();
     var res = false;
     //加密
     var encrypt=new JSEncrypt();
@@ -12,7 +13,7 @@ function submitLogin() {
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({"loginid": loginid, "password": password}),
+        data: JSON.stringify({"loginid": loginid, "password": password, "code":code}),
         url: '/index/login',
         async: false,
         success: function (data, textStatus) {
@@ -20,6 +21,8 @@ function submitLogin() {
                 goPAGE();
                 res = true;
             } else {
+                $("#alertMsg").text(data.msg);
+                $("#imgcode").attr("src", '/index/getLoginCode?time='+ new Date().getTime());
                 $('.alert-danger').removeClass('display-hide');
             }
         },
@@ -51,3 +54,15 @@ function goPAGE() {
         $(".login-form").attr("action", "/m/index.html")
     }
 }
+//改变验证码
+$(document).ready(function(){
+    //网页端点击事件
+    $("#imgcode").click(function(){
+        $("#imgcode").attr("src", '/index/getLoginCode?time='+ new Date().getTime());
+    });
+    //移动端点击事件
+    $("#imgcode").touch(function(){
+        $("#imgcode").attr("src", '/index/getLoginCode?time='+ new Date().getTime());
+    });
+});
+

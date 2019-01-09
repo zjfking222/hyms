@@ -29,4 +29,8 @@
             (#{item.accountid,jdbcType=VARCHAR}, #{item.reportid,jdbcType=VARCHAR}, #{item.creater,jdbcType=VARCHAR}, #{item.modifier,jdbcType=VARCHAR})
         </foreach >
     </insert>
+    <delete id="deleteByReportid">
+        delete from bo_acc_info
+      where reportid = #{reportid,jdbcType=VARCHAR}
+    </delete>
 </mapper>

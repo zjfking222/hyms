@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>人物新闻</title>
+    <link rel="stylesheet" href="/statics/plugins/mui/css/mui.min.css">
+</head>
+<style>
+    * {
+        touch-action: pan-y;
+    }
+
+    /*不调用 preventDefault 函数 ，提升页面滑动的流畅度*/
+
+    .mui-control-item {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .load-tip {
+        font-size: 16px;
+        text-align: center;
+        line-height: 3.6rem;
+    }
+
+    .mui-segmented-control.mui-scroll-wrapper{
+        height: 40px;
+    }
+
+</style>
+<body>
+<div id="app">
+    <div class="mui-slider" style="height: 200px;position: fixed;" id="bannerSlider">
+        <div class="mui-slider-group mui-slider-loop">
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img id="end"
+                                                                                    style="max-height:200px;width:100%"/></a>
+            </div>
+            <div class="mui-slider-item" v-for="b in banner"><a href="#"><img :id="b.id"
+                                                                              style="max-height:200px;width:100%"
+                                                                              :src="b.url"/></a></div>
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img id="first"
+                                                                                    style="max-height:200px;width:100%"/></a>
+            </div>
+        </div>
+        <div class="mui-slider-indicator">
+            <div v-for="(i, index) in indicator" style="display: inline-block">
+                <div class="mui-indicator" v-if="index === 0" :id="i.id" @click="onChange(i.id)" style="background: #aaa;"></div>
+                <div class="mui-indicator" v-else :id="i.id" @click="onChange(i.id)" style="background: white;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-content">
+        <div id="slider" class="mui-slider" style="top: 200px;background-color: #F2F2F2;position: fixed">
+            <div id="sliderSegmentedControl"
+                 class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+                <div class="mui-scroll">
+                    <p class="mui-control-item mui-active" v-for="(nt,index) in newsType" v-if="index === 0" :name="nt.id">{{nt.name}}</p>
+                    <p class="mui-control-item" v-for="(nt,index) in newsType" v-if="index !== 0" :name="nt.id">{{nt.name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-table-view mui-table-view-chevron" style="top: 240px;">
+        <div v-for="n in news" class="mui-table-view-cell">
+            <a :href="n.url" class="mui-navigate-right">
+                <div style="font-size: 18px;font-weight: bold">{{n.title}}</div>
+                <div style="font-size: 15px;color: #8F8F8F;display: inline-block;">{{n.description}}</div>
+                <div style="font-size: 15px;color: #8F8F8F;display: inline-block;float: right">{{n.date}}</div>
+            </a>
+        </div>
+        <div class="load-tip">
+            <span id="tip" style="float: none"></span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/mui/js/mui.min.js"></script>
+<script>
+    var firstPage = 1, page = 1, pageSize = 20;
+    var code = 'qzgz_news_figure';
+    $(function () {
+        function dataBanner() {
+            return FetchData({type: code}, 'POST', '/qzgz/web/getNewsBanner', false).data;
+        }
+
+        function dataType() {
+            return FetchData({code: code}, 'POST', '/qzgz/web/getNewsType', false).data;
+        }
+
+        function dataNews(type, num) {
+            return FetchData({type: type, num: num}, 'POST', '/qzgz/web/getNewsByType', false).data;
+        }
+
+        function dataNewsTotal(type) {
+            return FetchData({type: type}, 'POST', '/qzgz/web/getNewsByTypeTotal', false).data;
+        }
+
+        function dataNewsType() {
+            return FetchData({code: code}, 'POST', '/qzgz/web/getNewsTypeWeb', false).data;
+        }
+
+        var all = dataBanner();
+        var first, end, newsTotal;
+        var indicator = [];
+        var change = [];
+        if (all.length > 1) {
+            first = all[0].url;
+            end = all[all.length - 1].url;
+            for (var i = 0; i < all.length; i++) {
+                indicator.push({id: all[i].id});
+                change.push({order: i, id: all[i].id});
+            }
+            $('#first').attr("src", first);
+            $('#end').attr("src", end);
+        }
+        var type = dataType();
+        var newsType = dataNewsType();
+        var name;
+        if(newsType.length > 0){
+            name = newsType[0].id
+        }else {
+            name = null
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                banner: all,
+                indicator: indicator,
+                type: type,
+                news: dataNews(name, pageSize * firstPage),
+                newsType: newsType
+            },
+            methods: {
+                //点击小圆点切换banner图
+                onChange: function (id) {
+                    if (all.length > 1) {
+                        for (var j = 0; j < all.length; j++) {
+                            if (change[j].id === id) {
+                                gallery.slider().gotoItem(change[j].order);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        var gallery = mui('.mui-slider');
+        if(indicator.length > 1){
+            gallery.slider({
+                interval: 3000//自动轮播周期，若为0则不自动播放，默认为0；
+            });
+        }else {
+            gallery.slider({
+                interval: 0//自动轮播周期，若为0则不自动播放，默认为0；
+            });
+            //当只有banner图数量<1时，禁止滑动
+            document.querySelector('#bannerSlider').addEventListener('touchmove', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            })
+        }
+
+        //mui-slider 监听事件
+        document.querySelector('.mui-slider').addEventListener('slide', function (event) {
+            for (var x = 0; x < change.length; x++) {
+                if (event.detail.slideNumber === change[x].order) {
+                    $('.mui-indicator').css("background", "#fff");
+                    $('.mui-slider-indicator .mui-active.mui-indicator').css("background", "#aaa");
+                }
+            }
+        });
+        // 初始取到第一个新闻类型
+        var typename = $('.mui-control-item').attr('name');
+        //点击新闻类型改变字体颜色，并改变news数据
+        $('.mui-control-item').on('touchend',function () {
+            $('.mui-control-item').css('color','#000');
+            $(this).css('color','#007aff');
+            typename = $(this).attr('name');
+            vm.news = dataNews(typename, pageSize * firstPage);
+            page = firstPage;
+            newsTotal = dataNewsTotal(typename);
+            if (page * pageSize < newsTotal) {
+                $('#tip').html('点击查看更多新闻');
+            } else {
+                $('#tip').html('无更多新闻');
+            }
+        });
+        newsTotal = dataNewsTotal(typename);
+        if (page * pageSize < newsTotal) {
+            $('#tip').html('点击查看更多新闻');
+        } else {
+            $('#tip').html('无更多新闻');
+        }
+        //点击分页
+        $('#tip').on('click', function () {
+            if ((page+1) * pageSize <= newsTotal || ((page + 1) * pageSize > newsTotal && page * pageSize < newsTotal)) {
+                page++;
+                vm.news = dataNews(typename, page * pageSize);
+                if ((page + 1) * pageSize <= newsTotal) {
+                    $('#tip').html('点击查看更多新闻');
+                } else if ((page + 1) * pageSize > newsTotal && page * pageSize < newsTotal) {
+                    $('#tip').html('点击查看更多新闻');
+                } else {
+                    $('#tip').html('无更多新闻');
+                }
+            } else {
+            }
+        });
+    });
+    var FetchData = function (data, method, param, async) {
+        var response =
+            $.ajax({
+                async: async,
+                url: param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                success: function (dataSource) {
+                    return dataSource;
+                }
+            });
+        return response.responseJSON;
+    };
+</script>
+</body>
+</html>

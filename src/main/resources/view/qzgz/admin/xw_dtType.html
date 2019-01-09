@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻类型</title>
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
+    <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+<body>
+<div id="grid"></div>
+
+<script src="/statics/plugins/jquery/jquery.min.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var pushCode = parent.code;
+    var vm = new Vue({
+        el: "",
+        data: {
+            dataSource: [],
+            activeItem: {id: 0, title: "", content: ""}
+        },
+        created: function () {
+            this.getDataSource();
+            $("#grid").kendoGrid({
+                selectable: "row",
+                dataSource: this.dataSource,
+                editable: {
+                    confirmation: true,
+                    mode: "popup",
+                    window: {
+                        title: "新增"
+                    }
+                },
+                columnMenu: true,
+                sortable: true,
+                toolbar: [{
+                    template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>'
+                }],
+                columns: [
+                    {field: "name", title: "新闻类型", headerAttributes: {"class": "grid-algin-center"}, width: "200px"},
+                    {
+                        command: [{
+                            name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
+                            click: function (e) {
+                                e.preventDefault();
+                                var tr = $(e.target).closest("tr");
+                                var data = this.dataItem(tr);
+                                pushData = {
+                                    id: data.id,
+                                    name: data.name
+                                };
+                                vm.edit();
+                            }
+                        }, {name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],
+                        title: "操作", width: "240px"
+                    },{field: "", title: ""}
+                ]
+            });
+        },
+        methods: {
+            getDataSource: function () {
+                this.dataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: function (options) {
+                            $.ajax({
+                                url: "/qzgz/admin/getNewsType",
+                                data: {code: pushCode},
+                                method: 'POST',
+                                success: function (result) {
+                                    if (result.code === 0) {
+                                        options.success({data: result.data});
+                                    }
+                                    else
+                                        options.error(result.msg);
+                                },
+                                error: function () {
+                                    options.error("数据查询失败");
+                                }
+                            });
+                        },
+                        destroy: function (options) {
+                            var count = FetchData({type: options.data.id}, 'POST', '/qzgz/admin/getNewsByTypeDel', false).data;
+                            if(count === 0){
+                                $.ajax({
+                                    url: "/qzgz/admin/delNewsType",
+                                    data: {
+                                        'id': options.data.id
+                                    },
+                                    method: 'POST',
+                                    success: function (result) {
+                                        if (result.code === 0) {
+                                            options.success(result);
+                                            layer.msg('删除成功！', {time: 1000, icon: 1});
+                                        }
+                                        else
+                                            options.error(result);
+                                    },
+                                    error: function (result) {
+                                        options.error(result);
+                                    }
+                                });
+                            }else {
+                                layer.msg('该新闻类型存在新闻，无法删除！');
+                                $("#grid").data("kendoGrid").dataSource.read();
+                            }
+                        }
+                    },
+                    schema: {
+                        data: "data",
+                        model: {
+                            id: "id",
+                            fields: {
+                                name: {type: "string", nullable: false}
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        this.cancelChanges();
+                        console.log(e);
+                        if (e.errors) {
+                            layer.alert(e.errors.msg, {icon: 2});
+                        }
+                        else if (e.xhr.msg) {
+                            layer.alert(e.xhr.msg, {icon: 2});
+                        }
+                        else {
+                            layer.alert("发生错误，请联系管理员", {icon: 2});
+                        }
+                    },
+                    requestEnd: function (e) {
+                        var response = e.response;
+                        if (response) {
+                            response.type = e.type;
+                        }
+                    },
+                    serverSorting: true
+                });
+            },
+            add: function () {
+                layer.close(vm.layItem);
+                pushData = {
+                    id: 0
+                };
+                this.layItem = layer.open({
+                    title: '添加动态新闻类型',
+                    type: 2,
+                    area: ['300px', '50%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/qzgz/admin/xw_dtType_update.html',
+                    shadeClose: true,
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
+            },
+            edit:function () {
+                layer.close(vm.layItem);
+                this.layItem = layer.open({
+                    title: '编辑动态新闻类型',
+                    type: 2,
+                    area: ['300px', '50%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/qzgz/admin/xw_dtType_update.html',
+                    shadeClose: true,
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
+            }
+        }
+    });
+    function FetchData(data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    }
+</script>
+</body>
+</html>

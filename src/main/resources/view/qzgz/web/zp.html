@@ -10,11 +10,38 @@
 <script type="text/javascript" src="/statics/js/qzgz/web/rem.js"></script>
 <script type="text/javascript" src="/statics/plugins/weixin/jweixin-1.2.0.js"></script>
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
 <script type="text/javascript" src="/statics/js/qzgz/web/mainjs.js"></script>
 <script type="text/javascript" src="/statics/js/qzgz/web/zp.js"></script>
-
+<style>
+    .name{
+        font-size: 16px;
+    }
+</style>
 <body>
+<!--招聘联系人-->
+    <div id="app">
+        <label style="margin-left: 10px;font-weight: bold">招聘负责人</label>
+        <div v-for="l in linkman" style="margin-left: 25px">
+            <div class="weui-cells" style="margin-top: 0">
+                <div style="display: inline-block;width: 48%">
+                    <span>联系人:</span>
+                    <span style="margin-left: 4px;font-size: 16px">{{l.name}}</span>
+                </div>
+                <div style="display: inline-block;width: 50%">
+                    <span>电话:</span>
+                    <span style="margin-left: 4px;font-size: 16px">{{l.phone}}</span>
+                </div>
+                <div>
+                    <span>email :</span>
+                    <span style="margin-left: 4px;font-size: 16px">{{l.email}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+<div style="margin-top: 6px">
     <!-- 列表 -->
+    <label style="margin-left: 10px;font-weight: bold;">招聘信息</label>
     <div id="list" class="weui-cells">
 
     </div>
@@ -25,8 +52,9 @@
             <span class="weui-loadmore__tips">正在加载</span>
         </div>
         <div class="weui-loadmore" id="info">
-            <span id="tip" style="float: none">向上滑动加载更多</span>
+            <span id="tip" style="float: none"></span>
         </div>
     </div>
+</div>
 </body>
 </html>

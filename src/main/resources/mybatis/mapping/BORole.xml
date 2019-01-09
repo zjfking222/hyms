@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.BORoleMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.BORole" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, name, description, creater, created, modifier, modified
+    </sql>
+    <select id="selectRole" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from bo_role
+        where 1=1
+        <if test="value != null and '' != value">
+            and ( name like concat('%',#{value},'%'))
+        </if>
+    </select>
+    <select id="selectRoleByAcc" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from bo_role r
+        where r.id in (select a.rid from bo_role_account a where a.accountid = #{accountid})
+    </select>
+    <insert id="insertRole"  parameterType="com.hy.model.BORole" useGeneratedKeys="true" keyProperty="id">
+        insert into bo_role
+        (name, description, creater, modifier)
+        values (#{name}, #{description}, #{creater}, #{modifier})
+    </insert>
+    <update id="updateRole" parameterType="com.hy.model.BORole">
+        update bo_role
+        set name = #{name}, description = #{description}, modifier = #{modifier}
+        where id = #{id}
+    </update>
+    <delete id="deleteRole" parameterType="com.hy.model.BORole">
+        delete from bo_role
+        where id = #{id}
+    </delete>
+</mapper>

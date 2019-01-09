@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.SysDictMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.SysDict" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="pid" property="pid" jdbcType="INTEGER" />
+        <result column="pidname" property="pidname" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="deleteFlag" property="deleteFlag" jdbcType="TINYINT" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, code, name, pid, pidname, description, deleteFlag, creater, created, modifier, modified
+    </sql>
+    <select id="selectChildren" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from sys_dict
+        where deleteFlag = 0 and
+        <choose>
+            <when test="pid != null and '' != pid">
+                pid = #{pid}
+            </when>
+            <otherwise>
+                pid is null
+            </otherwise>
+        </choose>
+        <if test="value != null and '' != value">
+            and ( name like concat('%',#{value},'%'))
+        </if>
+    </select>
+    <insert id="insert" parameterType="com.hy.model.SysDict">
+        insert into sys_dict (code, name, pid, pidname, description, creater, modifier)
+        values (#{code}, #{name}, #{pid}, #{pidname}, #{description}, #{creater}, #{modifier})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.hy.model.SysDict">
+        update sys_dict
+        set code = #{code}, name = #{name}, description = #{description}, modifier = #{modifier}
+        where id = #{id}
+    </update>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update sys_dict
+        set deleteFlag = 1
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.SysDict" >
+        update sys_dict
+        <set >
+            <if test="code != null and code != ''" >
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''" >
+                pid = #{pid,jdbcType=VARCHAR},
+            </if>
+            <if test="pidname != null and pidname != ''" >
+                pidname = #{pidname,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null and creater != ''" >
+                creater = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null and created != ''" >
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null and modifier != ''" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modified != null and modified != ''" >
+                modified = #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectDictsPage" resultType="com.hy.model.SysDict">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict where deleteFlag = 0
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+            or code like concat('%',#{value},'%')
+            or pidname like concat('%',#{value},'%')
+        </if>
+        <if test="sort != null and '' != sort">
+            ORDER BY CONVERT(${sort} USING gbk) ${dir}
+        </if>
+        <if test="sort == null or '' == sort">
+            ORDER BY id,name
+        </if>
+    </select>
+    <select id="countDicts" resultType="java.lang.Integer">
+        select count(1)
+        from sys_dict where deleteFlag = 0
+        <if test="value != null and '' != value">
+            AND name LIKE concat('%',#{value},'%')
+            or code like concat('%',#{value},'%')
+        </if>
+    </select>
+    <select id="countrepeat" resultType="java.lang.Integer">
+        select count(1)
+        from sys_dict where deleteFlag = 0
+        <if test="code != null and '' != code">
+            and code=#{code,jdbcType=VARCHAR}
+        </if>
+        <if test="id != null and '' != id">
+            and id !=#{id,jdbcType=INTEGER}
+        </if>
+    </select>
+    <update id="updatePidname">
+        update sys_dict
+        set pidname = #{pidname}
+        where pid = #{pid}
+    </update>
+    <select id="selectChildByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from sys_dict where deleteFlag = 0
+        and pid =(select id from sys_dict where code=#{code})
+    </select>
+    <select id="selectByCode" resultType="com.hy.model.SysDict" parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from sys_dict where deleteFlag = 0
+        and code=#{code}
+    </select>
+</mapper>

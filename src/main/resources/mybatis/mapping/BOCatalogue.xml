@@ -19,5 +19,90 @@
         <include refid="Base_Column_List" />
         from bo_catalogue
     </select>
-
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.hy.model.BOCatalogue" >
+        insert into bo_catalogue
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="pid != null" >
+                pid,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="creater != null" >
+                creater,
+            </if>
+            <if test="created != null" >
+                created,
+            </if>
+            <if test="modifier != null" >
+                modifier,
+            </if>
+            <if test="modified != null" >
+                modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null" >
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null" >
+                #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null" >
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null" >
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modified != null" >
+                #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.BOCatalogue" >
+        update bo_catalogue
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null" >
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null" >
+                creater = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null" >
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null" >
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modified != null" >
+                modified = #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from bo_catalogue
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
 </mapper>

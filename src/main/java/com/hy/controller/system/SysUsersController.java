@@ -72,7 +72,7 @@ public class SysUsersController {
 
     /**
      * @Author 钱敏杰
-     * @Description 从ad域中查询账号信息
+     * @Description 从ad域中查询全部相关账号信息
      * @Date 2018/11/16 8:51
      * @Param [search]
      * @return com.hy.common.ResultObj
@@ -81,5 +81,18 @@ public class SysUsersController {
     public ResultObj getAllUsersFromAd( @RequestParam(required = false) String search) {
         List<SysUserDto> list = sysUsersService.searchUsers(search);
         return ResultObj.success(list);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 从ad域中查询单个账号信息
+     * @Date 2018/12/19 18:21
+     * @Param [search]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("users/getUserFromAd")
+    public ResultObj getUserFromAd( @RequestParam(required = false) String search) {
+        SysUserDto dto = sysUsersService.searchUser(search);
+        return ResultObj.success(dto);
     }
 }

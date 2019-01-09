@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>报表角色</title>
+    <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            width: 100%;
+        }
+
+        #menus {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: block;
+            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+            background-color: #f5f5f5;
+            border-right: 1px solid #eee;
+        }
+
+        /* Sidebar navigation */
+        .nav-sidebar {
+            margin-right: -21px; /* 20px padding + 1px border */
+            margin-bottom: 20px;
+            margin-left: -20px;
+        }
+
+        .nav-sidebar > li > a {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+
+        .active {
+            color: #fff;
+            background-color: #2A2D33;
+        }
+
+        .active a {
+            color: #fff;
+        }
+
+        .item1, .item2 {
+            display: inline;
+        }
+
+        .item2 {
+            position: absolute;
+            right: 30px;
+            margin-top: 7px;
+        }
+
+        .item1 {
+            margin-left: 20px;
+            line-height: 35px;
+        }
+
+        #search {
+            width: 180px;
+            display: inline-block;
+        }
+
+        #btn-add {
+            background: url(/statics/img/common/add.png) no-repeat bottom;
+            background-size: 25px 25px;
+            width: 25px;
+            height: 25px;
+            border: 0;
+        }
+
+        .btn-edit {
+            background: url(/statics/img/common/edit.png) no-repeat top;
+            background-size: 18px 18px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        .btn-del {
+            background: url(/statics/img/common/delete.png) no-repeat top;
+            background-size: 17px 17px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        .active .btn-del {
+            background: url(/statics/img/common/deletew.png) no-repeat top;
+            background-size: 17px 17px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        .active .btn-edit {
+            background: url(/statics/img/common/editw.png) no-repeat top;
+            background-size: 18px 18px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        #treeview {
+            position: absolute;
+            left: 262px;
+            border: 0;
+        }
+
+        li:hover {
+            background: #eee;
+        }
+
+        ul {
+            padding-top: 20px;
+        }
+
+        .active:hover {
+            background-color: #2A2D33;
+        }
+
+        .item1 {
+            margin-left: 20px;
+            line-height: 35px;
+            cursor: default;
+        }
+
+        .item1 a:hover {
+            text-decoration: none;
+        }
+
+        #btn-add {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div id="menus">
+    <div id="left" class="sidebar">
+        <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search"
+               placeholder="输入搜索信息...">
+        <button id="btn-add" @click="onAdd"></button>
+        <ul class="nav nav-sidebar" id="rolenav">
+            <li v-for="role in data1" :data-id="role.id" @click="onChoose(role.id)">
+                <div class="item1">
+                    <a class="item-a">{{role.name}}</a>
+                </div>
+                <div class="item2">
+                    <button class="btn-edit" @click="onEdit(role.id, role.name, role.description)"></button>
+                    <button class="btn-del" @click="onDel(role.id)"></button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <iframe id="treeview" height="100%" width="75%">
+    </iframe>
+</div>
+
+<script src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var pushData;
+    var pushRid;
+    var FetchData = function (data, method, param, async) {
+        var response =
+            $.ajax({
+                async: async,
+                url: "/bo" + param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                success: function (dataSource) {
+                    return dataSource;
+                }
+            });
+        return response.responseJSON;
+    };
+
+    //获取角色信息
+    function dataSourceSearch(value) {
+        return FetchData({value: value}, 'POST', '/role/getRole', false).data;
+    }
+
+    function refresh(rid) {
+        $('#treeview').attr('src', 'report_role_report.html?id' + rid);
+        pushRid = rid;
+        $("#rolenav li[data-id=" + rid + "]").addClass('active')
+            .siblings("li").removeClass('active');
+    }
+
+    var vm = new Vue({
+        el: '#left',
+        data: {
+            data0: '',
+            data1: ''
+        },
+        created: function () {
+            //初始化获取角色信息并在前端展示
+            this.data1 = dataSourceSearch("");
+        },
+        methods: {
+            onAdd: function () {
+                pushData = {
+                    rid: -1
+                };
+                layer.open({
+                    title: '新增报表角色以及配置信息',
+                    type: 2,
+                    area: ['700px', '85%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    content: '/bo/console/report_role_update.html',
+                    end: function () {
+                        vm.data1 = dataSourceSearch($("#search").val())
+                    }
+                });
+            },
+            onEdit: function (id, name, description) {
+                pushData = {
+                    rid: id,
+                    name: name,
+                    description: description
+                };
+                layer.open({
+                    title: '更新报表角色以及配置信息',
+                    type: 2,
+                    area: ['700px', '85%'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    content: '/bo/console/report_role_update.html',
+                    end: function () {
+                        vm.data1 = dataSourceSearch($("#search").val())
+                    }
+                });
+            },
+            onDel: function (id) {
+                layer.confirm('确认删除吗？删除后将不可恢复。', {btn: ['删除', '取消']},
+                    function () {
+                        //如果角色下有人员不能删
+                        var ad = FetchData({rid: id}, "POST", "/roleAd/getRoleAd",false).data.length;
+                        if (ad > 0) {
+                            alert("角色下存在人员，无法删除,请先删除人员！");
+                            window.location.reload();
+                        } else {
+                            FetchData({id: id}, "POST", "/role/delRole");
+                            layer.msg('删除成功！', {
+                                time: 500,
+                                end: function () {
+                                    vm.data1 = dataSourceSearch($("#search").val());
+                                    $('#treeview').attr('src','/index/blank.html');
+                                }
+                            });
+                        }
+                    },
+                    function () {
+                    });
+            },
+            onChoose: function (rid) {
+                refresh(rid);
+            }
+        }
+    });
+    $(function () {
+        //回车搜索功能
+        $(document).keyup(function (event) {
+            if (event.keyCode === 13) {
+                vm.data1 = dataSourceSearch($("#search").val());
+            }
+        });
+    });
+</script>
+</body>
+</html>

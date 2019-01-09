@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新角色以及配置信息</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .btn{
+        padding: 0px 12px;
+    }
+</style>
+<body style="width: 80% ;margin: 10px auto">
+<div id="app">
+    <div class="form-group">
+        <label for="name">角色名称</label>
+        <input style="width: 100%!important;" class="form-control" id="name" placeholder="输入角色名称">
+
+    </div>
+    <div class="form-group">
+        <label for="description">角色描述</label>
+        <input class="form-control" id="description" placeholder="输入角色描述" style="width: 100%!important;">
+    </div>
+    <div class="form-group" style="margin-bottom: 0">
+        <label>BO账号</label>
+        <div class="form-group" style="margin-bottom: 0">
+            <div style="display: inline-block;width: 24%" v-for="acc in account">
+                <input name="BO" :id="acc.accountid" type="checkbox" style="height: 15px;width: 15px"/>
+                <p style="display: inline-block;vertical-align: middle;margin-top: 2px;">{{acc.accountid}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>搜索人员</label>
+        <div class="form-group">
+            <div class="form-control" style="display: inline-block;width: 50%;min-height:34px;text-align: left;vertical-align: middle;" id="search-pan">
+                <a href="javascript:;" class="btn btn-default" style="min-width: 70px!important;"
+                   v-for="hr in search" @click="onAdd(hr.id,hr.loginid,hr.lastname)">{{hr.lastname}}</a>
+            </div>
+            <input class="form-control" placeholder="输入人员全名或工号" style="display:inline-block;width: 38%;vertical-align: middle" id="search-info">
+            <div class="form-control" style="display: inline-block;width: 10%;vertical-align: middle;margin-left: -5px">
+                <a style="color: black!important;" href="javascript:;" id="search" class="btn-block">搜索</a>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="add-pan">已添人员</label>
+        <div class="form-control" style="min-height:34px;text-align: left;height: auto!important;" id="add-pan">
+            <a href="javascript:;" class="btn btn-default"
+               style="min-width: 70px!important;"
+               v-for="hr in result" @click="onDel(hr.id)">{{hr.lastname}}</a>
+        </div>
+    </div>
+    <button id="submit" class="btn btn-success" @click="onSubmit()" style="width:100%;margin-top: 1rem!important;height: 32px">保&nbsp;&nbsp;&nbsp;存</button>
+</div>
+</body>
+
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script>
+    var del = [];
+    var add = [];
+    var index = parent.layer.getFrameIndex(window.name);
+    var postData;
+    $(function () {
+        function dataSearch(search) {
+            return FetchData({search: search}, 'POST', '/system/users/getAllUsersFromAd', false).data;
+        }
+
+        function dataSource(rid) {
+            return FetchData({rid: rid}, 'POST', '/bo/roleAd/getRoleAd', false).data;
+        }
+
+        function getRoleAcc(rid) {
+            return FetchData({rid: rid}, 'POST', '/bo/roleAccount/getRoleAcc', false).data;
+        }
+
+        function getAccount() {
+            return FetchData({accountid: ''}, 'POST', '/bo/account/getAccount', false).data;
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                search: [],
+                result: dataSource(parent.pushData.rid),
+                account: getAccount()
+            },
+            methods: {
+                //搜索
+                onSearch: function (search) {
+                    vm.search = dataSearch(search);
+                },
+                //添加
+                onAdd: function (id, loginid, lastname) {
+                    var isExist = false;
+                    var add_item = {
+                        'id': id,
+                        'loginid': loginid,
+                        'lastname': lastname
+                    };
+                    for (var j = 0; j < vm.result.length; j++) {
+                        if (vm.result[j].loginid === add_item.loginid) {
+                            isExist = true;
+                            break;
+                        }
+                    }
+                    if (!isExist) {
+                        add.push(add_item);
+                        vm.result.push(add_item)
+                    }
+                },
+                //删除
+                onDel: function (id) {
+                    var isExist = false;
+                    for (var i = 0; i < add.length; i++) {
+                        if (add[i].id === id) {
+                            add.splice(i, 1);
+                            isExist = true;
+                        }
+                    }
+                    if (!isExist) {
+                        var del_item = {
+                            uid: id
+                        };
+                        del.push(del_item);
+                    }
+                    //显示
+                    for (var j = 0; j < vm.result.length; j++) {
+                        if (vm.result[j].id === id) {
+                            vm.result.splice(j, 1);
+                            break;
+                        }
+                    }
+                },
+                onSubmit: function () {
+                    if($('#name').val() == ''){
+                        parent.layer.msg('角色名称不能为空！');
+                        return;
+                    }
+                    var obj;
+                    obj = $("input[name='BO']");
+                    var addList = [];
+                    if (parent.pushData.rid === -1) {
+                        for (k in obj) {
+                            if (obj[k].checked) {
+                                addList.push({accountid: obj[k].id});
+                            }
+                        }
+                        postData = {
+                            name: $('#name').val(),
+                            description: $('#description').val(),
+                            boRoleAccounts: addList,
+                            nHrmResources: add
+                        };
+                        FetchData(JSON.stringify(postData), 'POST', '/bo/roleAd/addRoleAd', false, true).code === 0 ?
+                            parent.layer.msg('添加成功') :
+                            parent.layer.msg('添加失败');
+                        parent.layer.close(index);
+                    }
+                    else {
+                        for (k in obj) {
+                            if (obj[k].checked) {
+                                addList.push({rid: parent.pushRid, accountid: obj[k].id});
+                                //将最后选中的BO账号对应的ID存入checkEnd中
+                                for(var x = 0; x < checkArray.length; x++){
+                                    if(obj[k].id === checkArray[x].accountid){
+                                        checkEnd.push(checkArray[x].id);
+                                    }
+                                }
+                            }
+                        }
+                        //将开始选中的BO账号与最后的比较，找出要删除的BO账号
+                        var judge = false;
+                        var delAcc = [];
+                        for(var a = 0; a < checkFirst.length; a++){
+                            for(var b = 0; b < checkEnd.length; b++){
+                                if(checkFirst[a] === checkEnd[b]){
+                                    judge = true;
+                                    break;
+                                }
+                            }
+                            if(!judge){
+                                delAcc.push(checkFirst[a]);
+                            }
+                            judge = false;
+                        }
+                        postData = {
+                            rid: parent.pushData.rid,
+                            name: $('#name').val(),
+                            description: $('#description').val(),
+                            boRoleAccounts: addList,
+                            delAcc: delAcc,
+                            nHrmResources: add,
+                            rHrmResources: del
+                        };
+                        FetchData(JSON.stringify(postData), 'POST', '/bo/roleAd/setRoleAd', false, true).code === 0 ?
+                            parent.layer.msg('修改成功') :
+                            parent.layer.msg('修改失败');
+                        window.parent.refresh(parent.pushRid);
+                        parent.layer.close(index);
+                    }
+                }
+            }
+        });
+        //已有角色BO账号显示选中
+        var checkBoxAll = $("input[name='BO']");
+        var checkArray = getRoleAcc(parent.pushData.rid);
+        var checkFirst = [];
+        var checkEnd = [];
+        for (var i = 0; i < checkBoxAll.length; i++) {
+            for (var j = 0; j < checkArray.length; j++) {
+                if (checkBoxAll[i].id === checkArray[j].accountid) {
+                    checkBoxAll[i].checked = true;
+                    //将开始选中的BO账号对应的ID存入checkFirst中
+                    checkFirst.push(checkArray[j].id);
+                    break;
+                }
+            }
+        }
+        $('#search').on('click', function () {
+            if ($('#search-info').val() === '') {
+
+            } else {
+                vm.onSearch($('#search-info').val());
+            }
+        });
+        if (parent.pushData.rid === -1) {
+
+        }
+        else {
+            $('#name').val(parent.pushData.name);
+            $('#description').val(parent.pushData.description)
+        }
+    });
+    var FetchData = function (data, method, param, async, contentType) {
+        var response =
+            $.ajax({
+                async: async,
+                url: param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                contentType: contentType ? "application/json;charset=utf-8" :
+                    "application/x-www-form-urlencoded;charset=UTF-8",
+                success: function (dataSource) {
+                    return dataSource;
+                }
+            });
+        return response.responseJSON;
+    };
+</script>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>华友BO报表管理系统</title>
+    <link rel="stylesheet" href="/statics/plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="/statics/css/index/admin.css">
+    <link rel="stylesheet" href="/statics/plugins/layui/css/modules/layer/default/layer.css">
+    <style>
+        .layui-nav-child{
+            line-height: 25px;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+<div id="app_admin">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域（可配合layui已有的水平导航）-->
+            <div class=" layui-layout-left">
+                <ul class="layui-nav layui-nav_sysbtn"  style="float: left;">
+                    <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+                        <a href="javascript:" @click="flexible" title="侧边伸缩">
+                            <i class="layui-icon layui-icon-shrink-right" id="app_flexible"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" lay-unselect="" >
+                        <a href="javascript:" @click="refresh" title="刷新">
+                            <i class="layui-icon layui-icon-refresh-3"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--可配置快捷菜单-->
+                <ul class="layui-nav"  style="float: left;">
+                <li class="layui-nav-item"><a @click="menuClick(0,'','/index/console.html')">控制台</a></li>
+                </ul>
+            </div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:">{{username}}</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:">快捷菜单</a></dd>
+                        <dd><a href="javascript:">锁定页面</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a @click="logout">退出</a></li>
+            </ul>
+        </div>
+        <!--侧面菜单-->
+        <div class="layui-side layui-side-menu">
+            <div class="layui-side-scroll">
+                <div class="layui-logo" lay-href="/index/console.html">
+                    <span><img src="/statics/img/common/hylog-login.png" /></span>
+                </div>
+                <ul class="layui-nav layui-nav-tree" id="side_menu">
+                    <li data-name="component" class="layui-nav-item " v-for="item in menus">
+                        <a href="javascript:" :lay-tips="item.name" lay-direction="2">
+                            <i class="layui-icon layui-icon-component"></i>
+                            <cite>{{item.name}}</cite>
+                        </a>
+                        <dl class="layui-nav-child" >
+                            <dd  :data-name="child.name" v-for="child in item.items">
+                                <a @click="menuClick(child.id,child.name)" :lay-id="child.id">{{child.name}}</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--页面标签-->
+        <div class="layadmin-pagetabs" id="app_tabs">
+            <div class="layui-icon layadmin-tabs-control layui-icon-prev" @click="leftPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-next" @click="rightPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                <ul class="layui-nav layadmin-tabs-select">
+                    <li class="layui-nav-item">
+                        <a href="javascript:"><span class="layui-nav-more"></span></a>
+                        <dl class="layui-nav-child">
+                            <dd @click="closeThisTabs"><a href="javascript:">关闭当前标签页</a></dd>
+                            <dd @click="closeOtherTabs"><a href="javascript:">关闭其它标签页</a></dd>
+                            <dd @click="closeAllTabs"><a href="javascript:">关闭全部标签页</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-tab" lay-allowclose="true" lay-unauto="" lay-filter="layadmin-layout-tabs">
+                <ul class="layui-tab-title" id="app_tabsheader">
+                    <li lay-id="0" lay-attr="/index/console.html" class="layui-this">
+                        <i class="layui-icon layui-icon-home"></i>
+                        <i class="layui-icon layui-unselect layui-tab-close">ဆ</i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--主体内容-->
+        <div class="layui-body layui-tab-content" id="app_body">
+            <div class=" layui-tab-item layadmin-tabsbody-item layui-show">
+                <iframe src="/index/console.html" class="layadmin-iframe" frameborder="0"></iframe>
+            </div>
+        </div>
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            2018 © HYMS By XinXiZhongXin
+        </div>
+        <div class="layadmin-body-shade" @click="sideFlexible"></div>
+    </div>
+</div>
+<script src="/statics/plugins/jquery/jquery.min.js"></script>
+<script src="/statics/plugins/layui/layui.js"></script>
+<script src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/js/bo/index.js"></script>
+</body>
+</html>
