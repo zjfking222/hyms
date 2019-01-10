@@ -38,36 +38,42 @@
             var vm = new Vue({
                 el:"#vacationData",
                 data:{
-                    vacation:getVacationInfo()
+                    vacation:{}
                 },
                 mounted (){//挂载el
                     mui.init();
+                },
+                created: function() {
+                    var data = this.getVacationInfo();
+                    this.vacation = data;
+                },
+                methods:{
+                    //从后台获取全部数据
+                    getVacationInfo:function(){
+                        var result;
+                        mui.ajax('/app/selfhelp/getVacationInfo',{
+                            dataType:'json',//服务器返回json格式数据
+                            type:'post',//HTTP请求类型
+                            timeout:10000,//超时时间设置为10秒；
+                            headers:{'Content-Type':'application/json'},
+                            async: false,
+                            success:function(data){
+                                if (data.code == 0) {
+                                    //添加数据到返回值
+                                    result = data.data;
+                                }else {
+                                    console.log(data.msg)
+                                }
+                            },
+                            error:function(xhr,type,errorThrown){
+                                //异常处理；
+                                console.log(type);
+                            }
+                        });
+                        return result;
+                    }
                 }
             });
-            //从后台获取全部数据
-            function getVacationInfo(){
-                var result;
-                mui.ajax('/app/selfhelp/getVacationInfo',{
-                    dataType:'json',//服务器返回json格式数据
-                    type:'post',//HTTP请求类型
-                    timeout:10000,//超时时间设置为10秒；
-                    headers:{'Content-Type':'application/json'},
-                    async: false,
-                    success:function(data){
-                        if (data.code == 0) {
-                            //添加数据到返回值
-                            result = data.data;
-                        }else {
-                            console.log(data.msg)
-                        }
-                    },
-                    error:function(xhr,type,errorThrown){
-                        //异常处理；
-                        console.log(type);
-                    }
-                });
-                return result;
-            }
 		</script>
 	</body>
 </html>

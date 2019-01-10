@@ -90,7 +90,7 @@ public class BoIndexController {
      * @Author 钱敏杰
      * @Description 分页查询当前用户的报表目录下的报表
      * @Date 2018/12/26 11:07
-     * @Param [page, pageSize, value, sort, dir, directoryid]
+     * @Param [directoryid]
      * @return com.hy.common.ResultObj
      **/
     @RequestMapping("/bo/index/getDisplayReport")
