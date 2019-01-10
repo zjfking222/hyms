@@ -1,8 +1,8 @@
 package com.hy.controller.ad;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hy.common.ResultObj;
-import com.hy.dto.AdDepartmentDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.ad.AdDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,19 @@ public class AdDepartmentController {
         }
     }
     @PostMapping("/department/select")
-    public ResultObj selectAdDepartment(String date,String time){
+    public String selectAdDepartment(){
         try{
-            return ResultObj.success(adDepartmentService.selectAdDepartment(date,time));
+            JSONObject jo = new JSONObject();
+            jo.put("data", adDepartmentService.selectAdDepartment());
+            jo.put("code", "0");
+            jo.put("msg","");
+            String jsonstr = JSON.toJSONString(jo);
+            return jsonstr.replaceAll("\\\\","")
+                    .replace("\"[","[").replace("]\"","]");
+
         }catch (Exception e){
             e.printStackTrace();
-            return ResultObj.error(ResultCode.ERROR_NO_RESOURCE);
+            return null;
         }
     }
     @PostMapping("/department/getTime")
@@ -48,6 +55,14 @@ public class AdDepartmentController {
         }catch (Exception e){
             e.printStackTrace();
             return ResultObj.error(ResultCode.ERROR_NO_RESOURCE);
+        }
+    }
+    @PostMapping("/department/updateOperator")
+    public ResultObj updateOperator(String id){
+        try {
+            return ResultObj.success(adDepartmentService.updateOperator(id));
+        }catch (SecurityException e){
+            return ResultObj.error(ResultCode.ERROR_UNKNOWN);
         }
     }
 }

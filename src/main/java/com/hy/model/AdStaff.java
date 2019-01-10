@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class AdStaff {
     private int id;
-    private int sid;
+    private String sid;
     private String name;
     private int state;
     private String email;
@@ -22,6 +22,7 @@ public class AdStaff {
     private String modifier;
     private Date modified;
     private int count;
+    private int operator;
 
     public AdStaff(int id, String name, String email, String phone, int depid, String depname, String duty) {
         this.id = id;
@@ -34,6 +35,14 @@ public class AdStaff {
     }
 
     public AdStaff() {
+    }
+
+    public int getOperator() {
+        return operator;
+    }
+
+    public void setOperator(int operator) {
+        this.operator = operator;
     }
 
     public int getCount() {
@@ -52,11 +61,11 @@ public class AdStaff {
         this.id = id;
     }
 
-    public int getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 
