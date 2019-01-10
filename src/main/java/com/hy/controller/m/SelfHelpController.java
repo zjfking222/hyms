@@ -61,9 +61,10 @@ public class SelfHelpController {
             return ResultObj.error(ResultCode.ERROR_USER_VERIFICATIONCODE);
         }else{
             Calendar c = Calendar.getInstance();
+            //取上月的日期
+            c.add(Calendar.MONTH, -1);
             String year = c.get(Calendar.YEAR) + "";
-            //写死取上月的薪资
-            String month = c.get(Calendar.MONTH) + "";
+            String month = c.get(Calendar.MONTH) + 1 + "";
             //查询薪资数据，若返回失败，则返回验证密码失败，否则将数据传到下一个页面
             Map<String, Object> results = selfHelpService.getSalaryData(userinfo.getLoginid(), password, year, month);
             //根据结果标记判断
@@ -73,7 +74,7 @@ public class SelfHelpController {
                 results.put("month", month);
                 return ResultObj.success(results);
             }else{//若调用失败，则表示验证未通过，返回错误消息
-                return ResultObj.error(ResultCode.ERROR_USER_UNMATCH, (String)results.get("message"));
+                return ResultObj.error(ResultCode.ERROR_SEARCH_FAILED, (String)results.get("message"));
             }
         }
     }
