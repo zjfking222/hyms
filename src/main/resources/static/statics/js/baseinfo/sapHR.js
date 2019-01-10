@@ -20,7 +20,7 @@ function getData(){
                 table.render({
                     elem: '#demo'
                     ,method:"post"
-                    ,height: 312
+                    ,height: 250
                     ,where:{date:$("#test1").val(),time:getTime}
                     ,url: '/ad/staff/select' //数据接口
                     ,page: true //开启分页
