@@ -67,8 +67,8 @@ var vm = new Vue({
                 },
                 error:function(xhr,type,errorThrown){
                     //异常处理；
-                    console.log(type);
                     vm.changeCodeImg();
+                    mui.alert("无上月薪资数据！");
                 }
             });
         },
