@@ -67,8 +67,8 @@ var vm = new Vue({
                 },
                 error:function(xhr,type,errorThrown){
                     //异常处理；
-                    console.log(type);
                     vm.changeCodeImg();
+                    mui.alert("提交异常，请重新尝试！");
                 }
             });
         },
