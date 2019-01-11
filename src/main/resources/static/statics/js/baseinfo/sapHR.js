@@ -57,6 +57,10 @@ function getData(){
                                 $(this).text("王春燕")
                             }else if($(this).text()=='20102197'){
                                 $(this).text("陈珍珍")
+                            }else if($(this).text()=='100710'){
+                                $(this).text("宋金鹏")
+                            }else if($(this).text()=='20102224'){
+                                $(this).text("胡顺")
                             }
                         });
                     }
@@ -97,6 +101,10 @@ function getData(){
                                 $(this).text("王春燕")
                             }else if($(this).text()=='20102197'){
                                 $(this).text("陈珍珍")
+                            }else if($(this).text()=='100710'){
+                                $(this).text("宋金鹏")
+                            }else if($(this).text()=='20102224'){
+                                $(this).text("胡顺")
                             }
                         });
                     }
