@@ -20,16 +20,16 @@ public interface SysDictService {
      * @Param [pageNum, pageSize, sort, dir, value]
      * @return java.util.List<com.hy.dto.SysDictDto>
      **/
-    List<SysDictDto> getDictsPage(Integer pageNum, Integer pageSize, String sort, String dir, String value);
+    List<SysDictDto> getDictsPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value);
 
     /**
      * @Author 钱敏杰
      * @Description 根据条件统计全部数据量
-     * @Date 2018/12/30 10:21
-     * @Param [value]
+     * @Date 2019/1/10 16:45
+     * @Param [filters, value]
      * @return java.lang.Integer
      **/
-    Integer getDictCount(String value);
+    Integer getDictCount(String filters, String value);
 
     /**
      * @Author 钱敏杰

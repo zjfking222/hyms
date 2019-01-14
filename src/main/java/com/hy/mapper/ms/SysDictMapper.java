@@ -21,16 +21,16 @@ public interface SysDictMapper {
      * @Param [sort, dir, value]
      * @return java.util.List<com.hy.model.SysDict>
      **/
-    List<SysDict> selectDictsPage(@Param("sort")String sort, @Param("dir")String dir, @Param("value")String value);
+    List<SysDict> selectDictsPage(@Param("filters")String filters, @Param("sort")String sort, @Param("dir")String dir, @Param("value")String value);
 
     /**
      * @Author 钱敏杰
      * @Description 统计数据字典数据量
-     * @Date 2018/12/30 10:12
-     * @Param [value]
+     * @Date 2019/1/10 16:44
+     * @Param [filters, value]
      * @return java.lang.Integer
      **/
-    Integer countDicts(@Param("value") String value);
+    Integer countDicts(@Param("filters") String filters, @Param("value") String value);
 
     /**
      * @Author 钱敏杰

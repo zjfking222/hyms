@@ -17,6 +17,97 @@
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
     var pushData;
+    //获取当前grid的过滤条件
+    var getFilters = function (grid) {
+        var allMap;
+        var source = grid.dataSource;
+        var data = source.filter();
+        if(data && data.filters && data.filters.length >0){
+            //kendoGrid的filter数据存在bug，有2种形式，需要判断后再去取值
+            allMap = {};
+            //循环每一列的过滤条件
+            for(var i=0;i<data.filters.length;i++){
+                var map;
+                var filters;
+                var f = data.filters[i];
+                if(f.field){//当前数据为在f这一层下
+                    //取当前字段类型的map，不存在则新建
+                    map = allMap[f.field];
+                    if(!map){
+                        map = {};
+                        map.logic = data.logic;
+                    }
+                    //取当前map下的过滤条件，若不存在则新建
+                    filters = map.filters;
+                    if(!filters){
+                        filters = [];
+                    }
+                    //生成当前过滤条件数据
+                    var filter = {};
+                    filter.operator = f.operator;
+                    //取当前字段类型
+                    var fields = source.options.schema.model.fields;
+                    filter.type = fields[f.field].type;
+                    if("date" === filter.type){
+                        var date = getDateString(f.value);
+                        filter.value = date;
+                    }else{
+                        filter.value = f.value;
+                    }
+                    //保存到相应位置
+                    filters.push(filter);
+                    map.filters = filters;
+                    allMap[f.field] = map;
+                }else{//当前数据为在f下一层
+                    var ff = f.filters;
+                    //循环过滤条件列表
+                    for(var j=0;j<ff.length;j++){
+                        //取当前字段类型的map，不存在则新建
+                        map = allMap[ff[j].field];
+                        if(!map){
+                            map = {};
+                            map.logic = f.logic;
+                        }
+                        //取当前map下的过滤条件，若不存在则新建
+                        filters = map.filters;
+                        if(!filters){
+                            filters = [];
+                        }
+                        //生成当前过滤条件数据
+                        var filter = {};
+                        filter.operator = ff[j].operator;
+                        //取当前字段类型
+                        var fields = source.options.schema.model.fields;
+                        filter.type = fields[ff[j].field].type;
+                        if("date" === filter.type){
+                            var date = getDateString(ff[j].value);
+                            filter.value = date;
+                        }else{
+                            filter.value = ff[j].value;
+                        }
+                        //保存到相应位置
+                        filters.push(filter);
+                        map.filters = filters;
+                        allMap[ff[j].field] = map;
+                    }
+                }
+            }
+        }
+        return allMap;
+    };
+    //取当前日期的yyyy-MM-dd格式字符串
+    function getDateString(date){
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        if(month <10){
+            month = '0' + month;
+        }
+        var d = date.getDate();
+        if (d <10){
+            d = '0' + d;
+        }
+        return year + '-' + month + '-' + d;
+    }
     var vm = new Vue({
         el: "",
         data: {
@@ -36,6 +127,7 @@
                         title: "新增"
                     }
                 },
+                filterable: true,
                 columnMenu: true,
                 sortable: true,
                 pageable: {
@@ -55,6 +147,7 @@
                     {field: "pidname", title: "父节点名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "code", title: "编码", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
+                    {field: "modified", title: "时间", headerAttributes: {"class": "grid-algin-center"}, width: '200px'},
                     {
                         command: [{
                             name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -83,18 +176,16 @@
                 this.dataSource = new kendo.data.DataSource({
                     transport: {
                         read: function (options) {
-                            var a ={
-                                'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
-                                    undefined : options.data.sort[0].field,
-                                    'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?
-                                    undefined : options.data.sort[0].dir,
-                                    'page': options.data.page,
-                                    'pageSize': options.data.pageSize,
-                                    'value': $('#search-input').val()
-                            };
+                            //取kendoGrid的当前过滤条件
+                            var allMap;
+                            var grid = $("#grid").data("kendoGrid");
+                            if(grid){
+                                allMap = getFilters(grid);
+                            }
                             $.ajax({
                                 url: "/sysdict/getDictsPage",
                                 data: {
+                                    'filters': allMap === undefined ? "" : JSON.stringify(allMap),
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                         undefined : options.data.sort[0].field,
                                     'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?
@@ -145,7 +236,8 @@
                                 name: {type: "string", nullable: false},
                                 pid: {type: "string", nullable: false},
                                 pidname:{type: "string", nullable: false},
-                                description: {type: "string", nullable: false}
+                                description: {type: "string", nullable: false},
+                                modified:{type:"date", nullable: false}
                             }
                         }
                     },
@@ -228,7 +320,7 @@
                 $("#grid").data("kendoGrid").dataSource.read()
             }
         }
-    })
+    });
 </script>
 </body>
 </html>

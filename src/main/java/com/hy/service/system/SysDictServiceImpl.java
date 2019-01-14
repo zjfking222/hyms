@@ -38,9 +38,9 @@ public class SysDictServiceImpl implements SysDictService{
      * @return java.util.List<com.hy.dto.SysDictDto>
      **/
     @Override
-    public List<SysDictDto> getDictsPage(Integer pageNum, Integer pageSize, String sort, String dir, String value){
+    public List<SysDictDto> getDictsPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value){
         PageHelper.startPage(pageNum, pageSize);
-        List<SysDict> dicts = sysDictMapper.selectDictsPage(sort, dir, value);
+        List<SysDict> dicts = sysDictMapper.selectDictsPage(filters, sort, dir, value);
         List<SysDictDto> dictDtos = DTOUtil.populateList(dicts, SysDictDto.class);
         return dictDtos;
     }
@@ -52,8 +52,8 @@ public class SysDictServiceImpl implements SysDictService{
      * @Param [value]
      * @return java.lang.Integer
      **/
-    public Integer getDictCount(String value){
-        Integer count = sysDictMapper.countDicts(value);
+    public Integer getDictCount(String filters, String value){
+        Integer count = sysDictMapper.countDicts(filters, value);
         return count;
     }
 

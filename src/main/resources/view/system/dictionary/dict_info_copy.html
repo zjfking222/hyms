@@ -83,15 +83,6 @@
                 this.dataSource = new kendo.data.DataSource({
                     transport: {
                         read: function (options) {
-                            var a ={
-                                'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
-                                    undefined : options.data.sort[0].field,
-                                    'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?
-                                    undefined : options.data.sort[0].dir,
-                                    'page': options.data.page,
-                                    'pageSize': options.data.pageSize,
-                                    'value': $('#search-input').val()
-                            };
                             $.ajax({
                                 url: "/sysdict/getDictsPage",
                                 data: {
