@@ -25,6 +25,9 @@
         select *
         from mm_bus
         where mid = #{mid}
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="value != null and '' != value">
             and ( start like concat('%',#{value},'%')
             or end like concat('%',#{value},'%')
@@ -38,6 +41,9 @@
         select count(1)
         from mm_bus
         where mid = #{mid}
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="value != null and '' != value">
             and(  start like concat('%',#{value},'%')
             or end like concat('%',#{value},'%')

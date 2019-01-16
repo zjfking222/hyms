@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Repository
 public interface BOInfoMapper {
-    List<BOInfo> selectReport(@Param("value") String value, @Param("sort") String sort, @Param("dir") String dir, @Param("directoryid") String directoryid);
-    Integer selectReportAll(@Param("value") String value, @Param("directoryid") String directoryid);
+    List<BOInfo> selectReport(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort, @Param("dir") String dir, @Param("directoryid") String directoryid);
+    Integer selectReportAll(@Param("filters")String filters, @Param("value") String value, @Param("directoryid") String directoryid);
     Integer insertReport(BOInfo reportInfos);
     Integer updateReport(BOInfo reportInfo);
     Integer deleteReport(@Param("id") int id);

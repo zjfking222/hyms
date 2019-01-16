@@ -12,8 +12,8 @@ import java.util.List;
  * @Description:BO报表权限配置服务方法接口
  */
 public interface BoConfigService {
-    List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir, String directoryid);
-    Integer getReportInfoTotal(String value, String directoryid);
+    List<BOInfo> getReportInfo(String filters, int pageNum, int pageSize, String value, String sort, String dir, String directoryid);
+    Integer getReportInfoTotal(String filters, String value, String directoryid);
     boolean addReportInfo(BOInfo reportInfos);
     boolean setReportInfo(BOInfo reportInfo);
     boolean delReportInfo(int id);
@@ -69,7 +69,7 @@ public interface BoConfigService {
      * @Param [accountid]
      * @return java.util.List<com.hy.dto.HrmResourceDto>
      **/
-    List<HrmResourceDto> getUsersByAccountid(String accountid);
+    List<HrmResourceDto> getUsersByAccountid(String filters, String accountid);
 
     /**
      * @Author 钱敏杰
@@ -195,7 +195,7 @@ public interface BoConfigService {
      **/
     List<BORoleDto> getRole(String value);
     boolean delRole(int id);
-    List<BORoleDto> getRoleByAcc(String accountid);//根据BO账号查询对应的角色信息
+    List<BORoleDto> getRoleByAcc(String filters, String accountid);//根据BO账号查询对应的角色信息
 
     /**
      * @Author 沈超宇

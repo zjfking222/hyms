@@ -43,10 +43,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     private CustomersService customersService;
 
     @Override
-    public List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir,
+    public List<MmMeetingReceiptViewDto> getMeetingView(String filters, int pageNum, int pageSize, String value, String sort, String dir,
                                                         String state) {
         PageHelper.startPage(pageNum, pageSize);
-        List<VMmMeetingReceipt> vMmMeetingReceipts = mmReceiptMapper.selectMeetingView(value, sort, dir, state);
+        List<VMmMeetingReceipt> vMmMeetingReceipts = mmReceiptMapper.selectMeetingView(filters, value, sort, dir, state);
         List<MmMeetingReceiptViewDto> mmMeetingReceiptViewDtos = DTOUtil.populateList(vMmMeetingReceipts, MmMeetingReceiptViewDto.class);
 
         for (int i = 0 ; i < vMmMeetingReceipts.size() ; i++){
@@ -69,15 +69,15 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Integer getMeetingViewTotal(String value, String state){
-        return mmReceiptMapper.selectMeetingViewTotal(value, state);
+    public Integer getMeetingViewTotal(String filters, String value, String state){
+        return mmReceiptMapper.selectMeetingViewTotal(filters, value, state);
     }
 
     //回执管理获取信息
     @Override
-    public List<MmReceiptInfoViewDto> getReceiptView(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
+    public List<MmReceiptInfoViewDto> getReceiptView(String filters, int pageNum, int pageSize, String value, String sort, String dir, int mid) {
         PageHelper.startPage(pageNum, pageSize);
-        List<VMmReceiptInfo> vMmReceiptInfos = mmReceiptMapper.selectReceiptView(value, sort, dir, mid);
+        List<VMmReceiptInfo> vMmReceiptInfos = mmReceiptMapper.selectReceiptView(filters, value, sort, dir, mid);
 
         List<MmReceiptInfoViewDto> mmReceiptInfoViewDtos = DTOUtil.populateList(vMmReceiptInfos,MmReceiptInfoViewDto.class);
         for (int i = 0 ; i < vMmReceiptInfos.size() ; i++){
@@ -93,13 +93,13 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Integer getReceiptViewTotal(String value , int mid) {
-        return mmReceiptMapper.selectReceiptViewTotal(value, mid);
+    public Integer getReceiptViewTotal(String filters, String value , int mid) {
+        return mmReceiptMapper.selectReceiptViewTotal(filters, value, mid);
     }
 
     //会议回执获取信息
     @Override
-    public List<MmReceiptInfoViewDto> getReceiptViewInBtid(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
+    public List<MmReceiptInfoViewDto> getReceiptViewInBtid(String filters, int pageNum, int pageSize, String value, String sort, String dir, int mid) {
 
         List<CrmBusinesstypeDto> bsTypes = businessTypeService.getBusinessTypeByUid();
         List<Integer> btid = new LinkedList<>();
@@ -107,7 +107,7 @@ public class ReceiptServiceImpl implements ReceiptService {
                 btid.add(bsTypes.get(i).getId()));
         PageHelper.startPage(pageNum, pageSize);
 
-        List<VMmReceiptInfo> vMmReceiptInfos = mmReceiptMapper.selectReceiptViewInBtid(value, sort, dir, mid, btid);
+        List<VMmReceiptInfo> vMmReceiptInfos = mmReceiptMapper.selectReceiptViewInBtid(filters, value, sort, dir, mid, btid);
 
         List<MmReceiptInfoViewDto> mmReceiptInfoViewDtos = DTOUtil.populateList(vMmReceiptInfos,MmReceiptInfoViewDto.class);
         for (int i = 0 ; i < vMmReceiptInfos.size() ; i++){
@@ -123,12 +123,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Integer getReceiptViewInBtidTotal(String value , int mid) {
+    public Integer getReceiptViewInBtidTotal(String filters, String value , int mid) {
         List<CrmBusinesstypeDto> bsTypes = businessTypeService.getBusinessTypeByUid();
         List<Integer> btid = new LinkedList<>();
         IntStream.range(0, bsTypes.size()).forEach(i ->
                 btid.add(bsTypes.get(i).getId()));
-        return mmReceiptMapper.selectReceiptViewInBtidTotal(value, mid, btid);
+        return mmReceiptMapper.selectReceiptViewInBtidTotal(filters, value, mid, btid);
     }
 
     @Override

@@ -11,6 +11,6 @@ public interface HotelService {
     BiHotelWithPageDto getListHotel(int startLine,int pageSize);
     boolean updateHotel(BiHotelDto biHotelDto);
     boolean deleteHotel(BiHotelDto biHotelDto);
-    List<BiHotelDto> getAllHotel(int pageNum, int pageSize, String value, String sort, String dir);
-    int getTotalHotel(String value);
+    List<BiHotelDto> getAllHotel(String filters, int pageNum, int pageSize, String value, String sort, String dir);
+    int getTotalHotel(String filters, String value);
 }

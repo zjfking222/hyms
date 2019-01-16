@@ -43,12 +43,12 @@ public class MeetingController {
     }
 
     @PostMapping("/meeting/get")
-    public ResultObj getMeeting(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getMeeting(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                 @RequestParam(required = false) String sort,
                                 @RequestParam(required = false) String dir){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data",meetingService.getMeeting(page, pageSize, value, sort, dir));
-        map.put("total",meetingService.getMeetingTotal(value));
+        map.put("data",meetingService.getMeeting(filters, page, pageSize, value, sort, dir));
+        map.put("total",meetingService.getMeetingTotal(filters, value));
         return ResultObj.success(map);
     }
     @PostMapping("/meeting/getState")

@@ -22,8 +22,8 @@ public class BusinessTypeUserServiceImpl implements BusinessTypeUserService{
     private CrmBusinesstypeUserMapper crmBusinesstypeUserMapper;
 
     @Override
-    public List<CrmBusinessUserDto> getBusinesstypeUser(int btid) {
-        return DTOUtil.populateList(crmBusinesstypeUserMapper.selectBusinesstypeUser(btid), CrmBusinessUserDto.class);
+    public List<CrmBusinessUserDto> getBusinesstypeUser(String filters, int btid, String sort, String dir) {
+        return DTOUtil.populateList(crmBusinesstypeUserMapper.selectBusinesstypeUser(filters, btid, sort, dir), CrmBusinessUserDto.class);
     }
 
     @Override

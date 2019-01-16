@@ -71,6 +71,13 @@ var vm = new Vue({
             this.dataSource = new kendo.data.DataSource({
                 transport: {
                     read: function (options) {
+                        //取kendoGrid的当前过滤条件
+                        var allMap;
+                        var grid = $("#grid").data("kendoGrid");
+                        if(grid){
+                            allMap = getFilters(grid);
+                            options.data.filters = allMap === undefined ? "" : JSON.stringify(allMap);
+                        }
                         $.ajax({
                             url: "/system/menus/get",
                             data: options.data,

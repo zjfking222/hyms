@@ -20,35 +20,35 @@ public class ReceiptController {
     private ReceiptService receiptService;
 
     @PostMapping("/receipt/getMeeting")
-    public ResultObj getReceiptMeetingView(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getReceiptMeetingView(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                            @RequestParam(required = false) String sort,
                                            @RequestParam(required = false) String dir,
                                            @RequestParam(required = false) String state){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", receiptService.getMeetingView(page, pageSize, value, sort, dir, state));
-        map.put("total", receiptService.getMeetingViewTotal(value, state));
+        map.put("data", receiptService.getMeetingView(filters, page, pageSize, value, sort, dir, state));
+        map.put("total", receiptService.getMeetingViewTotal(filters, value, state));
         return ResultObj.success(map);
     }
 
     @PostMapping("/receipt/getReceiptInfo")
-    public ResultObj getReceiptInfoView(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getReceiptInfoView(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                         @RequestParam(required = false) String sort,
                                         @RequestParam(required = false) String dir,
                                         int mid){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", receiptService.getReceiptView(page, pageSize, value, sort, dir, mid));
-        map.put("total", receiptService.getReceiptViewTotal(value , mid));
+        map.put("data", receiptService.getReceiptView(filters, page, pageSize, value, sort, dir, mid));
+        map.put("total", receiptService.getReceiptViewTotal(filters, value , mid));
         return ResultObj.success(map);
     }
 
     @PostMapping("/receipt/getReceiptInfoInBtid")
-    public ResultObj getReceiptInfoViewInBtid(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getReceiptInfoViewInBtid(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                         @RequestParam(required = false) String sort,
                                         @RequestParam(required = false) String dir,
                                         int mid){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", receiptService.getReceiptViewInBtid(page, pageSize, value, sort, dir, mid));
-        map.put("total", receiptService.getReceiptViewInBtidTotal(value , mid));
+        map.put("data", receiptService.getReceiptViewInBtid(filters, page, pageSize, value, sort, dir, mid));
+        map.put("total", receiptService.getReceiptViewInBtidTotal(filters, value , mid));
         return ResultObj.success(map);
     }
 

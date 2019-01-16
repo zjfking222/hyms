@@ -52,12 +52,12 @@ public class SysUsersController {
     }
 
     @PostMapping("users/getAll")
-    public ResultObj getAllUsers(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getAllUsers(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                  @RequestParam(required = false) String sort,
                                  @RequestParam(required = false) String dir) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", sysUsersService.getAllUsers(page, pageSize, value, sort, dir));
-        map.put("total", sysUsersService.getTotalUsers(value));
+        map.put("data", sysUsersService.getAllUsers(filters, page, pageSize, value, sort, dir));
+        map.put("total", sysUsersService.getTotalUsers(filters, value));
         return ResultObj.success(map);
     }
 

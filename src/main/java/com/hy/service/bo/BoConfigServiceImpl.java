@@ -54,14 +54,14 @@ public class BoConfigServiceImpl implements BoConfigService {
     private BORoleReportMapper boRoleReportMapper;
 
     @Override
-    public List<BOInfo> getReportInfo(int pageNum, int pageSize, String value, String sort, String dir, String directoryid){
+    public List<BOInfo> getReportInfo(String filters, int pageNum, int pageSize, String value, String sort, String dir, String directoryid){
         PageHelper.startPage(pageNum,pageSize);
-        return reportInfoMapper.selectReport(value,sort,dir,directoryid);
+        return reportInfoMapper.selectReport(filters, value,sort,dir,directoryid);
     }
 
     @Override
-    public Integer getReportInfoTotal(String value, String directoryid){
-        return reportInfoMapper.selectReportAll(value, directoryid);
+    public Integer getReportInfoTotal(String filters, String value, String directoryid){
+        return reportInfoMapper.selectReportAll(filters, value, directoryid);
     }
 
     @Override
@@ -197,8 +197,8 @@ public class BoConfigServiceImpl implements BoConfigService {
      * @return java.util.List<com.hy.dto.HrmResourceDto>
      **/
     @Override
-    public List<HrmResourceDto> getUsersByAccountid(String accountid) {
-        List<BOAccadRelation> list = reportAccadRelation.getListByAccountid(accountid);
+    public List<HrmResourceDto> getUsersByAccountid(String filters, String accountid) {
+        List<BOAccadRelation> list = reportAccadRelation.getListByAccountid(filters, accountid);
         List<HrmResourceDto> resultList = null;
         try {
             //判断是否存在需要查询的员工号
@@ -313,7 +313,7 @@ public class BoConfigServiceImpl implements BoConfigService {
         //查询出全部目录结构
         List<BOCatalogue> list = reportCatalogueMapper.selectAll();
         //查询出全部报表信息
-        List<BOInfo> rList = reportInfoMapper.selectReport(null, null, null, null);
+        List<BOInfo> rList = reportInfoMapper.selectReport(null, null, null, null, null);
         //循环目录结构，生成以id为key的map结构
         if (list != null && list.size() > 0 && rList != null && rList.size() > 0) {
             List<BOCatalogueDto> catalogues = DTOUtil.populateList(list, BOCatalogueDto.class);
@@ -648,7 +648,7 @@ public class BoConfigServiceImpl implements BoConfigService {
      **/
     @Override
     public int getAccEmpCount(String accountid){
-        List<BOAccadRelation> list = reportAccadRelation.getListByAccountid(accountid);
+        List<BOAccadRelation> list = reportAccadRelation.getListByAccountid(null, accountid);
         if(list != null){
             return list.size();
         }else{
@@ -759,8 +759,8 @@ public class BoConfigServiceImpl implements BoConfigService {
      * @Date 2018/12/19 16:35
      **/
     @Override
-    public List<BORoleDto> getRoleByAcc(String accountid){
-        List<BORole> boRolesList = boRoleMapper.selectRoleByAcc(accountid);
+    public List<BORoleDto> getRoleByAcc(String filters, String accountid){
+        List<BORole> boRolesList = boRoleMapper.selectRoleByAcc(filters, accountid);
         return DTOUtil.populateList(boRolesList, BORoleDto.class);
     }
 

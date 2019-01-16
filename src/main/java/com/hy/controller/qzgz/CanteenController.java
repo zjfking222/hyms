@@ -45,7 +45,7 @@ public class CanteenController {
     }
 
     @PostMapping("/admin/getCanteen")
-    public ResultObj getCanteen(int page, int pageSize, @RequestParam(required = false) String value, @RequestParam(required = false) String date,
+    public ResultObj getCanteen(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value, @RequestParam(required = false) String date,
                                 @RequestParam(required = false) String meal,
                                 @RequestParam(required = false) String sort,
                                 @RequestParam(required = false) String dir) throws ParseException {
@@ -63,8 +63,8 @@ public class CanteenController {
             classify = Integer.parseInt(meal);
         }
 
-        map.put("data", canteenService.getCanteen(page, pageSize, value, time, classify, sort, dir));
-        map.put("total", canteenService.getCanteenTotal(value, time, classify));
+        map.put("data", canteenService.getCanteen(filters, page, pageSize, value, time, classify, sort, dir));
+        map.put("total", canteenService.getCanteenTotal(filters, value, time, classify));
         return ResultObj.success(map);
     }
 

@@ -145,9 +145,9 @@ public class FirmsServiceImpl implements FirmsService {
     }
 
     @Override
-    public List<CrmFirmsDto> getCrmFirm(int pageNum, int pageSize, String value, String sort, String dir) {
+    public List<CrmFirmsDto> getCrmFirm(String filters, int pageNum, int pageSize, String value, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<CrmFirms> crms = crmFirmsMapper.selectCrmFirms(value, SecurityUtil.getLoginid(), sort, dir);
+        List<CrmFirms> crms = crmFirmsMapper.selectCrmFirms(filters, value, SecurityUtil.getLoginid(), sort, dir);
         List<CrmFirmsDto> dtos = new ArrayList<>();
         for (CrmFirms crm : crms) {
             dtos.add(new CrmFirmsDto(crm.getId(), crm.getName(), crm.getPhone(), crm.getAddress(), crm.getContacter(),
@@ -158,8 +158,8 @@ public class FirmsServiceImpl implements FirmsService {
     }
 
     @Override
-    public int getCrmFirmTotal(String value) {
-        return crmFirmsMapper.selectCrmFirmsTotal(value, SecurityUtil.getLoginid());
+    public int getCrmFirmTotal(String filters, String value) {
+        return crmFirmsMapper.selectCrmFirmsTotal(filters, value, SecurityUtil.getLoginid());
     }
 
     @Override

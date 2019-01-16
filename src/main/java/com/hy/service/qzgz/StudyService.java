@@ -13,7 +13,7 @@ public interface StudyService {
      * @param pageSize 当前页面展示数目
      * @return 菜单列表
      */
-    List<QzgzStudyDto> getList(int pageNum, int pageSize);
+    List<QzgzStudyDto> getList(String filters, int pageNum, int pageSize);
 
     /**
      * 根据主键获取学习通知信息
@@ -27,7 +27,7 @@ public interface StudyService {
      * 获取学习通知数量
      * @return 学习通知列表
      */
-    int getTotal();
+    int getTotal(String filters);
 
     /**
      * 添加学习通知

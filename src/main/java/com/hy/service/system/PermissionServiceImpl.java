@@ -57,21 +57,21 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDto> getMenus(int pageNum, int pageSize) {
+    public List<PermissionDto> getMenus(String filters, int pageNum, int pageSize, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<SysPermission> list = sysPermissionMapper.selectMenus(false);
+        List<SysPermission> list = sysPermissionMapper.selectMenus(filters, false, sort, dir);
 
         return DTOUtil.populateList(list, PermissionDto.class);
     }
 
     @Override
-    public int getMenusTotal() {
-        return sysPermissionMapper.selectMenusTotal();
+    public int getMenusTotal(String filters) {
+        return sysPermissionMapper.selectMenusTotal(filters);
     }
 
     @Override
     public List<PermissionDto> getParentMenus() {
-        List<SysPermission> list = sysPermissionMapper.selectMenus(true);
+        List<SysPermission> list = sysPermissionMapper.selectMenus(null,true, null, null);
         return DTOUtil.populateList(list, PermissionDto.class);
     }
 

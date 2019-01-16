@@ -75,7 +75,7 @@ public class FirmsController {
     }
 
     @PostMapping("/firm/get")
-    public ResultObj getCrmFirm(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getCrmFirm(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                 @RequestParam(required = false) String sort,
                                 @RequestParam(required = false) String dir) {
         HashMap<String, Object> map = new HashMap<>();
@@ -89,8 +89,8 @@ public class FirmsController {
 //            e.printStackTrace();
         }
 
-        map.put("data", firmsService.getCrmFirm(page, pageSize, value, sort, dir));
-        map.put("total", firmsService.getCrmFirmTotal(value));
+        map.put("data", firmsService.getCrmFirm(filters, page, pageSize, value, sort, dir));
+        map.put("total", firmsService.getCrmFirmTotal(filters, value));
         return ResultObj.success(map);
     }
 

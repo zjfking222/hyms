@@ -9,8 +9,8 @@ public interface MeetingService {
     MmMeetingDto addMeeting(MmMeetingDto mmMeetingDto);
     boolean setMeeting(MmMeetingDto mmMeetingDto);
     boolean delMeeting(int id);
-    List<MmMeetingDto> getMeeting(int pageNum, int pageSize, String value, String sort, String dir);
-    int getMeetingTotal(String value);
+    List<MmMeetingDto> getMeeting(String filters, int pageNum, int pageSize, String value, String sort, String dir);
+    int getMeetingTotal(String filters, String value);
     MmMeeting getMeetingByRid(int rid);
     Integer getState(int id);
 }

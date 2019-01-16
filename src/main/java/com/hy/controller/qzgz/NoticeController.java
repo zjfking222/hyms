@@ -30,8 +30,8 @@ public class NoticeController {
         if (!map.containsKey("page") || !map.containsKey("pageSize"))
             return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("total", noticeService.getTotal());
-        resultMap.put("data", noticeService.getList((int) map.get("page"), (int) map.get("pageSize")));
+        resultMap.put("total", noticeService.getTotal((String)map.get("filters")));
+        resultMap.put("data", noticeService.getList((String)map.get("filters"), (int) map.get("page"), (int) map.get("pageSize")));
         return ResultObj.success(resultMap);
     }
 
@@ -56,7 +56,7 @@ public class NoticeController {
     /**
      * 更新通知公告
      *
-     * @param QzgzNoticeDto 通知公告对象
+     * @param
      * @return
      */
     @RequestMapping(value = "/admin/notice/update", method = RequestMethod.POST)
@@ -105,7 +105,7 @@ public class NoticeController {
         if (!map.containsKey("page") || !map.containsKey("pageSize"))
             return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("total", noticeService.getTotal());
+        resultMap.put("total", noticeService.getTotal(null));
         List<QzgzNoticeDto> list = noticeService.getEffecttList((int) map.get("page"), (int) map.get("pageSize"));
         for (QzgzNoticeDto dto : list) {
             dto.setContent(null);

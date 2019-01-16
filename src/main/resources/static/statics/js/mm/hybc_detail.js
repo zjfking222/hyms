@@ -18,6 +18,7 @@ var vm = new Vue({
                     title: "新增"
                 }
             },
+            filterable: true,
             columnMenu: true,
             sortable: true,
             pageable: {
@@ -69,9 +70,16 @@ var vm = new Vue({
             this.dataSource = new kendo.data.DataSource({
                 transport: {
                     read: function (options) {
+                        //取kendoGrid的当前过滤条件
+                        var allMap;
+                        var grid = $("#grid").data("kendoGrid");
+                        if(grid){
+                            allMap = getFilters(grid);
+                        }
                         $.ajax({
                             url: "/mm/bus/getAll",
                             data: {
+                                'filters': allMap === undefined ? "" : JSON.stringify(allMap),
                                 'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                     undefined : options.data.sort[0].field,
                                 'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?

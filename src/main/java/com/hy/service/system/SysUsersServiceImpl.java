@@ -82,22 +82,22 @@ public class SysUsersServiceImpl implements SysUsersService {
     }
 
     @Override
-    public List<SysUsersDto> getAllUsers(int pageNum, int pageSize, String value, String sort, String dir){
+    public List<SysUsersDto> getAllUsers(String filters, int pageNum, int pageSize, String value, String sort, String dir){
         PageHelper.startPage(pageNum, pageSize);
-        List<SysUsers> sysUsers=sysUsersMapper.selectAllUsers(value,sort,dir);
+        List<SysUsers> sysUsers=sysUsersMapper.selectAllUsers(filters, value,sort,dir);
         System.out.println(sysUsers.size());
         return DTOUtil.populateList(sysUsers,SysUsersDto.class);
     }
 
 
     @Override
-    public int getTotalUsers(String value){
-        return sysUsersMapper.selectTotalUsers(value);
+    public int getTotalUsers(String filters, String value){
+        return sysUsersMapper.selectTotalUsers(filters, value);
     }
 
     @Override
     public List<HrmResource> getUsersBySearch(String value) {
-        List<SysUsers> users =  sysUsersMapper.selectAllUsers(value,null,null);
+        List<SysUsers> users =  sysUsersMapper.selectAllUsers(null, value,null,null);
         List<HrmResource> hrm = new LinkedList<>();
         IntStream.range(0, users.size()).forEach(i -> {
             HrmResource hr = new HrmResource();

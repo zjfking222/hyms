@@ -26,11 +26,11 @@ public class BoConfigController {
 
     //报表列表
     @RequestMapping("/getReportInfo")
-    public ResultObj getReportInfo(int page, int pageSize, @RequestParam(required = false) String value, @RequestParam(required = false) String sort,
+    public ResultObj getReportInfo(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value, @RequestParam(required = false) String sort,
                                    @RequestParam(required = false) String dir, String directoryid) {
         Map<String, Object> map = new HashMap<>();
-        map.put("data", boConfigService.getReportInfo(page, pageSize, value, sort, dir, directoryid));
-        map.put("total", boConfigService.getReportInfoTotal(value, directoryid));
+        map.put("data", boConfigService.getReportInfo(filters, page, pageSize, value, sort, dir, directoryid));
+        map.put("total", boConfigService.getReportInfoTotal(filters, value, directoryid));
         return ResultObj.success(map);
     }
 
@@ -121,8 +121,8 @@ public class BoConfigController {
      * @return com.hy.common.ResultObj
      **/
     @RequestMapping(value = "/account/getADUsers", method = RequestMethod.POST)
-    public ResultObj getADUsers(String accountid) {
-        List<HrmResourceDto> results = boConfigService.getUsersByAccountid(accountid);
+    public ResultObj getADUsers(String filters, String accountid) {
+        List<HrmResourceDto> results = boConfigService.getUsersByAccountid(filters, accountid);
         return ResultObj.success(results);
     }
 
@@ -301,8 +301,8 @@ public class BoConfigController {
      * @Date 2018/12/19 16:38
      **/
     @PostMapping("/role/getRoleByAcc")
-    public ResultObj getRoleByAcc(String accountid){
-        List<BORoleDto> boRoleDtosList = boConfigService.getRoleByAcc(accountid);
+    public ResultObj getRoleByAcc(String filters, String accountid){
+        List<BORoleDto> boRoleDtosList = boConfigService.getRoleByAcc(filters, accountid);
         return ResultObj.success(boRoleDtosList);
     }
 
@@ -426,7 +426,7 @@ public class BoConfigController {
      **/
     @PostMapping("/account/getReportInfoCount")
     public ResultObj getReportInfoCount(String id) {
-        Integer num = boConfigService.getReportInfoTotal(null, id);
+        Integer num = boConfigService.getReportInfoTotal(null, null, id);
         return ResultObj.success(num);
     }
 

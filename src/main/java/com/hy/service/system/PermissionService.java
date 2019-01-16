@@ -40,13 +40,13 @@ public interface PermissionService {
      * @param pageSize 当前页面展示数目
      * @return 菜单列表
      */
-    List<PermissionDto> getMenus(int pageNum, int pageSize);
+    List<PermissionDto> getMenus(String filters, int pageNum, int pageSize, String sort, String dir);
 
     /**
      * 获取菜单数量
      * @return 菜单列表
      */
-    int getMenusTotal();
+    int getMenusTotal(String filters);
 
 
     /**

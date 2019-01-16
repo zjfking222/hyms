@@ -27,12 +27,12 @@ public class NewsController {
 
     @PostMapping("/admin/getNews")
     //查询新闻并分页
-    public ResultObj getNews(@RequestParam(required = false) String value, int page, int pageSize,
+    public ResultObj getNews(@RequestParam(required = false) String filters, @RequestParam(required = false) String value, int page, int pageSize,
                              @RequestParam(required = false) String sort,
                              @RequestParam(required = false) String dir, String code){
         Map<String, Object> map = new HashMap<>();
-        map.put("data", newsService.getNews(value, sort, dir, page, pageSize, code));
-        map.put("total", newsService.getNewsTotal(value,code));
+        map.put("data", newsService.getNews(filters, value, sort, dir, page, pageSize, code));
+        map.put("total", newsService.getNewsTotal(filters, value,code));
         return ResultObj.success(map);
     }
 

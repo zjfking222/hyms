@@ -31,8 +31,8 @@ public class StudyController {
         if (!map.containsKey("page") || !map.containsKey("pageSize"))
             return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("total", studyService.getTotal());
-        resultMap.put("data", studyService.getList((int) map.get("page"), (int) map.get("pageSize")));
+        resultMap.put("total", studyService.getTotal((String)map.get("filters")));
+        resultMap.put("data", studyService.getList((String)map.get("filters"), (int) map.get("page"), (int) map.get("pageSize")));
         return ResultObj.success(resultMap);
     }
 
@@ -104,8 +104,8 @@ public class StudyController {
         if (!map.containsKey("page") || !map.containsKey("pageSize"))
             return ResultObj.error(ResultCode.ERROR_INVALID_PARAMETER);
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("total", studyService.getTotal());
-        List<QzgzStudyDto> list = studyService.getList((int) map.get("page"), (int) map.get("pageSize"));
+        resultMap.put("total", studyService.getTotal(null));
+        List<QzgzStudyDto> list = studyService.getList(null, (int) map.get("page"), (int) map.get("pageSize"));
         for (QzgzStudyDto dto : list) {
             dto.setContent("");
         }

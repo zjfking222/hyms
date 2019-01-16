@@ -15,6 +15,7 @@
 <script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.grid.filter.js"></script>
 <script>
     var directoryid = parent.currentCata.node.id;
     var pushData;
@@ -37,6 +38,7 @@
                         title: "新增"
                     }
                 },
+                filterable: true,
                 columnMenu: true,
                 sortable: true,
                 pageable: {
@@ -81,9 +83,16 @@
                 this.dataSource = new kendo.data.DataSource({
                     transport: {
                         read: function (options) {
+                            //取kendoGrid的当前过滤条件
+                            var allMap;
+                            var grid = $("#grid").data("kendoGrid");
+                            if(grid){
+                                allMap = getFilters(grid);
+                            }
                             $.ajax({
                                 url: "/bo/getReportInfo",
                                 data: {
+                                    'filters': allMap === undefined ? "" : JSON.stringify(allMap),
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
                                         undefined : options.data.sort[0].field,
                                     'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?

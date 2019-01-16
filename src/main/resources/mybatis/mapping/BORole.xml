@@ -25,6 +25,9 @@
         select <include refid="Base_Column_List" />
         from bo_role r
         where r.id in (select a.rid from bo_role_account a where a.accountid = #{accountid})
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
     </select>
     <insert id="insertRole"  parameterType="com.hy.model.BORole" useGeneratedKeys="true" keyProperty="id">
         insert into bo_role

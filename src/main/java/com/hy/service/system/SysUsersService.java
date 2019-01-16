@@ -16,8 +16,8 @@ public interface SysUsersService {
     List<SysUsersDto> getUsersByLike(String name);
     boolean addUsers(SysUsersNewDto sysUsersNewDto);
     boolean deleteUsers(int id);
-    List<SysUsersDto> getAllUsers(int pageNum,int pageSize, String value, String sort, String dir);
-    int getTotalUsers(String value);
+    List<SysUsersDto> getAllUsers(String filters, int pageNum,int pageSize, String value, String sort, String dir);
+    int getTotalUsers(String filters, String value);
 
     /**
      * 获取系统用户列表 （角色管理使用）

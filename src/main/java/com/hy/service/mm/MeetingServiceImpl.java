@@ -61,10 +61,10 @@ public class MeetingServiceImpl implements MeetingService{
     }
 
     @Override
-    public List<MmMeetingDto> getMeeting(int pageNum, int pageSize, String value, String sort, String dir) {
+    public List<MmMeetingDto> getMeeting(String filters, int pageNum, int pageSize, String value, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
 
-        List<MmMeeting> meetings = mmMeetingMapper.selectMmMeeting(value, sort, dir);
+        List<MmMeeting> meetings = mmMeetingMapper.selectMmMeeting(filters, value, sort, dir);
         List<MmMeetingDto> meetingDtos = DTOUtil.populateList(meetings, MmMeetingDto.class);
 
         //过滤空值
@@ -89,8 +89,8 @@ public class MeetingServiceImpl implements MeetingService{
     }
 
     @Override
-    public int getMeetingTotal(String value) {
-        return mmMeetingMapper.selectMmMeetingTotal(value);
+    public int getMeetingTotal(String filters, String value) {
+        return mmMeetingMapper.selectMmMeetingTotal(filters, value);
     }
 
     @Override

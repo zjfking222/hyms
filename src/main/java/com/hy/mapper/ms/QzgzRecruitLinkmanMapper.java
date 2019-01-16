@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface QzgzRecruitLinkmanMapper {
     //查询招聘联系人信息
-    List<QzgzRecruitLinkman> selectLinkman(@Param("value") String value, @Param("sort") String sort, @Param("dir") String dir);
+    List<QzgzRecruitLinkman> selectLinkman(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort, @Param("dir") String dir);
     //查询招聘联系人数据总条数
-    Integer selectLinkmanTotal(@Param("value") String value);
+    Integer selectLinkmanTotal(@Param("filters")String filters, @Param("value") String value);
     //新增招聘联系人信息
     Integer insertLinkman(QzgzRecruitLinkman qzgzRecruitLinkman);
     //更新招聘联系人信息

@@ -8,20 +8,20 @@ import java.util.List;
 
 @Repository
 public interface MmReceiptMapper {
-    List<VMmMeetingReceipt> selectMeetingView(@Param("value") String value, @Param("sort") String sort,
+    List<VMmMeetingReceipt> selectMeetingView(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort,
                                               @Param("dir") String dir, @Param("state") String state);
-    Integer selectMeetingViewTotal(@Param("value") String value, @Param("state") String state);
+    Integer selectMeetingViewTotal(@Param("filters")String filters, @Param("value") String value, @Param("state") String state);
 
-    List<VMmReceiptInfo> selectReceiptView(@Param("value") String value, @Param("sort") String sort,
+    List<VMmReceiptInfo> selectReceiptView(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort,
                                            @Param("dir") String dir, @Param("mid") int mid);
 
-    Integer selectReceiptViewTotal(@Param("value") String value, @Param("mid")int mid);
+    Integer selectReceiptViewTotal(@Param("filters")String filters, @Param("value") String value, @Param("mid")int mid);
 
-    List<VMmReceiptInfo> selectReceiptViewInBtid(@Param("value") String value, @Param("sort") String sort,
+    List<VMmReceiptInfo> selectReceiptViewInBtid(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort,
                                                  @Param("dir") String dir, @Param("mid") int mid,
                                                  @Param("btid")List<Integer> btid);
 
-    Integer selectReceiptViewInBtidTotal(@Param("value") String value, @Param("mid") int mid,
+    Integer selectReceiptViewInBtidTotal(@Param("filters")String filters, @Param("value") String value, @Param("mid") int mid,
                                          @Param("btid")List<Integer> btid);
 
     Integer deleteReceipt(@Param("id") int id);

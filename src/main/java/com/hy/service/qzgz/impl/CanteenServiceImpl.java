@@ -49,14 +49,14 @@ public class CanteenServiceImpl implements CanteenService {
     }
 
     @Override
-    public List<CanteenDto> getCanteen(int pageNum, int pageSize, String value, String date, Integer meal, String sort, String dir) {
+    public List<CanteenDto> getCanteen(String filters, int pageNum, int pageSize, String value, String date, Integer meal, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        return DTOUtil.populateList(canteenMapper.selectCanteen(value, date, meal, sort, dir), CanteenDto.class);
+        return DTOUtil.populateList(canteenMapper.selectCanteen(filters, value, date, meal, sort, dir), CanteenDto.class);
     }
 
     @Override
-    public int getCanteenTotal(String value, String date, Integer meal) {
-        return canteenMapper.selectCanteenTotal(value, date, meal);
+    public int getCanteenTotal(String filters, String value, String date, Integer meal) {
+        return canteenMapper.selectCanteenTotal(filters, value, date, meal);
     }
 
     @Override

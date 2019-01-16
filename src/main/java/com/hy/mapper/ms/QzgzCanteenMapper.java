@@ -10,8 +10,8 @@ import java.util.List;
 public interface QzgzCanteenMapper {
     List<QzgzCanteen> selectCanteenToday(@Param("meal") int meal);
     Integer updateCanteenZan(QzgzCanteen canteen);
-    List<QzgzCanteen> selectCanteen(@Param("value") String value, @Param("date") String date, @Param("meal") Integer meal, @Param("sort") String sort, @Param("dir") String dir);
-    Integer selectCanteenTotal(@Param("value") String value, @Param("date") String date, @Param("meal") Integer meal);
+    List<QzgzCanteen> selectCanteen(@Param("filters")String filters, @Param("value") String value, @Param("date") String date, @Param("meal") Integer meal, @Param("sort") String sort, @Param("dir") String dir);
+    Integer selectCanteenTotal(@Param("filters")String filters, @Param("value") String value, @Param("date") String date, @Param("meal") Integer meal);
     Integer deleteCanteen(@Param("id") int id);
     Integer insertCanteenList(List<QzgzCanteen> qzgzCanteens);
     List<QzgzCanteen> selectCanteenAll(@Param("maxDate") String maxDate, @Param("minDate") String minDate);

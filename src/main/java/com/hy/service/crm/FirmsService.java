@@ -12,8 +12,8 @@ public interface FirmsService {
     boolean setCrmFirm(CrmFirmsFetchDto crmFirmsDto);
     boolean delCrmFirm(int id);
     Integer batchAddFirm(String filepath);
-    List<CrmFirmsDto> getCrmFirm(int pageNum, int pageSize, String value, String sort, String dir);
-    int getCrmFirmTotal(String value);
+    List<CrmFirmsDto> getCrmFirm(String filters, int pageNum, int pageSize, String value, String sort, String dir);
+    int getCrmFirmTotal(String filters, String value);
     CrmFirmsFetchDto getCrmFirmById(int id);
     //获取企业列表，不分页
     List<CrmFirmsDto> getCrmFirmByUid();
