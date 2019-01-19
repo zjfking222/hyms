@@ -4,7 +4,6 @@ import com.hy.common.ResultObj;
 import com.hy.dto.SysDictDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.SysDictService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,10 +86,10 @@ public class SysDictController {
      * @return com.hy.common.ResultObj
      **/
     @PostMapping("/getDictsPage")
-    public ResultObj getDictsPage(Integer page, Integer pageSize, String sort, String dir, String value) {
+    public ResultObj getDictsPage(Integer page, Integer pageSize, String filters, String sort, String dir, String value) {
         Map<String, Object> map = new HashMap<>();
-        map.put("data", sysDictService.getDictsPage(page, pageSize, sort, dir, value));
-        map.put("total", sysDictService.getDictCount(value));
+        map.put("data", sysDictService.getDictsPage(page, pageSize,filters, sort, dir, value));
+        map.put("total", sysDictService.getDictCount(filters, value));
         return ResultObj.success(map);
     }
 }

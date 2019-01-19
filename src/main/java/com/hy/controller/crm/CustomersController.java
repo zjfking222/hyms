@@ -83,7 +83,7 @@ public class CustomersController {
     }
 
     @PostMapping("/customer/get")
-    public ResultObj getCustomer(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getCustomer(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                  @RequestParam(required = false) String sort,
                                  @RequestParam(required = false) String dir){
         HashMap<String, Object> map = new HashMap<>();
@@ -100,19 +100,19 @@ public class CustomersController {
         {
 //            e.printStackTrace();
         }
-        map.put("data", customersService.getCrmCustomer(page, pageSize, value, sort, dir));
-        map.put("total", customersService.getCrmCustomerTotal(value));
+        map.put("data", customersService.getCrmCustomer(filters, page, pageSize, value, sort, dir));
+        map.put("total", customersService.getCrmCustomerTotal(filters, value));
         return ResultObj.success(map);
     }
 
     @PostMapping("/customerfirm/get")
-    public ResultObj getCustomerFirmView(int page, int pageSize, int mid,
+    public ResultObj getCustomerFirmView(@RequestParam(required = false) String filters, int page, int pageSize, int mid,
                                          @RequestParam(required = false) String value,
                                          @RequestParam(required = false) String sort,
                                          @RequestParam(required = false) String dir){
         Map<String, Object> map = new HashMap<>();
-        map.put("data", customersService.getCrmCustomerByUid(page, pageSize, mid, value, sort, dir));
-        map.put("total", customersService.getCrmCustomerByUidTotal(mid, value));
+        map.put("data", customersService.getCrmCustomerByUid(filters, page, pageSize, mid, value, sort, dir));
+        map.put("total", customersService.getCrmCustomerByUidTotal(filters, mid, value));
         return ResultObj.success(map);
     }
 }

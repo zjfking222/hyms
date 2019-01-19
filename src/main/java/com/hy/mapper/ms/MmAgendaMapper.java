@@ -11,10 +11,10 @@ public interface MmAgendaMapper {
     Integer insertMmAgenda(MmAgenda mmAgenda);
     Integer updateMmAgenda(MmAgenda mmAgenda);
     Integer deleteMmAgenda(@Param("id") int id);
-    List<MmAgenda> selectMmAgenda(@Param("mid") int mid,
+    List<MmAgenda> selectMmAgenda(@Param("filters")String filters, @Param("mid") int mid,
                                   @Param("sort") String sort,
                                   @Param("dir") String dir);
-    Integer selectMmAgendaTotal(@Param("mid")int mid);
+    Integer selectMmAgendaTotal(@Param("filters")String filters, @Param("mid")int mid);
 
     List<MmAgenda> selectMmAgendaByRid(@Param("rid")int rid);
 }

@@ -4,6 +4,9 @@
     <select id="selectMeetingView" resultType="com.hy.model.VMmMeetingReceipt">
         SELECT * FROM v_mm_meeting_receipt
         WHERE 1 = 1
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="state != null and '' != state">
             AND enddate > now()
         </if>
@@ -17,6 +20,9 @@
     <select id="selectMeetingViewTotal" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM v_mm_meeting_receipt
         WHERE 1 = 1
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="state != null and '' != state">
             AND enddate > now()
         </if>
@@ -28,6 +34,9 @@
     <select id="selectReceiptView" resultType="com.hy.model.VMmReceiptInfo">
         SELECT * FROM v_mm_receipt_info
         WHERE mid = #{mid}
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="value != null and '' != value">
             AND ( name LIKE concat('%',#{value},'%')
             OR uname LIKE concat('%',#{value},'%')
@@ -44,6 +53,9 @@
     <select id="selectReceiptViewTotal" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM v_mm_receipt_info
         WHERE mid = #{mid}
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="value != null and '' != value">
             AND ( name LIKE concat('%',#{value},'%')
             OR uname LIKE concat('%',#{value},'%')
@@ -58,6 +70,9 @@
         <foreach collection="btid" index="index" item="btid" open="(" separator="," close=")">
             #{btid}
         </foreach>
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="value != null and '' != value">
             AND ( name LIKE concat('%',#{value},'%')
             OR uname LIKE concat('%',#{value},'%')
@@ -77,6 +92,9 @@
         <foreach collection="btid" index="index" item="btid" open="(" separator="," close=")">
             #{btid}
         </foreach>
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="value != null and '' != value">
             AND ( name LIKE concat('%',#{value},'%')
             OR uname LIKE concat('%',#{value},'%')

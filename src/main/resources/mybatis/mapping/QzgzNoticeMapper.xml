@@ -26,11 +26,19 @@
   <select id="selectNoticesTotal" resultType="java.lang.Integer"  >
     select count(1)
     from qzgz_notice
+    where 1=1
+    <if test="filters != null and '' != filters">
+      AND filters = filters
+    </if>
   </select>
   <select id="selectNotices" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
     from qzgz_notice
+    where 1=1
+    <if test="filters != null and '' != filters">
+      AND filters = filters
+    </if>
   </select>
   <select id="selectEffectNotices" resultMap="BaseResultMap" >
     select

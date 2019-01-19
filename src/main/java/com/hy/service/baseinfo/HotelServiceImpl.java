@@ -54,14 +54,14 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<BiHotelDto> getAllHotel(int pageNum, int pageSize, String value, String sort, String dir) {
+    public List<BiHotelDto> getAllHotel(String filters, int pageNum, int pageSize, String value, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<BiHotel> hotels=biHotelMapper.selectAllBiHotel(value, sort, dir);
+        List<BiHotel> hotels=biHotelMapper.selectAllBiHotel(filters, value, sort, dir);
         return DTOUtil.populateList(hotels,BiHotelDto.class);
     }
 
     @Override
-    public int getTotalHotel(String value) {
-        return biHotelMapper.selectTotalBiHotel(value);
+    public int getTotalHotel(String filters, String value) {
+        return biHotelMapper.selectTotalBiHotel(filters, value);
     }
 }

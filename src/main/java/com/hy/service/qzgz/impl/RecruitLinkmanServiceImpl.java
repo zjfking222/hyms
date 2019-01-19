@@ -24,15 +24,15 @@ public class RecruitLinkmanServiceImpl implements RecruitLinkmanService{
 
     @Override
     //查询招聘联系人信息
-    public List<QzgzRecruitLinkmanDto> getLinkman(int page, int pageSize, String value, String sort, String dir){
+    public List<QzgzRecruitLinkmanDto> getLinkman(String filters,int page, int pageSize, String value, String sort, String dir){
         PageHelper.startPage(page, pageSize);
-        return DTOUtil.populateList(linkmanMapper.selectLinkman(value, sort, dir), QzgzRecruitLinkmanDto.class);
+        return DTOUtil.populateList(linkmanMapper.selectLinkman(filters, value, sort, dir), QzgzRecruitLinkmanDto.class);
     }
 
     @Override
     //查询招聘联系人数据总条数
-    public Integer getLinkmanTotal(String value){
-        return linkmanMapper.selectLinkmanTotal(value);
+    public Integer getLinkmanTotal(String filters,String value){
+        return linkmanMapper.selectLinkmanTotal(filters, value);
     }
 
     @Override

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>角色</title>
@@ -12,8 +12,10 @@
 
 <script src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.addfilter.js"></script>
 <script>
     var accountid;
     var FetchData = function (data, method, param, async) {
@@ -49,6 +51,7 @@
                         title: "新增"
                     }
                 },
+                filterable: true,
                 columnMenu: true,
                 sortable: true,
                 columns: [
@@ -78,9 +81,16 @@
                 this.dataSource = new kendo.data.DataSource({
                     transport: {
                         read: function (options) {
+                            //取kendoGrid的当前过滤条件
+                            var allMap;
+                            var grid = $("#grid").data("kendoGrid");
+                            if(grid){
+                                allMap = getFilters(grid);
+                            }
                             $.ajax({
                                 url: "/bo/role/getRoleByAcc",
                                 data: {
+                                    'filters': allMap === undefined ? "" : JSON.stringify(allMap),
                                     'accountid': accountid
                                 },
                                 method: 'POST',

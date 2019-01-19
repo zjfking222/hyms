@@ -50,6 +50,9 @@
             OR address LIKE concat('%',#{value},'%')
             OR contacter LIKE concat('%',#{value},'%'))
         </if>)
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="sort != null and '' != sort">
             ORDER BY CONVERT(${sort} USING gbk) ${dir}
         </if>
@@ -69,6 +72,9 @@
             OR address LIKE concat('%',#{value},'%')
             OR contacter LIKE concat('%',#{value},'%'))
         </if>)
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
     </select>
     <select id="selectCrmFirmsById" resultType="com.hy.model.CrmFirms">
         SELECT *

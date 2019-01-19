@@ -7,6 +7,6 @@ import com.hy.model.CrmBusinesstypeUser;
 import java.util.List;
 
 public interface BusinessTypeUserService {
-    List<CrmBusinessUserDto> getBusinesstypeUser(int btid);
+    List<CrmBusinessUserDto> getBusinesstypeUser(String filters, int btid, String sort, String dir);
     boolean setBusinesstypeUser(CrmBusinesstypeUserDto crmBusinesstypeUserDto);
 }

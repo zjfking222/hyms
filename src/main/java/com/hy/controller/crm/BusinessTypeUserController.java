@@ -16,9 +16,9 @@ public class BusinessTypeUserController {
     private BusinessTypeUserService businessTypeUserService;
 
     @PostMapping("/businessUser/get")
-    public ResultObj getBusinessUser(int btid, @RequestParam(required = false) String sort,
+    public ResultObj getBusinessUser(@RequestParam(required = false) String filters, int btid, @RequestParam(required = false) String sort,
                                      @RequestParam(required = false) String dir){
-        return ResultObj.success(businessTypeUserService.getBusinesstypeUser(btid));
+        return ResultObj.success(businessTypeUserService.getBusinesstypeUser(filters, btid, sort, dir));
     }
 
     @PostMapping("/businessUser/set")

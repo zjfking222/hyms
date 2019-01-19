@@ -1,5 +1,6 @@
 package com.hy.dto;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class SysDictDto {
     private Integer pid;
     private String pidname;
     private String description;
+    private Date modified;
 
     public String getCode() {
         return code;
@@ -61,5 +63,13 @@ public class SysDictDto {
 
     public void setPidname(String pidname) {
         this.pidname = pidname;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
     }
 }

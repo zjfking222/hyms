@@ -19,9 +19,9 @@ public class StudyServiceImpl implements StudyService {
     private QzgzStudyMapper qzgzStudyMapper;
 
     @Override
-    public List<QzgzStudyDto> getList(int pageNum, int pageSize) {
+    public List<QzgzStudyDto> getList(String filters, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<QzgzStudy> list = qzgzStudyMapper.selectStudys();
+        List<QzgzStudy> list = qzgzStudyMapper.selectStudys(filters);
 
         return DTOUtil.populateList(list, QzgzStudyDto.class);
     }
@@ -36,8 +36,8 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Override
-    public int getTotal() {
-        return qzgzStudyMapper.selectStudysTotal();
+    public int getTotal(String filters) {
+        return qzgzStudyMapper.selectStudysTotal(filters);
     }
 
     @Override

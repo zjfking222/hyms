@@ -13,7 +13,7 @@ public interface NoticeService {
      * @param pageSize 当前页面展示数目
      * @return 菜单列表
      */
-    List<QzgzNoticeDto> getList(int pageNum, int pageSize);
+    List<QzgzNoticeDto> getList(String filters, int pageNum, int pageSize);
 
     /**
      * 分页获取已生效通知公告列表
@@ -36,7 +36,7 @@ public interface NoticeService {
      * 获取通知公告数量
      * @return 通知公告列表
      */
-    int getTotal();
+    int getTotal(String filters);
 
     /**
      * 添加通知公告

@@ -11,9 +11,9 @@ public interface MmMeetingMapper {
     Integer insertMmMeeting(MmMeeting mmMeeting);
     Integer updateMmMeeting(MmMeeting mmMeeting);
     Integer deleteMmMeeting(@Param("id") int id);
-    List<MmMeeting> selectMmMeeting(@Param("value") String value, @Param("sort") String sort,
+    List<MmMeeting> selectMmMeeting(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort,
                                     @Param("dir") String dir);
-    Integer selectMmMeetingTotal(@Param("value") String value);
+    Integer selectMmMeetingTotal(@Param("filters")String filters, @Param("value") String value);
 
     MmMeeting selectMeetingByRid(@Param("rid")int rid);
     MmMeeting selectMeetingById(@Param("id")int id);

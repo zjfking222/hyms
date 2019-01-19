@@ -184,9 +184,9 @@ public class CustomersServiceImpl implements CustomersService{
     }
 
     @Override
-    public List<CrmCustomersDto> getCrmCustomer(int pageNum, int pageSize, String value, String sort, String dir) {
+    public List<CrmCustomersDto> getCrmCustomer(String filters, int pageNum, int pageSize, String value, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<CrmCustomers> crms = customersMapper.selectCrmCustomer(SecurityUtil.getLoginid(), value, sort, dir);
+        List<CrmCustomers> crms = customersMapper.selectCrmCustomer(filters, SecurityUtil.getLoginid(), value, sort, dir);
         List<CrmCustomersDto> dtos = new ArrayList<>();
         for (CrmCustomers crm : crms){
             CrmCustomersDto customersDto = new CrmCustomersDto(crm.getId(),crm.getName(),crm.getPost(),crm.getNationality(),crm.getAddress(),crm.getMobile(),crm.getPhone(),crm.getEmail(),
@@ -204,8 +204,8 @@ public class CustomersServiceImpl implements CustomersService{
     }
 
     @Override
-    public int getCrmCustomerTotal(String value) {
-        return customersMapper.selectCrmCustomerTotal(SecurityUtil.getLoginid(), value);
+    public int getCrmCustomerTotal(String filters, String value) {
+        return customersMapper.selectCrmCustomerTotal(filters, SecurityUtil.getLoginid(), value);
     }
 
     @Override
@@ -220,10 +220,10 @@ public class CustomersServiceImpl implements CustomersService{
     }
 
     @Override
-    public List<CrmCustomerFirmViewDto> getCrmCustomerByUid(int pageNum, int pageSize, int mid, String value,
+    public List<CrmCustomerFirmViewDto> getCrmCustomerByUid(String filters, int pageNum, int pageSize, int mid, String value,
                                                             String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<VCrmCustomerFirm> vCrmCustomerFirms = customersMapper.selectCrmCustomerByUid(SecurityUtil.getLoginid(),
+        List<VCrmCustomerFirm> vCrmCustomerFirms = customersMapper.selectCrmCustomerByUid(filters, SecurityUtil.getLoginid(),
                 mid,value,sort,dir);
         List<CrmCustomerFirmViewDto> dto = DTOUtil.populateList(vCrmCustomerFirms, CrmCustomerFirmViewDto.class);
         IntStream.range(0, vCrmCustomerFirms.size()).forEach(i ->
@@ -233,7 +233,7 @@ public class CustomersServiceImpl implements CustomersService{
     }
 
     @Override
-    public Integer getCrmCustomerByUidTotal(int mid, String value) {
-        return customersMapper.selectCrmCustomerByUidTotal(SecurityUtil.getLoginid(), mid, value);
+    public Integer getCrmCustomerByUidTotal(String filters, int mid, String value) {
+        return customersMapper.selectCrmCustomerByUidTotal(filters, SecurityUtil.getLoginid(), mid, value);
     }
 }

@@ -24,6 +24,9 @@
         <if test="directoryid != null and directoryid != ''">
             and directoryid=#{directoryid}
         </if>
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')
             or reportid like concat('%',#{value},'%')
@@ -40,6 +43,9 @@
         where 1=1
         <if test="directoryid != null and directoryid != ''">
             and directoryid=#{directoryid}
+        </if>
+        <if test="filters != null and '' != filters">
+            AND filters = filters
         </if>
         <if test="value != null and '' != value">
             AND name LIKE concat('%',#{value},'%')

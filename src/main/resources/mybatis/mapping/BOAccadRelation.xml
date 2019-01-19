@@ -19,6 +19,9 @@
         <include refid="Base_Column_List" />
         from bo_accad_relation
         where accountid = #{accountid,jdbcType=VARCHAR}
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
     </select>
     <select id="getListByEmpnum" resultMap="BaseResultMap" parameterType="java.lang.String">
         select

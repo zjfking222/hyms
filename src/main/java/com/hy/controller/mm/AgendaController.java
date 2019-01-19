@@ -19,11 +19,11 @@ public class AgendaController {
     private AgendaService agendaService;
 
     @PostMapping("/agenda/get")
-    public ResultObj getAgenda(int page, int pageSize,int mid, @RequestParam(required = false) String sort,
+    public ResultObj getAgenda(@RequestParam(required = false) String filters, int page, int pageSize,int mid, @RequestParam(required = false) String sort,
                                @RequestParam(required = false) String dir){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", agendaService.getAgenda(page, pageSize, mid, sort, dir));
-        map.put("total", agendaService.getAgendaTotal(mid));
+        map.put("data", agendaService.getAgenda(filters, page, pageSize, mid, sort, dir));
+        map.put("total", agendaService.getAgendaTotal(filters, mid));
         return ResultObj.success(map);
     }
 

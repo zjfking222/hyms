@@ -49,12 +49,12 @@ public class HotelController {
     }
 
     @PostMapping("/hotel/getAll")
-    public ResultObj getAllHotel(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getAllHotel(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                                  @RequestParam(required = false) String sort,
                                  @RequestParam(required = false) String dir){
         HashMap<String,Object> map=new HashMap<>();
-        map.put("data",hotelService.getAllHotel(page,pageSize,value,sort,dir));
-        map.put("total",hotelService.getTotalHotel(value));
+        map.put("data",hotelService.getAllHotel(filters, page,pageSize,value,sort,dir));
+        map.put("total",hotelService.getTotalHotel(filters, value));
         return ResultObj.success(map);
     }
 

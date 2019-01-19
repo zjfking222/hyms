@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface NewsService {
     //查询新闻
-    List<QzgzNewsDto> getNews(String value, String sort, String dir, int page, int pageSize, String code);
+    List<QzgzNewsDto> getNews(String filters, String value, String sort, String dir, int page, int pageSize, String code);
     //查询新闻总条数，用于分页
-    Integer getNewsTotal(String value, String code);
+    Integer getNewsTotal(String filters, String value, String code);
     //删除新闻类型时根据type查询是否有新闻
     Integer getNewsTypeDel(int type);
     //新增新闻

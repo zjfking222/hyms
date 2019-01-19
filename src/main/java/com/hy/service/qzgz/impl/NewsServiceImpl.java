@@ -28,18 +28,18 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     //查询动态新闻信息
-    public List<QzgzNewsDto> getNews(String value, String sort, String dir, int page, int pageSize, String code){
+    public List<QzgzNewsDto> getNews(String filters, String value, String sort, String dir, int page, int pageSize, String code){
         PageHelper.startPage(page, pageSize);
         List<SysDict> sysDict = sysDictMapper.selectChildByCode(code);
-        List<QzgzNews> qzgzNews = qzgzNewsMapper.selectNews(value, sort, dir, sysDict);
+        List<QzgzNews> qzgzNews = qzgzNewsMapper.selectNews(filters, value, sort, dir, sysDict);
         return DTOUtil.populateList(qzgzNews, QzgzNewsDto.class);
     }
 
     @Override
     //查询动态新闻总条数，用于分页
-    public Integer getNewsTotal(String value, String code){
+    public Integer getNewsTotal(String filters, String value, String code){
         List<SysDict> sysDict = sysDictMapper.selectChildByCode(code);
-        return qzgzNewsMapper.selectNewsTotal(value, sysDict);
+        return qzgzNewsMapper.selectNewsTotal(filters, value, sysDict);
     }
 
     @Override

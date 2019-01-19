@@ -21,12 +21,12 @@ public class RecruitLinkmanController {
 
     @PostMapping("/admin/getLinkman")
     //查询招聘联系人信息并分页
-    public ResultObj getLinkman(@RequestParam(required = false) String value, int page, int pageSize,
+    public ResultObj getLinkman(@RequestParam(required = false) String value, @RequestParam(required = false)String filters, int page, int pageSize,
                                 @RequestParam(required = false) String sort,
                                 @RequestParam(required = false) String dir){
         Map<String, Object> map = new HashMap<>();
-        map.put("data", linkmanService.getLinkman(page, pageSize, value, sort, dir));
-        map.put("total", linkmanService.getLinkmanTotal(value));
+        map.put("data", linkmanService.getLinkman(filters, page, pageSize, value, sort, dir));
+        map.put("total", linkmanService.getLinkmanTotal(filters, value));
         return ResultObj.success(map);
     }
 

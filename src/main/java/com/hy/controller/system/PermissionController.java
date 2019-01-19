@@ -30,14 +30,13 @@ public class PermissionController {
      */
     @RequestMapping(value = "/menus/get", method = RequestMethod.POST)
     public ResultObj getMenus(@RequestBody Map<String, Object> map) {
-        //Map filter = (Map)map.get("filter");
         if (map.containsKey("p")) {
             List<PermissionDto> list = permissionService.getParentMenus();
             return ResultObj.success(list);
         }
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("total", permissionService.getMenusTotal());
-        resultMap.put("data", permissionService.getMenus((int) map.get("page"), (int) map.get("pageSize")));
+        resultMap.put("total", permissionService.getMenusTotal((String)map.get("filters")));
+        resultMap.put("data", permissionService.getMenus((String)map.get("filters"), (int) map.get("page"), (int) map.get("pageSize"), (String)map.get("sort"), (String)map.get("dir")));
         return ResultObj.success(resultMap);
     }
 

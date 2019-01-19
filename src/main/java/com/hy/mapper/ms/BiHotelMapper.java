@@ -15,7 +15,7 @@ public interface BiHotelMapper {
     int selectCountBiHotel();
     int updateBiHotel(BiHotel biHotel);
     int deleteBiHotel(BiHotel biHotel);
-    List<BiHotel> selectAllBiHotel(@Param("value") String value, @Param("sort") String sort,
+    List<BiHotel> selectAllBiHotel(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort,
                                    @Param("dir") String dir);
-    Integer selectTotalBiHotel(@Param("value") String value);
+    Integer selectTotalBiHotel(@Param("filters")String filters, @Param("value") String value);
 }

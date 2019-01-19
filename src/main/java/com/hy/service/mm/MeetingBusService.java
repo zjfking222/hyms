@@ -10,8 +10,8 @@ public interface MeetingBusService {
     int addBus(MmBusDto mmBusDto);
     boolean updateBus(MmBusDto mmBusDto);
     boolean deleteBus(MmBusDto mmBusDto);
-    List<MmBusDto> getAllBus(int pageNum, int pageSize, String value, String sort, String dir,int mid);
-    int getCountBus(String value,int mid);
+    List<MmBusDto> getAllBus(String filters, int pageNum, int pageSize, String value, String sort, String dir,int mid);
+    int getCountBus(String filters, String value,int mid);
     List<MmBusInfoDto> getInfoBus(int mid);
 
 }

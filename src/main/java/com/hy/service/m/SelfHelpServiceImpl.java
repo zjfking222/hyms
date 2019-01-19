@@ -116,6 +116,9 @@ public class SelfHelpServiceImpl implements SelfHelpService {
         }else if("49".equals(flag)){
             results.put("flag", "false");
             results.put("message", "密码验证失败！");
+        }else if("0".equals(flag)){
+            results.put("flag", "false");
+            results.put("message", "无上月薪资数据！");
         }else{
             results.put("flag", "true");
             results.put("message", "成功！");

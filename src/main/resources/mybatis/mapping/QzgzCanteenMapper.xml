@@ -33,6 +33,9 @@
         select *
         from qzgz_canteen
         where to_days(date) = to_days(#{date})
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="meal != null and '' != meal">
             AND meal = #{meal}
         </if>
@@ -51,6 +54,9 @@
         select count(1)
         from qzgz_canteen
         where to_days(date) = to_days(#{date})
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
         <if test="meal != null and '' != meal">
             AND meal = #{meal}
         </if>

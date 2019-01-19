@@ -19,9 +19,9 @@ public class NoticeServiceImpl implements NoticeService {
     private QzgzNoticeMapper qzgzNoticeMapper;
 
     @Override
-    public List<QzgzNoticeDto> getList(int pageNum, int pageSize) {
+    public List<QzgzNoticeDto> getList(String filters, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<QzgzNotice> list = qzgzNoticeMapper.selectNotices();
+        List<QzgzNotice> list = qzgzNoticeMapper.selectNotices(filters);
         return DTOUtil.populateList(list, QzgzNoticeDto.class);
     }
 
@@ -42,8 +42,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int getTotal() {
-        return qzgzNoticeMapper.selectNoticesTotal();
+    public int getTotal(String filters) {
+        return qzgzNoticeMapper.selectNoticesTotal(filters);
     }
 
     @Override

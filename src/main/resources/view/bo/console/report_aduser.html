@@ -12,8 +12,10 @@
 
     <script src="/statics/plugins/jquery/jquery.min.js"></script>
     <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
     <script src="/statics/plugins/vue/vue.min.js"></script>
     <script src="/statics/plugins/layer/layer.js"></script>
+    <script src="/statics/plugins/kendo/js/kendo.addfilter.js"></script>
     <script>
         var accountid;
         var vm = new Vue({
@@ -35,7 +37,7 @@
                             title: "新增"
                         }
                     },
-                    // filterable: true,
+                    filterable: true,
                     columnMenu: true,
                     sortable: true,
                     columns: [
@@ -52,9 +54,16 @@
                     this.dataSource = new kendo.data.DataSource({
                         transport: {
                             read: function (options) {
+                                //取kendoGrid的当前过滤条件
+                                var allMap;
+                                var grid = $("#grid").data("kendoGrid");
+                                if(grid){
+                                    allMap = getFilters(grid);
+                                }
                                 $.ajax({
                                     url: "/bo/account/getADUsers",
                                     data: {
+                                        'filters': allMap === undefined ? "" : JSON.stringify(allMap),
                                         'accountid': accountid
                                     },
                                     method:'POST',

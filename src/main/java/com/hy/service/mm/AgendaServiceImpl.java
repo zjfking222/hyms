@@ -64,9 +64,9 @@ public class AgendaServiceImpl implements AgendaService {
     }
 
     @Override
-    public List<MmAgendaDto> getAgenda(int pageNum, int pageSize, int mid, String sort, String dir) {
+    public List<MmAgendaDto> getAgenda(String filters, int pageNum, int pageSize, int mid, String sort, String dir) {
         PageHelper.startPage(pageNum, pageSize);
-        List<MmAgenda> agenda = mmAgendaMapper.selectMmAgenda(mid, sort, dir);
+        List<MmAgenda> agenda = mmAgendaMapper.selectMmAgenda(filters, mid, sort, dir);
         List<MmAgendaDto> agendaDtos = DTOUtil.populateList(agenda, MmAgendaDto.class);
         for(int i = 0 ; i < agenda.size() ; i++){
             agendaDtos.get(i).setDate(sdf.format(agenda.get(i).getDate()));
@@ -75,8 +75,8 @@ public class AgendaServiceImpl implements AgendaService {
     }
 
     @Override
-    public int getAgendaTotal(int mid) {
-        return mmAgendaMapper.selectMmAgendaTotal(mid);
+    public int getAgendaTotal(String filters, int mid) {
+        return mmAgendaMapper.selectMmAgendaTotal(filters, mid);
     }
 
     @Override

@@ -15,21 +15,12 @@ function getData(){
                     }
                 }
             });
-            $("#treeView").kendoTreeView({ //配置树视图
-                dataSource: dataSource,
-                dataValueField: ["parentid", "did"],//实际值
-                dataTextField: ["name", "name"],//显示值
-                select: function(nodevariable) {
-                    // console.log(nodevariable);
-                    this.expand(nodevariable.node);//单击node展开子项
-                }
-            });
             layui.use('table', function(){
                 var table = layui.table;   //员工change信息表
                 table.render({
                     elem: '#demo'
                     ,method:"post"
-                    ,height: 312
+                    ,height: 250
                     ,where:{date:$("#test1").val(),time:getTime}
                     ,url: '/ad/staff/select' //数据接口
                     ,page: true //开启分页
@@ -66,6 +57,10 @@ function getData(){
                                 $(this).text("王春燕")
                             }else if($(this).text()=='20102197'){
                                 $(this).text("陈珍珍")
+                            }else if($(this).text()=='100710'){
+                                $(this).text("宋金鹏")
+                            }else if($(this).text()=='20102224'){
+                                $(this).text("胡顺")
                             }
                         });
                     }
@@ -106,6 +101,10 @@ function getData(){
                                 $(this).text("王春燕")
                             }else if($(this).text()=='20102197'){
                                 $(this).text("陈珍珍")
+                            }else if($(this).text()=='100710'){
+                                $(this).text("宋金鹏")
+                            }else if($(this).text()=='20102224'){
+                                $(this).text("胡顺")
                             }
                         });
                     }
@@ -153,7 +152,31 @@ function getData(){
     });
 }
 
-
+$.ajax({  //树
+    method:"post",
+    dataType:"json",
+    url:"/ad/department/select",//数据路径
+    success:function (result) {
+        var dataSource = new kendo.data.HierarchicalDataSource({ //设置数据源
+            data: result.data,
+            schema: {
+                model: {
+                    id: "did",
+                    children:"child"
+                }
+            }
+        });
+        $("#treeView").kendoTreeView({ //配置树视图
+            dataSource: dataSource,
+            dataValueField: ["parentid", "did"],//实际值
+            dataTextField: ["name", "name"],//显示值
+            select: function(nodevariable) {
+                // console.log(nodevariable);
+                this.expand(nodevariable.node);//单击node展开子项
+            }
+        });
+    }
+});
 
 layui.use('laydate', function(){ //版本
     var laydate = layui.laydate;

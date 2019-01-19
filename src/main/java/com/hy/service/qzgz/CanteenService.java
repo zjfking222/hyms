@@ -14,9 +14,9 @@ public interface CanteenService {
 
     boolean updateCanteenZan(int zan, int id);
 
-    List<CanteenDto> getCanteen(int pageNum, int pageSize, String value, String date, Integer meal, String sort, String dir) throws ParseException;
+    List<CanteenDto> getCanteen(String filters, int pageNum, int pageSize, String value, String date, Integer meal, String sort, String dir) throws ParseException;
 
-    int getCanteenTotal(String value, String date, Integer meal) throws ParseException;
+    int getCanteenTotal(String filters, String value, String date, Integer meal) throws ParseException;
 
     boolean deleteCanteen(int id);
 

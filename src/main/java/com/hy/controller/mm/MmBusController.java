@@ -43,12 +43,12 @@ public class MmBusController {
     }
 
     @PostMapping("/bus/getAll")
-    public ResultObj getAll(int page, int pageSize, @RequestParam(required = false) String value,
+    public ResultObj getAll(@RequestParam(required = false) String filters, int page, int pageSize, @RequestParam(required = false) String value,
                             @RequestParam(required = false) String sort,
                             @RequestParam(required = false) String dir, int mid) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", busService.getAllBus(page, pageSize, value, sort, dir, mid));
-        map.put("total", busService.getCountBus(value, mid));
+        map.put("data", busService.getAllBus(filters, page, pageSize, value, sort, dir, mid));
+        map.put("total", busService.getCountBus(filters, value, mid));
         return ResultObj.success(map);
     }
 

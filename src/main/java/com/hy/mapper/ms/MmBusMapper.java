@@ -12,8 +12,8 @@ public interface MmBusMapper {
     int insertMmBus(MmBus mmBus);
     int updateMmBus(MmBus mmBus);
     int deleteMmBus(MmBus mmBus);
-    List<MmBus> selectAllMmBus(@Param("value") String value, @Param("sort") String sort,
+    List<MmBus> selectAllMmBus(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort,
                                @Param("dir") String dir, @Param("mid") int mid);
-    int selectCountMmBus(@Param("value") String value, @Param("mid") int mid);
+    int selectCountMmBus(@Param("filters")String filters, @Param("value") String value, @Param("mid") int mid);
     List<MmBus> selectInfoMmBus(@Param("mid") int mid);
 }

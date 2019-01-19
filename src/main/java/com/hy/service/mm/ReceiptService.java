@@ -7,25 +7,25 @@ import java.util.List;
 
 public interface ReceiptService {
 
-    List<MmMeetingReceiptViewDto> getMeetingView(int pageNum, int pageSize, String value, String sort, String dir,
+    List<MmMeetingReceiptViewDto> getMeetingView(String filters, int pageNum, int pageSize, String value, String sort, String dir,
                                                  String state);
-    Integer getMeetingViewTotal(String value, String state);
+    Integer getMeetingViewTotal(String filters, String value, String state);
 
     /**
      * 回执管理获取列表接口
      */
-    List<MmReceiptInfoViewDto> getReceiptView(int pageNum, int pageSize, String value, String sort, String dir, int mid);
+    List<MmReceiptInfoViewDto> getReceiptView(String filters, int pageNum, int pageSize, String value, String sort, String dir, int mid);
 
 
-    Integer getReceiptViewTotal(String value, int mid);
+    Integer getReceiptViewTotal(String filters, String value, int mid);
 
     /**
      * 会议回执获取列表接口（通过btid控制）
      */
-    List<MmReceiptInfoViewDto> getReceiptViewInBtid(int pageNum, int pageSize, String value, String sort, String dir,
+    List<MmReceiptInfoViewDto> getReceiptViewInBtid(String filters, int pageNum, int pageSize, String value, String sort, String dir,
                                                     int mid);
 
-    Integer getReceiptViewInBtidTotal(String value, int mid);
+    Integer getReceiptViewInBtidTotal(String filters, String value, int mid);
 
     /**
      * 获取回执详情列表

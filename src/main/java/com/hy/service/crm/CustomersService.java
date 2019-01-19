@@ -11,11 +11,11 @@ public interface CustomersService {
     boolean setCustomer(CrmCustomersFetchDto crmCustomersFetchDto);
     boolean delCustomer(int id);
     Integer batchAddCustomer(String filepath);
-    List<CrmCustomersDto> getCrmCustomer(int pageNum, int pageSize, String value, String sort, String dir);
-    int getCrmCustomerTotal(String value);
+    List<CrmCustomersDto> getCrmCustomer(String filters, int pageNum, int pageSize, String value, String sort, String dir);
+    int getCrmCustomerTotal(String filters, String value);
     CrmCustomersDto getCrmCustomerById(int id);
 
-    List<CrmCustomerFirmViewDto> getCrmCustomerByUid(int pageNum, int pageSize,int mid, String value,
+    List<CrmCustomerFirmViewDto> getCrmCustomerByUid(String filters, int pageNum, int pageSize,int mid, String value,
                                                      String sort, String dir);
-    Integer getCrmCustomerByUidTotal(int mid, String value);
+    Integer getCrmCustomerByUidTotal(String filters, int mid, String value);
 }

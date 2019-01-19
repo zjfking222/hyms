@@ -52,9 +52,9 @@ public class MeetingBusServiceImpl implements MeetingBusService {
     }
 
     @Override
-    public List<MmBusDto> getAllBus(int pageNum, int pageSize, String value, String sort, String dir, int mid) {
+    public List<MmBusDto> getAllBus(String filters, int pageNum, int pageSize, String value, String sort, String dir, int mid) {
         PageHelper.startPage(pageNum, pageSize);
-        List<MmBus> mmBuses = mmBusMapper.selectAllMmBus(value, sort, dir, mid);
+        List<MmBus> mmBuses = mmBusMapper.selectAllMmBus(filters, value, sort, dir, mid);
         List<MmBusDto> mmBusDtos = DTOUtil.populateList(mmBuses, MmBusDto.class);
 
         IntStream.range(0, mmBuses.size()).forEach(i -> {
@@ -75,8 +75,8 @@ public class MeetingBusServiceImpl implements MeetingBusService {
     }
 
     @Override
-    public int getCountBus(String value, int mid) {
-        return mmBusMapper.selectCountMmBus(value, mid);
+    public int getCountBus(String filters, String value, int mid) {
+        return mmBusMapper.selectCountMmBus(filters, value, mid);
     }
 
     @Override

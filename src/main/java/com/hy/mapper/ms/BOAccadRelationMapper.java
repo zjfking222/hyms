@@ -21,7 +21,7 @@ public interface BOAccadRelationMapper {
      * @Param []
      * @return java.util.List<com.hy.model.ReportAccadRelation>
      **/
-    List<BOAccadRelation> getListByAccountid(@Param("accountid")String accountid);
+    List<BOAccadRelation> getListByAccountid(@Param("filters")String filters, @Param("accountid")String accountid);
 
     /**
      * @Author 钱敏杰
