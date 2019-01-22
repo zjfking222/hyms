@@ -1,4 +1,4 @@
-package com.hy.service.procurement;
+package com.hy.service.purchase;
 
 import com.hy.dto.SalesmanTracerDto;
 
