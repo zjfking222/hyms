@@ -21,6 +21,6 @@ public interface SalesmanTracerMapper {
     Integer insertSalesmanTracer(List<SalesmanTracer> salesmanTracer);
     //根据id删除对应业务员、跟单员信息
     Integer deleteSalesmanTracer(int[] array);
-    //根据业务员员工号删除所有该业务员的信息
+    //根据业务员员工号删除所有该业务员、跟单员信息
     Integer deleteBySalesmannum(@Param("salesmannum") String salesmannum);
 }

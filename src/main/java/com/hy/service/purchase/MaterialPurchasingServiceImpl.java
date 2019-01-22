@@ -18,10 +18,10 @@ import java.util.stream.IntStream;
 /**
  * @Auther: 沈超宇
  * @Date: 2019/1/21 16:21
- * @Description: 业务员、跟单员关系表serviceImpl
+ * @Description:物资采购serviceImpl
  */
 @Service
-public class SalesmanTracerServiceImpl implements SalesmanTracerService {
+public class MaterialPurchasingServiceImpl implements MaterialPurchasingService {
     @Autowired
     private SalesmanTracerMapper salesmanTracerMapper;
 
@@ -42,7 +42,7 @@ public class SalesmanTracerServiceImpl implements SalesmanTracerService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     //更新业务员、跟单员信息
-    public boolean setSalesmanTracer(String salesmannum, List<SalesmanTracerDto> salesmanTracerDtos, int[] array){
+    public void setSalesmanTracer(String salesmannum, List<SalesmanTracerDto> salesmanTracerDtos, int[] array){
         try {
             //查询更新之前该业务员对应的所有业务员、跟单员信息
             List<SalesmanTracer> salesmanTracerList = salesmanTracerMapper.selectSalesmanTracer(salesmannum);
@@ -80,7 +80,6 @@ public class SalesmanTracerServiceImpl implements SalesmanTracerService {
                     throw new RuntimeException("删除业务员、跟单员信息失败！");
                 }
             }
-            return true;
         }catch (Exception e){
             System.out.println(e);
             throw e;
@@ -88,8 +87,14 @@ public class SalesmanTracerServiceImpl implements SalesmanTracerService {
     }
 
     @Override
-    //根据业务员员工号删除所有该业务员的信息
+    //根据业务员员工号删除所有该业务员、跟单员信息
     public boolean delBySalesmannum(String salesmannum){
-        return true;
+        int num = salesmanTracerMapper.selectSalesmanTracer(salesmannum).size();
+        if(num > 0){
+            return salesmanTracerMapper.deleteBySalesmannum(salesmannum) > 0;
+        }else {
+            return true;
+        }
+
     }
 }
