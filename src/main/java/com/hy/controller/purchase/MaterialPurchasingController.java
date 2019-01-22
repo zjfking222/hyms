@@ -1,15 +1,14 @@
 package com.hy.controller.purchase;
 
 import com.hy.common.ResultObj;
-import com.hy.dto.SalesmanTracerDto;
+import com.hy.dto.PurchaseSalesmanDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.purchase.MaterialPurchasingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @Auther: 沈超宇
@@ -24,29 +23,24 @@ public class MaterialPurchasingController {
     private MaterialPurchasingService materialPurchasingService;
 
 
-    @PostMapping("/salesmanTracer/getSalesmanTracer")
-    //查询当前业务员的信息以及跟单员信息
-    public ResultObj getSalesmanTracer(String salesmannum){
-        return ResultObj.success(materialPurchasingService.getSalesmanTracer(salesmannum));
+    @PostMapping("/salesman/getSalesman")
+    //查询业务员信息
+    public ResultObj getSalesman(@RequestParam(required = false) String value){
+        return ResultObj.success(materialPurchasingService.getSalesman(value));
     }
 
-    @PostMapping("/salesmanTracer/getDistinctSalesman")
-    //查询去重后的业务员信息,用于初始化显示业务员
-    public ResultObj getDistinctSalesman(String value){
-        return ResultObj.success(materialPurchasingService.getDistinctSalesman(value));
-    }
-
-    @PostMapping("/salesmanTracer/setSalesmanTracer")
+    @PostMapping("/salesman/addSalesman")
     //更新业务员、跟单员信息
-    public ResultObj setSalesmanTracer(String salesmannum, List<SalesmanTracerDto> salesmanTracerDtos, int[] array){
-        materialPurchasingService.setSalesmanTracer(salesmannum, salesmanTracerDtos, array);
-        return ResultObj.success();
+    public ResultObj addSalesman(PurchaseSalesmanDto purchaseSalesmanDto){
+        return materialPurchasingService.addSalesman(purchaseSalesmanDto) ?
+                ResultObj.success() :
+                ResultObj.error(ResultCode.ERROR_ADD_FAILED);
     }
 
-    @PostMapping("/salesmanTracer/delBySalesmannum")
-    //根据业务员员工号删除所有该业务员、跟单员信息
-    public ResultObj delBySalesmannum(String salesmannum){
-        return materialPurchasingService.delBySalesmannum(salesmannum) ?
+    @PostMapping("/salesman/delSalesman")
+    //删除业务员
+    public ResultObj delSalesman(int id){
+        return materialPurchasingService.delSalesman(id) ?
                 ResultObj.success() :
                 ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
     }

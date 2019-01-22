@@ -4,31 +4,18 @@ import java.util.Date;
 
 /**
  * @Auther: 沈超宇
- * @Date: 2019/1/21 14:42
- * @Description:业务员、跟单员关系表model
+ * @Date: 2019/1/22 10:08
+ * @Description:
  */
-public class SalesmanTracer {
+public class PurchaseTracer {
     private int id;
-    private String salesmannum;
-    private String salesmanname;
+    private int sid;
     private String tracernum;
     private String tracername;
     private String creater;
     private Date created;
     private String modifier;
     private Date modified;
-
-    public SalesmanTracer() {
-    }
-
-    public SalesmanTracer(String salesmannum, String salesmanname, String tracernum, String tracername, String creater, String modifier) {
-        this.salesmannum = salesmannum;
-        this.salesmanname = salesmanname;
-        this.tracernum = tracernum;
-        this.tracername = tracername;
-        this.creater = creater;
-        this.modifier = modifier;
-    }
 
     public int getId() {
         return id;
@@ -38,20 +25,12 @@ public class SalesmanTracer {
         this.id = id;
     }
 
-    public String getSalesmannum() {
-        return salesmannum;
+    public int getSid() {
+        return sid;
     }
 
-    public void setSalesmannum(String salesmannum) {
-        this.salesmannum = salesmannum;
-    }
-
-    public String getSalesmanname() {
-        return salesmanname;
-    }
-
-    public void setSalesmanname(String salesmanname) {
-        this.salesmanname = salesmanname;
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
     public String getTracernum() {

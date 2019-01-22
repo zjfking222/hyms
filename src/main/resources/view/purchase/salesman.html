@@ -158,13 +158,13 @@
                placeholder="输入搜索信息...">
         <button id="btn-add" @click="onAdd"></button>
         <ul class="nav nav-sidebar" id="salesman">
-            <li v-for="salesman in data1" :data-id="salesman.id" @click="onChoose(salesman.id)">
+            <li v-for="salesman in data1" :data-id="salesman.salesmannum" @click="onChoose(salesman.salesmannum)">
                 <div class="item1">
-                    <a class="item-a">{{salesman.name}}</a>
+                    <a class="item-a">{{salesman.salesmanname}}</a>
                 </div>
                 <div class="item2">
-                    <button class="btn-edit" @click="onEdit(salesman.id, salesman.name)"></button>
-                    <button class="btn-del" @click="onDel(salesman.id)"></button>
+                    <button class="btn-edit" @click="onEdit(salesman.salesmannum, salesman.salesmanname)"></button>
+                    <button class="btn-del" @click="onDel(salesman.salesmannum)"></button>
                 </div>
             </li>
         </ul>
@@ -195,15 +195,15 @@
         return response.responseJSON;
     };
 
-    //获取角色信息
+    //获取去重后的业务员信息
     function dataSourceSearch(value) {
-        return FetchData({value: value}, 'POST', '/salesman/getSalesman', false).data;
+        return FetchData({value: value}, 'POST', '/purchase/salesmanTracer/getDistinctSalesman', false).data;
     }
 
-    function refresh(sid) {
-        $('#treeview').attr('src', 'report_role_report.html?id' + sid);
-        pushSid = sid;
-        $("#rolenav li[data-id=" + rid + "]").addClass('active')
+    function refresh(salesmannum) {
+        $('#treeview').attr('src', 'tracer.html?id' + salesmannum);
+        pushSid = salesmannum;
+        $("#rolenav li[data-id=" + salesmannum + "]").addClass('active')
             .siblings("li").removeClass('active');
     }
 
@@ -223,71 +223,53 @@
                     sid: -1
                 };
                 layer.open({
-                    title: '新增业务员信息',
+                    title: '新增业务员、跟单员信息',
                     type: 2,
                     area: ['700px', '85%'],
                     fixed: false, //不固定
                     maxmin: true,
                     shadeClose: true,
-                    content: '/procurement/salesman_update.html',
+                    content: '/purchase/salesmanTracer_update.html',
                     end: function () {
                         vm.data1 = dataSourceSearch($("#search").val())
                     }
                 });
             },
-            onEdit: function (id, name) {
+            onEdit: function (salesmannum, salesmanname) {
                 pushData = {
-                    rid: id,
-                    name: name
+                    sid: salesmannum,
+                    name: salesmanname
                 };
                 layer.open({
-                    title: '更新业务员信息',
+                    title: '更新业务员、跟单员信息',
                     type: 2,
                     area: ['700px', '85%'],
                     fixed: false, //不固定
                     maxmin: true,
                     shadeClose: true,
-                    content: '/procurement/salesman_update.html',
+                    content: '/purchase/salesmanTracer_update.html',
                     end: function () {
                         vm.data1 = dataSourceSearch($("#search").val())
                     }
                 });
             },
-            onDel: function (id) {
-                var tracer = FetchData({sid: id}, "POST", "/follower/getFollowersBySid", false).data.length;
-                //判断业务员下是否存在跟单员
-                if(tracer > 0){
-                    layer.confirm('业务员下存在跟单员，确认删除吗？删除后将不可恢复！', {btn: ['删除', '取消']},
-                        function () {
-                            FetchData({sid: id}, "POST", "/salesman/delSalesman");
-                            layer.msg('删除成功！', {
-                                time: 500,
-                                end: function () {
-                                    vm.data1 = dataSourceSearch($("#search").val());
-                                    $('#treeview').attr('src', '/index/blank.html');
-                                }
-                            });
-                        },
-                        function () {
+            onDel: function (salesmannum) {
+                layer.confirm('确认删除吗？删除后将不可恢复！', {btn: ['删除', '取消']},
+                    function () {
+                        FetchData({salesmannum: salesmannum}, "POST", "/salesman/delSalesman");
+                        layer.msg('删除成功！', {
+                            time: 500,
+                            end: function () {
+                                vm.data1 = dataSourceSearch($("#search").val());
+                                $('#treeview').attr('src', '/index/blank.html');
+                            }
                         });
-                }else {
-                    layer.confirm('确认删除吗？删除后将不可恢复！', {btn: ['删除', '取消']},
-                        function () {
-                            FetchData({sid: id}, "POST", "/salesman/delSalesman");
-                            layer.msg('删除成功！', {
-                                time: 500,
-                                end: function () {
-                                    vm.data1 = dataSourceSearch($("#search").val());
-                                    $('#treeview').attr('src', '/index/blank.html');
-                                }
-                            });
-                        },
-                        function () {
-                        });
-                }
+                    },
+                    function () {
+                    });
             },
-            onChoose: function (rid) {
-                refresh(rid);
+            onChoose: function (salesmannum) {
+                refresh(salesmannum);
             }
         }
     });

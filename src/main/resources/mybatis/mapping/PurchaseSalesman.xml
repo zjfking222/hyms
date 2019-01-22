@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.PurchaseSalesmanMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.PurchaseSalesman">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="salesmannum" property="salesmannum" jdbcType="VARCHAR" />
+        <result column="salesmanname" property="salesmanname" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, salesmannum, salesmanname, creater, created, modifier, modified
+    </sql>
+    <select id="selectSalesman" resultType="com.hy.model.PurchaseSalesman" parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from purchase_salesman
+        where 1=1
+        <if test="value != null and '' != value">
+            and (salesmannum = #{value} or salesmanname = #{value})
+        </if>
+    </select>
+    <insert id="insertSalesman" parameterType="com.hy.model.PurchaseSalesman">
+        insert into purchase_salesman
+        (salesmannum, salesmanname, creater, modifier)
+        values
+        (#{item.salesmannum}, #{item.salesmanname}, #{item.creater}, #{item.modifier})
+    </insert>
+    <delete id="deleteSalesman" parameterType="java.lang.Integer">
+        delete from purchase_salesman
+        where id = #{id}
+    </delete>
+</mapper>
