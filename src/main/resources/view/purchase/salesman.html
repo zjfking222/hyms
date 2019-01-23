@@ -129,7 +129,7 @@
         }
 
         ul {
-            padding-top: 20px;
+            padding-top: 10px;
         }
 
         .active:hover {
@@ -154,17 +154,19 @@
 <body>
 <div id="menus">
     <div id="left" class="sidebar">
-        <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search"
-               placeholder="输入搜索信息...">
+        <div style="font-size: 16px;text-align: center;">
+            <span>业务员</span>
+        </div>
+        <input v-model="data0" class="form-control" style="display: inline-block!important;margin-top: 5px" id="search"
+               placeholder="输入员工号或姓名">
         <button id="btn-add" @click="onAdd"></button>
         <ul class="nav nav-sidebar" id="salesman">
-            <li v-for="salesman in data1" :data-id="salesman.salesmannum" @click="onChoose(salesman.salesmannum)">
+            <li v-for="salesman in data1" :data-id="salesman.id" @click="onChoose(salesman.id)">
                 <div class="item1">
                     <a class="item-a">{{salesman.salesmanname}}</a>
                 </div>
                 <div class="item2">
-                    <button class="btn-edit" @click="onEdit(salesman.salesmannum, salesman.salesmanname)"></button>
-                    <button class="btn-del" @click="onDel(salesman.salesmannum)"></button>
+                    <button class="btn-del" @click="onDel(salesman.id)"></button>
                 </div>
             </li>
         </ul>
@@ -178,7 +180,6 @@
 <script src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
 <script>
-    var pushData;
     var pushSid;
     var FetchData = function (data, method, param, async) {
         var response =
@@ -195,16 +196,9 @@
         return response.responseJSON;
     };
 
-    //获取去重后的业务员信息
+    //获取业务员信息
     function dataSourceSearch(value) {
-        return FetchData({value: value}, 'POST', '/purchase/salesmanTracer/getDistinctSalesman', false).data;
-    }
-
-    function refresh(salesmannum) {
-        $('#treeview').attr('src', 'tracer.html?id' + salesmannum);
-        pushSid = salesmannum;
-        $("#rolenav li[data-id=" + salesmannum + "]").addClass('active')
-            .siblings("li").removeClass('active');
+        return FetchData({value: value}, 'POST', '/purchase/salesman/getSalesman', false).data;
     }
 
     var vm = new Vue({
@@ -219,44 +213,23 @@
         },
         methods: {
             onAdd: function () {
-                pushData = {
-                    sid: -1
-                };
                 layer.open({
-                    title: '新增业务员、跟单员信息',
+                    title: '新增业务员',
                     type: 2,
-                    area: ['700px', '85%'],
+                    area: ['400px', '50%'],
                     fixed: false, //不固定
                     maxmin: true,
                     shadeClose: true,
-                    content: '/purchase/salesmanTracer_update.html',
+                    content: '/purchase/salesman_add.html',
                     end: function () {
                         vm.data1 = dataSourceSearch($("#search").val())
                     }
                 });
             },
-            onEdit: function (salesmannum, salesmanname) {
-                pushData = {
-                    sid: salesmannum,
-                    name: salesmanname
-                };
-                layer.open({
-                    title: '更新业务员、跟单员信息',
-                    type: 2,
-                    area: ['700px', '85%'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    shadeClose: true,
-                    content: '/purchase/salesmanTracer_update.html',
-                    end: function () {
-                        vm.data1 = dataSourceSearch($("#search").val())
-                    }
-                });
-            },
-            onDel: function (salesmannum) {
+            onDel: function (id) {
                 layer.confirm('确认删除吗？删除后将不可恢复！', {btn: ['删除', '取消']},
                     function () {
-                        FetchData({salesmannum: salesmannum}, "POST", "/salesman/delSalesman");
+                        FetchData({id: id}, "POST", "/purchase/salesman/delSalesman");
                         layer.msg('删除成功！', {
                             time: 500,
                             end: function () {
@@ -268,8 +241,11 @@
                     function () {
                     });
             },
-            onChoose: function (salesmannum) {
-                refresh(salesmannum);
+            onChoose:function (id) {
+                $('#treeview').attr('src', 'tracer.html?id' + id);
+                pushSid = id;
+                $("#salesman li[data-id=" + id + "]").addClass('active')
+                    .siblings("li").removeClass('active');
             }
         }
     });

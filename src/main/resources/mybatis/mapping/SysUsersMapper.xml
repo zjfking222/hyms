@@ -247,5 +247,14 @@
     from sys_users
     where employeenumber = #{employeenumber}
   </select>
+  <select id="selectUsersAccurate" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from sys_users
+    where 1=1
+    <if test="value != null and '' != value">
+      AND ( name = #{value}
+      OR employeenumber = #{value})
+    </if>
+  </select>
 </mapper>
 

@@ -1,6 +1,7 @@
 package com.hy.service.purchase;
 
 import com.hy.dto.PurchaseSalesmanDto;
+import com.hy.dto.PurchaseTracerDto;
 
 import java.util.List;
 
@@ -14,6 +15,12 @@ public interface MaterialPurchasingService {
     List<PurchaseSalesmanDto> getSalesman(String value);
     //新增业务员信息
     boolean addSalesman(PurchaseSalesmanDto purchaseSalesmanDtos);
-    //根据业务员员工号删除所有该业务员、跟单员信息
-    boolean delSalesman(int id);
+    //删除业务员
+    void delSalesman(int id);
+    //查询跟单员
+    List<PurchaseTracerDto> getTracer(String filters, int sid, String value);
+    //新增跟单员
+    boolean addTracer(PurchaseTracerDto purchaseTracerDto);
+    //删除跟单员
+    boolean delTracer(int id);
 }

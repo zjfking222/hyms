@@ -18,14 +18,14 @@
         from purchase_salesman
         where 1=1
         <if test="value != null and '' != value">
-            and (salesmannum = #{value} or salesmanname = #{value})
+            and (salesmannum = #{value} or salesmanname LIKE concat('%',#{value},'%'))
         </if>
     </select>
     <insert id="insertSalesman" parameterType="com.hy.model.PurchaseSalesman">
         insert into purchase_salesman
         (salesmannum, salesmanname, creater, modifier)
         values
-        (#{item.salesmannum}, #{item.salesmanname}, #{item.creater}, #{item.modifier})
+        (#{salesmannum}, #{salesmanname}, #{creater}, #{modifier})
     </insert>
     <delete id="deleteSalesman" parameterType="java.lang.Integer">
         delete from purchase_salesman
