@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加或更新物资信息</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+<body style="width: 80%; margin: 10px auto">
+<form>
+    <div class="form-group">
+        <label for="applytype">申请类别</label>
+        <select name="applytype" id="applytype" class="form-control input-sm-8" placeholder="选择申请类别">
+            <option value="" selected></option>
+            <option value="1">日常</option>
+            <option value="2">项目</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="companyname">公司名称</label>
+        <input class="form-control input-sm-8" id="companyname" placeholder="输入公司名称">
+    </div>
+    <div class="form-group">
+        <label for="mattype">物资类别</label>
+        <select name="mattype" id="mattype" class="form-control input-sm-8" placeholder="选择物资类别">
+            <option value="" selected></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="batch">追溯号(批次)</label>
+        <input class="form-control input-sm-8" id="batch" placeholder="输入追溯号">
+    </div>
+    <div class="form-group">
+        <label for="materialname">物资名称</label>
+        <input class="form-control input-sm-8" id="materialname" placeholder="输入物资名称">
+    </div>
+    <div class="form-group">
+        <label for="amount">数量</label>
+        <input class="form-control input-sm-8" id="amount" placeholder="输入数量">
+    </div>
+    <div class="form-group">
+        <label for="unit">单位</label>
+        <input class="form-control input-sm-8" id="unit" placeholder="输入单位">
+    </div>
+    <div class="form-group">
+        <label for="empnum">业务员</label>
+        <select name="empnum" id="empnum" class="form-control input-sm-8" placeholder="选择业务员">
+            <option value="" selected></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="applydept">申请部门</label>
+        <input class="form-control input-sm-8" id="applydept" placeholder="输入申请部门">
+    </div>
+    <div class="form-group">
+        <label for="applyperson">申请联系人</label>
+        <input class="form-control input-sm-8" id="applyperson" placeholder="输入申请联系人">
+    </div>
+    <div class="form-group">
+        <label for="dispatchdate">物资分派日期</label>
+        <input class="form-control input-sm-8" id="dispatchdate" placeholder="输入类型">
+    </div>
+    <div class="form-group">
+        <label for="requireddate">要求到货日期</label>
+        <input class="form-control input-sm-8" id="requireddate" placeholder="输入类型">
+    </div>
+    <div class="form-group">
+        <label for="overseasdate">海外到货日期</label>
+        <input class="form-control input-sm-8" id="overseasdate" placeholder="输入类型">
+    </div>
+    <div class="form-group">
+        <label for="materialdes">备注</label>
+        <textarea class="form-control input-sm-8" id="materialdes" placeholder="输入描述信息"></textarea>
+    </div>
+    <a id="submit" href="javascript:" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script src="/statics/plugins/layui/layui.js"></script>
+<script>
+    var postData;
+    var index = parent.layer.getFrameIndex(window.name);
+    $(function () {
+        //初始化日期控件
+        layui.use('laydate', function(){
+            var dispatchdate = layui.laydate;
+            //执行一个laydate实例
+            dispatchdate.render({
+                elem: '#dispatchdate' //指定元素
+            });
+            var requireddate = layui.laydate;
+            //执行一个laydate实例
+            requireddate.render({
+                elem: '#requireddate' //指定元素
+            });
+            var overseasdate = layui.laydate;
+            //执行一个laydate实例
+            overseasdate.render({
+                elem: '#overseasdate' //指定元素
+            });
+        });
+        if (parent.pushData.id === 0) {
+        } else {
+            if(parent.pushData.id !== -1){
+                postData.id = parent.pushData.id;
+            }
+            /*$('#name').val(data.name);
+            $('#reportid').val(data.reportid);
+            $('#type').val(data.type);
+            $('#description').val(data.description);
+            //修改的报表id不给修改
+            $('#reportid').attr("disabled","disabled");*/
+        }
+        $('#submit').on('click', function () {
+            postData = {
+                id: data.id,
+                name: $('#name').val(),
+                reportid: $('#reportid').val(),
+                directoryid: $('#directoryid').val(),
+                type: $('#type').val(),
+                description:$('#description').val()
+            };
+            if (parent.pushData.id === 0 || parent.pushData.id === -1) {
+                var postback = FetchData(postData, 'POST', '/add', false);
+                if (postback.code === 0) {
+                    postData.id = postback.data;
+                    parent.vm.dataSource.add(postData);
+                    parent.layer.msg('添加成功');
+                    parent.layer.close(index);
+                } else {
+                    parent.layer.msg('添加失败');
+                }
+            } else {
+                if (FetchData(postData, 'POST', '/update', false).code === 0) {
+                    parent.vm.dataSource.pushUpdate(postData);
+                    parent.layer.msg('修改成功');
+                    parent.layer.close(index);
+                } else {
+                    parent.layer.close('修改失败');
+                }
+            }
+        })
+    });
+    var FetchData = function (data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    };
+</script>
+</html>

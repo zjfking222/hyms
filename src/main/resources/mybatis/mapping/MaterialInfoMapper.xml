@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.MaterialInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.hy.model.MaterialInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="applytype" property="applytype" jdbcType="INTEGER" />
+    <result column="companyname" property="companyname" jdbcType="VARCHAR" />
+    <result column="mattype" property="mattype" jdbcType="INTEGER" />
+    <result column="mattypename" property="mattypename" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="materialname" property="materialname" jdbcType="VARCHAR" />
+    <result column="materialdes" property="materialdes" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="FLOAT" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="empnum" property="empnum" jdbcType="INTEGER" />
+    <result column="empname" property="empname" jdbcType="VARCHAR" />
+    <result column="applydept" property="applydept" jdbcType="VARCHAR" />
+    <result column="applyperson" property="applyperson" jdbcType="VARCHAR" />
+    <result column="dispatchdate" property="dispatchdate" jdbcType="VARCHAR" />
+    <result column="requireddate" property="requireddate" jdbcType="VARCHAR" />
+    <result column="overseasdate" property="overseasdate" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="ordernum" property="ordernum" jdbcType="VARCHAR" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="contractdate" property="contractdate" jdbcType="VARCHAR" />
+    <result column="conarrivaldate" property="conarrivaldate" jdbcType="VARCHAR" />
+    <result column="supplyperson" property="supplyperson" jdbcType="VARCHAR" />
+    <result column="supplycontact" property="supplycontact" jdbcType="VARCHAR" />
+    <result column="payment" property="payment" jdbcType="VARCHAR" />
+    <result column="payprogress" property="payprogress" jdbcType="VARCHAR" />
+    <result column="matarrivaldate" property="matarrivaldate" jdbcType="VARCHAR" />
+    <result column="unaccreason" property="unaccreason" jdbcType="VARCHAR" />
+    <result column="acceptdate" property="acceptdate" jdbcType="VARCHAR" />
+    <result column="nonstoreason" property="nonstoreason" jdbcType="VARCHAR" />
+    <result column="storagedate" property="storagedate" jdbcType="VARCHAR" />
+    <result column="packingdate" property="packingdate" jdbcType="VARCHAR" />
+    <result column="invoicedate" property="invoicedate" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,applytype,companyname,mattype,mattypename,batch,materialname,materialdes,amount,
+    unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
+    state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
+    payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
+    packingdate,invoicedate,remark,creater,created,modifier,modified
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from material_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+  <insert id="insert" parameterType="com.hy.model.MaterialInfo" >
+        insert into material_info
+        (applytype,companyname,mattype,mattypename,batch,materialname,materialdes,amount,
+          unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
+          state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
+          payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
+          packingdate,invoicedate,remark,creater,modifier)
+        values
+        (#{applytype,jdbcType=INTEGER},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},#{mattypename,jdbcType=VARCHAR},
+          #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=FLOAT},
+          #{unit,jdbcType=VARCHAR},#{empnum,jdbcType=INTEGER},#{empname,jdbcType=VARCHAR},#{applydept,jdbcType=VARCHAR},
+		  #{applyperson,jdbcType=VARCHAR},#{dispatchdate,jdbcType=VARCHAR},#{requireddate,jdbcType=VARCHAR},#{overseasdate,jdbcType=VARCHAR},
+          #{state,jdbcType=INTEGER},#{ordernum,jdbcType=VARCHAR},#{supplier,jdbcType=VARCHAR},#{contractdate,jdbcType=VARCHAR},
+		  #{conarrivaldate,jdbcType=VARCHAR},#{supplyperson,jdbcType=VARCHAR},#{supplycontact,jdbcType=VARCHAR},
+          #{payment,jdbcType=VARCHAR},#{payprogress,jdbcType=VARCHAR},#{matarrivaldate,jdbcType=VARCHAR},
+		  #{unaccreason,jdbcType=VARCHAR},#{acceptdate,jdbcType=VARCHAR},#{nonstoreason,jdbcType=VARCHAR},#{storagedate,jdbcType=VARCHAR},
+          #{packingdate,jdbcType=VARCHAR},#{invoicedate,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},
+		  #{creater,jdbcType=VARCHAR},#{modifier,jdbcType=VARCHAR})
+    </insert>
+  <insert id="insertSelective" parameterType="com.hy.model.MaterialInfo" >
+    insert into material_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null and id != ''" >id,</if>
+      <if test="applytype != null and applytype != ''" >applytype,</if>
+      <if test="companyname != null and companyname != ''" >companyname,</if>
+      <if test="mattype != null and mattype != ''" >mattype,</if>
+      <if test="mattypename != null and mattypename != ''" >mattypename,</if>
+      <if test="batch != null and batch != ''" >batch,</if>
+      <if test="materialname != null and materialname != ''" >materialname,</if>
+      <if test="materialdes != null and materialdes != ''" >materialdes,</if>
+      <if test="amount != null and amount != ''" >amount,</if>
+      <if test="unit != null and unit != ''" >unit,</if>
+      <if test="empnum != null and empnum != ''" >empnum,</if>
+      <if test="empname != null and empname != ''" >empname,</if>
+      <if test="applydept != null and applydept != ''" >applydept,</if>
+      <if test="applyperson != null and applyperson != ''" >applyperson,</if>
+      <if test="dispatchdate != null and dispatchdate != ''" >dispatchdate,</if>
+      <if test="requireddate != null and requireddate != ''" >requireddate,</if>
+      <if test="overseasdate != null and overseasdate != ''" >overseasdate,</if>
+      <if test="state != null and state != ''" >state,</if>
+      <if test="ordernum != null and ordernum != ''" >ordernum,</if>
+      <if test="supplier != null and supplier != ''" >supplier,</if>
+      <if test="contractdate != null and contractdate != ''" >contractdate,</if>
+      <if test="conarrivaldate != null and conarrivaldate != ''" >conarrivaldate,</if>
+      <if test="supplyperson != null and supplyperson != ''" >supplyperson,</if>
+      <if test="supplycontact != null and supplycontact != ''" >supplycontact,</if>
+      <if test="payment != null and payment != ''" >payment,</if>
+      <if test="payprogress != null and payprogress != ''" >payprogress,</if>
+      <if test="matarrivaldate != null and matarrivaldate != ''" >matarrivaldate,</if>
+      <if test="unaccreason != null and unaccreason != ''" >unaccreason,</if>
+      <if test="acceptdate != null and acceptdate != ''" >acceptdate,</if>
+      <if test="nonstoreason != null and nonstoreason != ''" >nonstoreason,</if>
+      <if test="storagedate != null and storagedate != ''" >storagedate,</if>
+      <if test="packingdate != null and packingdate != ''" >packingdate,</if>
+      <if test="invoicedate != null and invoicedate != ''" >invoicedate,</if>
+      <if test="remark != null and remark != ''" >remark,</if>
+      <if test="creater != null and creater != ''" >creater,</if>
+      <if test="created != null and created != ''" >created,</if>
+      <if test="modifier != null and modifier != ''" >modifier,</if>
+      <if test="modified != null and modified != ''" >modified,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null and id != ''" >#{id,jdbcType=INTEGER},</if>
+      <if test="applytype != null and applytype != ''" >#{applytype,jdbcType=INTEGER},</if>
+      <if test="companyname != null and companyname != ''" >#{companyname,jdbcType=VARCHAR},</if>
+      <if test="mattype != null and mattype != ''" >#{mattype,jdbcType=INTEGER},</if>
+      <if test="mattypename != null and mattypename != ''" >#{mattypename,jdbcType=VARCHAR},</if>
+      <if test="batch != null and batch != ''" >#{batch,jdbcType=VARCHAR},</if>
+      <if test="materialname != null and materialname != ''" >#{materialname,jdbcType=VARCHAR},</if>
+      <if test="materialdes != null and materialdes != ''" >#{materialdes,jdbcType=VARCHAR},</if>
+      <if test="amount != null and amount != ''" >#{amount,jdbcType=FLOAT},</if>
+      <if test="unit != null and unit != ''" >#{unit,jdbcType=VARCHAR},</if>
+      <if test="empnum != null and empnum != ''" >#{empnum,jdbcType=INTEGER},</if>
+      <if test="empname != null and empname != ''" >#{empname,jdbcType=VARCHAR},</if>
+      <if test="applydept != null and applydept != ''" >#{applydept,jdbcType=VARCHAR},</if>
+      <if test="applyperson != null and applyperson != ''" >#{applyperson,jdbcType=VARCHAR},</if>
+      <if test="dispatchdate != null and dispatchdate != ''" >#{dispatchdate,jdbcType=VARCHAR},</if>
+      <if test="requireddate != null and requireddate != ''" >#{requireddate,jdbcType=VARCHAR},</if>
+      <if test="overseasdate != null and overseasdate != ''" >#{overseasdate,jdbcType=VARCHAR},</if>
+      <if test="state != null and state != ''" >#{state,jdbcType=INTEGER},</if>
+      <if test="ordernum != null and ordernum != ''" >#{ordernum,jdbcType=VARCHAR},</if>
+      <if test="supplier != null and supplier != ''" >#{supplier,jdbcType=VARCHAR},</if>
+      <if test="contractdate != null and contractdate != ''" >#{contractdate,jdbcType=VARCHAR},</if>
+      <if test="conarrivaldate != null and conarrivaldate != ''" >#{conarrivaldate,jdbcType=VARCHAR},</if>
+      <if test="supplyperson != null and supplyperson != ''" >#{supplyperson,jdbcType=VARCHAR},</if>
+      <if test="supplycontact != null and supplycontact != ''" >#{supplycontact,jdbcType=VARCHAR},</if>
+      <if test="payment != null and payment != ''" >#{payment,jdbcType=VARCHAR},</if>
+      <if test="payprogress != null and payprogress != ''" >#{payprogress,jdbcType=VARCHAR},</if>
+      <if test="matarrivaldate != null and matarrivaldate != ''" >#{matarrivaldate,jdbcType=VARCHAR},</if>
+      <if test="unaccreason != null and unaccreason != ''" >#{unaccreason,jdbcType=VARCHAR},</if>
+      <if test="acceptdate != null and acceptdate != ''" >#{acceptdate,jdbcType=VARCHAR},</if>
+      <if test="nonstoreason != null and nonstoreason != ''" >#{nonstoreason,jdbcType=VARCHAR},</if>
+      <if test="storagedate != null and storagedate != ''" >#{storagedate,jdbcType=VARCHAR},</if>
+      <if test="packingdate != null and packingdate != ''" >#{packingdate,jdbcType=VARCHAR},</if>
+      <if test="invoicedate != null and invoicedate != ''" >#{invoicedate,jdbcType=VARCHAR},</if>
+      <if test="remark != null and remark != ''" >#{remark,jdbcType=VARCHAR},</if>
+      <if test="creater != null and creater != ''" >#{creater,jdbcType=VARCHAR},</if>
+      <if test="created != null and created != ''" >#{created,jdbcType=TIMESTAMP},</if>
+      <if test="modifier != null and modifier != ''" >#{modifier,jdbcType=VARCHAR},</if>
+      <if test="modified != null and modified != ''" >#{modified,jdbcType=TIMESTAMP},</if>
+    </trim>
+  </insert>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from material_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.MaterialInfo" >
+    update material_info
+    <set >
+      <if test="applytype != null" >applytype = #{applytype,jdbcType=INTEGER},</if>
+      <if test="companyname != null" >companyname = #{companyname,jdbcType=VARCHAR},</if>
+      <if test="mattype != null" >mattype = #{mattype,jdbcType=INTEGER},</if>
+      <if test="mattypename != null'" >mattypename = #{mattypename,jdbcType=VARCHAR},</if>
+      <if test="batch != null" >batch = #{batch,jdbcType=VARCHAR},</if>
+      <if test="materialname != null'" >materialname = #{materialname,jdbcType=VARCHAR},</if>
+      <if test="materialdes != null" >materialdes = #{materialdes,jdbcType=VARCHAR},</if>
+      <if test="amount != null" >amount = #{amount,jdbcType=FLOAT},</if>
+      <if test="unit != null" >unit = #{unit,jdbcType=VARCHAR},</if>
+      <if test="empnum != null" >empnum = #{empnum,jdbcType=INTEGER},</if>
+      <if test="empname != null" >empname = #{empname,jdbcType=VARCHAR},</if>
+      <if test="applydept != null" >applydept = #{applydept,jdbcType=VARCHAR},</if>
+      <if test="applyperson != null" >applyperson = #{applyperson,jdbcType=VARCHAR},</if>
+      <if test="dispatchdate != null" >dispatchdate = #{dispatchdate,jdbcType=VARCHAR},</if>
+      <if test="requireddate != null" >requireddate = #{requireddate,jdbcType=VARCHAR},</if>
+      <if test="overseasdate != null" >overseasdate = #{overseasdate,jdbcType=VARCHAR},</if>
+      <if test="state != null" >state = #{state,jdbcType=INTEGER},</if>
+      <if test="ordernum != null" >ordernum = #{ordernum,jdbcType=VARCHAR},</if>
+      <if test="supplier != null" >supplier = #{supplier,jdbcType=VARCHAR},</if>
+      <if test="contractdate != null" >contractdate = #{contractdate,jdbcType=VARCHAR},</if>
+      <if test="conarrivaldate != null" >conarrivaldate = #{conarrivaldate,jdbcType=VARCHAR},</if>
+      <if test="supplyperson != null" >supplyperson = #{supplyperson,jdbcType=VARCHAR},</if>
+      <if test="supplycontact != null" >supplycontact = #{supplycontact,jdbcType=VARCHAR},</if>
+      <if test="payment != null" >payment = #{payment,jdbcType=VARCHAR},</if>
+      <if test="payprogress != null" >payprogress = #{payprogress,jdbcType=VARCHAR},</if>
+      <if test="matarrivaldate != null" >matarrivaldate = #{matarrivaldate,jdbcType=VARCHAR},</if>
+      <if test="unaccreason != null" >unaccreason = #{unaccreason,jdbcType=VARCHAR},</if>
+      <if test="acceptdate != null" >acceptdate = #{acceptdate,jdbcType=VARCHAR},</if>
+      <if test="nonstoreason != null" >nonstoreason = #{nonstoreason,jdbcType=VARCHAR},</if>
+      <if test="storagedate != null" >storagedate = #{storagedate,jdbcType=VARCHAR},</if>
+      <if test="packingdate != null" >packingdate = #{packingdate,jdbcType=VARCHAR},</if>
+      <if test="invoicedate != null" >invoicedate = #{invoicedate,jdbcType=VARCHAR},</if>
+      <if test="remark != null" >remark = #{remark,jdbcType=VARCHAR},</if>
+      <if test="creater != null" >creater = #{creater,jdbcType=VARCHAR},</if>
+      <if test="created != null" >created = #{created,jdbcType=TIMESTAMP},</if>
+      <if test="modifier != null" >modifier = #{modifier,jdbcType=VARCHAR},</if>
+      <if test="modified != null" >modified = #{modified,jdbcType=TIMESTAMP},</if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hy.model.MaterialInfo" >
+      update material_info
+      set applytype = #{applytype,jdbcType=INTEGER},
+        companyname = #{companyname,jdbcType=VARCHAR},
+        mattype = #{mattype,jdbcType=INTEGER},
+        mattypename = #{mattypename,jdbcType=VARCHAR},
+        batch = #{batch,jdbcType=VARCHAR},
+        materialname = #{materialname,jdbcType=VARCHAR},
+        materialdes = #{materialdes,jdbcType=VARCHAR},
+        amount = #{amount,jdbcType=FLOAT},
+        unit = #{unit,jdbcType=VARCHAR},
+        empnum = #{empnum,jdbcType=INTEGER},
+        empname = #{empname,jdbcType=VARCHAR},
+        applydept = #{applydept,jdbcType=VARCHAR},
+        applyperson = #{applyperson,jdbcType=VARCHAR},
+        dispatchdate = #{dispatchdate,jdbcType=VARCHAR},
+        requireddate = #{requireddate,jdbcType=VARCHAR},
+        overseasdate = #{overseasdate,jdbcType=VARCHAR},
+        state = #{state,jdbcType=INTEGER},
+        ordernum = #{ordernum,jdbcType=VARCHAR},
+        supplier = #{supplier,jdbcType=VARCHAR},
+        contractdate = #{contractdate,jdbcType=VARCHAR},
+        conarrivaldate = #{conarrivaldate,jdbcType=VARCHAR},
+        supplyperson = #{supplyperson,jdbcType=VARCHAR},
+        supplycontact = #{supplycontact,jdbcType=VARCHAR},
+        payment = #{payment,jdbcType=VARCHAR},
+        payprogress = #{payprogress,jdbcType=VARCHAR},
+        matarrivaldate = #{matarrivaldate,jdbcType=VARCHAR},
+        unaccreason = #{unaccreason,jdbcType=VARCHAR},
+        acceptdate = #{acceptdate,jdbcType=VARCHAR},
+        nonstoreason = #{nonstoreason,jdbcType=VARCHAR},
+        storagedate = #{storagedate,jdbcType=VARCHAR},
+        packingdate = #{packingdate,jdbcType=VARCHAR},
+        invoicedate = #{invoicedate,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        modifier = #{modifier,jdbcType=VARCHAR},
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectMaterialInfoPage" resultType="com.hy.model.MaterialInfo">
+    select
+    <include refid="Base_Column_List"/>
+    from material_info where 1=1
+    <if test="filters != null and '' != filters">
+      AND filters = filters
+    </if>
+    <if test="value != null and '' != value">
+      AND materialname LIKE concat('%',#{value},'%')
+      or materialname like concat('%',#{value},'%')
+    </if>
+    <if test="sort != null and '' != sort">
+      ORDER BY CONVERT(${sort} USING gbk) ${dir}
+    </if>
+  </select>
+  <select id="selectMaterialInfoTotal" resultType="java.lang.Integer"  >
+    select count(1)
+    from material_info where 1=1
+    <if test="filters != null and '' != filters">
+      AND filters = filters
+    </if>
+    <if test="value != null and '' != value">
+      AND materialname LIKE concat('%',#{value},'%')
+      or materialname like concat('%',#{value},'%')
+    </if>
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into material_info
+      (applytype,companyname,mattype,mattypename,batch,materialname,materialdes,amount,
+      unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
+      state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
+      payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
+      packingdate,invoicedate,remark,creater,modifier)
+    VALUES
+      <foreach collection ="list" item="item" separator =",">
+        (#{applytype,jdbcType=INTEGER},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},#{mattypename,jdbcType=VARCHAR},
+        #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=FLOAT},
+        #{unit,jdbcType=VARCHAR},#{empnum,jdbcType=INTEGER},#{empname,jdbcType=VARCHAR},#{applydept,jdbcType=VARCHAR},
+        #{applyperson,jdbcType=VARCHAR},#{dispatchdate,jdbcType=VARCHAR},#{requireddate,jdbcType=VARCHAR},#{overseasdate,jdbcType=VARCHAR},
+        #{state,jdbcType=INTEGER},#{ordernum,jdbcType=VARCHAR},#{supplier,jdbcType=VARCHAR},#{contractdate,jdbcType=VARCHAR},
+        #{conarrivaldate,jdbcType=VARCHAR},#{supplyperson,jdbcType=VARCHAR},#{supplycontact,jdbcType=VARCHAR},
+        #{payment,jdbcType=VARCHAR},#{payprogress,jdbcType=VARCHAR},#{matarrivaldate,jdbcType=VARCHAR},
+        #{unaccreason,jdbcType=VARCHAR},#{acceptdate,jdbcType=VARCHAR},#{nonstoreason,jdbcType=VARCHAR},#{storagedate,jdbcType=VARCHAR},
+        #{packingdate,jdbcType=VARCHAR},#{invoicedate,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},
+        #{creater,jdbcType=VARCHAR},#{modifier,jdbcType=VARCHAR})
+      </foreach >
+  </insert>
+</mapper>
+

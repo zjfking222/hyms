@@ -92,4 +92,17 @@ public class SysDictController {
         map.put("total", sysDictService.getDictCount(filters, value));
         return ResultObj.success(map);
     }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 获取当前code节点下的所有子节点数据
+     * @Date 2019/1/23 15:41
+     * @Param [code]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/getDictBycode")
+    public ResultObj getDictBycode(String code){
+        List<SysDictDto> dictDtos = sysDictService.selectByCode(code);
+        return ResultObj.success(dictDtos);
+    }
 }
