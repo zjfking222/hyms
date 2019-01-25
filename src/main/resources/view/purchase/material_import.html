@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>批量导入物资信息</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/statics/plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
+    <style>
+        label{
+            margin-top: 1rem;
+        }
+        body{
+            width: 80%;
+            margin: 0 auto;
+        }
+        #submit{
+            display: block;
+            margin: 2rem auto;
+        }
+    </style>
+</head>
+<body>
+    <input id="excelfile" name="file" type="file" data-show-upload="false" data-browse-on-zone-click="false" multiple>
+    <a class="btn btn-primary" id="submit">导&nbsp;&nbsp;&nbsp;入</a>
+
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/bootstrap-fileinput/js/zh.js"></script>
+<script>
+    $(function () {
+        var index = parent.layer.getFrameIndex(window.name);
+        //初始化bootstrap的文件上传
+        var fileinput = $("#excelfile").fileinput({
+            language: 'zh',
+            uploadUrl: '/purchase/planner/importMaterialExcel',
+            allowedFileExtensions: ['xls', 'xlsx'],
+            maxFileCount: 1,
+            enctype: 'multipart/form-data',
+            showUpload: false //是否显示上传按钮
+        }).on("fileuploaded", function (event, data) {
+            //关闭弹窗
+            parent.layer.msg('导入成功');
+            parent.layer.close(index);
+        }).on('fileerror', function(event, data, msg) {  //一个文件上传失败;
+            parent.layer.msg('导入失败，请重新尝试');
+        });
+        $('#submit').on('click', function () {
+            //调用bootstrap的上传操作
+            fileinput.fileinput("upload");
+        });
+    });
+</script>
+</body>
+</html>

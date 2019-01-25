@@ -7,12 +7,15 @@ import com.hy.dto.PurchaseTracerDto;
 import com.hy.enums.ResultCode;
 import com.hy.model.MaterialInfo;
 import com.hy.service.purchase.MaterialPurchasingService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,15 +100,33 @@ public class MaterialPurchasingController {
      * @Param [infoDto]
      * @return com.hy.common.ResultObj
      **/
-    @PostMapping("/planner/addMaterialInfo")
+    @PostMapping("/planner/updateMaterialInfo")
     public ResultObj addMaterialInfo(MaterialInfoDto infoDto){
-        return materialPurchasingService.addMaterialInfo(infoDto) >0 ?
-                ResultObj.success() : ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        if(infoDto != null && infoDto.getId() != null){//更新
+            int i = materialPurchasingService.updateMaterialInfo(infoDto);
+            return  i>0 ? ResultObj.success() : ResultObj.error(ResultCode.ERROR_UPDATE_FAILED);
+        }else{//添加
+            int i = materialPurchasingService.addMaterialInfo(infoDto);
+            return  i>0 ? ResultObj.success() : ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        }
     }
 
+    /**
+     * @Author 钱敏杰
+     * @Description 删除当前物资信息数据
+     * @Date 2019/1/24 14:42
+     * @Param [id]
+     * @return com.hy.common.ResultObj
+     **/
     @PostMapping("/planner/deleteMaterialInfo")
     public ResultObj deleteMaterialInfo(Integer id){
-        return materialPurchasingService.deleteMaterialInfo(id) >0 ?
-                ResultObj.success() : ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+        int i = materialPurchasingService.deleteMaterialInfo(id);
+        return i >0 ? ResultObj.success() : ResultObj.error(ResultCode.ERROR_ADD_FAILED);
+    }
+
+    @PostMapping("/planner/importMaterialExcel")
+    public ResultObj importMaterialExcel(@RequestParam("file") MultipartFile[] file) throws IOException {
+        materialPurchasingService.importMaterialExcel(file[0].getInputStream());
+        return ResultObj.success();
     }
 }

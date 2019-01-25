@@ -36,7 +36,7 @@
     </div>
     <div class="form-group">
         <label for="amount">数量</label>
-        <input class="form-control input-sm-8" id="amount" placeholder="输入数量">
+        <input class="form-control input-sm-8" id="amount" type="number" step="0.001" placeholder="输入数量">
     </div>
     <div class="form-group">
         <label for="unit">单位</label>
@@ -58,15 +58,15 @@
     </div>
     <div class="form-group">
         <label for="dispatchdate">物资分派日期</label>
-        <input class="form-control input-sm-8" id="dispatchdate" placeholder="输入类型">
+        <input class="form-control input-sm-8" id="dispatchdate" placeholder="选择物资分派日期">
     </div>
     <div class="form-group">
         <label for="requireddate">要求到货日期</label>
-        <input class="form-control input-sm-8" id="requireddate" placeholder="输入类型">
+        <input class="form-control input-sm-8" id="requireddate" placeholder="选择要求到货日期">
     </div>
     <div class="form-group">
         <label for="overseasdate">海外到货日期</label>
-        <input class="form-control input-sm-8" id="overseasdate" placeholder="输入类型">
+        <input class="form-control input-sm-8" id="overseasdate" placeholder="选择海外到货日期">
     </div>
     <div class="form-group">
         <label for="materialdes">备注</label>
@@ -78,7 +78,7 @@
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/layui/layui.js"></script>
 <script>
-    var postData;
+    var postData = {};
     var index = parent.layer.getFrameIndex(window.name);
     $(function () {
         //初始化日期控件
@@ -99,60 +99,78 @@
                 elem: '#overseasdate' //指定元素
             });
         });
+        //初始化物资类别select
+        $.each(parent.materialType, function (i, item) {
+            $("#mattype").append("<option value="+ item.value +">"+ item.text +"</option>");
+        });
+        //初始化业务员select
+        $.each(parent.employee, function (i, item) {
+            $("#empnum").append("<option value="+ item.salesmannum +">"+ item.salesmanname +"</option>");
+        });
         if (parent.pushData.id === 0) {
         } else {
+            //加载数据
             if(parent.pushData.id !== -1){
                 postData.id = parent.pushData.id;
             }
-            /*$('#name').val(data.name);
-            $('#reportid').val(data.reportid);
-            $('#type').val(data.type);
-            $('#description').val(data.description);
-            //修改的报表id不给修改
-            $('#reportid').attr("disabled","disabled");*/
+            $('#applytype').val(parent.pushData.applytype);
+            $('#companyname').val(parent.pushData.companyname);
+            $('#mattype').val(parent.pushData.mattype);
+            $('#batch').val(parent.pushData.batch);
+            $('#materialname').val(parent.pushData.materialname);
+            $('#amount').val(parent.pushData.amount);
+            $('#unit').val(parent.pushData.unit);
+            $('#empnum').val(parent.pushData.empnum);
+            $('#applydept').val(parent.pushData.applydept);
+            $('#applyperson').val(parent.pushData.applyperson);
+            $('#dispatchdate').val(parent.pushData.dispatchdate);
+            $('#requireddate').val(parent.pushData.requireddate);
+            $('#overseasdate').val(parent.pushData.overseasdate);
+            $('#materialdes').val(parent.pushData.materialdes);
         }
+        //提交
         $('#submit').on('click', function () {
-            postData = {
-                id: data.id,
-                name: $('#name').val(),
-                reportid: $('#reportid').val(),
-                directoryid: $('#directoryid').val(),
-                type: $('#type').val(),
-                description:$('#description').val()
-            };
+            postData.applytype = $('#applytype').val();
+            postData.companyname = $('#companyname').val();
+            postData.mattype = $('#mattype').val();
+            postData.mattypename = $('#mattype').find("option:selected").text();
+            postData.batch = $('#batch').val();
+            postData.materialname = $('#materialname').val();
+            postData.materialdes = $('#materialdes').val();
+            postData.amount = $('#amount').val();
+            postData.unit = $('#unit').val();
+            postData.empnum = $('#empnum').val();
+            postData.empname = $('#empnum').find("option:selected").text();
+            postData.applydept = $('#applydept').val();
+            postData.applyperson = $('#applyperson').val();
+            postData.dispatchdate = $('#dispatchdate').val();
+            postData.requireddate = $('#requireddate').val();
+            postData.overseasdate = $('#overseasdate').val();
+            var msg = "";
             if (parent.pushData.id === 0 || parent.pushData.id === -1) {
-                var postback = FetchData(postData, 'POST', '/add', false);
-                if (postback.code === 0) {
-                    postData.id = postback.data;
-                    parent.vm.dataSource.add(postData);
-                    parent.layer.msg('添加成功');
-                    parent.layer.close(index);
-                } else {
-                    parent.layer.msg('添加失败');
-                }
+                msg = "添加";
             } else {
-                if (FetchData(postData, 'POST', '/update', false).code === 0) {
-                    parent.vm.dataSource.pushUpdate(postData);
-                    parent.layer.msg('修改成功');
-                    parent.layer.close(index);
-                } else {
-                    parent.layer.close('修改失败');
-                }
+                msg = "修改";
             }
+            $.ajax({
+                url: "/purchase/planner/updateMaterialInfo",
+                dataType: 'json',
+                data: postData,
+                method: 'POST',
+                async: false,
+                success: function (result) {
+                    if (result.code === 0) {
+                        parent.layer.msg(msg + '成功');
+                        parent.layer.close(index);
+                    }else{
+                        parent.layer.msg(msg + "失败，请重新尝试")
+                    }
+                },
+                error: function(){
+                    parent.layer.msg("提交失败，请重新尝试")
+                }
+            });
         })
     });
-    var FetchData = function (data, method, param, async) {
-        var response = $.ajax({
-            async: async,
-            url: param,
-            type: method,
-            dataType: 'json',
-            data: data,
-            success: function (dataSource) {
-                return dataSource
-            }
-        });
-        return response.responseJSON;
-    };
 </script>
 </html>
