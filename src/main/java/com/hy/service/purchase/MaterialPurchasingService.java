@@ -27,6 +27,12 @@ public interface MaterialPurchasingService {
     //删除跟单员
     boolean delTracer(int id);
 
+    //根据id查询物资信息
+    MaterialInfoDto getMaterialInfoById(int id);
+
+    //查询所有业务员
+    List<String> getEmpnumAll();
+
     /**
      * @Author 钱敏杰
      * @Description 分页查询物资信息

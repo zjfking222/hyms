@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>跟单员物资信息页</title>
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
+    <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+<body>
+<div id="grid"></div>
+
+<script src="/statics/plugins/jquery/jquery.min.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.addfilter.js"></script>
+<script>
+    var employee = [];
+    var applytypes = [];
+    var pushId;
+    var vm = new Vue({
+        el: "",
+        data: {
+            dataSource: [],
+            activeItem: {id: 0, title: "", content: ""},
+            layItem: null
+        },
+        created: function () {
+            this.getDataSource();
+            //取全部业务员数据
+            this.getEmployee();
+            //取出申请类别参数
+            this.getApplyType();
+            var kgrid = $("#grid").kendoGrid({
+                selectable: "row",
+                dataSource: this.dataSource,
+                editable: {
+                    confirmation: true,
+                    mode: "popup",
+                    window: {
+                        title: "新增"
+                    }
+                },
+                filterable: true,
+                columnMenu: true,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                toolbar: [{
+                    template: '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
+                    '<select class="k-widget k-dropdown" id="matselect"><option value="1" selected>未完成</option><option value="2">已完成</option></select>'
+                }],
+                columns: [
+                    {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "companyname", title: "公司名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "batch", title: "追溯号(批次)", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
+                    {field: "materialname", title: "物资名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "empname", title: "业务员", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "ordernum", title: "合同号(订单号)", headerAttributes: {"class": "grid-algin-center"}, width: '140px'},
+                    {field: "supplier", title: "供应商名称", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                    {field: "", title: ""}
+                ]
+            });
+            kgrid.on('dblclick', '.k-grid-content tr', function () {
+                // 双击
+                var row = kgrid.data("kendoGrid").select();
+                var data = kgrid.data("kendoGrid").dataItem(row);
+                pushId = data.id;
+                this.layItem = layer.open({
+                    title: '编辑跟单信息',
+                    type: 2,
+                    area: ['950px', '650px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/purchase/schedule_tracer.html',
+                    shadeClose: true,
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
+            });
+        },
+        methods: {
+            getDataSource: function () {
+                this.dataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: function (options) {
+                            //取kendoGrid的当前过滤条件
+                            var allMap;
+                            var grid = $("#grid").data("kendoGrid");
+                            if(grid){
+                                allMap = getFilters(grid);
+                            }
+                            $.ajax({
+                                url: "/purchase/planner/getMaterialInfoPage",
+                                data: {
+                                    'filters': allMap === undefined ? "" : JSON.stringify(allMap),
+                                    'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
+                                        undefined : options.data.sort[0].field,
+                                    'dir': options.data.sort === undefined || options.data.sort[0] === undefined ?
+                                        undefined : options.data.sort[0].dir,
+                                    'page': options.data.page,
+                                    'pageSize': options.data.pageSize,
+                                    'value': $('#search-input').val()
+                                },
+                                method: 'POST',
+                                success: function (result) {
+                                    if (result.code === 0) {
+                                        options.success({data: result.data.data, total: result.data.total});
+                                        if(allMap){//由于kendo自身设计原因，使用筛选功能后其总条数显示不正确，故另加语句改回来
+                                            var content = $(".k-pager-info.k-label")[0].innerHTML;
+                                            content = content.substring(0,content.indexOf("共")+1) + " " + result.data.total + " 条数据";
+                                            $(".k-pager-info.k-label")[0].innerHTML = content;
+                                        }
+                                    }else{
+                                        options.error(result);
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    schema: {
+                        data: "data",
+                        total: "total",
+                        model: {
+                            id: "id",
+                            fields: {
+                                id: {editable: false, nullable: true},
+                                applytype: {type: "string", nullable: false},
+                                companyname: {type: "string", nullable: false},
+                                mattype: {type: "string", nullable: false},
+                                batch: {type: "string", nullable: false},
+                                materialname: {type: "string", nullable: false},
+                                empname: {type: "string", nullable: false},
+                                applydept: {type: "string", nullable: false},
+                                applyperson: {type: "string", nullable: false},
+                                state: {type: "string", nullable: false}
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        this.cancelChanges();
+                        console.log(e);
+                        if (e.errors) {
+                            layer.alert(e.errors.msg, {icon: 2});
+                        }
+                        else if (e.xhr.msg) {
+                            layer.alert(e.xhr.msg, {icon: 2});
+                        }
+                        else {
+                            layer.alert("发生错误，请联系管理员", {icon: 2});
+                        }
+                    },
+                    requestEnd: function (e) {
+                        var response = e.response;
+                        if (response) {
+                            response.type = e.type;
+                        }
+                    },
+                    pageSize: 15,
+                    serverPaging: true,
+                    // serverFiltering: true,
+                    serverSorting: true
+                });
+            },
+            getEmployee: function(){
+                //从后台加载当前所拥有的全部业务员
+                $.ajax({
+                    url: "/purchase/salesman/getSalesman",
+                    method: 'POST',
+                    success: function (result) {
+                        if (result.code === 0) {
+                            employee = result.data;
+                        }else{
+                            options.error(result);
+                        }
+                    }
+                });
+            },
+            getApplyType: function(){
+                //从后台加载申请类别参数
+                $.ajax({
+                    url: "/sysdict/getDictBycode",
+                    data:{
+                        code:"MaterialApplyType"
+                    },
+                    method: 'POST',
+                    success: function (result) {
+                        if (result.code === 0) {
+                            applytypes = result.data;
+                        }else{
+                            options.error(result);
+                        }
+                    }
+                });
+            },
+            search:function () {
+                $("#grid").data("kendoGrid").dataSource.read();
+            }
+        }
+    })
+</script>
+</body>
+</html>
