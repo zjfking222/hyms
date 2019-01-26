@@ -326,6 +326,8 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
         //状态：0 合同未签订；1 合同已签订；2 合同到货；3 物资装箱；4 发票到票；5 已完成；
         if(StringUtils.isNotEmpty(this.parseString(row.getCell(34)))){
             info.setState(5);//备注
+        }else{//默认值
+            info.setState(0);
         }
         info.setCreater(SecurityUtil.getLoginid());
         info.setModifier(SecurityUtil.getLoginid());
