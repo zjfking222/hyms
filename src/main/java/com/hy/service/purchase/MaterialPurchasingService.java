@@ -4,9 +4,8 @@ import com.hy.dto.MaterialInfoDto;
 import com.hy.dto.PurchaseSalesmanDto;
 import com.hy.model.MaterialInfo;
 import com.hy.dto.PurchaseTracerDto;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -85,9 +84,9 @@ public interface MaterialPurchasingService {
     /**
      * @Author 钱敏杰
      * @Description 解析Excel文件并保存数据到数据库
-     * @Date 2019/1/22 16:23
-     * @Param [input]
+     * @Date 2019/1/25 11:01
+     * @Param [file]
      * @return void
      **/
-    void importMaterialExcel(InputStream input) throws IOException;
+    void importMaterialExcel(MultipartFile file) throws IOException;
 }

@@ -14,9 +14,7 @@ public class MaterialInfoDto {
     //公司名称
     private String companyname;
     //物资类别
-    private Integer mattype;
-    //物资类别名称
-    private String mattypename;
+    private String mattype;
     //追溯号(批次)
     private String batch;
     //物资名称
@@ -24,11 +22,11 @@ public class MaterialInfoDto {
     //物资描述
     private String materialdes;
     //数量
-    private Float amount;
+    private Double amount;
     //单位
     private String unit;
     //业务员员工号
-    private Integer empnum;
+    private String empnum;
     //业务员姓名
     private String empname;
     //申请部门
@@ -100,20 +98,12 @@ public class MaterialInfoDto {
         this.companyname = companyname;
     }
 
-    public Integer getMattype() {
+    public String getMattype() {
         return mattype;
     }
 
-    public void setMattype(Integer mattype) {
+    public void setMattype(String mattype) {
         this.mattype = mattype;
-    }
-
-    public String getMattypename() {
-        return mattypename;
-    }
-
-    public void setMattypename(String mattypename) {
-        this.mattypename = mattypename;
     }
 
     public String getBatch() {
@@ -140,11 +130,11 @@ public class MaterialInfoDto {
         this.materialdes = materialdes;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -156,11 +146,11 @@ public class MaterialInfoDto {
         this.unit = unit;
     }
 
-    public Integer getEmpnum() {
+    public String getEmpnum() {
         return empnum;
     }
 
-    public void setEmpnum(Integer empnum) {
+    public void setEmpnum(String empnum) {
         this.empnum = empnum;
     }
 

@@ -14,17 +14,23 @@ import com.hy.model.PurchaseSalesman;
 import com.hy.service.system.SysDictService;
 import com.hy.model.PurchaseTracer;
 import com.hy.utils.DTOUtil;
+import com.mysql.cj.api.xdevapi.DatabaseObject;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -189,31 +195,33 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
     /**
      * @Author 钱敏杰
      * @Description 解析Excel文件并保存数据到数据库
-     * @Date 2019/1/22 16:23
-     * @Param [input]
+     * @Date 2019/1/25 11:01
+     * @Param [file]
      * @return void
      **/
     @Override
     @Transactional
-    public void importMaterialExcel(InputStream input) throws IOException {
+    public void importMaterialExcel(MultipartFile file) throws IOException {
+        InputStream input = null;
+        Workbook workbook = null;
         try{
-            XSSFWorkbook workbook = new XSSFWorkbook(input);
+            input = file.getInputStream();
+            workbook = WorkbookFactory.create(input);
             //只读取第一张sheet
-            XSSFSheet sheetAt = workbook.getSheetAt(0);
-            //查询数据字典中的参数
-            List<SysDictDto> dicList = sysDictService.selectByCode("");
-            //list转map
-            Map<String, SysDictDto> dicMap = dicList.stream().collect(Collectors.toMap(SysDictDto::getName, a -> a, (k1, k2) -> k1));
+            Sheet sheet = workbook.getSheetAt(0);
+            //当前业务员
+            List<PurchaseSalesman> salesList = purchaseSalesmanMapper.selectSalesman(null);
+            Map<String, PurchaseSalesman> salesMap = salesList.stream().collect(Collectors.toMap(PurchaseSalesman::getSalesmanname, a -> a, (k1, k2) -> k1));
             List<MaterialInfo> list = new ArrayList<>();
             MaterialInfo info = null;
-            for(int i=1;i<sheetAt.getLastRowNum();i++){
+            for(int i=1;i<sheet.getLastRowNum();i++){
                 //第一行数据为标题，去除
-                Row row = sheetAt.getRow(i);
+                Row row = sheet.getRow(i);
                 if(row != null){//判断是否为规定格式的Excel文件
-                    info = this.parseMaterial(row, dicMap);
+                    info = this.parseMaterial(row, salesMap);
                     list.add(info);
                 }
-                if(list.size() >100){//每100条数据保存一次，防止数据过多
+                if(list.size() >999){//每1000条数据保存一次，防止数据过多
                     //保存并新建list
                     int r = materialInfoMapper.insertBatch(list);
                     if(r != list.size()){
@@ -231,146 +239,155 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
         }catch (Exception e){
             throw new RuntimeException("物资信息Excel数据导入异常", e);
         }finally{
-            input.close();
+            if(workbook != null){
+                workbook.close();
+            }
+            if(input != null){
+                input.close();
+            }
         }
-    }
-
-    /**
-     * @Author 钱敏杰
-     * @Description 将日期字符串格式化为yyyy-MM-dd的格式
-     * @Date 2019/1/22 15:17
-     * @Param [date]
-     * @return java.lang.String
-     **/
-    private String formatDate(String date){
-        return date;
     }
 
     /**
      * @Author 钱敏杰
      * @Description 生成物资信息对象
      * @Date 2019/1/25 10:20
-     * @Param [row, dicMap]
+     * @Param [row, salesMap]
      * @return com.hy.model.MaterialInfo
      **/
-    private MaterialInfo parseMaterial(Row row, Map<String, SysDictDto> dicMap){
+    private MaterialInfo parseMaterial(Row row, Map<String, PurchaseSalesman> salesMap){
         MaterialInfo info = new MaterialInfo();
-        if(StringUtils.isNotEmpty(row.getCell(0).getStringCellValue())){
-            info.setApplytype("日常".equals(row.getCell(0).getStringCellValue())? 1:2);//申请类别：1 日常；2 项目
+        info.setApplytype("日常".equals(this.parseString(row.getCell(0)))? 1:2);//申请类别：1 日常；2 项目
+        info.setCompanyname(this.parseString(row.getCell(1)));//公司名称
+        //物资类别
+        info.setMattype(this.parseString(row.getCell(2)));
+        info.setBatch(this.parseString(row.getCell(3)));//追溯号(批次)
+        info.setMaterialname(this.parseString(row.getCell(4)));//物资名称
+        info.setMaterialdes(this.parseString(row.getCell(5)));//物资描述
+        if(row.getCell(6) != null){
+            Double d = Double.valueOf(row.getCell(6).getNumericCellValue());
+            info.setAmount(d);//数量
         }
-        if(StringUtils.isNotEmpty(row.getCell(1).getStringCellValue())){
-            info.setCompanyname(row.getCell(1).getStringCellValue());//公司名称
-        }
-        if(StringUtils.isNotEmpty(row.getCell(2).getStringCellValue())){
-            SysDictDto dto = dicMap.get(row.getCell(2).getStringCellValue());
-            if(dto != null){
-                info.setMattype(dto.getId());//物资类别
-                info.setMattypename(dto.getName());//物资类别名称
+        info.setUnit(this.parseString(row.getCell(7)));//单位
+        //业务员
+        String name = this.parseString(row.getCell(8));
+        if(StringUtils.isNotEmpty(name)){
+            info.setEmpname(name);//业务员姓名
+            if(salesMap != null){
+                PurchaseSalesman man = salesMap.get(name);
+                if(man != null){
+                    info.setEmpnum(man.getSalesmannum());//业务员员工号
+                }
             }
         }
-        if(StringUtils.isNotEmpty(row.getCell(3).getStringCellValue())){
-            info.setBatch(row.getCell(3).getStringCellValue());//追溯号(批次)
+        info.setApplydept(this.parseString(row.getCell(9)));//申请部门
+        info.setApplyperson(this.parseString(row.getCell(10)));//申请联系人
+        info.setDispatchdate(this.parseDate(row.getCell(11)));//物资分派日期
+        info.setRequireddate(this.parseDate(row.getCell(12)));//要求到货日期
+        info.setOverseasdate(this.parseDate(row.getCell(13)));//海外到货日期
+        info.setOrdernum(this.parseString(row.getCell(14)));//合同号（订单号）
+        info.setSupplier(this.parseString(row.getCell(15)));//供应商名称
+        info.setContractdate(this.parseDate(row.getCell(16)));//合同签订日期
+        info.setConarrivaldate(this.parseDate(row.getCell(17)));//合同到货日期
+        info.setSupplyperson(this.parseString(row.getCell(18)));//供应商联系人
+        info.setSupplycontact(this.parseString(row.getCell(19)));//供应商联系方式
+        info.setPayment(this.parseString(row.getCell(20)));//付款方式
+        //付款进度
+        String progress = "";
+        String fkfs1 = this.parseString(row.getCell(21));
+        if(StringUtils.isNotEmpty(fkfs1)){
+            progress += fkfs1 + ";";
         }
-        if(StringUtils.isNotEmpty(row.getCell(4).getStringCellValue())){
-            info.setMaterialname(row.getCell(4).getStringCellValue());//物资名称
+        String fkfs2 = this.parseString(row.getCell(22));
+        if(StringUtils.isNotEmpty(fkfs2)){
+            progress += fkfs2 + ";";
         }
-        if(StringUtils.isNotEmpty(row.getCell(5).getStringCellValue())){
-            info.setMaterialdes(row.getCell(5).getStringCellValue());//物资描述
+        String fkfs3 = this.parseString(row.getCell(23));
+        if(StringUtils.isNotEmpty(fkfs3)){
+            progress += fkfs3 + ";";
         }
-        if(StringUtils.isNotEmpty(row.getCell(6).getStringCellValue())){
-            info.setAmount(Float.valueOf(row.getCell(6).getStringCellValue()));//数量
+        String fkfs4 = this.parseString(row.getCell(24));
+        if(StringUtils.isNotEmpty(fkfs4)){
+            progress += fkfs4 + ";";
         }
-        if(StringUtils.isNotEmpty(row.getCell(7).getStringCellValue())){
-            info.setUnit(row.getCell(7).getStringCellValue());//单位
+        String fkfs5 = this.parseString(row.getCell(25));
+        if(StringUtils.isNotEmpty(fkfs5)){
+            progress += fkfs5 + ";";
         }
-        if(StringUtils.isNotEmpty(row.getCell(8).getStringCellValue())){
-            //info.setEmpnum();//业务员员工号
-            info.setEmpname(row.getCell(8).getStringCellValue());//业务员姓名
-        }
-        if(StringUtils.isNotEmpty(row.getCell(9).getStringCellValue())){
-            info.setApplydept(row.getCell(9).getStringCellValue());//申请部门
-        }
-        if(StringUtils.isNotEmpty(row.getCell(10).getStringCellValue())){
-            info.setApplyperson(row.getCell(10).getStringCellValue());//申请联系人
-        }
-        if(StringUtils.isNotEmpty(row.getCell(11).getStringCellValue()) && !"/".equals(row.getCell(11).getStringCellValue())){
-            info.setDispatchdate(this.formatDate(row.getCell(11).getStringCellValue()));//物资分派日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(12).getStringCellValue()) && !"/".equals(row.getCell(12).getStringCellValue())){
-            info.setRequireddate(this.formatDate(row.getCell(12).getStringCellValue()));//要求到货日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(13).getStringCellValue()) && !"/".equals(row.getCell(13).getStringCellValue())){
-            info.setOverseasdate(this.formatDate(row.getCell(13).getStringCellValue()));//海外到货日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(14).getStringCellValue())){
-            info.setOrdernum(row.getCell(14).getStringCellValue());//合同号（订单号）
-        }
-        if(StringUtils.isNotEmpty(row.getCell(15).getStringCellValue())){
-            info.setSupplier(row.getCell(15).getStringCellValue());//供应商名称
-        }
-        if(StringUtils.isNotEmpty(row.getCell(16).getStringCellValue()) && !"/".equals(row.getCell(16).getStringCellValue())){
-            info.setContractdate(this.formatDate(row.getCell(16).getStringCellValue()));//合同签订日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(17).getStringCellValue()) && !"/".equals(row.getCell(17).getStringCellValue())){
-            info.setConarrivaldate(this.formatDate(row.getCell(17).getStringCellValue()));//合同到货日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(18).getStringCellValue())){
-            info.setSupplyperson(row.getCell(18).getStringCellValue());//供应商联系人
-        }
-        if(StringUtils.isNotEmpty(row.getCell(19).getStringCellValue())){
-            info.setSupplycontact(row.getCell(19).getStringCellValue());//供应商联系方式
-        }
-        //付款方式
-        String fkfs = "";
-        if(StringUtils.isNotEmpty(row.getCell(20).getStringCellValue())){
-            fkfs += row.getCell(20).getStringCellValue() + ",";
-        }
-        if(StringUtils.isNotEmpty(row.getCell(21).getStringCellValue())){
-            fkfs += row.getCell(21).getStringCellValue() + ",";
-        }
-        if(StringUtils.isNotEmpty(row.getCell(22).getStringCellValue())){
-            fkfs += row.getCell(22).getStringCellValue() + ",";
-        }
-        if(StringUtils.isNotEmpty(row.getCell(23).getStringCellValue())){
-            fkfs += row.getCell(23).getStringCellValue() + ",";
-        }
-        if(StringUtils.isNotEmpty(row.getCell(24).getStringCellValue())){
-            fkfs += row.getCell(24).getStringCellValue() + ",";
-        }
-        if(StringUtils.isNotEmpty(row.getCell(25).getStringCellValue())){
-            fkfs += row.getCell(25).getStringCellValue() + ",";
-        }
-        info.setPayment(fkfs);
-        if(StringUtils.isNotEmpty(row.getCell(26).getStringCellValue()) && !"/".equals(row.getCell(26).getStringCellValue())){
-            info.setMatarrivaldate(this.formatDate(row.getCell(26).getStringCellValue()));//物资到货日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(27).getStringCellValue())){
-            info.setUnaccreason(row.getCell(27).getStringCellValue());//物资未验收原因
-        }
-        if(StringUtils.isNotEmpty(row.getCell(28).getStringCellValue()) && !"/".equals(row.getCell(28).getStringCellValue())){
-            info.setAcceptdate(this.formatDate(row.getCell(28).getStringCellValue()));//物资验收日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(29).getStringCellValue())){
-            info.setNonstoreason(row.getCell(29).getStringCellValue());//仓库未入库原因
-        }
-        if(StringUtils.isNotEmpty(row.getCell(30).getStringCellValue()) && !"/".equals(row.getCell(30).getStringCellValue())){
-            info.setStoragedate(this.formatDate(row.getCell(30).getStringCellValue()));//仓库入库日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(31).getStringCellValue()) && !"/".equals(row.getCell(31).getStringCellValue())){
-            info.setPackingdate(this.formatDate(row.getCell(31).getStringCellValue()));//装箱日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(32).getStringCellValue()) && !"/".equals(row.getCell(32).getStringCellValue())){
-            info.setInvoicedate(this.formatDate(row.getCell(32).getStringCellValue()));//发票到票日期
-        }
-        if(StringUtils.isNotEmpty(row.getCell(33).getStringCellValue())){
-            info.setRemark(row.getCell(33).getStringCellValue());//备注
-        }
+        info.setPayprogress(progress);
+        info.setMatarrivaldate(this.parseDate(row.getCell(26)));//物资到货日期
+        info.setUnaccreason(this.parseString(row.getCell(27)));//物资未验收原因
+        info.setAcceptdate(this.parseDate(row.getCell(28)));//物资验收日期
+        info.setNonstoreason(this.parseString(row.getCell(29)));//仓库未入库原因
+        info.setStoragedate(this.parseDate(row.getCell(30)));//仓库入库日期
+        info.setPackingdate(this.parseDate(row.getCell(31)));//装箱日期
+        info.setInvoicedate(this.parseDate(row.getCell(32)));//发票到票日期
+        info.setRemark(this.parseString(row.getCell(33)));//备注
         //状态：0 合同未签订；1 合同已签订；2 合同到货；3 物资装箱；4 发票到票；5 已完成；
-        if(StringUtils.isNotEmpty(row.getCell(34).getStringCellValue())){
+        if(StringUtils.isNotEmpty(this.parseString(row.getCell(34)))){
             info.setState(5);//备注
         }
         info.setCreater(SecurityUtil.getLoginid());
         info.setModifier(SecurityUtil.getLoginid());
         return info;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 解析Excel表格单元格的日期数据
+     * @Date 2019/1/25 15:40
+     * @Param [cell]
+     * @return java.lang.String
+     **/
+    private String parseDate(Cell cell){
+        String date = null;
+        if(cell != null){
+            CellType type = cell.getCellType();
+            if(CellType.NUMERIC.equals(type)){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date d = cell.getDateCellValue();
+                date = sdf.format(d);
+            }else if(CellType.STRING.equals(type)){
+                //字符串格式的日期，直接转为相应格式
+                date = cell.getStringCellValue();
+                if(StringUtils.isNotEmpty(date)){
+                    if(date.contains(".")){
+                        //改变格式
+                        date = date.replaceAll("\\.", "-");
+                    }else if("/".equals(date)){//空数据
+                        date = "";
+                    }
+                }
+            }else{
+                //无其他格式，不处理
+            }
+        }
+        return date;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 解析Excel表格单元格的字符串格式数据
+     * @Date 2019/1/25 14:54
+     * @Param [cell]
+     * @return java.lang.String
+     **/
+    private String parseString(Cell cell){
+        String str = null;
+        if(cell != null){
+            CellType type = cell.getCellType();
+            if(CellType.NUMERIC.equals(type)){
+                //数字格式转为字符串，不含小数点
+                Double d = Double.valueOf(cell.getNumericCellValue());
+                DecimalFormat df = new DecimalFormat("######0");
+                str = df.format(d);
+            }else if(CellType.STRING.equals(type)){
+                //字符串格式
+                str = cell.getStringCellValue();
+            }else{
+                //无其他格式，不处理
+            }
+        }
+        return str;
     }
 }

@@ -126,7 +126,7 @@ public class MaterialPurchasingController {
 
     @PostMapping("/planner/importMaterialExcel")
     public ResultObj importMaterialExcel(@RequestParam("file") MultipartFile[] file) throws IOException {
-        materialPurchasingService.importMaterialExcel(file[0].getInputStream());
+        materialPurchasingService.importMaterialExcel(file[0]);
         return ResultObj.success();
     }
 }

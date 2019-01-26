@@ -18,36 +18,7 @@
     <script src="/statics/plugins/kendo/js/kendo.addfilter.js"></script>
 <script>
     var pushData;
-    var materialType = [];
     var employee = [];
-    //取物资类别数据字典参数
-    function getMaterialType() {
-        //从后台加载所有物资类别数据
-        $.ajax({
-            url: "/sysdict/getDictBycode",
-            data: {
-                code: "MaterialType"
-            },
-            method: 'POST',
-            async: false,
-            success: function (result) {
-                if (result.code === 0) {
-                    if (result.data && result.data.length > 0) {
-                        $.each(result.data, function (i, item) {
-                            var type = {};
-                            type.text = item.name;
-                            type.value = item.id;
-                            materialType.push(type);
-                        });
-                    }
-                } else {
-                    options.error(result);
-                }
-            }
-        });
-    }
-    //在vue之前加载，以便于其初始化使用
-    getMaterialType();
     var vm = new Vue({
         el: "",
         data: {
@@ -86,7 +57,7 @@
                 columns: [
                     {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px',values:[{text: "日常", value: 1 },{text: "项目", value: 2 }]},
                     {field: "companyname", title: "公司名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
-                    {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '120px',values:materialType },
+                    {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "batch", title: "追溯号(批次)", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "materialname", title: "物资名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "empname", title: "业务员", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
@@ -250,7 +221,7 @@
                                 id: {editable: false, nullable: true},
                                 applytype: {type: "enums", nullable: false},
                                 companyname: {type: "string", nullable: false},
-                                mattype: {type: "enums", nullable: false},
+                                mattype: {type: "String", nullable: false},
                                 batch: {type: "string", nullable: false},
                                 materialname: {type: "string", nullable: false},
                                 empname: {type: "string", nullable: false},

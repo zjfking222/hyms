@@ -5,8 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="applytype" property="applytype" jdbcType="INTEGER" />
     <result column="companyname" property="companyname" jdbcType="VARCHAR" />
-    <result column="mattype" property="mattype" jdbcType="INTEGER" />
-    <result column="mattypename" property="mattypename" jdbcType="VARCHAR" />
+    <result column="mattype" property="mattype" jdbcType="VARCHAR" />
     <result column="batch" property="batch" jdbcType="VARCHAR" />
     <result column="materialname" property="materialname" jdbcType="VARCHAR" />
     <result column="materialdes" property="materialdes" jdbcType="VARCHAR" />
@@ -42,7 +41,7 @@
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id,applytype,companyname,mattype,mattypename,batch,materialname,materialdes,amount,
+    id,applytype,companyname,mattype,batch,materialname,materialdes,amount,
     unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
     state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
     payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
@@ -54,13 +53,13 @@
     </delete>
   <insert id="insert" parameterType="com.hy.model.MaterialInfo" >
         insert into material_info
-        (applytype,companyname,mattype,mattypename,batch,materialname,materialdes,amount,
+        (applytype,companyname,mattype,batch,materialname,materialdes,amount,
           unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
           state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
           payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
           packingdate,invoicedate,remark,creater,modifier)
         values
-        (#{applytype,jdbcType=INTEGER},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},#{mattypename,jdbcType=VARCHAR},
+        (#{applytype,jdbcType=INTEGER},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},
           #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=FLOAT},
           #{unit,jdbcType=VARCHAR},#{empnum,jdbcType=INTEGER},#{empname,jdbcType=VARCHAR},#{applydept,jdbcType=VARCHAR},
 		  #{applyperson,jdbcType=VARCHAR},#{dispatchdate,jdbcType=VARCHAR},#{requireddate,jdbcType=VARCHAR},#{overseasdate,jdbcType=VARCHAR},
@@ -74,11 +73,9 @@
   <insert id="insertSelective" parameterType="com.hy.model.MaterialInfo" >
     insert into material_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null and id != ''" >id,</if>
       <if test="applytype != null and applytype != ''" >applytype,</if>
       <if test="companyname != null and companyname != ''" >companyname,</if>
       <if test="mattype != null and mattype != ''" >mattype,</if>
-      <if test="mattypename != null and mattypename != ''" >mattypename,</if>
       <if test="batch != null and batch != ''" >batch,</if>
       <if test="materialname != null and materialname != ''" >materialname,</if>
       <if test="materialdes != null and materialdes != ''" >materialdes,</if>
@@ -114,11 +111,9 @@
       <if test="modified != null and modified != ''" >modified,</if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null and id != ''" >#{id,jdbcType=INTEGER},</if>
       <if test="applytype != null and applytype != ''" >#{applytype,jdbcType=INTEGER},</if>
       <if test="companyname != null and companyname != ''" >#{companyname,jdbcType=VARCHAR},</if>
-      <if test="mattype != null and mattype != ''" >#{mattype,jdbcType=INTEGER},</if>
-      <if test="mattypename != null and mattypename != ''" >#{mattypename,jdbcType=VARCHAR},</if>
+      <if test="mattype != null and mattype != ''" >#{mattype,jdbcType=VARCHAR},</if>
       <if test="batch != null and batch != ''" >#{batch,jdbcType=VARCHAR},</if>
       <if test="materialname != null and materialname != ''" >#{materialname,jdbcType=VARCHAR},</if>
       <if test="materialdes != null and materialdes != ''" >#{materialdes,jdbcType=VARCHAR},</if>
@@ -165,8 +160,7 @@
     <set >
       <if test="applytype != null" >applytype = #{applytype,jdbcType=INTEGER},</if>
       <if test="companyname != null" >companyname = #{companyname,jdbcType=VARCHAR},</if>
-      <if test="mattype != null" >mattype = #{mattype,jdbcType=INTEGER},</if>
-      <if test="mattypename != null" >mattypename = #{mattypename,jdbcType=VARCHAR},</if>
+      <if test="mattype != null" >mattype = #{mattype,jdbcType=VARCHAR},</if>
       <if test="batch != null" >batch = #{batch,jdbcType=VARCHAR},</if>
       <if test="materialname != null" >materialname = #{materialname,jdbcType=VARCHAR},</if>
       <if test="materialdes != null" >materialdes = #{materialdes,jdbcType=VARCHAR},</if>
@@ -207,8 +201,7 @@
       update material_info
       set applytype = #{applytype,jdbcType=INTEGER},
         companyname = #{companyname,jdbcType=VARCHAR},
-        mattype = #{mattype,jdbcType=INTEGER},
-        mattypename = #{mattypename,jdbcType=VARCHAR},
+        mattype = #{mattype,jdbcType=VARCHAR},
         batch = #{batch,jdbcType=VARCHAR},
         materialname = #{materialname,jdbcType=VARCHAR},
         materialdes = #{materialdes,jdbcType=VARCHAR},
@@ -271,23 +264,23 @@
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into material_info
-      (applytype,companyname,mattype,mattypename,batch,materialname,materialdes,amount,
+      (applytype,companyname,mattype,batch,materialname,materialdes,amount,
       unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
       state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
       payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
       packingdate,invoicedate,remark,creater,modifier)
     VALUES
       <foreach collection ="list" item="item" separator =",">
-        (#{applytype,jdbcType=INTEGER},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},#{mattypename,jdbcType=VARCHAR},
-        #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=FLOAT},
-        #{unit,jdbcType=VARCHAR},#{empnum,jdbcType=INTEGER},#{empname,jdbcType=VARCHAR},#{applydept,jdbcType=VARCHAR},
-        #{applyperson,jdbcType=VARCHAR},#{dispatchdate,jdbcType=VARCHAR},#{requireddate,jdbcType=VARCHAR},#{overseasdate,jdbcType=VARCHAR},
-        #{state,jdbcType=INTEGER},#{ordernum,jdbcType=VARCHAR},#{supplier,jdbcType=VARCHAR},#{contractdate,jdbcType=VARCHAR},
-        #{conarrivaldate,jdbcType=VARCHAR},#{supplyperson,jdbcType=VARCHAR},#{supplycontact,jdbcType=VARCHAR},
-        #{payment,jdbcType=VARCHAR},#{payprogress,jdbcType=VARCHAR},#{matarrivaldate,jdbcType=VARCHAR},
-        #{unaccreason,jdbcType=VARCHAR},#{acceptdate,jdbcType=VARCHAR},#{nonstoreason,jdbcType=VARCHAR},#{storagedate,jdbcType=VARCHAR},
-        #{packingdate,jdbcType=VARCHAR},#{invoicedate,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},
-        #{creater,jdbcType=VARCHAR},#{modifier,jdbcType=VARCHAR})
+        (#{item.applytype,jdbcType=INTEGER},#{item.companyname,jdbcType=VARCHAR},#{item.mattype,jdbcType=VARCHAR},
+        #{item.batch,jdbcType=VARCHAR},#{item.materialname,jdbcType=VARCHAR},#{item.materialdes,jdbcType=VARCHAR},#{item.amount,jdbcType=FLOAT},
+        #{item.unit,jdbcType=VARCHAR},#{item.empnum,jdbcType=INTEGER},#{item.empname,jdbcType=VARCHAR},#{item.applydept,jdbcType=VARCHAR},
+        #{item.applyperson,jdbcType=VARCHAR},#{item.dispatchdate,jdbcType=VARCHAR},#{item.requireddate,jdbcType=VARCHAR},#{item.overseasdate,jdbcType=VARCHAR},
+        #{item.state,jdbcType=INTEGER},#{item.ordernum,jdbcType=VARCHAR},#{item.supplier,jdbcType=VARCHAR},#{item.contractdate,jdbcType=VARCHAR},
+        #{item.conarrivaldate,jdbcType=VARCHAR},#{item.supplyperson,jdbcType=VARCHAR},#{item.supplycontact,jdbcType=VARCHAR},
+        #{item.payment,jdbcType=VARCHAR},#{item.payprogress,jdbcType=VARCHAR},#{item.matarrivaldate,jdbcType=VARCHAR},
+        #{item.unaccreason,jdbcType=VARCHAR},#{item.acceptdate,jdbcType=VARCHAR},#{item.nonstoreason,jdbcType=VARCHAR},#{item.storagedate,jdbcType=VARCHAR},
+        #{item.packingdate,jdbcType=VARCHAR},#{item.invoicedate,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},
+        #{item.creater,jdbcType=VARCHAR},#{item.modifier,jdbcType=VARCHAR})
       </foreach >
   </insert>
 </mapper>

@@ -22,9 +22,7 @@
     </div>
     <div class="form-group">
         <label for="mattype">物资类别</label>
-        <select name="mattype" id="mattype" class="form-control input-sm-8" placeholder="选择物资类别">
-            <option value="" selected></option>
-        </select>
+        <input class="form-control input-sm-8" id="mattype" placeholder="输入物资类别">
     </div>
     <div class="form-group">
         <label for="batch">追溯号(批次)</label>
@@ -99,10 +97,6 @@
                 elem: '#overseasdate' //指定元素
             });
         });
-        //初始化物资类别select
-        $.each(parent.materialType, function (i, item) {
-            $("#mattype").append("<option value="+ item.value +">"+ item.text +"</option>");
-        });
         //初始化业务员select
         $.each(parent.employee, function (i, item) {
             $("#empnum").append("<option value="+ item.salesmannum +">"+ item.salesmanname +"</option>");
@@ -133,7 +127,6 @@
             postData.applytype = $('#applytype').val();
             postData.companyname = $('#companyname').val();
             postData.mattype = $('#mattype').val();
-            postData.mattypename = $('#mattype').find("option:selected").text();
             postData.batch = $('#batch').val();
             postData.materialname = $('#materialname').val();
             postData.materialdes = $('#materialdes').val();
