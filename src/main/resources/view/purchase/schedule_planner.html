@@ -126,26 +126,6 @@
             }
         }
         var schedule = getSchedule(id);
-        switch (schedule.state){
-            case 0:
-                schedule.state = '合同未签订';
-                break;
-            case 1:
-                schedule.state = '合同已签订';
-                break;
-            case 2:
-                schedule.state = '合同到货';
-                break;
-            case 3:
-                schedule.state = '物资装箱';
-                break;
-            case 4:
-                schedule.state = '发票到期';
-                break;
-            case 5:
-                schedule.state = '已完成';
-                break;
-        }
         var progress = getHistory(schedule.payprogress);
         var payprogress = [];
         var add_item;
