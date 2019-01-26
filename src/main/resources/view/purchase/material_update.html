@@ -12,8 +12,6 @@
         <label for="applytype">申请类别</label>
         <select name="applytype" id="applytype" class="form-control input-sm-8" placeholder="选择申请类别">
             <option value="" selected></option>
-            <option value="1">日常</option>
-            <option value="2">项目</option>
         </select>
     </div>
     <div class="form-group">
@@ -96,6 +94,10 @@
             overseasdate.render({
                 elem: '#overseasdate' //指定元素
             });
+        });
+        //初始化申请类别select
+        $.each(parent.applytypes, function (i, item) {
+            $("#applytype").append("<option value="+ item.name +">"+ item.name +"</option>");
         });
         //初始化业务员select
         $.each(parent.employee, function (i, item) {

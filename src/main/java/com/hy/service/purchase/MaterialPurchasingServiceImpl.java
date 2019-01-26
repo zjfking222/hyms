@@ -4,27 +4,20 @@ import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
 import com.hy.dto.MaterialInfoDto;
 import com.hy.dto.PurchaseSalesmanDto;
-import com.hy.dto.SysDictDto;
 import com.hy.mapper.ms.MaterialInfoMapper;
 import com.hy.dto.PurchaseTracerDto;
 import com.hy.mapper.ms.PurchaseSalesmanMapper;
 import com.hy.model.MaterialInfo;
 import com.hy.mapper.ms.PurchaseTracerMapper;
 import com.hy.model.PurchaseSalesman;
-import com.hy.service.system.SysDictService;
 import com.hy.model.PurchaseTracer;
 import com.hy.utils.DTOUtil;
-import com.mysql.cj.api.xdevapi.DatabaseObject;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -46,8 +39,6 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
     private PurchaseSalesmanMapper purchaseSalesmanMapper;
     @Autowired
     private MaterialInfoMapper materialInfoMapper;
-    @Autowired
-    private SysDictService sysDictService;
     @Autowired
     private PurchaseTracerMapper purchaseTracerMapper;
 
@@ -257,7 +248,7 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
      **/
     private MaterialInfo parseMaterial(Row row, Map<String, PurchaseSalesman> salesMap){
         MaterialInfo info = new MaterialInfo();
-        info.setApplytype("日常".equals(this.parseString(row.getCell(0)))? 1:2);//申请类别：1 日常；2 项目
+        info.setApplytype(this.parseString(row.getCell(0)));//申请类别
         info.setCompanyname(this.parseString(row.getCell(1)));//公司名称
         //物资类别
         info.setMattype(this.parseString(row.getCell(2)));
@@ -323,11 +314,11 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
         info.setPackingdate(this.parseDate(row.getCell(31)));//装箱日期
         info.setInvoicedate(this.parseDate(row.getCell(32)));//发票到票日期
         info.setRemark(this.parseString(row.getCell(33)));//备注
-        //状态：0 合同未签订；1 合同已签订；2 合同到货；3 物资装箱；4 发票到票；5 已完成；
+        //状态：合同未签订；合同已签订；合同到货；物资装箱；发票到票；已完成；
         if(StringUtils.isNotEmpty(this.parseString(row.getCell(34)))){
-            info.setState(5);//备注
+            info.setState("已完成");//备注
         }else{//默认值
-            info.setState(0);
+            info.setState("合同未签订");
         }
         info.setCreater(SecurityUtil.getLoginid());
         info.setModifier(SecurityUtil.getLoginid());

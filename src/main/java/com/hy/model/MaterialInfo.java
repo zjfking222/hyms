@@ -11,8 +11,8 @@ public class MaterialInfo {
 
     //主键
     private Integer id;
-    //申请类别：1 日常；2 项目
-    private Integer applytype;
+    //申请类别：从数据字典中获取名称保存
+    private String applytype;
     //公司名称
     private String companyname;
     //物资类别
@@ -41,8 +41,8 @@ public class MaterialInfo {
     private String requireddate;
     //海外到货日期
     private String overseasdate;
-    //状态：0 合同未签订；1 合同已签订；2 合同到货；3 物资装箱；4 发票到票；5 已完成；
-    private Integer state;
+    //状态：合同未签订；合同已签订；合同到货；物资装箱；发票到票；已完成；
+    private String state;
     //合同号（订单号）
     private String ordernum;
     //供应商名称
@@ -92,11 +92,11 @@ public class MaterialInfo {
         this.id = id;
     }
 
-    public Integer getApplytype() {
+    public String getApplytype() {
         return applytype;
     }
 
-    public void setApplytype(Integer applytype) {
+    public void setApplytype(String applytype) {
         this.applytype = applytype;
     }
 
@@ -212,11 +212,11 @@ public class MaterialInfo {
         this.overseasdate = overseasdate;
     }
 
-    public Integer getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 

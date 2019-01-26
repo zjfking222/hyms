@@ -3,7 +3,7 @@
 <mapper namespace="com.hy.mapper.ms.MaterialInfoMapper" >
   <resultMap id="BaseResultMap" type="com.hy.model.MaterialInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="applytype" property="applytype" jdbcType="INTEGER" />
+    <result column="applytype" property="applytype" jdbcType="VARCHAR" />
     <result column="companyname" property="companyname" jdbcType="VARCHAR" />
     <result column="mattype" property="mattype" jdbcType="VARCHAR" />
     <result column="batch" property="batch" jdbcType="VARCHAR" />
@@ -11,14 +11,14 @@
     <result column="materialdes" property="materialdes" jdbcType="VARCHAR" />
     <result column="amount" property="amount" jdbcType="FLOAT" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
-    <result column="empnum" property="empnum" jdbcType="INTEGER" />
+    <result column="empnum" property="empnum" jdbcType="VARCHAR" />
     <result column="empname" property="empname" jdbcType="VARCHAR" />
     <result column="applydept" property="applydept" jdbcType="VARCHAR" />
     <result column="applyperson" property="applyperson" jdbcType="VARCHAR" />
     <result column="dispatchdate" property="dispatchdate" jdbcType="VARCHAR" />
     <result column="requireddate" property="requireddate" jdbcType="VARCHAR" />
     <result column="overseasdate" property="overseasdate" jdbcType="VARCHAR" />
-    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="ordernum" property="ordernum" jdbcType="VARCHAR" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
     <result column="contractdate" property="contractdate" jdbcType="VARCHAR" />
@@ -59,11 +59,11 @@
           payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
           packingdate,invoicedate,remark,creater,modifier)
         values
-        (#{applytype,jdbcType=INTEGER},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},
+        (#{applytype,jdbcType=VARCHAR},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},
           #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=FLOAT},
-          #{unit,jdbcType=VARCHAR},#{empnum,jdbcType=INTEGER},#{empname,jdbcType=VARCHAR},#{applydept,jdbcType=VARCHAR},
+          #{unit,jdbcType=VARCHAR},#{empnum,jdbcType=VARCHAR},#{empname,jdbcType=VARCHAR},#{applydept,jdbcType=VARCHAR},
 		  #{applyperson,jdbcType=VARCHAR},#{dispatchdate,jdbcType=VARCHAR},#{requireddate,jdbcType=VARCHAR},#{overseasdate,jdbcType=VARCHAR},
-          #{state,jdbcType=INTEGER},#{ordernum,jdbcType=VARCHAR},#{supplier,jdbcType=VARCHAR},#{contractdate,jdbcType=VARCHAR},
+          #{state,jdbcType=VARCHAR},#{ordernum,jdbcType=VARCHAR},#{supplier,jdbcType=VARCHAR},#{contractdate,jdbcType=VARCHAR},
 		  #{conarrivaldate,jdbcType=VARCHAR},#{supplyperson,jdbcType=VARCHAR},#{supplycontact,jdbcType=VARCHAR},
           #{payment,jdbcType=VARCHAR},#{payprogress,jdbcType=VARCHAR},#{matarrivaldate,jdbcType=VARCHAR},
 		  #{unaccreason,jdbcType=VARCHAR},#{acceptdate,jdbcType=VARCHAR},#{nonstoreason,jdbcType=VARCHAR},#{storagedate,jdbcType=VARCHAR},
@@ -111,7 +111,7 @@
       <if test="modified != null and modified != ''" >modified,</if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="applytype != null and applytype != ''" >#{applytype,jdbcType=INTEGER},</if>
+      <if test="applytype != null and applytype != ''" >#{applytype,jdbcType=VARCHAR},</if>
       <if test="companyname != null and companyname != ''" >#{companyname,jdbcType=VARCHAR},</if>
       <if test="mattype != null and mattype != ''" >#{mattype,jdbcType=VARCHAR},</if>
       <if test="batch != null and batch != ''" >#{batch,jdbcType=VARCHAR},</if>
@@ -119,14 +119,14 @@
       <if test="materialdes != null and materialdes != ''" >#{materialdes,jdbcType=VARCHAR},</if>
       <if test="amount != null and amount != ''" >#{amount,jdbcType=FLOAT},</if>
       <if test="unit != null and unit != ''" >#{unit,jdbcType=VARCHAR},</if>
-      <if test="empnum != null and empnum != ''" >#{empnum,jdbcType=INTEGER},</if>
+      <if test="empnum != null and empnum != ''" >#{empnum,jdbcType=VARCHAR},</if>
       <if test="empname != null and empname != ''" >#{empname,jdbcType=VARCHAR},</if>
       <if test="applydept != null and applydept != ''" >#{applydept,jdbcType=VARCHAR},</if>
       <if test="applyperson != null and applyperson != ''" >#{applyperson,jdbcType=VARCHAR},</if>
       <if test="dispatchdate != null and dispatchdate != ''" >#{dispatchdate,jdbcType=VARCHAR},</if>
       <if test="requireddate != null and requireddate != ''" >#{requireddate,jdbcType=VARCHAR},</if>
       <if test="overseasdate != null and overseasdate != ''" >#{overseasdate,jdbcType=VARCHAR},</if>
-      <if test="state != null and state != ''" >#{state,jdbcType=INTEGER},</if>
+      <if test="state != null and state != ''" >#{state,jdbcType=VARCHAR},</if>
       <if test="ordernum != null and ordernum != ''" >#{ordernum,jdbcType=VARCHAR},</if>
       <if test="supplier != null and supplier != ''" >#{supplier,jdbcType=VARCHAR},</if>
       <if test="contractdate != null and contractdate != ''" >#{contractdate,jdbcType=VARCHAR},</if>
@@ -158,7 +158,7 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hy.model.MaterialInfo" >
     update material_info
     <set >
-      <if test="applytype != null" >applytype = #{applytype,jdbcType=INTEGER},</if>
+      <if test="applytype != null" >applytype = #{applytype,jdbcType=VARCHAR},</if>
       <if test="companyname != null" >companyname = #{companyname,jdbcType=VARCHAR},</if>
       <if test="mattype != null" >mattype = #{mattype,jdbcType=VARCHAR},</if>
       <if test="batch != null" >batch = #{batch,jdbcType=VARCHAR},</if>
@@ -166,14 +166,14 @@
       <if test="materialdes != null" >materialdes = #{materialdes,jdbcType=VARCHAR},</if>
       <if test="amount != null" >amount = #{amount,jdbcType=FLOAT},</if>
       <if test="unit != null" >unit = #{unit,jdbcType=VARCHAR},</if>
-      <if test="empnum != null" >empnum = #{empnum,jdbcType=INTEGER},</if>
+      <if test="empnum != null" >empnum = #{empnum,jdbcType=VARCHAR},</if>
       <if test="empname != null" >empname = #{empname,jdbcType=VARCHAR},</if>
       <if test="applydept != null" >applydept = #{applydept,jdbcType=VARCHAR},</if>
       <if test="applyperson != null" >applyperson = #{applyperson,jdbcType=VARCHAR},</if>
       <if test="dispatchdate != null" >dispatchdate = #{dispatchdate,jdbcType=VARCHAR},</if>
       <if test="requireddate != null" >requireddate = #{requireddate,jdbcType=VARCHAR},</if>
       <if test="overseasdate != null" >overseasdate = #{overseasdate,jdbcType=VARCHAR},</if>
-      <if test="state != null" >state = #{state,jdbcType=INTEGER},</if>
+      <if test="state != null" >state = #{state,jdbcType=VARCHAR},</if>
       <if test="ordernum != null" >ordernum = #{ordernum,jdbcType=VARCHAR},</if>
       <if test="supplier != null" >supplier = #{supplier,jdbcType=VARCHAR},</if>
       <if test="contractdate != null" >contractdate = #{contractdate,jdbcType=VARCHAR},</if>
@@ -199,7 +199,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hy.model.MaterialInfo" >
       update material_info
-      set applytype = #{applytype,jdbcType=INTEGER},
+      set applytype = #{applytype,jdbcType=VARCHAR},
         companyname = #{companyname,jdbcType=VARCHAR},
         mattype = #{mattype,jdbcType=VARCHAR},
         batch = #{batch,jdbcType=VARCHAR},
@@ -207,14 +207,14 @@
         materialdes = #{materialdes,jdbcType=VARCHAR},
         amount = #{amount,jdbcType=FLOAT},
         unit = #{unit,jdbcType=VARCHAR},
-        empnum = #{empnum,jdbcType=INTEGER},
+        empnum = #{empnum,jdbcType=VARCHAR},
         empname = #{empname,jdbcType=VARCHAR},
         applydept = #{applydept,jdbcType=VARCHAR},
         applyperson = #{applyperson,jdbcType=VARCHAR},
         dispatchdate = #{dispatchdate,jdbcType=VARCHAR},
         requireddate = #{requireddate,jdbcType=VARCHAR},
         overseasdate = #{overseasdate,jdbcType=VARCHAR},
-        state = #{state,jdbcType=INTEGER},
+        state = #{state,jdbcType=VARCHAR},
         ordernum = #{ordernum,jdbcType=VARCHAR},
         supplier = #{supplier,jdbcType=VARCHAR},
         contractdate = #{contractdate,jdbcType=VARCHAR},
@@ -271,11 +271,11 @@
       packingdate,invoicedate,remark,creater,modifier)
     VALUES
       <foreach collection ="list" item="item" separator =",">
-        (#{item.applytype,jdbcType=INTEGER},#{item.companyname,jdbcType=VARCHAR},#{item.mattype,jdbcType=VARCHAR},
+        (#{item.applytype,jdbcType=VARCHAR},#{item.companyname,jdbcType=VARCHAR},#{item.mattype,jdbcType=VARCHAR},
         #{item.batch,jdbcType=VARCHAR},#{item.materialname,jdbcType=VARCHAR},#{item.materialdes,jdbcType=VARCHAR},#{item.amount,jdbcType=FLOAT},
-        #{item.unit,jdbcType=VARCHAR},#{item.empnum,jdbcType=INTEGER},#{item.empname,jdbcType=VARCHAR},#{item.applydept,jdbcType=VARCHAR},
+        #{item.unit,jdbcType=VARCHAR},#{item.empnum,jdbcType=VARCHAR},#{item.empname,jdbcType=VARCHAR},#{item.applydept,jdbcType=VARCHAR},
         #{item.applyperson,jdbcType=VARCHAR},#{item.dispatchdate,jdbcType=VARCHAR},#{item.requireddate,jdbcType=VARCHAR},#{item.overseasdate,jdbcType=VARCHAR},
-        #{item.state,jdbcType=INTEGER},#{item.ordernum,jdbcType=VARCHAR},#{item.supplier,jdbcType=VARCHAR},#{item.contractdate,jdbcType=VARCHAR},
+        #{item.state,jdbcType=VARCHAR},#{item.ordernum,jdbcType=VARCHAR},#{item.supplier,jdbcType=VARCHAR},#{item.contractdate,jdbcType=VARCHAR},
         #{item.conarrivaldate,jdbcType=VARCHAR},#{item.supplyperson,jdbcType=VARCHAR},#{item.supplycontact,jdbcType=VARCHAR},
         #{item.payment,jdbcType=VARCHAR},#{item.payprogress,jdbcType=VARCHAR},#{item.matarrivaldate,jdbcType=VARCHAR},
         #{item.unaccreason,jdbcType=VARCHAR},#{item.acceptdate,jdbcType=VARCHAR},#{item.nonstoreason,jdbcType=VARCHAR},#{item.storagedate,jdbcType=VARCHAR},

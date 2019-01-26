@@ -19,6 +19,7 @@
 <script>
     var pushData;
     var employee = [];
+    var applytypes = [];
     var vm = new Vue({
         el: "",
         data: {
@@ -30,6 +31,8 @@
             this.getDataSource();
             //取全部业务员数据
             this.getEmployee();
+            //取出申请类别参数
+            this.getApplyType();
             var kgrid = $("#grid").kendoGrid({
                 selectable: "row",
                 dataSource: this.dataSource,
@@ -52,10 +55,11 @@
                     template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
                         '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.copyMaterial()"><span class="k-icon k-i-copy"></span>复制</a>' +
                         '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.importExcel()"><span class="k-icon k-i-excel"></span>批量导入</a>' +
-                    '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                    '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
+                            '<select class="k-widget k-dropdown" id="matselect"><option value="1" selected>未完成</option><option value="2">已完成</option></select>'
                 }],
                 columns: [
-                    {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px',values:[{text: "日常", value: 1 },{text: "项目", value: 2 }]},
+                    {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "companyname", title: "公司名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "batch", title: "追溯号(批次)", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
@@ -63,7 +67,7 @@
                     {field: "empname", title: "业务员", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px',values:[{text: "合同未签订", value: 0 },{text: "合同已签订", value: 1 },{text: "合同到货", value: 2 },{text: "物资装箱", value: 3 },{text: "发票到票", value: 4 },{text: "已完成", value: 5 }]},
+                    {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {
                         command: [{
                             name: "edititem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -224,9 +228,9 @@
                             id: "id",
                             fields: {
                                 id: {editable: false, nullable: true},
-                                applytype: {type: "enums", nullable: false},
+                                applytype: {type: "string", nullable: false},
                                 companyname: {type: "string", nullable: false},
-                                mattype: {type: "String", nullable: false},
+                                mattype: {type: "string", nullable: false},
                                 batch: {type: "string", nullable: false},
                                 materialname: {type: "string", nullable: false},
                                 empname: {type: "string", nullable: false},
@@ -269,6 +273,23 @@
                     success: function (result) {
                         if (result.code === 0) {
                             employee = result.data;
+                        }else{
+                            options.error(result);
+                        }
+                    }
+                });
+            },
+            getApplyType: function(){
+                //从后台加载申请类别参数
+                $.ajax({
+                    url: "/sysdict/getDictBycode",
+                    data:{
+                        code:"MaterialApplyType"
+                    },
+                    method: 'POST',
+                    success: function (result) {
+                        if (result.code === 0) {
+                            applytypes = result.data;
                         }else{
                             options.error(result);
                         }
