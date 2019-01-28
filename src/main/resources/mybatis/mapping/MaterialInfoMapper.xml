@@ -246,6 +246,14 @@
       or materialname like concat('%',#{value},'%')
       or batch like concat('%',#{value},'%')
     </if>
+    <choose>
+      <when test='state == "2"'>
+        and state = '已完成'
+      </when>
+      <otherwise>
+        and state != '已完成'
+      </otherwise>
+    </choose>
     <if test="sort != null and '' != sort">
       ORDER BY CONVERT(${sort} USING gbk) ${dir}
     </if>
@@ -261,6 +269,14 @@
       or materialname like concat('%',#{value},'%')
       or batch like concat('%',#{value},'%')
     </if>
+    <choose>
+      <when test='state == "2"'>
+        and state = '已完成'
+      </when>
+      <otherwise>
+        and state != '已完成'
+      </otherwise>
+    </choose>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into material_info

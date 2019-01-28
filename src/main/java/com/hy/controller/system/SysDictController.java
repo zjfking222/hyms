@@ -100,9 +100,22 @@ public class SysDictController {
      * @Param [code]
      * @return com.hy.common.ResultObj
      **/
-    @PostMapping("/getDictBycode")
-    public ResultObj getDictBycode(String code){
+    @PostMapping("/getDictChildrenBycode")
+    public ResultObj getDictChildrenBycode(String code){
         List<SysDictDto> dictDtos = sysDictService.selectByCode(code);
         return ResultObj.success(dictDtos);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 根据当前code获取当前节点数据
+     * @Date 2019/1/28 10:09
+     * @Param [code]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/getDictBycode")
+    public ResultObj getDictBycode(String code){
+        SysDictDto dictDto = sysDictService.getByCode(code);
+        return ResultObj.success(dictDto);
     }
 }

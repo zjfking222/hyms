@@ -21,7 +21,7 @@ public interface MaterialInfoMapper extends BaseMapper<Integer, MaterialInfo>{
      * @Param [filters, sort, dir, value]
      * @return java.util.List<com.hy.model.MaterialInfo>
      **/
-    List<MaterialInfo> selectMaterialInfoPage(@Param("filters")String filters, @Param("sort")String sort, @Param("dir")String dir, @Param("value")String value);
+    List<MaterialInfo> selectMaterialInfoPage(@Param("filters")String filters, @Param("sort")String sort, @Param("dir")String dir, @Param("value")String value, @Param("state")String state);
 
     /**
      * @Author 钱敏杰
@@ -30,7 +30,7 @@ public interface MaterialInfoMapper extends BaseMapper<Integer, MaterialInfo>{
      * @Param [filters, value]
      * @return int
      **/
-    int selectMaterialInfoTotal(@Param("filters")String filters, @Param("value")String value);
+    int selectMaterialInfoTotal(@Param("filters")String filters, @Param("value")String value, @Param("state")String state);
 
     /**
      * @Author 钱敏杰

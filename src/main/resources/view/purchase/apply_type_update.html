@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>更新申请类别</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80%; margin: 10px auto">
+<form>
+    <div class="form-group">
+        <label for="name">申请类别</label>
+        <input class="form-control input-sm-8" id="name" placeholder="输入申请类别">
+    </div>
+    <a id="submit" href="javascript:;" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    $(function () {
+        var msg;
+        if (parent.pushData.id === 0) {
+            msg = "添加";
+        }else {
+            $('#name').val(parent.pushData.name);
+            msg = "修改";
+        }
+        $('#submit').on('click', function () {
+            if ($('#name').val() == '') {
+                layer.msg('申请类别必填！');
+                return;
+            }
+            var postData = {
+                pid: parent.parentDic.id,
+                pidname:parent.parentDic.pidname,
+                name: $('#name').val()
+            };
+            if (parent.pushData.id !== 0) {
+                postData.id = parent.pushData.id;
+            }
+            $.ajax({
+                async: false,
+                url: "/sysdict/updateSysDict",
+                type: 'POST',
+                dataType: 'json',
+                data: postData,
+                success: function (result) {
+                    if (result.code === 0) {
+                        parent.layer.msg(msg + '成功');
+                        parent.layer.close(index);
+                    } else {
+                        parent.layer.msg(msg + "失败，请重新尝试")
+                    }
+                },
+                error: function () {
+                    parent.layer.msg("提交失败，请重新尝试")
+                }
+            });
+        });
+    });
+</script>
+</html>

@@ -84,9 +84,9 @@ public class MaterialPurchasingController {
      * @return com.hy.common.ResultObj
      **/
     @PostMapping("/planner/getMaterialInfoPage")
-    public ResultObj getMaterialInfoPage(Integer page, Integer pageSize, String filters, String sort, String dir, String value) {
-        List<MaterialInfoDto> list = materialPurchasingService.getMaterialInfoPage(page, pageSize, filters, sort, dir, value);
-        int total = materialPurchasingService.countMaterialInfo(filters, value);
+    public ResultObj getMaterialInfoPage(Integer page, Integer pageSize, String filters, String sort, String dir, String value, String state) {
+        List<MaterialInfoDto> list = materialPurchasingService.getMaterialInfoPage(page, pageSize, filters, sort, dir, value, state);
+        int total = materialPurchasingService.countMaterialInfo(filters, value, state);
         Map<String, Object> map = new HashMap<>();
         map.put("data", list);
         map.put("total", total);

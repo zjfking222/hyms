@@ -31,10 +31,10 @@ public interface MaterialPurchasingService {
      * @Author 钱敏杰
      * @Description 分页查询物资信息
      * @Date 2019/1/22 16:55
-     * @Param [pageNum, pageSize, filters, sort, dir, value]
+     * @Param [pageNum, pageSize, filters, sort, dir, value, state]
      * @return java.util.List<com.hy.dto.MaterialInfoDto>
      **/
-    List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value);
+    List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state);
 
     /**
      * @Author 钱敏杰
@@ -43,7 +43,7 @@ public interface MaterialPurchasingService {
      * @Param [filters, value]
      * @return int
      **/
-    int countMaterialInfo(String filters, String value);
+    int countMaterialInfo(String filters, String value, String state);
 
     /**
      * @Author 钱敏杰

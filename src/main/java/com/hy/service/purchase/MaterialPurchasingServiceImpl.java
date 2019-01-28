@@ -101,13 +101,13 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
      * @Author 钱敏杰
      * @Description 分页查询物资信息
      * @Date 2019/1/22 16:55
-     * @Param [pageNum, pageSize, filters, sort, dir, value]
+     * @Param [pageNum, pageSize, filters, sort, dir, value,state]
      * @return java.util.List<com.hy.dto.MaterialInfoDto>
      **/
     @Override
-    public List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value){
+    public List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state){
         PageHelper.startPage(pageNum, pageSize);
-        List<MaterialInfo> list = materialInfoMapper.selectMaterialInfoPage(filters, sort, dir, value);
+        List<MaterialInfo> list = materialInfoMapper.selectMaterialInfoPage(filters, sort, dir, value, state);
         return DTOUtil.populateList(list, MaterialInfoDto.class);
     }
 
@@ -119,8 +119,8 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
      * @return int
      **/
     @Override
-    public int countMaterialInfo(String filters, String value){
-        int num = materialInfoMapper.selectMaterialInfoTotal(filters, value);
+    public int countMaterialInfo(String filters, String value, String state){
+        int num = materialInfoMapper.selectMaterialInfoTotal(filters, value, state);
         return num;
     }
 

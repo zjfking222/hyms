@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        .k-state-type{
+            margin-left: 5px;
+        }
+        .k-state-search{
+            margin-left: 2px;
+            border: 0.5px solid #d5d5d5;
+            height: 24px;
+        }
+    </style>
 </head>
 <body>
 <div id="grid"></div>
@@ -55,8 +65,9 @@
                     template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
                         '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.copyMaterial()"><span class="k-icon k-i-copy"></span>复制</a>' +
                         '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.importExcel()"><span class="k-icon k-i-excel"></span>批量导入</a>' +
+                        '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>' +
                     '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
-                            '<select class="k-widget k-dropdown" id="matselect"><option value="1" selected>未完成</option><option value="2">已完成</option></select>'
+                        '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.applyTypeSer()"><span class="k-icon k-i-settings"></span>申请类别维护</a>'
                 }],
                 columns: [
                     {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
@@ -66,7 +77,7 @@
                     {field: "materialname", title: "物资名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "empname", title: "业务员", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
+                    {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {
                         command: [{
@@ -183,7 +194,8 @@
                                         undefined : options.data.sort[0].dir,
                                     'page': options.data.page,
                                     'pageSize': options.data.pageSize,
-                                    'value': $('#search-input').val()
+                                    'value': $('#search-input').val(),
+                                    'state':$("#stateselect").val()
                                 },
                                 method: 'POST',
                                 success: function (result) {
@@ -282,7 +294,7 @@
             getApplyType: function(){
                 //从后台加载申请类别参数
                 $.ajax({
-                    url: "/sysdict/getDictBycode",
+                    url: "/sysdict/getDictChildrenBycode",
                     data:{
                         code:"MaterialApplyType"
                     },
@@ -293,6 +305,21 @@
                         }else{
                             options.error(result);
                         }
+                    }
+                });
+            },
+            applyTypeSer:function(){
+                layer.close(vm.layItem);
+                this.layItem = layer.open({
+                    title: '添加物资信息',
+                    type: 2,
+                    area: ['600px', '500px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/purchase/apply_type.html',
+                    shadeClose: true,
+                    end: function () {
+                        vm.getApplyType();
                     }
                 });
             },
