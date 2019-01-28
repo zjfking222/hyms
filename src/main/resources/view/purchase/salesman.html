@@ -158,7 +158,7 @@
             <span>业务员</span>
         </div>
         <input v-model="data0" class="form-control" style="display: inline-block!important;margin-top: 5px" id="search"
-               placeholder="输入员工号或姓名">
+               placeholder="以回车键搜索">
         <button id="btn-add" @click="onAdd"></button>
         <ul class="nav nav-sidebar" id="salesman">
             <li v-for="salesman in data1" :data-id="salesman.id" @click="onChoose(salesman.id)">

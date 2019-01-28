@@ -95,7 +95,6 @@
                             tracernum: vm.result.employeenumber,
                             tracername: vm.result.name
                         };
-                        console.log(postData);
                         FetchData(postData, 'POST', '/purchase/tracer/addTracer', false).code === 0 ?
                             parent.layer.msg('添加成功') :
                             parent.layer.msg('添加失败');
