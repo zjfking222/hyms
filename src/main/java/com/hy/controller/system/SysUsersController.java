@@ -107,4 +107,10 @@ public class SysUsersController {
         List<SysUsersDto> sysUsersDto = sysUsersService.getUsersAccurate(value);
         return ResultObj.success(sysUsersDto);
     }
+
+    @PostMapping("users/getEmpnum")
+    //查询所有系统用户
+    public ResultObj getEmpnum(){
+        return ResultObj.success(sysUsersService.getEmpnum());
+    }
 }

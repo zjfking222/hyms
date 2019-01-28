@@ -257,5 +257,9 @@
       OR employeenumber = #{value})
     </if>
   </select>
+  <select id="selectEmpnum" resultType="java.lang.String">
+    select distinct employeenumber
+    from sys_users
+  </select>
 </mapper>
 

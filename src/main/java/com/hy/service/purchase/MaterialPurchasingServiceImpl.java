@@ -97,6 +97,19 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
         return purchaseTracerMapper.deleteTracer(id) == 1;
     }
 
+    @Override
+    //根据id查询物资信息
+    public MaterialInfoDto getMaterialInfoById(int id){
+        MaterialInfo materialInfo = materialInfoMapper.selectByPrimaryKey(id);
+        return DTOUtil.populate(materialInfo, MaterialInfoDto.class);
+    }
+
+    @Override
+    //查询所有业务员
+    public List<String> getEmpnumAll(){
+        return materialInfoMapper.selectEmpnumAll();
+    }
+
     /**
      * @Author 钱敏杰
      * @Description 分页查询物资信息

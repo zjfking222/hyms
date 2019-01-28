@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑跟单信息</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    label {
+        width: 120px;
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    input {
+        display: inline-block;
+        padding-left: 6px !important;
+    }
+
+    select {
+        display: inline-block;
+        padding-left: 6px !important;
+    }
+
+    textarea {
+        line-height: 18px;
+        padding-left: 6px !important;
+        vertical-align: middle;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+        display: inline-block;
+        margin-left: 35px;
+    }
+
+    .form-control {
+        display: inline-block;
+        width: 200px;
+        height: 30px;
+        padding: 0;
+    }
+</style>
+<body style="width: 80%; margin: 10px auto;">
+<form id="app">
+    <div class="form-group">
+        <label for="ordernum">合同号(订单号)</label>
+        <input id="ordernum" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="supplier">供应商名称</label>
+        <textarea id="supplier" type="text" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="contractdate">合同签订日期</label>
+        <input id="contractdate" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="conarrivaldate">合同到货日期</label>
+        <input id="conarrivaldate" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="supplyperson">供应商联系人</label>
+        <input id="supplyperson" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="supplycontact">供应商联系方式</label>
+        <input id="supplycontact" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="payment">付款方式</label>
+        <input id="payment" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="payprogress">付款进度</label>
+        <input id="payprogress" type="text" class="form-control" placeholder="新增付款进度">
+    </div>
+    <div class="form-group" v-for="p in payprogress">
+        <label v-if="p.name%2===0" style="margin-left: 4px;">付款进度{{p.name}}</label>
+        <label v-else>付款进度{{p.name}}</label>
+        <input type="text" class="form-control" :id="p.id" :value="p.payprogress">
+    </div>
+    <div class="form-group">
+        <label for="matarrivaldate">物资到货日期</label>
+        <input id="matarrivaldate" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="unaccreason" style="vertical-align: middle;">物资未验收原因</label>
+        <textarea id="unaccreason" type="text" class="form-control" style="vertical-align: middle;"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="acceptdate">物资验收日期</label>
+        <input id="acceptdate" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="nonstoreason">仓库未入库原因</label>
+        <textarea id="nonstoreason" type="text" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="storagedate">仓库入库日期</label>
+        <input id="storagedate" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="packingdate">装箱日期</label>
+        <input id="packingdate" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="invoicedate">发票到票日期</label>
+        <input id="invoicedate" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="remark">备注</label>
+        <textarea id="remark" type="text" class="form-control" style="vertical-align: middle;"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="state">状态</label>
+        <select id="state" class="form-control">
+            <option value="合同未签订" selected>合同未签订</option>
+            <option value="合同已签订">合同已签订</option>
+            <option value="合同到货">合同到货</option>
+            <option value="物资装箱">物资装箱</option>
+            <option value="发票到票">发票到票</option>
+            <option value="已完成">已完成</option>
+        </select>
+    </div>
+    <a id="submit" href="javascript:;" class="btn btn-success center-block" style="margin-top: 26px;width: 400px;">提&nbsp;&nbsp;&nbsp;交</a>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var id = parent.pushId;
+    var postData;
+    var index = parent.layer.getFrameIndex(window.name);
+    $(function () {
+        //历史付款进度根据';'分割
+        function getHistory(payprogress) {
+            if (payprogress === null || payprogress === '') {
+                return ''
+            } else {
+                var del = payprogress.split(";");
+                for(var x = 0; x < del.length; x++){
+                    if(del[x] === '' || del[x] == null || typeof(del[x]) === "undefined"){
+                        del.splice(x, 1);
+                        x = x-1;
+                    }
+                }
+                return del;
+            }
+        }
+
+        function getSchedule(id) {
+            return FetchData({id: id}, 'POST', '/purchase/material/getMaterialById', false).data;
+        }
+
+        var schedule = getSchedule(id);
+        var progress = getHistory(schedule.payprogress);
+        var payprogress = [];
+        var add_item;
+        for (var j = 0; j < progress.length; j++) {
+            add_item = {
+                id: 'p_' + (j + 1),
+                name: j + 1,
+                payprogress: progress[j]
+            };
+            payprogress.push(add_item);
+        }
+
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                payprogress: payprogress
+            }
+        });
+
+        $('#ordernum').val(schedule.ordernum);
+        $('#supplier').val(schedule.supplier);
+        $('#contractdate').val(schedule.contractdate);
+        $('#conarrivaldate').val(schedule.conarrivaldate);
+        $('#supplyperson').val(schedule.supplyperson);
+        $('#supplycontact').val(schedule.supplycontact);
+        $('#payment').val(schedule.payment);
+        //付款进度用Vue展示
+        // $('#payprogress').val(schedule.payprogress);
+        $('#matarrivaldate').val(schedule.matarrivaldate);
+        $('#unaccreason').val(schedule.unaccreason);
+        $('#acceptdate').val(schedule.acceptdate);
+        $('#nonstoreason').val(schedule.nonstoreason);
+        $('#storagedate').val(schedule.storagedate);
+        $('#packingdate').val(schedule.packingdate);
+        $('#invoicedate').val(schedule.invoicedate);
+        $('#remark').val(schedule.remark);
+        $('#state').val(schedule.state);
+
+        $('#submit').on('click', function () {
+            var value = $('#payprogress').val();
+            var newPayprogress;
+            var step;
+            var result = '';
+            for (var i = 0; i < payprogress.length; i++) {
+                step = $('#' + 'p_' + (i + 1)).val().replace(/；/g, ';');
+                if(step.substr(step.length - 1, 1) !== ';'){
+                    step = step + ';'
+                }
+                if (result === '') {
+                    result = step + ';';
+                } else {
+                    result = result + step;
+                }
+            }
+            if (value !== null && value !== '') {
+                //如果输入的付款进度中有'；',替换成';'
+                var replace = value.replace(/；/g, ';');
+                //判断输入的最后一个字符是否是';',不是就添加';'
+                if(replace.substr(replace.length - 1, 1) !== ';'){
+                    replace = replace + ';'
+                }
+                if (result.length === 0) {
+                    newPayprogress = replace;
+                } else {
+                    newPayprogress = result + replace;
+                }
+            } else {
+                newPayprogress = result;
+            }
+            postData = {
+                id: id,
+                ordernum: $('#ordernum').val(),
+                supplier: $('#supplier').val(),
+                contractdate: $('#contractdate').val(),
+                conarrivaldate: $('#conarrivaldate').val(),
+                supplyperson: $('#supplyperson').val(),
+                supplycontact: $('#supplycontact').val(),
+                payment: $('#payment').val(),
+                payprogress: newPayprogress,
+                matarrivaldate: $('#matarrivaldate').val(),
+                unaccreason: $('#unaccreason').val(),
+                acceptdate: $('#acceptdate').val(),
+                nonstoreason: $('#nonstoreason').val(),
+                storagedate: $('#storagedate').val(),
+                packingdate: $('#packingdate').val(),
+                invoicedate: $('#invoicedate').val(),
+                remark: $('#remark').val(),
+                state: $('#state').val()
+            };
+            var postBack = FetchData(postData, 'POST', '/purchase/planner/updateMaterialInfo', false);
+            if (postBack.code === 0) {
+                parent.layer.msg('修改成功');
+            } else {
+                parent.layer.msg('修改失败');
+            }
+            parent.layer.close(index);
+        })
+
+
+    });
+
+    var FetchData = function (data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    };
+</script>
+</html>

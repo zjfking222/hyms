@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>查看跟单信息</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    label{
+        width: 120px;
+        display: inline-block;
+        text-align: left;
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+    span{
+        display: inline-block;
+        text-align: left;
+        width: 200px;
+        vertical-align: top;
+    }
+    .form-group{
+        display: inline-block;
+        margin-left: 5px;
+    }
+</style>
+<body style="width: 80%; margin: 10px auto;">
+<form id="app">
+    <div class="form-group">
+        <label for="ordernum">合同号(订单号)</label>
+        <span id="ordernum">{{schedule.ordernum}}</span>
+    </div>
+    <div class="form-group">
+        <label for="supplier">供应商名称</label>
+        <span id="supplier">{{schedule.supplier}}</span>
+    </div>
+    <div class="form-group">
+        <label for="contractdate">合同签订日期</label>
+        <span id="contractdate">{{schedule.contractdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="conarrivaldate">合同到货日期</label>
+        <span id="conarrivaldate">{{schedule.conarrivaldate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="supplyperson">供应商联系人</label>
+        <span id="supplyperson">{{schedule.supplyperson}}</span>
+    </div>
+    <div class="form-group">
+        <label for="supplycontact">供应商联系方式</label>
+        <span id="supplycontact">{{schedule.supplycontact}}</span>
+    </div>
+    <div class="form-group">
+        <label for="payment">付款方式</label>
+        <span id="payment">{{schedule.payment}}</span>
+    </div>
+    <div v-if="size===0" class="form-group">
+        <label>付款进度</label>
+        <span></span>
+    </div>
+    <div v-if="size>0" class="form-group" v-for="p in payprogress">
+        <label v-if="p.name>2&&p.name%2===1" style="margin-left: 4px;">付款进度{{p.name}}</label>
+        <label v-else>付款进度{{p.name}}</label>
+        <span>{{p.payprogress}}</span>
+    </div>
+    <div class="form-group">
+        <label for="matarrivaldate">物资到货日期</label>
+        <span id="matarrivaldate">{{schedule.matarrivaldate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="unaccreason">物资未验收原因</label>
+        <span id="unaccreason">{{schedule.unaccreason}}</span>
+    </div>
+    <div class="form-group">
+        <label for="acceptdate">物资验收日期</label>
+        <span id="acceptdate">{{schedule.acceptdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="nonstoreason">仓库未入库原因</label>
+        <span id="nonstoreason">{{schedule.nonstoreason}}</span>
+    </div>
+    <div class="form-group">
+        <label for="storagedate">仓库入库日期</label>
+        <span id="storagedate">{{schedule.storagedate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="packingdate">装箱日期</label>
+        <span id="packingdate">{{schedule.packingdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="invoicedate">发票到票日期</label>
+        <span id="invoicedate">{{schedule.invoicedate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="remark">备注</label>
+        <span id="remark">{{schedule.remark}}</span>
+    </div>
+    <div class="form-group">
+        <label for="state">状态</label>
+        <span id="state">{{schedule.state}}</span>
+    </div>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var id = parent.pushId;
+    $(function () {
+        function getSchedule(id) {
+            return FetchData({id: id}, 'POST', '/purchase/material/getMaterialById',false).data;
+        }
+        //历史付款进度根据';'分割
+        function getHistory(payprogress) {
+            if (payprogress === null || payprogress === '') {
+                return ''
+            } else {
+                var del = payprogress.split(";");
+                for(var x = 0; x < del.length; x++){
+                    if(del[x] === '' || del[x] == null || typeof(del[x]) === "undefined"){
+                        del.splice(x, 1);
+                        x = x-1;
+                    }
+                }
+                return del;
+            }
+        }
+        var schedule = getSchedule(id);
+        var progress = getHistory(schedule.payprogress);
+        var payprogress = [];
+        var add_item;
+        for (var j = 0; j < progress.length; j++) {
+            add_item = {
+                id: 'p_' + (j + 1),
+                name: j + 1,
+                payprogress: progress[j]
+            };
+            payprogress.push(add_item);
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                schedule: schedule,
+                payprogress: payprogress,
+                size: payprogress.length
+            }
+        });
+    });
+    var FetchData = function (data, method, param, async) {
+        var response = $.ajax({
+            async: async,
+            url: param,
+            type: method,
+            dataType: 'json',
+            data: data,
+            success: function (dataSource) {
+                return dataSource
+            }
+        });
+        return response.responseJSON;
+    };
+</script>
+</html>

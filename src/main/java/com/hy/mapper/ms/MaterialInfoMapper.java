@@ -40,4 +40,10 @@ public interface MaterialInfoMapper extends BaseMapper<Integer, MaterialInfo>{
      * @return int
      **/
     int insertBatch(List<MaterialInfo> list);
+
+    //根据id查询物资信息
+    MaterialInfo selectByPrimaryKey(@Param("id") int id);
+
+    //查询所有业务员
+    List<String> selectEmpnumAll();
 }

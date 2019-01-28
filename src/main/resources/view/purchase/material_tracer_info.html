@@ -2,20 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>计划员物资信息页</title>
+    <title>跟单员物资信息页</title>
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
     <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
-    <style>
-        .k-state-type{
-            margin-left: 5px;
-        }
-        .k-state-search{
-            margin-left: 2px;
-            border: 0.5px solid #d5d5d5;
-            height: 24px;
-        }
-    </style>
 </head>
 <body>
 <div id="grid"></div>
@@ -27,7 +17,6 @@
 <script src="/statics/plugins/layer/layer.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.addfilter.js"></script>
 <script>
-    var pushData;
     var employee = [];
     var applytypes = [];
     var pushId;
@@ -63,12 +52,8 @@
                     buttonCount: 5
                 },
                 toolbar: [{
-                    template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
-                        '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.copyMaterial()"><span class="k-icon k-i-copy"></span>复制</a>' +
-                        '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.importExcel()"><span class="k-icon k-i-excel"></span>批量导入</a>' +
-                        '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>' +
-                    '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
-                        '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.applyTypeSer()"><span class="k-icon k-i-settings"></span>申请类别维护</a>'
+                    template: '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
+                    '<select class="k-widget k-dropdown" id="matselect"><option value="1" selected>未完成</option><option value="2">已完成</option></select>'
                 }],
                 columns: [
                     {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
@@ -80,35 +65,9 @@
                     {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {
-                        command: [{
-                            name: "edititem", text: "编辑", iconClass: "k-icon k-i-edit",
-                            click: function (e) {
-                                e.preventDefault();
-                                var tr = $(e.target).closest("tr");
-                                var data = this.dataItem(tr);
-                                pushData = {
-                                    id: data.id,
-                                    applytype: data.applytype,
-                                    companyname: data.companyname,
-                                    mattype: data.mattype,
-                                    batch: data.batch,
-                                    materialname: data.materialname,
-                                    materialdes: data.materialdes,
-                                    amount: data.amount,
-                                    unit: data.unit,
-                                    empnum:data.empnum,
-                                    applydept: data.applydept,
-                                    applyperson: data.applyperson,
-                                    dispatchdate: data.dispatchdate,
-                                    requireddate: data.requireddate,
-                                    overseasdate: data.overseasdate
-                                };
-                                vm.edit();
-                            }
-                        }, {name: "destroy", text: "删除", iconClass: "k-icon k-i-delete"}],
-                        title: "操作", width: "200px"
-                    },{field: "", title: ""}
+                    {field: "ordernum", title: "合同号(订单号)", headerAttributes: {"class": "grid-algin-center"}, width: '140px'},
+                    {field: "supplier", title: "供应商名称", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                    {field: "", title: ""}
                 ]
             });
             kgrid.on('dblclick', '.k-grid-content tr', function () {
@@ -117,12 +76,12 @@
                 var data = kgrid.data("kendoGrid").dataItem(row);
                 pushId = data.id;
                 this.layItem = layer.open({
-                    title: '查看跟单信息',
+                    title: '编辑跟单信息',
                     type: 2,
-                    area: ['850px', '450px'],
+                    area: ['950px', '650px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/purchase/schedule_planner.html',
+                    content: '/purchase/schedule_tracer.html',
                     shadeClose: true,
                     end: function () {
                         $("#grid").data("kendoGrid").dataSource.read()
@@ -151,8 +110,7 @@
                                         undefined : options.data.sort[0].dir,
                                     'page': options.data.page,
                                     'pageSize': options.data.pageSize,
-                                    'value': $('#search-input').val(),
-                                    'state':$("#stateselect").val()
+                                    'value': $('#search-input').val()
                                 },
                                 method: 'POST',
                                 success: function (result) {
@@ -166,26 +124,6 @@
                                     }else{
                                         options.error(result);
                                     }
-                                }
-                            });
-                        },
-                        destroy: function (options) {
-                            $.ajax({
-                                url: "/purchase/planner/deleteMaterialInfo",
-                                data: {
-                                    'id': options.data.id
-                                },
-                                method: 'POST',
-                                success: function (result) {
-                                    if (result.code === 0) {
-                                        options.success(result);
-                                        layer.msg('删除成功！', {time: 1000, icon: 1});
-                                    }else{
-                                        options.error(result);
-                                    }
-                                },
-                                error: function (result) {
-                                    options.error(result);
                                 }
                             });
                         }
@@ -251,7 +189,7 @@
             getApplyType: function(){
                 //从后台加载申请类别参数
                 $.ajax({
-                    url: "/sysdict/getDictChildrenBycode",
+                    url: "/sysdict/getDictBycode",
                     data:{
                         code:"MaterialApplyType"
                     },
@@ -265,112 +203,8 @@
                     }
                 });
             },
-            applyTypeSer:function(){
-                layer.close(vm.layItem);
-                this.layItem = layer.open({
-                    title: '添加物资信息',
-                    type: 2,
-                    area: ['600px', '500px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    content: '/purchase/apply_type.html',
-                    shadeClose: true,
-                    end: function () {
-                        vm.getApplyType();
-                    }
-                });
-            },
-            add: function () {
-                layer.close(vm.layItem);
-                pushData = {
-                    id: 0
-                };
-                this.layItem = layer.open({
-                    title: '添加物资信息',
-                    type: 2,
-                    area: ['600px', '500px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    content: '/purchase/material_update.html',
-                    shadeClose: true,
-                    end: function () {
-                        $("#grid").data("kendoGrid").dataSource.read();
-                    }
-                });
-            },
-            edit:function () {
-                layer.close(vm.layItem);
-                this.layItem = layer.open({
-                    title: '编辑物资信息',
-                    type: 2,
-                    area: ['600px', '500px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    content: '/purchase/material_update.html',
-                    shadeClose: true,
-                    end: function () {
-                        $("#grid").data("kendoGrid").dataSource.read();
-                    }
-                });
-            },
             search:function () {
                 $("#grid").data("kendoGrid").dataSource.read();
-            },
-            copyMaterial:function(){
-                layer.close(vm.layItem);
-                //检查是否有选中的物资信息，无选中则无法复制
-                var grid = $("#grid").data('kendoGrid');
-                var row = grid.select();
-                var dataItem = grid.dataItem(row);
-                if(dataItem == null){
-                    layer.alert("请选择需要复制的物资信息");
-                    return;
-                }else{
-                    pushData = {
-                        id: -1,
-                        applytype: dataItem.applytype,
-                        companyname: dataItem.companyname,
-                        mattype: dataItem.mattype,
-                        batch: dataItem.batch,
-                        materialname: dataItem.materialname,
-                        materialdes: dataItem.materialdes,
-                        amount: dataItem.amount,
-                        unit: dataItem.unit,
-                        empnum:dataItem.empnum,
-                        applydept: dataItem.applydept,
-                        applyperson: dataItem.applyperson,
-                        dispatchdate: dataItem.dispatchdate,
-                        requireddate: dataItem.requireddate,
-                        overseasdate: dataItem.overseasdate
-                    };
-                    this.layItem = layer.open({
-                        title: '添加物资信息',
-                        type: 2,
-                        area: ['600px', '500px'],
-                        fixed: false, //不固定
-                        maxmin: true,
-                        content: '/purchase/material_update.html',
-                        shadeClose: true,
-                        end: function () {
-                            $("#grid").data("kendoGrid").dataSource.read();
-                        }
-                    });
-                }
-            },
-            //使用Excel批量导入物资信息
-            importExcel: function(){
-                this.layItem = layer.open({
-                    title: '导入Excel文件',
-                    type: 2,
-                    area: ['600px', '500px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    content: '/purchase/material_import.html',
-                    shadeClose: true,
-                    end: function () {
-                        $("#grid").data("kendoGrid").dataSource.read();
-                    }
-                });
             }
         }
     })

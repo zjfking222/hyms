@@ -19,4 +19,6 @@ public interface SysUsersMapper extends BaseMapper<Integer,SysUsers> {
     SysUsers selectByEmpnum(@Param("employeenumber")String employeenumber);
     //根据账号或姓名精确查询用户
     List<SysUsers> selectUsersAccurate(@Param("value") String value);
+    //查询所有系统用户
+    List<String> selectEmpnum();
 }

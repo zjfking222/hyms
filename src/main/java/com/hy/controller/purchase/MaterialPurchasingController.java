@@ -5,7 +5,6 @@ import com.hy.dto.MaterialInfoDto;
 import com.hy.dto.PurchaseSalesmanDto;
 import com.hy.dto.PurchaseTracerDto;
 import com.hy.enums.ResultCode;
-import com.hy.model.MaterialInfo;
 import com.hy.service.purchase.MaterialPurchasingService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +73,18 @@ public class MaterialPurchasingController {
         return materialPurchasingService.delTracer(id) ?
                 ResultObj.success() :
                 ResultObj.error(ResultCode.ERROR_DELETE_FAILED);
+    }
+
+    @PostMapping("/material/getMaterialById")
+    //根据id查询物资信息
+    public ResultObj getMaterialById(int id){
+        return ResultObj.success(materialPurchasingService.getMaterialInfoById(id));
+    }
+
+    @PostMapping("/material/getEmpnumAll")
+    //查询所有业务员
+    public ResultObj getgetEmpnumAll(){
+        return ResultObj.success(materialPurchasingService.getEmpnumAll());
     }
 
     /**

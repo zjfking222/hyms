@@ -231,7 +231,7 @@
         packingdate = #{packingdate,jdbcType=VARCHAR},
         invoicedate = #{invoicedate,jdbcType=VARCHAR},
         remark = #{remark,jdbcType=VARCHAR},
-        modifier = #{modifier,jdbcType=VARCHAR},
+        modifier = #{modifier,jdbcType=VARCHAR}
       where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectMaterialInfoPage" resultType="com.hy.model.MaterialInfo">
@@ -242,9 +242,17 @@
       AND filters = filters
     </if>
     <if test="value != null and '' != value">
-      AND companyname LIKE concat('%',#{value},'%')
-      or materialname like concat('%',#{value},'%')
-      or batch like concat('%',#{value},'%')
+      AND (applytype LIKE concat('%',#{value},'%')
+      or mattype LIKE concat('%',#{value},'%')
+      or empname LIKE concat('%',#{value},'%')
+      or companyname LIKE concat('%',#{value},'%')
+      or materialname LIKE concat('%',#{value},'%')
+      or batch LIKE concat('%',#{value},'%')
+      or applydept LIKE concat('%',#{value},'%')
+      or applyperson LIKE concat('%',#{value},'%')
+      or state LIKE concat('%',#{value},'%')
+      or ordernum LIKE concat('%',#{value},'%')
+      or supplier LIKE concat('%',#{value},'%'))
     </if>
     <choose>
       <when test='state == "2"'>
@@ -265,9 +273,17 @@
       AND filters = filters
     </if>
     <if test="value != null and '' != value">
-      AND companyname LIKE concat('%',#{value},'%')
-      or materialname like concat('%',#{value},'%')
-      or batch like concat('%',#{value},'%')
+      AND (applytype LIKE concat('%',#{value},'%')
+      or mattype LIKE concat('%',#{value},'%')
+      or empname LIKE concat('%',#{value},'%')
+      or companyname LIKE concat('%',#{value},'%')
+      or materialname LIKE concat('%',#{value},'%')
+      or batch LIKE concat('%',#{value},'%')
+      or applydept LIKE concat('%',#{value},'%')
+      or applyperson LIKE concat('%',#{value},'%')
+      or state LIKE concat('%',#{value},'%')
+      or ordernum LIKE concat('%',#{value},'%')
+      or supplier LIKE concat('%',#{value},'%'))
     </if>
     <choose>
       <when test='state == "2"'>
@@ -299,5 +315,9 @@
         #{item.creater,jdbcType=VARCHAR},#{item.modifier,jdbcType=VARCHAR})
       </foreach >
   </insert>
+  <select id="selectEmpnumAll" resultType="java.lang.String">
+    select distinct empnum
+    from material_info
+  </select>
 </mapper>
 
