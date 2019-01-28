@@ -216,4 +216,10 @@ public class SysUsersServiceImpl implements SysUsersService {
         List<SysUsers> sysUsers = sysUsersMapper.selectUsersAccurate(value);
         return DTOUtil.populateList(sysUsers,SysUsersDto.class);
     }
+
+    @Override
+    //查询所有系统用户
+    public List<String> getEmpnum(){
+        return sysUsersMapper.selectEmpnum();
+    }
 }

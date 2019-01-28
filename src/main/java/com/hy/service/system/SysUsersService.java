@@ -67,4 +67,7 @@ public interface SysUsersService {
      * @Date 2019/1/21 10:09
      **/
     List<SysUsersDto> getUsersAccurate(String value);
+
+    //查询所有系统用户
+    List<String> getEmpnum();
 }

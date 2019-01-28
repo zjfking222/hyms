@@ -14,6 +14,10 @@ $(function () {
         return FetchData(data, 'POST', '/system/users/get', false).data;
     }
 
+    function empnumData() {
+        return FetchData(null, 'POST', '/system/users/getEmpnum', false).data;
+    }
+
     var vm = new Vue({
         el: '#users',
         data: {
@@ -26,6 +30,13 @@ $(function () {
                 vm.search = dataSearch(search);
             },
             onAdd: function (id, loginid, lastname) {
+                var empnum = empnumData();
+                for(var i = 0; i < empnum.length; i++){
+                    if(empnum[i] === loginid){
+                        parent.layer.msg('该用户已存在！');
+                        return;
+                    }
+                }
                 var isExist = false;
                 var add_item = {
                     'id': id,
