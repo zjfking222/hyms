@@ -114,13 +114,13 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
      * @Author 钱敏杰
      * @Description 分页查询物资信息
      * @Date 2019/1/22 16:55
-     * @Param [pageNum, pageSize, filters, sort, dir, value,state]
+     * @Param [pageNum, pageSize, filters, sort, dir, value,state,empnum]
      * @return java.util.List<com.hy.dto.MaterialInfoDto>
      **/
     @Override
-    public List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state){
+    public List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state, String empnum){
         PageHelper.startPage(pageNum, pageSize);
-        List<MaterialInfo> list = materialInfoMapper.selectMaterialInfoPage(filters, sort, dir, value, state);
+        List<MaterialInfo> list = materialInfoMapper.selectMaterialInfoPage(filters, sort, dir, value, state, empnum);
         return DTOUtil.populateList(list, MaterialInfoDto.class);
     }
 
@@ -128,12 +128,12 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
      * @Author 钱敏杰
      * @Description 根据条件统计当前数据量
      * @Date 2019/1/22 17:02
-     * @Param [filters, value]
+     * @Param [filters, value,empnum]
      * @return int
      **/
     @Override
-    public int countMaterialInfo(String filters, String value, String state){
-        int num = materialInfoMapper.selectMaterialInfoTotal(filters, value, state);
+    public int countMaterialInfo(String filters, String value, String state, String empnum){
+        int num = materialInfoMapper.selectMaterialInfoTotal(filters, value, state, empnum);
         return num;
     }
 

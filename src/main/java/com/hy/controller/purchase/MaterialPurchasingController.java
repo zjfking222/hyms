@@ -1,6 +1,7 @@
 package com.hy.controller.purchase;
 
 import com.hy.common.ResultObj;
+import com.hy.common.SecurityUtil;
 import com.hy.dto.MaterialInfoDto;
 import com.hy.dto.PurchaseSalesmanDto;
 import com.hy.dto.PurchaseTracerDto;
@@ -96,8 +97,8 @@ public class MaterialPurchasingController {
      **/
     @PostMapping("/planner/getMaterialInfoPage")
     public ResultObj getMaterialInfoPage(Integer page, Integer pageSize, String filters, String sort, String dir, String value, String state) {
-        List<MaterialInfoDto> list = materialPurchasingService.getMaterialInfoPage(page, pageSize, filters, sort, dir, value, state);
-        int total = materialPurchasingService.countMaterialInfo(filters, value, state);
+        List<MaterialInfoDto> list = materialPurchasingService.getMaterialInfoPage(page, pageSize, filters, sort, dir, value, state, null);
+        int total = materialPurchasingService.countMaterialInfo(filters, value, state, null);
         Map<String, Object> map = new HashMap<>();
         map.put("data", list);
         map.put("total", total);
@@ -145,6 +146,24 @@ public class MaterialPurchasingController {
     public ResultObj getInfoByTracer(Integer page, Integer pageSize,String filters, String sort, String dir, String value, String state) {
         List<MaterialInfoDto> list = materialPurchasingService.getInfoByTracer(page, pageSize, filters, sort, dir, value, state);
         int total = materialPurchasingService.getInfoByTracerTotal(filters, value, state);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", list);
+        map.put("total", total);
+        return ResultObj.success(map);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询当前业务员的分页物资信息
+     * @Date 2019/1/29 14:35
+     * @Param [page, pageSize, filters, sort, dir, value, state]
+     * @return com.hy.common.ResultObj
+     **/
+    @PostMapping("/salesman/getSalesmanInfoPage")
+    public ResultObj getSalesmanInfoPage(Integer page, Integer pageSize, String filters, String sort, String dir, String value, String state) {
+        String empnum = SecurityUtil.getLoginid();
+        List<MaterialInfoDto> list = materialPurchasingService.getMaterialInfoPage(page, pageSize, filters, sort, dir, value, state, empnum);
+        int total = materialPurchasingService.countMaterialInfo(filters, value, state, empnum);
         Map<String, Object> map = new HashMap<>();
         map.put("data", list);
         map.put("total", total);

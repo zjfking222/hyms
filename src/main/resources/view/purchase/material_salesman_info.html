@@ -28,9 +28,6 @@
 <script src="/statics/plugins/kendo/js/kendo.addfilter.js"></script>
 <script>
     var pushData;
-    var employee = [];
-    var applytypes = [];
-    var pushId;
     var vm = new Vue({
         el: "",
         data: {
@@ -40,11 +37,7 @@
         },
         created: function () {
             this.getDataSource();
-            //取全部业务员数据
-            this.getEmployee();
-            //取出申请类别参数
-            this.getApplyType();
-            var kgrid = $("#grid").kendoGrid({
+            $("#grid").kendoGrid({
                 selectable: "row",
                 dataSource: this.dataSource,
                 editable: {
@@ -87,7 +80,7 @@
                                 vm.detail();
                             }
                         }],
-                        title: "操作", width: "200px"
+                        title: "操作", width: "150px"
                     },{field: "", title: ""}
                 ]
             });
@@ -104,7 +97,7 @@
                                 allMap = getFilters(grid);
                             }
                             $.ajax({
-                                url: "/purchase/planner/getMaterialInfoPage",
+                                url: "/purchase/salesman/getSalesmanInfoPage",
                                 data: {
                                     'filters': allMap === undefined ? "" : JSON.stringify(allMap),
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?
@@ -184,11 +177,8 @@
                     area: ['600px', '500px'],
                     fixed: false, //不固定
                     maxmin: true,
-                    content: '/purchase/material_update.html',
-                    shadeClose: true,
-                    end: function () {
-                        $("#grid").data("kendoGrid").dataSource.read();
-                    }
+                    content: '/purchase/salesman_matDetail.html',
+                    shadeClose: true
                 });
                 layer.full(this.layItem);
             },

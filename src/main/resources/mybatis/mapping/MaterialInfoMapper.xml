@@ -9,7 +9,7 @@
     <result column="batch" property="batch" jdbcType="VARCHAR" />
     <result column="materialname" property="materialname" jdbcType="VARCHAR" />
     <result column="materialdes" property="materialdes" jdbcType="VARCHAR" />
-    <result column="amount" property="amount" jdbcType="FLOAT" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="empnum" property="empnum" jdbcType="VARCHAR" />
     <result column="empname" property="empname" jdbcType="VARCHAR" />
@@ -60,7 +60,7 @@
           packingdate,invoicedate,remark,creater,modifier)
         values
         (#{applytype,jdbcType=VARCHAR},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},
-          #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=FLOAT},
+          #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=DOUBLE},
           #{unit,jdbcType=VARCHAR},#{empnum,jdbcType=VARCHAR},#{empname,jdbcType=VARCHAR},#{applydept,jdbcType=VARCHAR},
 		  #{applyperson,jdbcType=VARCHAR},#{dispatchdate,jdbcType=VARCHAR},#{requireddate,jdbcType=VARCHAR},#{overseasdate,jdbcType=VARCHAR},
           #{state,jdbcType=VARCHAR},#{ordernum,jdbcType=VARCHAR},#{supplier,jdbcType=VARCHAR},#{contractdate,jdbcType=VARCHAR},
@@ -117,7 +117,7 @@
       <if test="batch != null and batch != ''" >#{batch,jdbcType=VARCHAR},</if>
       <if test="materialname != null and materialname != ''" >#{materialname,jdbcType=VARCHAR},</if>
       <if test="materialdes != null and materialdes != ''" >#{materialdes,jdbcType=VARCHAR},</if>
-      <if test="amount != null and amount != ''" >#{amount,jdbcType=FLOAT},</if>
+      <if test="amount != null and amount != ''" >#{amount,jdbcType=DOUBLE},</if>
       <if test="unit != null and unit != ''" >#{unit,jdbcType=VARCHAR},</if>
       <if test="empnum != null and empnum != ''" >#{empnum,jdbcType=VARCHAR},</if>
       <if test="empname != null and empname != ''" >#{empname,jdbcType=VARCHAR},</if>
@@ -164,7 +164,7 @@
       <if test="batch != null" >batch = #{batch,jdbcType=VARCHAR},</if>
       <if test="materialname != null" >materialname = #{materialname,jdbcType=VARCHAR},</if>
       <if test="materialdes != null" >materialdes = #{materialdes,jdbcType=VARCHAR},</if>
-      <if test="amount != null" >amount = #{amount,jdbcType=FLOAT},</if>
+      <if test="amount != null" >amount = #{amount,jdbcType=DOUBLE},</if>
       <if test="unit != null" >unit = #{unit,jdbcType=VARCHAR},</if>
       <if test="empnum != null" >empnum = #{empnum,jdbcType=VARCHAR},</if>
       <if test="empname != null" >empname = #{empname,jdbcType=VARCHAR},</if>
@@ -205,7 +205,7 @@
         batch = #{batch,jdbcType=VARCHAR},
         materialname = #{materialname,jdbcType=VARCHAR},
         materialdes = #{materialdes,jdbcType=VARCHAR},
-        amount = #{amount,jdbcType=FLOAT},
+        amount = #{amount,jdbcType=DOUBLE},
         unit = #{unit,jdbcType=VARCHAR},
         empnum = #{empnum,jdbcType=VARCHAR},
         empname = #{empname,jdbcType=VARCHAR},
@@ -238,6 +238,9 @@
     select
     <include refid="Base_Column_List"/>
     from material_info where 1=1
+    <if test='empnum != null and "" != empnum'>
+      and empnum = #{empnum,jdbcType=VARCHAR}
+    </if>
     <if test="filters != null and '' != filters">
       AND filters = filters
     </if>
@@ -250,9 +253,7 @@
       or batch LIKE concat('%',#{value},'%')
       or applydept LIKE concat('%',#{value},'%')
       or applyperson LIKE concat('%',#{value},'%')
-      or state LIKE concat('%',#{value},'%')
-      or ordernum LIKE concat('%',#{value},'%')
-      or supplier LIKE concat('%',#{value},'%'))
+      or state LIKE concat('%',#{value},'%'))
     </if>
     <choose>
       <when test='state == "2"'>
@@ -272,6 +273,9 @@
   <select id="selectMaterialInfoTotal" resultType="java.lang.Integer"  >
     select count(1)
     from material_info where 1=1
+    <if test='empnum != null and "" != empnum'>
+      and empnum = #{empnum,jdbcType=VARCHAR}
+    </if>
     <if test="filters != null and '' != filters">
       AND filters = filters
     </if>
@@ -284,9 +288,7 @@
       or batch LIKE concat('%',#{value},'%')
       or applydept LIKE concat('%',#{value},'%')
       or applyperson LIKE concat('%',#{value},'%')
-      or state LIKE concat('%',#{value},'%')
-      or ordernum LIKE concat('%',#{value},'%')
-      or supplier LIKE concat('%',#{value},'%'))
+      or state LIKE concat('%',#{value},'%'))
     </if>
     <choose>
       <when test='state == "2"'>
@@ -307,7 +309,7 @@
     VALUES
       <foreach collection ="list" item="item" separator =",">
         (#{item.applytype,jdbcType=VARCHAR},#{item.companyname,jdbcType=VARCHAR},#{item.mattype,jdbcType=VARCHAR},
-        #{item.batch,jdbcType=VARCHAR},#{item.materialname,jdbcType=VARCHAR},#{item.materialdes,jdbcType=VARCHAR},#{item.amount,jdbcType=FLOAT},
+        #{item.batch,jdbcType=VARCHAR},#{item.materialname,jdbcType=VARCHAR},#{item.materialdes,jdbcType=VARCHAR},#{item.amount,jdbcType=DOUBLE},
         #{item.unit,jdbcType=VARCHAR},#{item.empnum,jdbcType=VARCHAR},#{item.empname,jdbcType=VARCHAR},#{item.applydept,jdbcType=VARCHAR},
         #{item.applyperson,jdbcType=VARCHAR},#{item.dispatchdate,jdbcType=VARCHAR},#{item.requireddate,jdbcType=VARCHAR},#{item.overseasdate,jdbcType=VARCHAR},
         #{item.state,jdbcType=VARCHAR},#{item.ordernum,jdbcType=VARCHAR},#{item.supplier,jdbcType=VARCHAR},#{item.contractdate,jdbcType=VARCHAR},
