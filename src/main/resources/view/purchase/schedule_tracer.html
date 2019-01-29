@@ -4,35 +4,50 @@
     <meta charset="UTF-8">
     <title>编辑跟单信息</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">-->
 </head>
 <style>
     label {
         width: 120px;
         display: inline-block;
-        text-align: left;
+        text-align: right;
         vertical-align: middle;
     }
 
     input {
         display: inline-block;
         padding-left: 6px !important;
+        margin-left: 5px;
     }
 
     select {
         display: inline-block;
         padding-left: 6px !important;
+        margin-left: 5px;
     }
 
     textarea {
         line-height: 18px;
         padding-left: 6px !important;
         vertical-align: middle;
+        margin-left: 5px;
+    }
+
+    span{
+        display: inline-block;
+        width: 200px;
+        padding-left: 6px;
+        margin-left: 5px;
     }
 
     .form-group {
         margin-bottom: 10px;
         display: inline-block;
-        margin-left: 35px;
+        /*margin-left: 35px;*/
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 45%;
+
     }
 
     .form-control {
@@ -41,8 +56,9 @@
         height: 30px;
         padding: 0;
     }
+
 </style>
-<body style="width: 80%; margin: 10px auto;">
+<body style="width: 90%; margin: 10px auto;text-align: center;">
 <form id="app">
     <div class="form-group">
         <label for="ordernum">合同号(订单号)</label>
@@ -124,12 +140,17 @@
             <option value="已完成">已完成</option>
         </select>
     </div>
+    <div class="form-group">
+        <label></label>
+        <span></span>
+    </div>
     <a id="submit" href="javascript:;" class="btn btn-success center-block" style="margin-top: 26px;width: 400px;">提&nbsp;&nbsp;&nbsp;交</a>
 </form>
 </body>
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
 <script src="/statics/plugins/layer/layer.js"></script>
+<!--<script src="/statics/plugins/layui/layui.js"></script>-->
 <script>
     var id = parent.pushId;
     var postData;
@@ -175,6 +196,41 @@
                 payprogress: payprogress
             }
         });
+
+        //用layui出现弹框显示不全，未解决
+        // // 初始化日期控件
+        // layui.use('laydate', function(){
+        //     var contractdate = layui.laydate;
+        //     //执行一个laydate实例
+        //     contractdate.render({
+        //         elem: '#contractdate'//指定元素
+        //     });
+        //     var conarrivaldate = layui.laydate;
+        //     conarrivaldate.render({
+        //         elem: '#conarrivaldate',
+        //         position: 'static'
+        //     });
+        //     var matarrivaldate = layui.laydate;
+        //     matarrivaldate.render({
+        //         elem: '#matarrivaldate'
+        //     });
+        //     var acceptdate = layui.laydate;
+        //     acceptdate.render({
+        //         elem: '#acceptdate'
+        //     });
+        //     var storagedate = layui.laydate;
+        //     storagedate.render({
+        //         elem: '#storagedate'
+        //     });
+        //     var packingdate = layui.laydate;
+        //     packingdate.render({
+        //         elem: '#packingdate'
+        //     });
+        //     var invoicedate = layui.laydate;
+        //     invoicedate.render({
+        //         elem: '#invoicedate'
+        //     });
+        // });
 
         $('#ordernum').val(schedule.ordernum);
         $('#supplier').val(schedule.supplier);

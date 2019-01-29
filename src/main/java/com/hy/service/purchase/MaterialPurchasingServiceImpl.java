@@ -396,4 +396,19 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
         }
         return str;
     }
+
+    @Override
+    //跟单员只能查看自己对应业务员的物资信息
+    public List<MaterialInfoDto> getInfoByTracer(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state){
+        PageHelper.startPage(pageNum, pageSize);
+        List<MaterialInfo> list = materialInfoMapper.selectInfoByTracer(SecurityUtil.getLoginid(), filters, sort, dir, value, state);
+        return DTOUtil.populateList(list, MaterialInfoDto.class);
+    }
+
+    @Override
+    //统计跟单员对应业务员的物资信息的数量
+    public int getInfoByTracerTotal(String filters, String value, String state){
+        return materialInfoMapper.selectInfoByTracerTotal(SecurityUtil.getLoginid(), filters, value, state);
+    }
+
 }
