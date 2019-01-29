@@ -297,6 +297,7 @@
                         $("#grid").data("kendoGrid").dataSource.read();
                     }
                 });
+                layer.full(this.layItem);
             },
             edit:function () {
                 layer.close(vm.layItem);
@@ -312,6 +313,7 @@
                         $("#grid").data("kendoGrid").dataSource.read();
                     }
                 });
+                layer.full(this.layItem);
             },
             search:function () {
                 $("#grid").data("kendoGrid").dataSource.read();
@@ -355,6 +357,7 @@
                             $("#grid").data("kendoGrid").dataSource.read();
                         }
                     });
+                    layer.full(this.layItem);
                 }
             },
             //使用Excel批量导入物资信息

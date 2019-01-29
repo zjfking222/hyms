@@ -265,6 +265,9 @@
     <if test="sort != null and '' != sort">
       ORDER BY CONVERT(${sort} USING gbk) ${dir}
     </if>
+    <if test='sort == null or "" == sort'>
+      ORDER BY id desc
+    </if>
   </select>
   <select id="selectMaterialInfoTotal" resultType="java.lang.Integer"  >
     select count(1)
