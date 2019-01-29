@@ -46,4 +46,10 @@ public interface MaterialInfoMapper extends BaseMapper<Integer, MaterialInfo>{
 
     //查询所有业务员
     List<String> selectEmpnumAll();
+
+    //跟单员只能查看自己对应业务员的物资信息
+    List<MaterialInfo> selectInfoByTracer(@Param("tracernum") String tracernum, @Param("filters")String filters, @Param("sort")String sort, @Param("dir")String dir, @Param("value")String value, @Param("state")String state);
+
+    //统计跟单员对应业务员的物资信息的数量
+    int selectInfoByTracerTotal(@Param("tracernum") String tracernum, @Param("filters")String filters, @Param("value")String value, @Param("state")String state);
 }

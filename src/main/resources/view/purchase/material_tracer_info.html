@@ -62,8 +62,8 @@
                     buttonCount: 5
                 },
                 toolbar: [{
-                    template: '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
-                        '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>'
+                    template: '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>' +
+                    '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
                     {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
@@ -111,7 +111,7 @@
                                 allMap = getFilters(grid);
                             }
                             $.ajax({
-                                url: "/purchase/planner/getMaterialInfoPage",
+                                url: "/purchase/planner/getInfoByTracer",
                                 data: {
                                     'filters': allMap === undefined ? "" : JSON.stringify(allMap),
                                     'sort': options.data.sort === undefined || options.data.sort[0] === undefined ?

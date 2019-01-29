@@ -140,4 +140,14 @@ public class MaterialPurchasingController {
         materialPurchasingService.importMaterialExcel(file[0]);
         return ResultObj.success();
     }
+
+    @PostMapping("/planner/getInfoByTracer")
+    public ResultObj getInfoByTracer(Integer page, Integer pageSize,String filters, String sort, String dir, String value, String state) {
+        List<MaterialInfoDto> list = materialPurchasingService.getInfoByTracer(page, pageSize, filters, sort, dir, value, state);
+        int total = materialPurchasingService.getInfoByTracerTotal(filters, value, state);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", list);
+        map.put("total", total);
+        return ResultObj.success(map);
+    }
 }

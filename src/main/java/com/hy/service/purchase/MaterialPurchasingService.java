@@ -95,4 +95,10 @@ public interface MaterialPurchasingService {
      * @return void
      **/
     void importMaterialExcel(MultipartFile file) throws IOException;
+
+    //跟单员只能查看自己对应业务员的物资信息
+    List<MaterialInfoDto> getInfoByTracer(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state);
+
+    //统计跟单员对应业务员的物资信息的数量
+    int getInfoByTracerTotal(String filters, String value, String state);
 }

@@ -322,5 +322,74 @@
     select distinct empnum
     from material_info
   </select>
+  <select id="selectInfoByTracer" resultType="com.hy.model.MaterialInfo">
+    select
+    <include refid="Base_Column_List"/>
+    from material_info
+    where empnum in (select salesmannum
+    from purchase_salesman as a left join purchase_tracer as b on a.id = b.sid
+    where b.tracernum = #{tracernum})
+    <if test="filters != null and '' != filters">
+      AND filters = filters
+    </if>
+    <if test="value != null and '' != value">
+      AND (applytype LIKE concat('%',#{value},'%')
+      or mattype LIKE concat('%',#{value},'%')
+      or empname LIKE concat('%',#{value},'%')
+      or companyname LIKE concat('%',#{value},'%')
+      or materialname LIKE concat('%',#{value},'%')
+      or batch LIKE concat('%',#{value},'%')
+      or applydept LIKE concat('%',#{value},'%')
+      or applyperson LIKE concat('%',#{value},'%')
+      or state LIKE concat('%',#{value},'%')
+      or ordernum LIKE concat('%',#{value},'%')
+      or supplier LIKE concat('%',#{value},'%'))
+    </if>
+    <choose>
+      <when test='state == "2"'>
+        and state = '已完成'
+      </when>
+      <otherwise>
+        and state != '已完成'
+      </otherwise>
+    </choose>
+    <if test="sort != null and '' != sort">
+      ORDER BY CONVERT(${sort} USING gbk) ${dir}
+    </if>
+    <if test="sort == null or '' == sort">
+      order by id desc
+    </if>
+  </select>
+  <select id="selectInfoByTracerTotal" resultType="java.lang.Integer"  >
+    select count(1)
+    from material_info
+    where empnum in (select salesmannum
+    from purchase_salesman as a left join purchase_tracer as b on a.id = b.sid
+    where b.tracernum = #{tracernum})
+    <if test="filters != null and '' != filters">
+      AND filters = filters
+    </if>
+    <if test="value != null and '' != value">
+      AND (applytype LIKE concat('%',#{value},'%')
+      or mattype LIKE concat('%',#{value},'%')
+      or empname LIKE concat('%',#{value},'%')
+      or companyname LIKE concat('%',#{value},'%')
+      or materialname LIKE concat('%',#{value},'%')
+      or batch LIKE concat('%',#{value},'%')
+      or applydept LIKE concat('%',#{value},'%')
+      or applyperson LIKE concat('%',#{value},'%')
+      or state LIKE concat('%',#{value},'%')
+      or ordernum LIKE concat('%',#{value},'%')
+      or supplier LIKE concat('%',#{value},'%'))
+    </if>
+    <choose>
+      <when test='state == "2"'>
+        and state = '已完成'
+      </when>
+      <otherwise>
+        and state != '已完成'
+      </otherwise>
+    </choose>
+  </select>
 </mapper>
 
