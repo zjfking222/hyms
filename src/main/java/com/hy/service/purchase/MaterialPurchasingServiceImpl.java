@@ -403,6 +403,7 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
         PageHelper.startPage(pageNum, pageSize);
         List<MaterialInfo> list = materialInfoMapper.selectInfoByTracer(SecurityUtil.getLoginid(), filters, sort, dir, value, state);
         return DTOUtil.populateList(list, MaterialInfoDto.class);
+
     }
 
     @Override

@@ -73,6 +73,10 @@ public class MaterialInfoDto {
     private String invoicedate;
     //备注
     private String remark;
+    //已到货数量
+    private Double arramount;
+    //未到货数量
+    private Double unarramount;
 
     public Integer getId() {
         return id;
@@ -338,4 +342,19 @@ public class MaterialInfoDto {
         this.remark = remark;
     }
 
+    public Double getArramount() {
+        return arramount;
+    }
+
+    public void setArramount(Double arramount) {
+        this.arramount = arramount;
+    }
+
+    public Double getUnarramount() {
+        return unarramount;
+    }
+
+    public void setUnarramount(Double unarramount) {
+        this.unarramount = unarramount;
+    }
 }

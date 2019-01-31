@@ -76,9 +76,15 @@
                     {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "batch", title: "追溯号(批次)", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "materialname", title: "物资名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "materialdes", title: "文本", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "amount", title: "数量", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "unit", title: "单位", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "empname", title: "业务员", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "dispatchdate", title: "物资分派日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "requireddate", title: "要求到货日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "overseasdate", title: "海外到货日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {
                         command: [{
@@ -200,9 +206,15 @@
                                 mattype: {type: "string", nullable: false},
                                 batch: {type: "string", nullable: false},
                                 materialname: {type: "string", nullable: false},
+                                materialdes:{type: "string", nullable: false},
+                                amount:{type: "number", nullable: false},
+                                unit:{type: "string", nullable: false},
                                 empname: {type: "string", nullable: false},
                                 applydept: {type: "string", nullable: false},
                                 applyperson: {type: "string", nullable: false},
+                                dispatchdate:{type: "string", nullable: false},
+                                requireddate:{type: "string", nullable: false},
+                                overseasdate:{type: "string", nullable: false},
                                 state: {type: "string", nullable: false}
                             }
                         }

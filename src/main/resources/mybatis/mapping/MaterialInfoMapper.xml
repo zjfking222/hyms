@@ -39,13 +39,15 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="arramount" property="arramount" jdbcType="DOUBLE" />
+    <result column="unarramount" property="unarramount" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     id,applytype,companyname,mattype,batch,materialname,materialdes,amount,
     unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
     state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
     payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
-    packingdate,invoicedate,remark,creater,created,modifier,modified
+    packingdate,invoicedate,remark,creater,created,modifier,modified,arramount,unarramount
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
         delete from material_info
@@ -57,7 +59,7 @@
           unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
           state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
           payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
-          packingdate,invoicedate,remark,creater,modifier)
+          packingdate,invoicedate,remark,creater,modifier,arramount,unarramount)
         values
         (#{applytype,jdbcType=VARCHAR},#{companyname,jdbcType=VARCHAR},#{mattype,jdbcType=INTEGER},
           #{batch,jdbcType=VARCHAR},#{materialname,jdbcType=VARCHAR},#{materialdes,jdbcType=VARCHAR},#{amount,jdbcType=DOUBLE},
@@ -68,7 +70,7 @@
           #{payment,jdbcType=VARCHAR},#{payprogress,jdbcType=VARCHAR},#{matarrivaldate,jdbcType=VARCHAR},
 		  #{unaccreason,jdbcType=VARCHAR},#{acceptdate,jdbcType=VARCHAR},#{nonstoreason,jdbcType=VARCHAR},#{storagedate,jdbcType=VARCHAR},
           #{packingdate,jdbcType=VARCHAR},#{invoicedate,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},
-		  #{creater,jdbcType=VARCHAR},#{modifier,jdbcType=VARCHAR})
+		  #{creater,jdbcType=VARCHAR},#{modifier,jdbcType=VARCHAR},#{arramount,jdbcType=DOUBLE},#{unarramount,jdbcType=DOUBLE})
     </insert>
   <insert id="insertSelective" parameterType="com.hy.model.MaterialInfo" >
     insert into material_info
@@ -109,6 +111,8 @@
       <if test="created != null and created != ''" >created,</if>
       <if test="modifier != null and modifier != ''" >modifier,</if>
       <if test="modified != null and modified != ''" >modified,</if>
+      <if test="arramount != null and arramount != ''" >arramount,</if>
+      <if test="unarramount != null and unarramount != ''" >unarramount,</if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="applytype != null and applytype != ''" >#{applytype,jdbcType=VARCHAR},</if>
@@ -147,6 +151,8 @@
       <if test="created != null and created != ''" >#{created,jdbcType=TIMESTAMP},</if>
       <if test="modifier != null and modifier != ''" >#{modifier,jdbcType=VARCHAR},</if>
       <if test="modified != null and modified != ''" >#{modified,jdbcType=TIMESTAMP},</if>
+      <if test="arramount != null and arramount != ''" >#{arramount,jdbcType=DOUBLE},</if>
+      <if test="unarramount != null and unarramount != ''" >#{unarramount,jdbcType=DOUBLE},</if>
     </trim>
   </insert>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -194,6 +200,8 @@
       <if test="created != null" >created = #{created,jdbcType=TIMESTAMP},</if>
       <if test="modifier != null" >modifier = #{modifier,jdbcType=VARCHAR},</if>
       <if test="modified != null" >modified = #{modified,jdbcType=TIMESTAMP},</if>
+      <if test="arramount != null" >arramount = #{arramount,jdbcType=DOUBLE},</if>
+      <if test="unarramount != null" >unarramount = #{unarramount,jdbcType=DOUBLE},</if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -231,7 +239,9 @@
         packingdate = #{packingdate,jdbcType=VARCHAR},
         invoicedate = #{invoicedate,jdbcType=VARCHAR},
         remark = #{remark,jdbcType=VARCHAR},
-        modifier = #{modifier,jdbcType=VARCHAR}
+        modifier = #{modifier,jdbcType=VARCHAR},
+        arramount = #{arramount,jdbcType=DOUBLE},
+        unarramount = #{unarramount,jdbcType=DOUBLE}
       where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectMaterialInfoPage" resultType="com.hy.model.MaterialInfo">
@@ -305,7 +315,7 @@
       unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
       state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
       payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
-      packingdate,invoicedate,remark,creater,modifier)
+      packingdate,invoicedate,remark,creater,modifier,arramount,unarramount)
     VALUES
       <foreach collection ="list" item="item" separator =",">
         (#{item.applytype,jdbcType=VARCHAR},#{item.companyname,jdbcType=VARCHAR},#{item.mattype,jdbcType=VARCHAR},
@@ -317,7 +327,7 @@
         #{item.payment,jdbcType=VARCHAR},#{item.payprogress,jdbcType=VARCHAR},#{item.matarrivaldate,jdbcType=VARCHAR},
         #{item.unaccreason,jdbcType=VARCHAR},#{item.acceptdate,jdbcType=VARCHAR},#{item.nonstoreason,jdbcType=VARCHAR},#{item.storagedate,jdbcType=VARCHAR},
         #{item.packingdate,jdbcType=VARCHAR},#{item.invoicedate,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},
-        #{item.creater,jdbcType=VARCHAR},#{item.modifier,jdbcType=VARCHAR})
+        #{item.creater,jdbcType=VARCHAR},#{item.modifier,jdbcType=VARCHAR},#{arramount,jdbcType=DOUBLE},#{unarramount,jdbcType=DOUBLE})
       </foreach >
   </insert>
   <select id="selectEmpnumAll" resultType="java.lang.String">

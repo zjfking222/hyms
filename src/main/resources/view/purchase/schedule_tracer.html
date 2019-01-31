@@ -98,6 +98,14 @@
         <input type="text" class="form-control" :id="p.id" :value="p.payprogress">
     </div>
     <div class="form-group">
+        <label for="arramount">已到货数量</label>
+        <input id="arramount" type="text" onchange="calcAmount()" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="unarramount">未到货数量</label>
+        <input id="unarramount" type="text" class="form-control" disabled>
+    </div>
+    <div class="form-group">
         <label for="matarrivaldate">物资到货日期</label>
         <input id="matarrivaldate" type="date" class="form-control">
     </div>
@@ -152,7 +160,6 @@
 <script src="/statics/plugins/layer/layer.js"></script>
 <!--<script src="/statics/plugins/layui/layui.js"></script>-->
 <script>
-    var id = parent.pushId;
     var postData;
     var index = parent.layer.getFrameIndex(window.name);
     $(function () {
@@ -171,12 +178,7 @@
                 return del;
             }
         }
-
-        function getSchedule(id) {
-            return FetchData({id: id}, 'POST', '/purchase/material/getMaterialById', false).data;
-        }
-
-        var schedule = getSchedule(id);
+        var schedule = parent.pushData;
         var progress = getHistory(schedule.payprogress);
         var payprogress = [];
         var add_item;
@@ -250,6 +252,8 @@
         $('#invoicedate').val(schedule.invoicedate);
         $('#remark').val(schedule.remark);
         $('#state').val(schedule.state);
+        $("#arramount").val(schedule.arramount);
+        $("#unarramount").val(schedule.unarramount);
 
         $('#submit').on('click', function () {
             var value = $('#payprogress').val();
@@ -283,7 +287,7 @@
                 newPayprogress = result;
             }
             postData = {
-                id: id,
+                id: schedule.id,
                 ordernum: $('#ordernum').val(),
                 supplier: $('#supplier').val(),
                 contractdate: $('#contractdate').val(),
@@ -300,7 +304,9 @@
                 packingdate: $('#packingdate').val(),
                 invoicedate: $('#invoicedate').val(),
                 remark: $('#remark').val(),
-                state: $('#state').val()
+                state: $('#state').val(),
+                arramount:$("#arramount").val(),
+                unarramount:$("#unarramount").val()
             };
             var postBack = FetchData(postData, 'POST', '/purchase/planner/updateMaterialInfo', false);
             if (postBack.code === 0) {
@@ -327,5 +333,14 @@
         });
         return response.responseJSON;
     };
+    //根据已到货数量计算未到货数量
+    function calcAmount(){
+        var arramount = $("#arramount").val();
+        if(arramount && parent.pushData.amount){
+            var unarramount = parent.pushData.amount - arramount;
+            unarramount = unarramount>0 ? unarramount:0;
+            $("#unarramount").val(unarramount);
+        }
+    }
 </script>
 </html>
