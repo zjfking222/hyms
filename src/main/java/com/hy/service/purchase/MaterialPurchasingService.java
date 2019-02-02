@@ -6,6 +6,7 @@ import com.hy.model.MaterialInfo;
 import com.hy.dto.PurchaseTracerDto;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -37,19 +38,28 @@ public interface MaterialPurchasingService {
      * @Author 钱敏杰
      * @Description 分页查询物资信息
      * @Date 2019/1/22 16:55
-     * @Param [pageNum, pageSize, filters, sort, dir, value, state]
+     * @Param [pageNum, pageSize, filters, sort, dir, value, state, empnum]
      * @return java.util.List<com.hy.dto.MaterialInfoDto>
      **/
-    List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state);
+    List<MaterialInfoDto> getMaterialInfoPage(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state, String empnum);
 
     /**
      * @Author 钱敏杰
      * @Description 根据条件统计当前数据量
      * @Date 2019/1/22 17:02
-     * @Param [filters, value]
+     * @Param [filters, value, empnum]
      * @return int
      **/
-    int countMaterialInfo(String filters, String value, String state);
+    int countMaterialInfo(String filters, String value, String state, String empnum);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询全部物资信息数据
+     * @Date 2019/2/1 15:59
+     * @Param [filters, sort, dir, value, state, empnum]
+     * @return java.util.List<com.hy.dto.MaterialInfoDto>
+     **/
+    List<MaterialInfoDto> getMaterialInfoPage(String filters, String sort, String dir, String value, String state, String empnum);
 
     /**
      * @Author 钱敏杰
@@ -101,4 +111,22 @@ public interface MaterialPurchasingService {
 
     //统计跟单员对应业务员的物资信息的数量
     int getInfoByTracerTotal(String filters, String value, String state);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询当前跟单员的全部物资信息
+     * @Date 2019/2/2 11:09
+     * @Param [filters, sort, dir, value, state]
+     * @return java.util.List<com.hy.dto.MaterialInfoDto>
+     **/
+    List<MaterialInfoDto> getInfoByTracer(String filters, String sort, String dir, String value, String state);
+
+    /**
+     * @Author 钱敏杰
+     * @Description 导出物资信息Excel文件
+     * @Date 2019/2/1 14:50
+     * @Param [os, list]
+     * @return void
+     **/
+    void exportMaterialInfo(OutputStream os, List<MaterialInfoDto> list);
 }

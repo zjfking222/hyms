@@ -29,7 +29,7 @@
 <script>
     var employee = [];
     var applytypes = [];
-    var pushId;
+    var pushData;
     var vm = new Vue({
         el: "",
         data: {
@@ -62,7 +62,8 @@
                     buttonCount: 5
                 },
                 toolbar: [{
-                    template: '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>' +
+                    template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.exportExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>' +
+                        '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>' +
                     '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
@@ -71,9 +72,15 @@
                     {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "batch", title: "追溯号(批次)", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
                     {field: "materialname", title: "物资名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "materialdes", title: "文本", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "amount", title: "数量", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "unit", title: "单位", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
                     {field: "empname", title: "业务员", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "dispatchdate", title: "物资分派日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "requireddate", title: "要求到货日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "overseasdate", title: "海外到货日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "ordernum", title: "合同号(订单号)", headerAttributes: {"class": "grid-algin-center"}, width: '140px'},
                     {field: "supplier", title: "供应商名称", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
@@ -84,7 +91,7 @@
                 // 双击
                 var row = kgrid.data("kendoGrid").select();
                 var data = kgrid.data("kendoGrid").dataItem(row);
-                pushId = data.id;
+                pushData = data;
                 this.layItem = layer.open({
                     title: '编辑跟单信息',
                     type: 2,
@@ -97,6 +104,7 @@
                         $("#grid").data("kendoGrid").dataSource.read()
                     }
                 });
+                layer.full(this.layItem);
             });
         },
         methods: {
@@ -151,10 +159,18 @@
                                 mattype: {type: "string", nullable: false},
                                 batch: {type: "string", nullable: false},
                                 materialname: {type: "string", nullable: false},
+                                materialdes:{type: "string", nullable: false},
+                                amount:{type: "number", nullable: false},
+                                unit:{type: "string", nullable: false},
                                 empname: {type: "string", nullable: false},
                                 applydept: {type: "string", nullable: false},
                                 applyperson: {type: "string", nullable: false},
-                                state: {type: "string", nullable: false}
+                                dispatchdate:{type: "string", nullable: false},
+                                requireddate:{type: "string", nullable: false},
+                                overseasdate:{type: "string", nullable: false},
+                                state: {type: "string", nullable: false},
+                                ordernum:{type: "string", nullable: false},
+                                supplier:{type: "string", nullable: false}
                             }
                         }
                     },
@@ -216,6 +232,41 @@
             },
             search:function () {
                 $("#grid").data("kendoGrid").dataSource.read();
+            },
+            //导出Excel
+            exportExcel: function() {
+                //取kendoGrid的当前过滤条件
+                var allMap;
+                var grid = $("#grid").data("kendoGrid");
+                if(grid){
+                    allMap = getFilters(grid);
+                }
+                var sort = grid.dataSource.sort();
+                //整理完整的当前查询条件
+                pushData = {
+                    'filters': allMap === undefined ? "" : JSON.stringify(allMap),
+                    'sort': sort === undefined || sort[0] === undefined ?
+                        "" : sort[0].field,
+                    'dir': sort === undefined || sort[0] === undefined ?
+                        "" : sort[0].dir,
+                    'value': $('#search-input').val(),
+                    'state':$("#stateselect").val()
+                };
+                //使用form提交导出,使用原生方式，jquery引号不够用。。
+                var form = document.createElement("form");
+                form.style.display = 'none';
+                form.action = "/purchase/tracer/exportTracerInfo";
+                form.method = "post";
+                document.body.appendChild(form);
+                $.each(pushData, function(k, v) {
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = k;
+                    input.value = v;
+                    form.appendChild(input);
+                });
+                form.submit();
+                form.remove();
             }
         }
     })

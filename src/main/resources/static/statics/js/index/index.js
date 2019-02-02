@@ -114,7 +114,7 @@ var vm = new Vue({
                     "</div>"].join(""));
                 this.tabsPage.index = tabs.length;
                 layui.element.tabAdd("layadmin-layout-tabs", {
-                    title: "<span>" + name + "</span>",
+                    title: "<a href='javascript:;' onclick='vm.refresh()' style='display: inline-block' title='刷新'><i class='layui-icon layui-icon-refresh-3'></i></a><span>" + name + "</span>",
                     id: id,
                     attr: y
                 });

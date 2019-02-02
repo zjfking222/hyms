@@ -18,19 +18,19 @@ public interface MaterialInfoMapper extends BaseMapper<Integer, MaterialInfo>{
      * @Author 钱敏杰
      * @Description 分页查询物资信息数据
      * @Date 2019/1/22 16:50
-     * @Param [filters, sort, dir, value]
+     * @Param [filters, sort, dir, value, empnum]
      * @return java.util.List<com.hy.model.MaterialInfo>
      **/
-    List<MaterialInfo> selectMaterialInfoPage(@Param("filters")String filters, @Param("sort")String sort, @Param("dir")String dir, @Param("value")String value, @Param("state")String state);
+    List<MaterialInfo> selectMaterialInfoPage(@Param("filters")String filters, @Param("sort")String sort, @Param("dir")String dir, @Param("value")String value, @Param("state")String state, @Param("empnum")String empnum);
 
     /**
      * @Author 钱敏杰
      * @Description 统计数据量
      * @Date 2019/1/22 17:01
-     * @Param [filters, value]
+     * @Param [filters, value, empnum]
      * @return int
      **/
-    int selectMaterialInfoTotal(@Param("filters")String filters, @Param("value")String value, @Param("state")String state);
+    int selectMaterialInfoTotal(@Param("filters")String filters, @Param("value")String value, @Param("state")String state, @Param("empnum")String empnum);
 
     /**
      * @Author 钱敏杰

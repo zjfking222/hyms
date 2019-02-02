@@ -5,70 +5,93 @@
     <title>添加或更新物资信息</title>
     <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+    <style>
+        div.mat-update-div{
+            display: inline-block;
+            width: 48%;
+            padding-left: 20px;
+        }
+    </style>
 </head>
 <body style="width: 80%; margin: 10px auto">
 <form>
     <div class="form-group">
-        <label for="applytype">申请类别</label>
-        <select name="applytype" id="applytype" class="form-control input-sm-8" placeholder="选择申请类别">
-            <option value="" selected></option>
-        </select>
+        <div class="mat-update-div">
+            <label for="applytype">申请类别</label>
+            <select name="applytype" id="applytype" class="form-control" placeholder="选择申请类别">
+                <option value="" selected></option>
+            </select>
+        </div>
+        <div class="mat-update-div">
+            <label for="companyname">公司名称</label>
+            <input class="form-control" id="companyname" placeholder="输入公司名称">
+        </div>
     </div>
     <div class="form-group">
-        <label for="companyname">公司名称</label>
-        <input class="form-control input-sm-8" id="companyname" placeholder="输入公司名称">
+        <div class="mat-update-div">
+            <label for="mattype">物资类别</label>
+            <input class="form-control" id="mattype" placeholder="输入物资类别">
+        </div>
+        <div class="mat-update-div">
+            <label for="batch">追溯号(批次)</label>
+            <input class="form-control" id="batch" placeholder="输入追溯号">
+        </div>
     </div>
     <div class="form-group">
-        <label for="mattype">物资类别</label>
-        <input class="form-control input-sm-8" id="mattype" placeholder="输入物资类别">
+        <div class="mat-update-div">
+            <label for="materialname">物资名称</label>
+            <input class="form-control" id="materialname" placeholder="输入物资名称">
+        </div>
+        <div class="mat-update-div">
+            <label for="amount">数量</label>
+            <input class="form-control" id="amount" type="number" step="0.001" placeholder="输入数量">
+        </div>
     </div>
     <div class="form-group">
-        <label for="batch">追溯号(批次)</label>
-        <input class="form-control input-sm-8" id="batch" placeholder="输入追溯号">
+        <div class="mat-update-div">
+            <label for="unit">单位</label>
+            <input class="form-control" id="unit" placeholder="输入单位">
+        </div>
+        <div class="mat-update-div">
+            <label for="empnum">业务员</label>
+            <select name="empnum" id="empnum" class="form-control" placeholder="选择业务员">
+                <option value="" selected></option>
+            </select>
+        </div>
     </div>
     <div class="form-group">
-        <label for="materialname">物资名称</label>
-        <input class="form-control input-sm-8" id="materialname" placeholder="输入物资名称">
+        <div class="mat-update-div">
+            <label for="applydept">申请部门</label>
+            <input class="form-control" id="applydept" placeholder="输入申请部门">
+        </div>
+        <div class="mat-update-div">
+            <label for="applyperson">申请联系人</label>
+            <input class="form-control" id="applyperson" placeholder="输入申请联系人">
+        </div>
     </div>
     <div class="form-group">
-        <label for="amount">数量</label>
-        <input class="form-control input-sm-8" id="amount" type="number" step="0.001" placeholder="输入数量">
+        <div class="mat-update-div">
+            <label for="dispatchdate">物资分派日期</label>
+            <input class="form-control" id="dispatchdate" placeholder="选择物资分派日期">
+        </div>
+        <div class="mat-update-div">
+            <label for="requireddate">要求到货日期</label>
+            <input class="form-control" id="requireddate" placeholder="选择要求到货日期">
+        </div>
     </div>
     <div class="form-group">
-        <label for="unit">单位</label>
-        <input class="form-control input-sm-8" id="unit" placeholder="输入单位">
+        <div class="mat-update-div">
+            <label for="overseasdate">海外到货日期</label>
+            <input class="form-control" id="overseasdate" placeholder="选择海外到货日期">
+        </div>
     </div>
     <div class="form-group">
-        <label for="empnum">业务员</label>
-        <select name="empnum" id="empnum" class="form-control input-sm-8" placeholder="选择业务员">
-            <option value="" selected></option>
-        </select>
+        <div class="mat-update-div">
+            <label for="materialdes">文本</label>
+            <textarea class="form-control" id="materialdes" placeholder="输入描述信息"></textarea>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="applydept">申请部门</label>
-        <input class="form-control input-sm-8" id="applydept" placeholder="输入申请部门">
-    </div>
-    <div class="form-group">
-        <label for="applyperson">申请联系人</label>
-        <input class="form-control input-sm-8" id="applyperson" placeholder="输入申请联系人">
-    </div>
-    <div class="form-group">
-        <label for="dispatchdate">物资分派日期</label>
-        <input class="form-control input-sm-8" id="dispatchdate" placeholder="选择物资分派日期">
-    </div>
-    <div class="form-group">
-        <label for="requireddate">要求到货日期</label>
-        <input class="form-control input-sm-8" id="requireddate" placeholder="选择要求到货日期">
-    </div>
-    <div class="form-group">
-        <label for="overseasdate">海外到货日期</label>
-        <input class="form-control input-sm-8" id="overseasdate" placeholder="选择海外到货日期">
-    </div>
-    <div class="form-group">
-        <label for="materialdes">备注</label>
-        <textarea class="form-control input-sm-8" id="materialdes" placeholder="输入描述信息"></textarea>
-    </div>
-    <a id="submit" href="javascript:" class="btn btn-success btn-sm-12 center-block" style="margin-top: 36px">提&nbsp;&nbsp;&nbsp;交</a>
+    <a id="submit" href="javascript:" class="btn btn-success center-block" style="margin-top: 36px;margin-left: 20px;margin-right: calc(4% - 10px);">提&nbsp;&nbsp;&nbsp;交</a>
 </form>
 </body>
 <script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>

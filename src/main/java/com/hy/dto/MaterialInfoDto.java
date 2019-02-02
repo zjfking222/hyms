@@ -73,6 +73,22 @@ public class MaterialInfoDto {
     private String invoicedate;
     //备注
     private String remark;
+    //已到货数量
+    private Double arramount;
+    //未到货数量
+    private Double unarramount;
+    //付款进度1
+    private String progress1;
+    //付款进度2
+    private String progress2;
+    //付款进度3
+    private String progress3;
+    //付款进度4
+    private String progress4;
+    //付款进度5
+    private String progress5;
+    //是否完成
+    private String complete;
 
     public Integer getId() {
         return id;
@@ -338,4 +354,67 @@ public class MaterialInfoDto {
         this.remark = remark;
     }
 
+    public Double getArramount() {
+        return arramount;
+    }
+
+    public void setArramount(Double arramount) {
+        this.arramount = arramount;
+    }
+
+    public Double getUnarramount() {
+        return unarramount;
+    }
+
+    public void setUnarramount(Double unarramount) {
+        this.unarramount = unarramount;
+    }
+
+    public String getProgress1() {
+        return progress1;
+    }
+
+    public void setProgress1(String progress1) {
+        this.progress1 = progress1;
+    }
+
+    public String getProgress2() {
+        return progress2;
+    }
+
+    public void setProgress2(String progress2) {
+        this.progress2 = progress2;
+    }
+
+    public String getProgress3() {
+        return progress3;
+    }
+
+    public void setProgress3(String progress3) {
+        this.progress3 = progress3;
+    }
+
+    public String getProgress4() {
+        return progress4;
+    }
+
+    public void setProgress4(String progress4) {
+        this.progress4 = progress4;
+    }
+
+    public String getProgress5() {
+        return progress5;
+    }
+
+    public void setProgress5(String progress5) {
+        this.progress5 = progress5;
+    }
+
+    public String getComplete() {
+        return complete;
+    }
+
+    public void setComplete(String complete) {
+        this.complete = complete;
+    }
 }
