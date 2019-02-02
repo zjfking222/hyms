@@ -2,6 +2,7 @@ package com.hy.service.purchase;
 
 import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
+import com.hy.dto.ExcelHeadDto;
 import com.hy.dto.MaterialInfoDto;
 import com.hy.dto.PurchaseSalesmanDto;
 import com.hy.mapper.ms.MaterialInfoMapper;
@@ -12,14 +13,18 @@ import com.hy.mapper.ms.PurchaseTracerMapper;
 import com.hy.model.PurchaseSalesman;
 import com.hy.model.PurchaseTracer;
 import com.hy.utils.DTOUtil;
+import com.hy.utils.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +40,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class MaterialPurchasingServiceImpl implements MaterialPurchasingService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MaterialPurchasingServiceImpl.class);
     @Autowired
     private PurchaseSalesmanMapper purchaseSalesmanMapper;
     @Autowired
@@ -139,6 +146,19 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
 
     /**
      * @Author 钱敏杰
+     * @Description 查询全部物资信息数据
+     * @Date 2019/2/1 15:59
+     * @Param [filters, sort, dir, value, state, empnum]
+     * @return java.util.List<com.hy.dto.MaterialInfoDto>
+     **/
+    @Override
+    public List<MaterialInfoDto> getMaterialInfoPage(String filters, String sort, String dir, String value, String state, String empnum){
+        List<MaterialInfo> list = materialInfoMapper.selectMaterialInfoPage(filters, sort, dir, value, state, empnum);
+        return DTOUtil.populateList(list, MaterialInfoDto.class);
+    }
+
+    /**
+     * @Author 钱敏杰
      * @Description 新增物资信息
      * @Date 2019/1/22 11:02
      * @Param [infoDto]
@@ -218,7 +238,7 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
             Map<String, PurchaseSalesman> salesMap = salesList.stream().collect(Collectors.toMap(PurchaseSalesman::getSalesmanname, a -> a, (k1, k2) -> k1));
             List<MaterialInfo> list = new ArrayList<>();
             MaterialInfo info = null;
-            for(int i=1;i<sheet.getLastRowNum();i++){
+            for(int i=1;i<sheet.getLastRowNum() +1;i++){
                 //第一行数据为标题，去除
                 Row row = sheet.getRow(i);
                 if(row != null){//判断是否为规定格式的Excel文件
@@ -250,6 +270,295 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
                 input.close();
             }
         }
+    }
+
+    @Override
+    //跟单员只能查看自己对应业务员的物资信息
+    public List<MaterialInfoDto> getInfoByTracer(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state){
+        PageHelper.startPage(pageNum, pageSize);
+        List<MaterialInfo> list = materialInfoMapper.selectInfoByTracer(SecurityUtil.getLoginid(), filters, sort, dir, value, state);
+        return DTOUtil.populateList(list, MaterialInfoDto.class);
+
+    }
+
+    @Override
+    //统计跟单员对应业务员的物资信息的数量
+    public int getInfoByTracerTotal(String filters, String value, String state){
+        return materialInfoMapper.selectInfoByTracerTotal(SecurityUtil.getLoginid(), filters, value, state);
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 查询当前跟单员的全部物资信息
+     * @Date 2019/2/2 11:09
+     * @Param [filters, sort, dir, value, state]
+     * @return java.util.List<com.hy.dto.MaterialInfoDto>
+     **/
+    @Override
+    public List<MaterialInfoDto> getInfoByTracer(String filters, String sort, String dir, String value, String state){
+        List<MaterialInfo> list = materialInfoMapper.selectInfoByTracer(SecurityUtil.getLoginid(), filters, sort, dir, value, state);
+        return DTOUtil.populateList(list, MaterialInfoDto.class);
+
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 导出物资信息Excel文件
+     * @Date 2019/2/1 14:50
+     * @Param [os, list]
+     * @return void
+     **/
+    @Override
+    public void exportMaterialInfo(OutputStream os, List<MaterialInfoDto> list){
+        Workbook workbook = null;
+        try {
+            List<Object> body = new ArrayList<>();
+            if(list != null && list.size() >0){
+                //生成Excel标题
+                List<ExcelHeadDto> head = this.getExcelHead();
+                for(MaterialInfoDto dto:list){
+                    //格式化Excel数据
+                    Object obj = this.formatExcelData(dto);
+                    body.add(obj);
+                }
+                //调用工具生成Excel表格
+                workbook = ExcelUtil.exportExcel(head, body, null);
+                workbook.write(os);
+                os.flush();
+            }
+        } catch (Exception e) {
+            logger.error("导出物资信息Excel异常！", e);
+        } finally {
+            if(workbook != null){
+                try {
+                    workbook.close();
+                } catch (IOException e) {
+                    logger.error("关闭workbook异常！", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 生成导出物资采购Excel文件的标题栏
+     * @Date 2019/2/1 13:59
+     * @Param []
+     * @return java.util.List<com.hy.dto.ExcelHeadDto>
+     **/
+    private List<ExcelHeadDto> getExcelHead(){
+        List<ExcelHeadDto> head = new ArrayList<>();
+        ExcelHeadDto dto = new ExcelHeadDto();
+        dto.setSort(0);
+        dto.setKey("applytype");
+        dto.setName("申请类别");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(1);
+        dto.setKey("companyname");
+        dto.setName("公司名称");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(2);
+        dto.setKey("mattype");
+        dto.setName("物资类别");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(3);
+        dto.setKey("batch");
+        dto.setName("追溯号（批次）");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(4);
+        dto.setKey("materialname");
+        dto.setName("物资名称");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(5);
+        dto.setKey("materialdes");
+        dto.setName("文本");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(6);
+        dto.setKey("amount");
+        dto.setName("数量");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(7);
+        dto.setKey("unit");
+        dto.setName("单位");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(8);
+        dto.setKey("empname");
+        dto.setName("业务员");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(9);
+        dto.setKey("applydept");
+        dto.setName("申请部门");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(10);
+        dto.setKey("applyperson");
+        dto.setName("申请联系人");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(11);
+        dto.setKey("dispatchdate");
+        dto.setName("物资分派日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(12);
+        dto.setKey("requireddate");
+        dto.setName("要求到货日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(13);
+        dto.setKey("overseasdate");
+        dto.setName("海外到货日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(14);
+        dto.setKey("ordernum");
+        dto.setName("合同号（订单号）");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(15);
+        dto.setKey("supplier");
+        dto.setName("供应商名称");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(16);
+        dto.setKey("contractdate");
+        dto.setName("合同签订日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(17);
+        dto.setKey("conarrivaldate");
+        dto.setName("合同到货日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(18);
+        dto.setKey("supplyperson");
+        dto.setName("供应商联系人");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(19);
+        dto.setKey("supplycontact");
+        dto.setName("供应商联系方式");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(20);
+        dto.setKey("payment");
+        dto.setName("付款方式");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(21);
+        dto.setKey("progress1");
+        dto.setName("付款方式（1）");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(22);
+        dto.setKey("progress2");
+        dto.setName("付款方式（2）");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(23);
+        dto.setKey("progress3");
+        dto.setName("付款方式（3）");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(24);
+        dto.setKey("progress4");
+        dto.setName("付款方式（4）");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(25);
+        dto.setKey("progress5");
+        dto.setName("付款方式（5）");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(26);
+        dto.setKey("matarrivaldate");
+        dto.setName("物资到货日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(27);
+        dto.setKey("unaccreason");
+        dto.setName("物资未验收原因");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(28);
+        dto.setKey("acceptdate");
+        dto.setName("物资验收日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(29);
+        dto.setKey("nonstoreason");
+        dto.setName("仓库未入库原因");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(30);
+        dto.setKey("storagedate");
+        dto.setName("仓库入库日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(31);
+        dto.setKey("packingdate");
+        dto.setName("装箱日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(32);
+        dto.setKey("invoicedate");
+        dto.setName("发票到票日期");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(33);
+        dto.setKey("remark");
+        dto.setName("备注");
+        head.add(dto);
+        dto = new ExcelHeadDto();
+        dto.setSort(34);
+        dto.setKey("complete");
+        dto.setName("是否已完成");
+        head.add(dto);
+        return head;
+    }
+
+    /**
+     * @Author 钱敏杰
+     * @Description 格式化需要导出的数据
+     * @Date 2019/2/1 14:48
+     * @Param [dto]
+     * @return java.lang.Object
+     **/
+    private Object formatExcelData(MaterialInfoDto dto){
+        //付款进度
+        String fkfs = dto.getPayprogress();
+        if(StringUtils.isNotEmpty(fkfs)){
+            String[] strs = fkfs.split(";");
+            if(strs.length >0 && StringUtils.isNotEmpty(strs[0])){
+                dto.setProgress1(strs[0]);
+            }
+            if(strs.length >1 && StringUtils.isNotEmpty(strs[1])){
+                dto.setProgress2(strs[1]);
+            }
+            if(strs.length >2 && StringUtils.isNotEmpty(strs[2])){
+                dto.setProgress3(strs[2]);
+            }
+            if(strs.length >3 && StringUtils.isNotEmpty(strs[3])){
+                dto.setProgress4(strs[3]);
+            }
+            if(strs.length >4 && StringUtils.isNotEmpty(strs[4])){
+                dto.setProgress5(strs[4]);
+            }
+        }
+        //已完成状态
+        if("已完成".equals(dto.getState())){
+            dto.setComplete("是");
+        }
+        return dto;
     }
 
     /**
@@ -395,21 +704,6 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
             }
         }
         return str;
-    }
-
-    @Override
-    //跟单员只能查看自己对应业务员的物资信息
-    public List<MaterialInfoDto> getInfoByTracer(Integer pageNum, Integer pageSize,String filters, String sort, String dir, String value, String state){
-        PageHelper.startPage(pageNum, pageSize);
-        List<MaterialInfo> list = materialInfoMapper.selectInfoByTracer(SecurityUtil.getLoginid(), filters, sort, dir, value, state);
-        return DTOUtil.populateList(list, MaterialInfoDto.class);
-
-    }
-
-    @Override
-    //统计跟单员对应业务员的物资信息的数量
-    public int getInfoByTracerTotal(String filters, String value, String state){
-        return materialInfoMapper.selectInfoByTracerTotal(SecurityUtil.getLoginid(), filters, value, state);
     }
 
 }

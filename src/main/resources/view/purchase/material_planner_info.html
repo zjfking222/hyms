@@ -19,7 +19,13 @@
 </head>
 <body>
 <div id="grid"></div>
-
+<!--<form method="POST" id="exportExcelForm" action="/purchase/planner/exportMaterialInfo" style="display: none;">
+    <input type="hidden" id="filters" />
+    <input type="hidden" id="sort" />
+    <input type="hidden" id="dir" />
+    <input type="hidden" id="value" />
+    <input type="hidden" id="state" />
+</form>-->
 <script src="/statics/plugins/jquery/jquery.min.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
 <script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
@@ -66,6 +72,7 @@
                     template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
                         '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.copyMaterial()"><span class="k-icon k-i-copy"></span>复制</a>' +
                         '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.importExcel()"><span class="k-icon k-i-excel"></span>批量导入</a>' +
+                        '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.exportExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>' +
                         '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>' +
                     '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'+
                         '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.applyTypeSer()"><span class="k-icon k-i-settings"></span>申请类别维护</a>'
@@ -384,6 +391,41 @@
                         $("#grid").data("kendoGrid").dataSource.read();
                     }
                 });
+            },
+            //导出Excel
+            exportExcel: function() {
+                //取kendoGrid的当前过滤条件
+                var allMap;
+                var grid = $("#grid").data("kendoGrid");
+                if(grid){
+                    allMap = getFilters(grid);
+                }
+                var sort = grid.dataSource.sort();
+                //整理完整的当前查询条件
+                pushData = {
+                    'filters': allMap === undefined ? "" : JSON.stringify(allMap),
+                    'sort': sort === undefined || sort[0] === undefined ?
+                        "" : sort[0].field,
+                    'dir': sort === undefined || sort[0] === undefined ?
+                        "" : sort[0].dir,
+                    'value': $('#search-input').val(),
+                    'state':$("#stateselect").val()
+                };
+                //使用form提交导出,使用原生方式，jquery引号不够用。。
+                var form = document.createElement("form");
+                form.style.display = 'none';
+                form.action = "/purchase/planner/exportMaterialInfo";
+                form.method = "post";
+                document.body.appendChild(form);
+                $.each(pushData, function(k, v) {
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = k;
+                    input.value = v;
+                    form.appendChild(input);
+                });
+                form.submit();
+                form.remove();
             }
         }
     })

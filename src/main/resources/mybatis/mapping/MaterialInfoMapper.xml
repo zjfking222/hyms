@@ -311,24 +311,24 @@
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into material_info
-      (applytype,companyname,mattype,batch,materialname,materialdes,amount,
-      unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
-      state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
-      payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
-      packingdate,invoicedate,remark,creater,modifier,arramount,unarramount)
+    (applytype,companyname,mattype,batch,materialname,materialdes,amount,
+    unit,empnum,empname,applydept,applyperson,dispatchdate,requireddate,overseasdate,
+    state,ordernum,supplier,contractdate,conarrivaldate,supplyperson,supplycontact,
+    payment,payprogress,matarrivaldate,unaccreason,acceptdate,nonstoreason,storagedate,
+    packingdate,invoicedate,remark,creater,modifier)
     VALUES
-      <foreach collection ="list" item="item" separator =",">
-        (#{item.applytype,jdbcType=VARCHAR},#{item.companyname,jdbcType=VARCHAR},#{item.mattype,jdbcType=VARCHAR},
-        #{item.batch,jdbcType=VARCHAR},#{item.materialname,jdbcType=VARCHAR},#{item.materialdes,jdbcType=VARCHAR},#{item.amount,jdbcType=DOUBLE},
-        #{item.unit,jdbcType=VARCHAR},#{item.empnum,jdbcType=VARCHAR},#{item.empname,jdbcType=VARCHAR},#{item.applydept,jdbcType=VARCHAR},
-        #{item.applyperson,jdbcType=VARCHAR},#{item.dispatchdate,jdbcType=VARCHAR},#{item.requireddate,jdbcType=VARCHAR},#{item.overseasdate,jdbcType=VARCHAR},
-        #{item.state,jdbcType=VARCHAR},#{item.ordernum,jdbcType=VARCHAR},#{item.supplier,jdbcType=VARCHAR},#{item.contractdate,jdbcType=VARCHAR},
-        #{item.conarrivaldate,jdbcType=VARCHAR},#{item.supplyperson,jdbcType=VARCHAR},#{item.supplycontact,jdbcType=VARCHAR},
-        #{item.payment,jdbcType=VARCHAR},#{item.payprogress,jdbcType=VARCHAR},#{item.matarrivaldate,jdbcType=VARCHAR},
-        #{item.unaccreason,jdbcType=VARCHAR},#{item.acceptdate,jdbcType=VARCHAR},#{item.nonstoreason,jdbcType=VARCHAR},#{item.storagedate,jdbcType=VARCHAR},
-        #{item.packingdate,jdbcType=VARCHAR},#{item.invoicedate,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},
-        #{item.creater,jdbcType=VARCHAR},#{item.modifier,jdbcType=VARCHAR},#{arramount,jdbcType=DOUBLE},#{unarramount,jdbcType=DOUBLE})
-      </foreach >
+    <foreach collection ="list" item="item" separator =",">
+      (#{item.applytype,jdbcType=VARCHAR},#{item.companyname,jdbcType=VARCHAR},#{item.mattype,jdbcType=VARCHAR},
+      #{item.batch,jdbcType=VARCHAR},#{item.materialname,jdbcType=VARCHAR},#{item.materialdes,jdbcType=VARCHAR},#{item.amount,jdbcType=DOUBLE},
+      #{item.unit,jdbcType=VARCHAR},#{item.empnum,jdbcType=VARCHAR},#{item.empname,jdbcType=VARCHAR},#{item.applydept,jdbcType=VARCHAR},
+      #{item.applyperson,jdbcType=VARCHAR},#{item.dispatchdate,jdbcType=VARCHAR},#{item.requireddate,jdbcType=VARCHAR},#{item.overseasdate,jdbcType=VARCHAR},
+      #{item.state,jdbcType=VARCHAR},#{item.ordernum,jdbcType=VARCHAR},#{item.supplier,jdbcType=VARCHAR},#{item.contractdate,jdbcType=VARCHAR},
+      #{item.conarrivaldate,jdbcType=VARCHAR},#{item.supplyperson,jdbcType=VARCHAR},#{item.supplycontact,jdbcType=VARCHAR},
+      #{item.payment,jdbcType=VARCHAR},#{item.payprogress,jdbcType=VARCHAR},#{item.matarrivaldate,jdbcType=VARCHAR},
+      #{item.unaccreason,jdbcType=VARCHAR},#{item.acceptdate,jdbcType=VARCHAR},#{item.nonstoreason,jdbcType=VARCHAR},#{item.storagedate,jdbcType=VARCHAR},
+      #{item.packingdate,jdbcType=VARCHAR},#{item.invoicedate,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},
+      #{item.creater,jdbcType=VARCHAR},#{item.modifier,jdbcType=VARCHAR})
+    </foreach >
   </insert>
   <select id="selectEmpnumAll" resultType="java.lang.String">
     select distinct empnum
