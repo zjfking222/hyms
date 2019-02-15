@@ -30,6 +30,7 @@
     var employee = [];
     var applytypes = [];
     var pushData;
+    var copyData = {};
     var vm = new Vue({
         el: "",
         data: {
@@ -53,6 +54,7 @@
                         title: "新增"
                     }
                 },
+                height: 630,
                 filterable: true,
                 columnMenu: true,
                 sortable: true,
@@ -63,27 +65,29 @@
                 },
                 toolbar: [{
                     template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.exportExcel()"><span class="k-icon k-i-excel"></span>导出Excel</a>' +
-                        '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option></select>' +
+                        '<span class="k-state-type">状态</span><select class="k-state-search" id="stateselect" ><option value="1" selected>未完成</option><option value="2">已完成</option><option value="">全部</option></select>' +
                     '<input type="text" class="k-input" id="search-input"/><a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
                 }],
                 columns: [
-                    {field: "applytype", title: "申请类别", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "companyname", title: "公司名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
-                    {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "batch", title: "追溯号(批次)", headerAttributes: {"class": "grid-algin-center"}, width: '150px'},
-                    {field: "materialname", title: "物资名称", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "applytype", title: "类别", headerAttributes: {"class": "grid-algin-center"}, width: '50px'},
+                    {field: "companyname", title: "公司", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "mattype", title: "物资类别", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "batch", title: "追溯号(批次)", headerAttributes: {"class": "grid-algin-center"}, width: '140px'},
+                    {field: "materialname", title: "名称", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "materialdes", title: "文本", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
-                    {field: "amount", title: "数量", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
-                    {field: "unit", title: "单位", headerAttributes: {"class": "grid-algin-center"}, width: '160px'},
+                    {field: "amount", title: "数量", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "unarramount", title: "未到数量", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "arramount", title: "已到数量", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "unit", title: "单位", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {field: "empname", title: "业务员", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
-                    {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "applyperson", title: "申请联系人", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "applydept", title: "申请部门", headerAttributes: {"class": "grid-algin-center"}, width: '110px'},
+                    {field: "applyperson", title: "申请人", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "dispatchdate", title: "物资分派日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "requireddate", title: "要求到货日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
                     {field: "overseasdate", title: "海外到货日期", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
-                    {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '100px'},
                     {field: "ordernum", title: "合同号(订单号)", headerAttributes: {"class": "grid-algin-center"}, width: '140px'},
-                    {field: "supplier", title: "供应商名称", headerAttributes: {"class": "grid-algin-center"}, width: '180px'},
+                    {field: "supplier", title: "供应商", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
+                    {field: "state", title: "状态", headerAttributes: {"class": "grid-algin-center"}, width: '90px'},
                     {field: "", title: ""}
                 ]
             });
@@ -161,6 +165,8 @@
                                 materialname: {type: "string", nullable: false},
                                 materialdes:{type: "string", nullable: false},
                                 amount:{type: "number", nullable: false},
+                                unarramount:{type: "number", nullable: false},
+                                arramount:{type: "number", nullable: false},
                                 unit:{type: "string", nullable: false},
                                 empname: {type: "string", nullable: false},
                                 applydept: {type: "string", nullable: false},
@@ -193,7 +199,7 @@
                             response.type = e.type;
                         }
                     },
-                    pageSize: 15,
+                    pageSize: 10,
                     serverPaging: true,
                     // serverFiltering: true,
                     serverSorting: true
