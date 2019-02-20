@@ -800,7 +800,7 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public boolean addRoleAd(SysRolesUserDto dto) {
         try {
             //新增角色名称、描述
@@ -846,7 +846,7 @@ public class BoConfigServiceImpl implements BoConfigService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public boolean setRoleAd(SysRolesUserDto dto) {
         try {
             //修改角色名称、描述

@@ -143,6 +143,8 @@
         }
         //发送验证码
         function sendVerCode(){
+            //取消绑定事件，失效按钮
+            mui(document.body).off('tap','.sendCode-btn',sendVerCode);
             var phone = mui(".phone-input")[0].value;
             mui.ajax('/app/identity/sendMdefVerCode',{
                 data:{
@@ -154,17 +156,19 @@
                 headers:{'Content-Type':'application/json'},
                 success:function(data){
                     if (data.code == 0) {
-                        //取消绑定事件，失效按钮
-                        mui(document.body).off('tap','.sendCode-btn',sendVerCode);
                         //开始倒计时
                         countSecond();
                     }else {
                         mui.alert("验证码发送失败，请检查手机号！");
+                        //恢复绑定事件
+                        mui(document.body).on('tap','.sendCode-btn',sendVerCode);
                     }
                 },
                 error:function(xhr,type,errorThrown){
                     //异常处理；
                     mui.alert("验证码发送失败，请检查手机号！");
+                    //恢复绑定事件
+                    mui(document.body).on('tap','.sendCode-btn',sendVerCode);
                 }
             });
         }

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>物资信息详情</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    label{
+        width: 110px;
+        display: inline-block;
+        text-align: right;
+        margin-bottom: 0;
+        vertical-align: top;
+        font-size: 15px;
+    }
+    span{
+        display: inline-block;
+        text-align: left;
+        width: calc(90% - 110px);
+        vertical-align: top;
+        font-size: 15px;
+        margin-left: 5px;
+    }
+    .form-group{
+        display: inline-block;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 45%;
+    }
+</style>
+<body style="width: 90%; margin: 10px auto;text-align: center;">
+<form id="app">
+    <div class="form-group">
+        <label for="applytype">申请类别:</label>
+        <span id="applytype">{{info.applytype}}</span>
+    </div>
+    <div class="form-group">
+        <label for="companyname">公司名称:</label>
+        <span id="companyname">{{info.companyname}}</span>
+    </div>
+    <div class="form-group">
+        <label for="mattype">物资类别:</label>
+        <span id="mattype">{{info.mattype}}</span>
+    </div>
+    <div class="form-group">
+        <label for="batch">追溯号(批次):</label>
+        <span id="batch">{{info.batch}}</span>
+    </div>
+    <div class="form-group">
+        <label for="materialname">物资名称:</label>
+        <span id="materialname">{{info.materialname}}</span>
+    </div>
+    <div class="form-group">
+        <label for="amount">数量:</label>
+        <span id="amount">{{info.amount}}</span>
+    </div>
+    <div class="form-group">
+        <label for="unit">单位:</label>
+        <span id="unit">{{info.unit}}</span>
+    </div>
+    <div class="form-group">
+        <label for="empname">业务员:</label>
+        <span id="empname">{{info.empname}}</span>
+    </div>
+    <div class="form-group">
+        <label for="applydept">申请部门:</label>
+        <span id="applydept">{{info.applydept}}</span>
+    </div>
+    <div class="form-group">
+        <label for="applyperson">申请联系人:</label>
+        <span id="applyperson">{{info.applyperson}}</span>
+    </div>
+    <div class="form-group">
+        <label for="dispatchdate">物资分派日期:</label>
+        <span id="dispatchdate">{{info.dispatchdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="requireddate">要求到货日期:</label>
+        <span id="requireddate">{{info.requireddate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="overseasdate">海外到货日期:</label>
+        <span id="overseasdate">{{info.overseasdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="materialdes">物资描述(备注):</label>
+        <span id="materialdes">{{info.materialdes}}</span>
+    </div>
+    <div class="form-group">
+        <label for="ordernum">合同号(订单号):</label>
+        <span id="ordernum">{{info.ordernum}}</span>
+    </div>
+    <div class="form-group">
+        <label for="supplier">供应商名称:</label>
+        <span id="supplier">{{info.supplier}}</span>
+    </div>
+    <div class="form-group">
+        <label for="contractdate">合同签订日期:</label>
+        <span id="contractdate">{{info.contractdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="conarrivaldate">合同到货日期:</label>
+        <span id="conarrivaldate">{{info.conarrivaldate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="supplyperson">供应商联系人:</label>
+        <span id="supplyperson">{{info.supplyperson}}</span>
+    </div>
+    <div class="form-group">
+        <label for="supplycontact">供应商联系方式:</label>
+        <span id="supplycontact">{{info.supplycontact}}</span>
+    </div>
+    <div class="form-group">
+        <label for="payment">付款方式:</label>
+        <span id="payment">{{info.payment}}</span>
+    </div>
+    <div v-if="size===0" class="form-group">
+        <label>付款进度:</label>
+        <span></span>
+    </div>
+    <div v-if="size>0" class="form-group" v-for="p in payprogress">
+        <label v-if="p.name>2&&p.name%2===1" style="margin-left: 4px;">付款进度{{p.name}}:</label>
+        <label v-else>付款进度{{p.name}}:</label>
+        <span>{{p.payprogress}}</span>
+    </div>
+    <div class="form-group">
+        <label for="arramount">已到货数量:</label>
+        <span id="arramount">{{info.arramount}}</span>
+    </div>
+    <div class="form-group">
+        <label for="unarramount">未到货数量:</label>
+        <span id="unarramount">{{info.unarramount}}</span>
+    </div>
+    <div class="form-group">
+        <label for="matarrivaldate">物资到货日期:</label>
+        <span id="matarrivaldate">{{info.matarrivaldate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="unaccreason">物资未验收原因:</label>
+        <span id="unaccreason">{{info.unaccreason}}</span>
+    </div>
+    <div class="form-group">
+        <label for="acceptdate">物资验收日期:</label>
+        <span id="acceptdate">{{info.acceptdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="nonstoreason">仓库未入库原因:</label>
+        <span id="nonstoreason">{{info.nonstoreason}}</span>
+    </div>
+    <div class="form-group">
+        <label for="storagedate">仓库入库日期:</label>
+        <span id="storagedate">{{info.storagedate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="packingdate">装箱日期:</label>
+        <span id="packingdate">{{info.packingdate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="invoicedate">发票到票日期:</label>
+        <span id="invoicedate">{{info.invoicedate}}</span>
+    </div>
+    <div class="form-group">
+        <label for="remark">备注:</label>
+        <span id="remark">{{info.remark}}</span>
+    </div>
+    <div class="form-group">
+        <label for="state">状态:</label>
+        <span id="state">{{info.state}}</span>
+    </div>
+    <div class="form-group">
+        <label></label>
+        <span></span>
+    </div>
+</form>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    $(function () {
+        //历史付款进度根据';'分割
+        function getHistory(payprogress) {
+            if (payprogress === null || payprogress === '') {
+                return ''
+            } else {
+                var del = payprogress.split(";");
+                for(var x = 0; x < del.length; x++){
+                    if(del[x] === '' || del[x] == null || typeof(del[x]) === "undefined"){
+                        del.splice(x, 1);
+                        x = x-1;
+                    }
+                }
+                return del;
+            }
+        }
+        var progress = getHistory(parent.pushData.payprogress);
+        var payprogress = [];
+        var add_item;
+        for (var j = 0; j < progress.length; j++) {
+            add_item = {
+                id: 'p_' + (j + 1),
+                name: j + 1,
+                payprogress: progress[j]
+            };
+            payprogress.push(add_item);
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                info: parent.pushData,
+                payprogress: payprogress,
+                size: payprogress.length
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>业务员</title>
+    <link rel="stylesheet" href="/statics/plugins/layer/theme/default/layer.css">
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            width: 100%;
+        }
+
+        #menus {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: block;
+            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+            background-color: #f5f5f5;
+            border-right: 1px solid #eee;
+        }
+
+        /* Sidebar navigation */
+        .nav-sidebar {
+            margin-right: -21px; /* 20px padding + 1px border */
+            margin-bottom: 20px;
+            margin-left: -20px;
+        }
+
+        .nav-sidebar > li > a {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+
+        .active {
+            color: #fff;
+            background-color: #2A2D33;
+        }
+
+        .active a {
+            color: #fff;
+        }
+
+        .item1, .item2 {
+            display: inline;
+        }
+
+        .item2 {
+            position: absolute;
+            right: 30px;
+            margin-top: 7px;
+        }
+
+        .item1 {
+            margin-left: 20px;
+            line-height: 35px;
+        }
+
+        #search {
+            width: 180px;
+            display: inline-block;
+        }
+
+        #btn-add {
+            background: url(/statics/img/common/add.png) no-repeat bottom;
+            background-size: 25px 25px;
+            width: 25px;
+            height: 25px;
+            border: 0;
+        }
+
+        .btn-edit {
+            background: url(/statics/img/common/edit.png) no-repeat top;
+            background-size: 18px 18px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        .btn-del {
+            background: url(/statics/img/common/delete.png) no-repeat top;
+            background-size: 17px 17px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        .active .btn-del {
+            background: url(/statics/img/common/deletew.png) no-repeat top;
+            background-size: 17px 17px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        .active .btn-edit {
+            background: url(/statics/img/common/editw.png) no-repeat top;
+            background-size: 18px 18px;
+            width: 18px;
+            height: 18px;
+            border: 0;
+            display: inline-block;
+        }
+
+        #treeview {
+            position: absolute;
+            left: 262px;
+            border: 0;
+        }
+
+        li:hover {
+            background: #eee;
+        }
+
+        ul {
+            padding-top: 10px;
+        }
+
+        .active:hover {
+            background-color: #2A2D33;
+        }
+
+        .item1 {
+            margin-left: 20px;
+            line-height: 35px;
+            cursor: default;
+        }
+
+        .item1 a:hover {
+            text-decoration: none;
+        }
+
+        #btn-add {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div id="menus">
+    <div id="left" class="sidebar">
+        <div style="font-size: 16px;text-align: center;">
+            <span>业务员</span>
+        </div>
+        <input v-model="data0" class="form-control" style="display: inline-block!important;margin-top: 5px" id="search"
+               placeholder="以回车键搜索">
+        <button id="btn-add" @click="onAdd"></button>
+        <ul class="nav nav-sidebar" id="salesman">
+            <li v-for="salesman in data1" :data-id="salesman.id" @click="onChoose(salesman.id)">
+                <div class="item1">
+                    <a class="item-a">{{salesman.salesmanname}}</a>
+                </div>
+                <div class="item2">
+                    <button class="btn-del" @click="onDel(salesman.id,salesman.salesmannum)"></button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <iframe id="treeview" height="100%" width="75%">
+    </iframe>
+</div>
+
+<script src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script>
+    var pushSid;
+    var FetchData = function (data, method, param, async) {
+        var response =
+            $.ajax({
+                async: async,
+                url: param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                success: function (dataSource) {
+                    return dataSource;
+                }
+            });
+        return response.responseJSON;
+    };
+
+    //获取业务员信息
+    function dataSourceSearch(value) {
+        return FetchData({value: value}, 'POST', '/purchase/salesman/getSalesman', false).data;
+    }
+
+    //查询物资主数据中的业务员
+    function dataSalesmanAll() {
+        return FetchData(null, 'POST', '/purchase/material/getEmpnumAll', false).data;
+    }
+
+    var vm = new Vue({
+        el: '#left',
+        data: {
+            data0: '',
+            data1: ''
+        },
+        created: function () {
+            //初始化获取业务员信息并在前端展示
+            this.data1 = dataSourceSearch("");
+        },
+        methods: {
+            onAdd: function () {
+                layer.open({
+                    title: '新增业务员',
+                    type: 2,
+                    area: ['400px', '400px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    content: '/purchase/salesman_add.html',
+                    end: function () {
+                        vm.data1 = dataSourceSearch($("#search").val())
+                    }
+                });
+            },
+            onDel: function (id, salesmannum) {
+                var checkSalesman = dataSalesmanAll();
+                for(var i = 0; i < checkSalesman.length; i++){
+                    if(checkSalesman[i] === salesmannum){
+                        layer.msg('该业务员已存在于物资主数据中，无法删除！');
+                        return;
+                    }
+                }
+                layer.confirm('确认删除吗？删除后将不可恢复！', {btn: ['删除', '取消']},
+                    function () {
+                        FetchData({id: id}, "POST", "/purchase/salesman/delSalesman");
+                        layer.msg('删除成功！', {
+                            time: 500,
+                            end: function () {
+                                vm.data1 = dataSourceSearch($("#search").val());
+                                $('#treeview').attr('src', '/index/blank.html');
+                            }
+                        });
+                    },
+                    function () {
+                    });
+            },
+            onChoose:function (id) {
+                $('#treeview').attr('src', 'tracer.html?id' + id);
+                pushSid = id;
+                $("#salesman li[data-id=" + id + "]").addClass('active')
+                    .siblings("li").removeClass('active');
+            }
+        }
+    });
+    $(function () {
+        //回车搜索功能
+        $(document).keyup(function (event) {
+            if (event.keyCode === 13) {
+                vm.data1 = dataSourceSearch($("#search").val());
+            }
+        });
+    });
+</script>
+</body>
+</html>

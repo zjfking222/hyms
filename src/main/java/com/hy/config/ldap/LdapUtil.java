@@ -9,14 +9,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import javax.annotation.PostConstruct;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -31,10 +32,12 @@ public class LdapUtil {
     private static LdapConfig ldapConfig;
     private static String baseDn;
     private static String uName;
+    private static ResourceLoader resourceLoader;
 
     @Autowired
     public void setLdapConfig(LdapConfig config) {
         ldapConfig = config;
+        resourceLoader = new DefaultResourceLoader();
     }
 
     @PostConstruct
@@ -398,9 +401,9 @@ public class LdapUtil {
             //初始化秘钥库
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
             trustStore.load(null);
-            //解析证书文件
-            File file = ResourceUtils.getFile("classpath:files" + File.separator + ldapConfig.getCer());
-            in = new FileInputStream(file);
+            //解析证书文件，必须使用ResourceLoader加载，否则打成jar包后无法正常加载
+            Resource resource = resourceLoader.getResource("classpath:files" + File.separator + ldapConfig.getCer());
+            in = resource.getInputStream();
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             Certificate cert = cf.generateCertificate(in);
             //秘钥库使用证书

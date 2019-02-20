@@ -18,7 +18,7 @@
     <result column="employeenumber" property="employeenumber" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, password, sex, mobile, enable, deptid, creater, created, modifier,
+    id, name, sex, mobile, enable, deptid, creater, created, modifier,
     modified, oaloginid, oauserid, employeenumber
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -215,7 +215,8 @@
     </if>
   </select>
   <select id="selectAllUsers" resultType="com.hy.model.SysUsers">
-    select *
+    select
+    <include refid="Base_Column_List" />
     from sys_users
     where 1=1
     <if test="filters != null and '' != filters">
@@ -246,6 +247,19 @@
     <include refid="Base_Column_List" />
     from sys_users
     where employeenumber = #{employeenumber}
+  </select>
+  <select id="selectUsersAccurate" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from sys_users
+    where 1=1
+    <if test="value != null and '' != value">
+      AND ( name = #{value}
+      OR employeenumber = #{value})
+    </if>
+  </select>
+  <select id="selectEmpnum" resultType="java.lang.String">
+    select distinct employeenumber
+    from sys_users
   </select>
 </mapper>
 

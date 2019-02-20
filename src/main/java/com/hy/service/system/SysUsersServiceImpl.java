@@ -205,4 +205,21 @@ public class SysUsersServiceImpl implements SysUsersService {
             return false;
         }
     }
+
+    /**
+     * @Author 沈超宇
+     * @Description 根据账号或姓名精确查询用户
+     * @Date 2019/1/21 10:13
+     **/
+    @Override
+    public List<SysUsersDto> getUsersAccurate(String value){
+        List<SysUsers> sysUsers = sysUsersMapper.selectUsersAccurate(value);
+        return DTOUtil.populateList(sysUsers,SysUsersDto.class);
+    }
+
+    @Override
+    //查询所有系统用户
+    public List<String> getEmpnum(){
+        return sysUsersMapper.selectEmpnum();
+    }
 }

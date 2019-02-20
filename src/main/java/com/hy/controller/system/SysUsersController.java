@@ -2,6 +2,7 @@ package com.hy.controller.system;
 
 import com.hy.common.ResultObj;
 import com.hy.dto.SysUserDto;
+import com.hy.dto.SysUsersDto;
 import com.hy.dto.SysUsersNewDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.system.SysUsersService;
@@ -94,5 +95,22 @@ public class SysUsersController {
     public ResultObj getUserFromAd( @RequestParam(required = false) String search) {
         SysUserDto dto = sysUsersService.searchUser(search);
         return ResultObj.success(dto);
+    }
+
+    /**
+     * @Author 沈超宇
+     * @Description 根据账号或姓名精确查询用户
+     * @Date 2019/1/21 10:17
+     **/
+    @PostMapping("users/getUserAccurate")
+    public ResultObj getUserAccurate(@RequestParam(required = false) String value){
+        List<SysUsersDto> sysUsersDto = sysUsersService.getUsersAccurate(value);
+        return ResultObj.success(sysUsersDto);
+    }
+
+    @PostMapping("users/getEmpnum")
+    //查询所有系统用户
+    public ResultObj getEmpnum(){
+        return ResultObj.success(sysUsersService.getEmpnum());
     }
 }

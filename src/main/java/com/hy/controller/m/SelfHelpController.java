@@ -95,7 +95,10 @@ public class SelfHelpController {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map1 = selfHelpService.getAttendance(userinfo.getLoginid(), year, month);
         list.add(map1);
-        month = c.get(Calendar.MONTH) + "";
+        //取上一月日期
+        c.add(Calendar.MONTH, -1);
+        year = c.get(Calendar.YEAR) + "";
+        month = c.get(Calendar.MONTH) + 1 + "";
         Map<String, Object> map2 = selfHelpService.getAttendance(userinfo.getLoginid(), year, month);
         list.add(map2);
         return ResultObj.success(list);

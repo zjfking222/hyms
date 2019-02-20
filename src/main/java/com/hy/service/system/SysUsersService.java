@@ -60,4 +60,14 @@ public interface SysUsersService {
      * @return boolean
      **/
     boolean updateUser(SysUsersDto user);
+
+    /**
+     * @Author 沈超宇
+     * @Description 根据账号或姓名精确查询用户
+     * @Date 2019/1/21 10:09
+     **/
+    List<SysUsersDto> getUsersAccurate(String value);
+
+    //查询所有系统用户
+    List<String> getEmpnum();
 }

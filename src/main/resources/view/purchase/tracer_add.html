@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>新增业务员</title>
+    <link href="/statics/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="width: 80% ;margin: 10px auto">
+<div id="app">
+    <div class="form-group">
+        <div class="input-group" style="margin-left: 12px;margin-top: 20px;width: 90%;">
+            <input class="form-control" placeholder="输入员工号或姓名" style="display: inline-block;" id="search-info">
+            <span class="input-group-addon" style="background: white;width: 20%">
+                <a style="color: black;" href="javascript:;" id="search" class="btn-block">搜索</a>
+            </span>
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 20px">
+        <label for="add-pan" style="margin-left: 12px">已选跟单员</label>
+        <div class="form-control"
+             style="min-height:34px;height: auto!important;text-align: left;margin-left: 12px;width: 90%;" id="add-pan">
+            <a href="javascript:;" class="btn btn-default" v-if="result !== ''"
+               style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
+               @click="onDel()">{{result.employeenumber}}&nbsp;{{result.name}}</a>
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 20px">
+        <label for="search-pan" style="margin-left: 12px">搜索跟单员</label>
+        <div style="min-height:34px;height: auto!important;text-align: left;margin-left: 12px;width: 90%;"
+             class="form-control" id="search-pan">
+            <a href="javascript:;" class="btn btn-default"
+               style="margin-left: 5px!important;min-width: 70px!important;margin-top: 5px!important;"
+               v-for="s in search" @click="onAdd(s.employeenumber,s.name)">{{s.employeenumber}}&nbsp;{{s.name}}</a>
+        </div>
+    </div>
+    <button id="submit" class="btn btn-success" @click="onSubmit()"
+            style="margin-left: 12px;width:90%;margin-top: 20px">保&nbsp;&nbsp;&nbsp;存
+    </button>
+</div>
+</body>
+<script type="text/javascript" src="/statics/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/plugins/vue/vue.min.js"></script>
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var postData;
+    var sid = parent.sid;
+    $(function () {
+        //根据员工号、姓名精确查询
+        function dataSearch(value) {
+            return FetchData({value: value}, 'POST', '/system/users/getUserAccurate', false).data;
+        }
+
+        //查询已存在的跟单员
+        function searchTracer() {
+            return FetchData({sid: sid, value: ''}, 'POST', '/purchase/tracer/getTracer', false).data;
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                search: [],
+                result: ''
+            },
+            methods: {
+                //添加
+                onAdd: function (employeenumber, name) {
+                    var add_item = {
+                        'sid': sid,
+                        'employeenumber': employeenumber,
+                        'name': name
+                    };
+                    var tracer = searchTracer();
+                    if (tracer.length > 0) {
+                        for (var i = 0; i < tracer.length; i++) {
+                            if (tracer[i].tracernum === add_item.employeenumber && tracer[i].sid === sid) {
+                                parent.layer.msg('跟单员已存在！');
+                                return;
+                            }
+                        }
+                    }
+                    if (vm.result.employeenumber !== add_item.employeenumber) {
+                        vm.result = add_item;
+                    }
+
+                },
+                //删除
+                onDel: function () {
+                    vm.result = '';
+                },
+                //保存
+                onSubmit: function () {
+                    if (vm.result.employeenumber !== '') {
+                        postData = {
+                            sid: sid,
+                            tracernum: vm.result.employeenumber,
+                            tracername: vm.result.name
+                        };
+                        FetchData(postData, 'POST', '/purchase/tracer/addTracer', false).code === 0 ?
+                            parent.layer.msg('添加成功') :
+                            parent.layer.msg('添加失败');
+                        parent.layer.close(index);
+                    }
+                }
+            }
+        });
+        $('#search').on('click', function () {
+            if ($('#search-info').val() === '') {
+
+            } else {
+                vm.search = dataSearch($('#search-info').val());
+            }
+        })
+    });
+    var FetchData = function (data, method, param, async, contentType) {
+        var response =
+            $.ajax({
+                async: async,
+                url: param,
+                type: method,
+                dataType: 'json',
+                data: data,
+                contentType: contentType ? "application/json;charset=utf-8" :
+                    "application/x-www-form-urlencoded;charset=UTF-8",
+                success: function (dataSource) {
+                    return dataSource;
+                }
+            });
+        return response.responseJSON;
+    };
+</script>
+</html>

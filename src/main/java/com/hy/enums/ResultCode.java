@@ -19,7 +19,8 @@ public enum ResultCode {
     ERROR_DELETE_FAILED(2102, "删除失败"),
     ERROR_SEARCH_FAILED(2103, "查询失败"),
     ERROR_DELETE_FOREIGN(2110, "需要先删除该信息的关联信息"),
-    ERROR_DELETE_SUBNODE(2014, "存在子节点，无法删除");
+    ERROR_DELETE_SUBNODE(2014, "存在子节点，无法删除"),
+    ERROR_OPERATE_FAILD(3001, "操作失败");
 
     private String msg;
     private int code;

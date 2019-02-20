@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>跟单员</title>
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.default.min.css">
+    <link rel="stylesheet" href="/statics/plugins/kendo/css/kendo.common.min.css">
+    <link href="/statics/plugins/layui/css/layui.css" rel="stylesheet">
+</head>
+<body>
+<div id="grid"></div>
+
+<script src="/statics/plugins/jquery/jquery.min.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.all.min.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.messages.zh-CN.js"></script>
+<script src="/statics/plugins/vue/vue.min.js"></script>
+<script src="/statics/plugins/layer/layer.js"></script>
+<script src="/statics/plugins/kendo/js/kendo.addfilter.js"></script>
+<script>
+    var sid = parent.pushSid;
+    var vm = new Vue({
+        el: "",
+        data: {
+            dataSource: [],
+            activeItem: {id: 0, title: "", content: ""}
+        },
+        created: function () {
+            this.getDataSource();
+            $("#grid").kendoGrid({
+                selectable: "row",
+                dataSource: this.dataSource,
+                editable: {
+                    confirmation: true,
+                    mode: "popup",
+                    window: {
+                        title: "新增"
+                    }
+                },
+                filterable: true,
+                columnMenu: true,
+                sortable: true,
+                toolbar: [{
+                    template: '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.add()"><span class="k-icon k-i-add"></span>添加</a>' +
+                    '<input type="text" class="k-input" id="search-input"/>' +
+                    '<a role="button" class="k-button k-button-icontext" href="javascript:;" onclick="vm.search()"><span class="k-icon k-i-search"></span>搜索</a>'
+                }],
+                columns: [
+                    {field: "tracername", title: "跟单员", headerAttributes: {"class": "grid-algin-center"}, width: "220px"},
+                    { command: { name: "destroy", text: "删除", iconClass: "k-icon k-i-delete" }, title: "操作", width: "220px" },
+                    {field: "", title: ""}
+                ]
+            });
+        },
+        methods: {
+            getDataSource: function () {
+                this.dataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: function (options) {
+                            //取kendoGrid的当前过滤条件
+                            var allMap;
+                            var grid = $("#grid").data("kendoGrid");
+                            if(grid){
+                                allMap = getFilters(grid);
+                            }
+                            $.ajax({
+                                url: "/purchase/tracer/getTracer",
+                                data: {
+                                    'filters': allMap === undefined ? "" : JSON.stringify(allMap),
+                                    'sid': sid,
+                                    'value': $('#search-input').val()
+                                },
+                                method: 'POST',
+                                success: function (result) {
+                                    if (result.code === 0) {
+                                        options.success({data: result.data});
+                                    }
+                                    else
+                                        options.error(result.msg);
+                                },
+                                error: function () {
+                                    options.error("数据查询失败");
+                                }
+                            });
+                        },
+                        destroy: function (options) {
+                            $.ajax({
+                                url: "/purchase/tracer/delTracer",
+                                data: {
+                                    'id': options.data.id
+                                },
+                                method: 'POST',
+                                success: function (result) {
+                                    if (result.code === 0) {
+                                        options.success(result);
+                                        layer.msg('删除成功！', {time: 1000, icon: 1});
+                                    }
+                                    else{
+                                        options.error(result);
+                                    }
+                                },
+                                error: function (result) {
+                                    options.error(result);
+                                }
+                            })
+                        }
+                    },
+                    schema: {
+                        data: "data",
+                        model: {
+                            id: "id",
+                            fields: {
+                                tracername: {type: "string", nullable: false}
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        this.cancelChanges();
+                        console.log(e);
+                        if (e.errors) {
+                            layer.alert(e.errors.msg, {icon: 2});
+                        }
+                        else if (e.xhr.msg) {
+                            layer.alert(e.xhr.msg, {icon: 2});
+                        }
+                        else {
+                            layer.alert("发生错误，请联系管理员", {icon: 2});
+                        }
+                    },
+                    requestEnd: function (e) {
+                        var response = e.response;
+                        if (response) {
+                            response.type = e.type;
+                        }
+                    },
+                    serverSorting: true
+                });
+            },
+            add: function () {
+                layer.open({
+                    title: '新增跟单员',
+                    type: 2,
+                    area: ['400px', '400px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    content: '/purchase/tracer_add.html',
+                    end: function () {
+                        $("#grid").data("kendoGrid").dataSource.read()
+                    }
+                });
+            },
+            search: function () {
+                $("#grid").data("kendoGrid").dataSource.read()
+            }
+        }
+    })
+</script>
+</body>
+</html>

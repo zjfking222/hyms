@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hy.mapper.ms.PurchaseTracerMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.PurchaseTracer">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="sid" property="sid" jdbcType="INTEGER" />
+        <result column="tracernum" property="tracernum" jdbcType="VARCHAR" />
+        <result column="tracername" property="tracername" jdbcType="VARCHAR" />
+        <result column="creater" property="creater" jdbcType="VARCHAR" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+        <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+        <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, sid, tracernum, tracername, creater, created, modifier, modified
+    </sql>
+    <select id="selectTracer" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List" />
+        from purchase_tracer
+        where sid = #{sid}
+        <if test="value != null and '' != value">
+            and (tracernum = #{value} or tracername LIKE concat('%',#{value},'%'))
+        </if>
+        <if test="filters != null and '' != filters">
+            AND filters = filters
+        </if>
+    </select>
+    <insert id="insertTracer" parameterType="com.hy.model.PurchaseTracer">
+        insert into purchase_tracer
+        (sid, tracernum, tracername, creater, modifier)
+        values
+            (#{sid}, #{tracernum}, #{tracername}, #{creater}, #{modifier})
+    </insert>
+    <delete id="deleteTracer" parameterType="java.lang.Integer">
+        delete from purchase_tracer
+        where id = #{id}
+    </delete>
+    <delete id="deleteTracerBySid"  parameterType="java.lang.Integer">
+        delete from purchase_tracer
+        where sid = #{sid}
+    </delete>
+</mapper>
