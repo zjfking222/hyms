@@ -265,14 +265,12 @@
       or applyperson LIKE concat('%',#{value},'%')
       or state LIKE concat('%',#{value},'%'))
     </if>
-    <choose>
-      <when test='state == "2"'>
-        and state = '已完成'
-      </when>
-      <otherwise>
-        and state != '已完成'
-      </otherwise>
-    </choose>
+    <if test='state == "2"'>
+      and state = '已完成'
+    </if>
+    <if test='state == "1"'>
+      and state != '已完成'
+    </if>
     <if test="sort != null and '' != sort">
       ORDER BY CONVERT(${sort} USING gbk) ${dir}
     </if>
@@ -300,14 +298,12 @@
       or applyperson LIKE concat('%',#{value},'%')
       or state LIKE concat('%',#{value},'%'))
     </if>
-    <choose>
-      <when test='state == "2"'>
-        and state = '已完成'
-      </when>
-      <otherwise>
-        and state != '已完成'
-      </otherwise>
-    </choose>
+    <if test='state == "2"'>
+      and state = '已完成'
+    </if>
+    <if test='state == "1"'>
+      and state != '已完成'
+    </if>
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into material_info
