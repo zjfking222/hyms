@@ -335,7 +335,7 @@
     <include refid="Base_Column_List"/>
     from material_info
     where empnum in (select salesmannum
-    from purchase_salesman as a left join purchase_tracer as b on a.id = b.sid
+    from material_salesman as a left join material_tracer as b on a.id = b.sid
     where b.tracernum = #{tracernum})
     <if test="filters != null and '' != filters">
       AND filters = filters
@@ -372,7 +372,7 @@
     select count(1)
     from material_info
     where empnum in (select salesmannum
-    from purchase_salesman as a left join purchase_tracer as b on a.id = b.sid
+    from material_salesman as a left join material_tracer as b on a.id = b.sid
     where b.tracernum = #{tracernum})
     <if test="filters != null and '' != filters">
       AND filters = filters

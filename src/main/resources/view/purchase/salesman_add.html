@@ -87,7 +87,7 @@
                 },
                 //保存
                 onSubmit: function () {
-                    if (vm.result.employeenumber !== '') {
+                    if (vm.result.employeenumber) {
                         postData = {
                             salesmannum: vm.result.employeenumber,
                             salesmanname: vm.result.name

@@ -4,13 +4,14 @@ import java.util.Date;
 
 /**
  * @Auther: 沈超宇
- * @Date: 2019/1/22 10:07
- * @Description:业务员表model
+ * @Date: 2019/1/22 10:08
+ * @Description:
  */
-public class PurchaseSalesman {
+public class MaterialTracer {
     private int id;
-    private String salesmannum;
-    private String salesmanname;
+    private int sid;
+    private String tracernum;
+    private String tracername;
     private String creater;
     private Date created;
     private String modifier;
@@ -24,20 +25,28 @@ public class PurchaseSalesman {
         this.id = id;
     }
 
-    public String getSalesmannum() {
-        return salesmannum;
+    public int getSid() {
+        return sid;
     }
 
-    public void setSalesmannum(String salesmannum) {
-        this.salesmannum = salesmannum;
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
-    public String getSalesmanname() {
-        return salesmanname;
+    public String getTracernum() {
+        return tracernum;
     }
 
-    public void setSalesmanname(String salesmanname) {
-        this.salesmanname = salesmanname;
+    public void setTracernum(String tracernum) {
+        this.tracernum = tracernum;
+    }
+
+    public String getTracername() {
+        return tracername;
+    }
+
+    public void setTracername(String tracername) {
+        this.tracername = tracername;
     }
 
     public String getCreater() {

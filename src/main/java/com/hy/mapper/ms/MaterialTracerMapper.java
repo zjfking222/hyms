@@ -1,6 +1,6 @@
 package com.hy.mapper.ms;
 
-import com.hy.model.PurchaseTracer;
+import com.hy.model.MaterialTracer;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,11 +12,11 @@ import java.util.List;
  * @Description:跟单员mapper
  */
 @Repository
-public interface PurchaseTracerMapper {
+public interface MaterialTracerMapper {
     //查询对应业务员下的跟单员
-    List<PurchaseTracer> selectTracer(@Param("filters") String filters, @Param("sid") int sid, @Param("value") String value);
+    List<MaterialTracer> selectTracer(@Param("filters") String filters, @Param("sid") int sid, @Param("value") String value);
     //新增跟单员
-    Integer insertTracer(PurchaseTracer purchaseTracer);
+    Integer insertTracer(MaterialTracer purchaseTracer);
     //删除跟单员
     Integer deleteTracer(@Param("id") int id);
     //根据sid删除所有该业务员下的跟单员

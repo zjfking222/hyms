@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.PurchaseSalesmanMapper">
-    <resultMap id="BaseResultMap" type="com.hy.model.PurchaseSalesman">
+<mapper namespace="com.hy.mapper.ms.MaterialSalesmanMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.MaterialSalesman">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="salesmannum" property="salesmannum" jdbcType="VARCHAR" />
         <result column="salesmanname" property="salesmanname" jdbcType="VARCHAR" />
@@ -13,22 +13,22 @@
     <sql id="Base_Column_List" >
         id, salesmannum, salesmanname, creater, created, modifier, modified
     </sql>
-    <select id="selectSalesman" resultType="com.hy.model.PurchaseSalesman" parameterType="java.lang.String">
+    <select id="selectSalesman" resultType="com.hy.model.MaterialSalesman" parameterType="java.lang.String">
         select <include refid="Base_Column_List" />
-        from purchase_salesman
+        from material_salesman
         where 1=1
         <if test="value != null and '' != value">
             and (salesmannum = #{value} or salesmanname LIKE concat('%',#{value},'%'))
         </if>
     </select>
-    <insert id="insertSalesman" parameterType="com.hy.model.PurchaseSalesman">
-        insert into purchase_salesman
+    <insert id="insertSalesman" parameterType="com.hy.model.MaterialSalesman">
+        insert into material_salesman
         (salesmannum, salesmanname, creater, modifier)
         values
         (#{salesmannum}, #{salesmanname}, #{creater}, #{modifier})
     </insert>
     <delete id="deleteSalesman" parameterType="java.lang.Integer">
-        delete from purchase_salesman
+        delete from material_salesman
         where id = #{id}
     </delete>
 </mapper>
