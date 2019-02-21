@@ -5,7 +5,7 @@ package com.hy.dto;
  * @Date: 2019/1/22 10:25
  * @Description:
  */
-public class PurchaseTracerDto {
+public class MaterialTracerDto {
     private int id;
     private int sid;
     private String tracernum;

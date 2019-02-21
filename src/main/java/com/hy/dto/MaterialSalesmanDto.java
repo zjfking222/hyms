@@ -5,7 +5,7 @@ package com.hy.dto;
  * @Date: 2019/1/22 10:24
  * @Description:
  */
-public class PurchaseSalesmanDto {
+public class MaterialSalesmanDto {
     private int id;
     private String salesmannum;
     private String salesmanname;

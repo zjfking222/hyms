@@ -4,14 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.hy.common.SecurityUtil;
 import com.hy.dto.ExcelHeadDto;
 import com.hy.dto.MaterialInfoDto;
-import com.hy.dto.PurchaseSalesmanDto;
+import com.hy.dto.MaterialSalesmanDto;
 import com.hy.mapper.ms.MaterialInfoMapper;
-import com.hy.dto.PurchaseTracerDto;
-import com.hy.mapper.ms.PurchaseSalesmanMapper;
+import com.hy.dto.MaterialTracerDto;
+import com.hy.mapper.ms.MaterialSalesmanMapper;
 import com.hy.model.MaterialInfo;
-import com.hy.mapper.ms.PurchaseTracerMapper;
-import com.hy.model.PurchaseSalesman;
-import com.hy.model.PurchaseTracer;
+import com.hy.mapper.ms.MaterialTracerMapper;
+import com.hy.model.MaterialSalesman;
+import com.hy.model.MaterialTracer;
 import com.hy.utils.DTOUtil;
 import com.hy.utils.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -43,26 +43,26 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialPurchasingServiceImpl.class);
     @Autowired
-    private PurchaseSalesmanMapper purchaseSalesmanMapper;
+    private MaterialSalesmanMapper materialSalesmanMapper;
     @Autowired
     private MaterialInfoMapper materialInfoMapper;
     @Autowired
-    private PurchaseTracerMapper purchaseTracerMapper;
+    private MaterialTracerMapper materialTracerMapper;
 
     @Override
     //查询业务员信息
-    public List<PurchaseSalesmanDto> getSalesman(String value){
-        List<PurchaseSalesman> salesmanTracers = purchaseSalesmanMapper.selectSalesman(value);
-        return DTOUtil.populateList(salesmanTracers, PurchaseSalesmanDto.class);
+    public List<MaterialSalesmanDto> getSalesman(String value){
+        List<MaterialSalesman> salesmanTracers = materialSalesmanMapper.selectSalesman(value);
+        return DTOUtil.populateList(salesmanTracers, MaterialSalesmanDto.class);
     }
 
     @Override
     //新增业务员
-    public boolean addSalesman(PurchaseSalesmanDto purchaseSalesmanDto){
-        PurchaseSalesman purchaseSalesman = DTOUtil.populate(purchaseSalesmanDto, PurchaseSalesman.class);
+    public boolean addSalesman(MaterialSalesmanDto purchaseSalesmanDto){
+        MaterialSalesman purchaseSalesman = DTOUtil.populate(purchaseSalesmanDto, MaterialSalesman.class);
         purchaseSalesman.setCreater(SecurityUtil.getLoginid());
         purchaseSalesman.setModifier(SecurityUtil.getLoginid());
-        return purchaseSalesmanMapper.insertSalesman(purchaseSalesman) == 1;
+        return materialSalesmanMapper.insertSalesman(purchaseSalesman) == 1;
     }
 
     @Override
@@ -70,10 +70,10 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
     //删除业务员时需确认采购物资中是否含有业务员，删除业务员时同时删除跟单员
     public void delSalesman(int id){
         try {
-            if(purchaseSalesmanMapper.deleteSalesman(id) != 1){
+            if(materialSalesmanMapper.deleteSalesman(id) != 1){
                 throw new RuntimeException("删除业务员失败！");
             }
-            if(purchaseTracerMapper.deleteTracerBySid(id) > 0){
+            if(materialTracerMapper.deleteTracerBySid(id) > 0){
                 throw new RuntimeException("删除跟单员失败！");
             }
         }catch (Exception e) {
@@ -84,24 +84,24 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
 
     @Override
     //查询跟单员
-    public List<PurchaseTracerDto> getTracer(String filters, int sid, String value){
-        List<PurchaseTracer> purchaseTracers = purchaseTracerMapper.selectTracer(filters ,sid, value);
-        return DTOUtil.populateList(purchaseTracers, PurchaseTracerDto.class);
+    public List<MaterialTracerDto> getTracer(String filters, int sid, String value){
+        List<MaterialTracer> purchaseTracers = materialTracerMapper.selectTracer(filters ,sid, value);
+        return DTOUtil.populateList(purchaseTracers, MaterialTracerDto.class);
     }
 
     @Override
     //新增跟单员
-    public boolean addTracer(PurchaseTracerDto purchaseTracerDto){
-        PurchaseTracer purchaseTracer = DTOUtil.populate(purchaseTracerDto, PurchaseTracer.class);
+    public boolean addTracer(MaterialTracerDto purchaseTracerDto){
+        MaterialTracer purchaseTracer = DTOUtil.populate(purchaseTracerDto, MaterialTracer.class);
         purchaseTracer.setCreater(SecurityUtil.getLoginid());
         purchaseTracer.setModifier(SecurityUtil.getLoginid());
-        return purchaseTracerMapper.insertTracer(purchaseTracer) == 1;
+        return materialTracerMapper.insertTracer(purchaseTracer) == 1;
     }
 
     @Override
     //删除跟单员
     public boolean delTracer(int id){
-        return purchaseTracerMapper.deleteTracer(id) == 1;
+        return materialTracerMapper.deleteTracer(id) == 1;
     }
 
     @Override
@@ -234,8 +234,8 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
             //只读取第一张sheet
             Sheet sheet = workbook.getSheetAt(0);
             //当前业务员
-            List<PurchaseSalesman> salesList = purchaseSalesmanMapper.selectSalesman(null);
-            Map<String, PurchaseSalesman> salesMap = salesList.stream().collect(Collectors.toMap(PurchaseSalesman::getSalesmanname, a -> a, (k1, k2) -> k1));
+            List<MaterialSalesman> salesList = materialSalesmanMapper.selectSalesman(null);
+            Map<String, MaterialSalesman> salesMap = salesList.stream().collect(Collectors.toMap(MaterialSalesman::getSalesmanname, a -> a, (k1, k2) -> k1));
             List<MaterialInfo> list = new ArrayList<>();
             MaterialInfo info = null;
             for(int i=1;i<sheet.getLastRowNum() +1;i++){
@@ -568,7 +568,7 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
      * @Param [row, salesMap]
      * @return com.hy.model.MaterialInfo
      **/
-    private MaterialInfo parseMaterial(Row row, Map<String, PurchaseSalesman> salesMap){
+    private MaterialInfo parseMaterial(Row row, Map<String, MaterialSalesman> salesMap){
         MaterialInfo info = new MaterialInfo();
         info.setApplytype(this.parseString(row.getCell(0)));//申请类别
         info.setCompanyname(this.parseString(row.getCell(1)));//公司名称
@@ -587,7 +587,7 @@ public class MaterialPurchasingServiceImpl implements MaterialPurchasingService 
         if(StringUtils.isNotEmpty(name)){
             info.setEmpname(name);//业务员姓名
             if(salesMap != null){
-                PurchaseSalesman man = salesMap.get(name);
+                MaterialSalesman man = salesMap.get(name);
                 if(man != null){
                     info.setEmpnum(man.getSalesmannum());//业务员员工号
                 }
