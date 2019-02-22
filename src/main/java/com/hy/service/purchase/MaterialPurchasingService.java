@@ -1,9 +1,9 @@
 package com.hy.service.purchase;
 
 import com.hy.dto.MaterialInfoDto;
-import com.hy.dto.PurchaseSalesmanDto;
+import com.hy.dto.MaterialSalesmanDto;
 import com.hy.model.MaterialInfo;
-import com.hy.dto.PurchaseTracerDto;
+import com.hy.dto.MaterialTracerDto;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,15 +16,15 @@ import java.util.List;
  */
 public interface MaterialPurchasingService {
     //查询业务员信息
-    List<PurchaseSalesmanDto> getSalesman(String value);
+    List<MaterialSalesmanDto> getSalesman(String value);
     //新增业务员信息
-    boolean addSalesman(PurchaseSalesmanDto purchaseSalesmanDtos);
+    boolean addSalesman(MaterialSalesmanDto purchaseSalesmanDtos);
     //删除业务员
     void delSalesman(int id);
     //查询跟单员
-    List<PurchaseTracerDto> getTracer(String filters, int sid, String value);
+    List<MaterialTracerDto> getTracer(String filters, int sid, String value);
     //新增跟单员
-    boolean addTracer(PurchaseTracerDto purchaseTracerDto);
+    boolean addTracer(MaterialTracerDto purchaseTracerDto);
     //删除跟单员
     boolean delTracer(int id);
 

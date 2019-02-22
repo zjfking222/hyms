@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class LdapConnector {
 
-    @Autowired
     private static LdapConfig ldapConfig;
     private static LDAPConnection connection;
 

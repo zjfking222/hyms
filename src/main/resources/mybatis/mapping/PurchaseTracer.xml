@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hy.mapper.ms.PurchaseTracerMapper">
-    <resultMap id="BaseResultMap" type="com.hy.model.PurchaseTracer">
+<mapper namespace="com.hy.mapper.ms.MaterialTracerMapper">
+    <resultMap id="BaseResultMap" type="com.hy.model.MaterialTracer">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="sid" property="sid" jdbcType="INTEGER" />
         <result column="tracernum" property="tracernum" jdbcType="VARCHAR" />
@@ -16,7 +16,7 @@
     </sql>
     <select id="selectTracer" resultMap="BaseResultMap" parameterType="java.lang.String">
         select <include refid="Base_Column_List" />
-        from purchase_tracer
+        from material_tracer
         where sid = #{sid}
         <if test="value != null and '' != value">
             and (tracernum = #{value} or tracername LIKE concat('%',#{value},'%'))
@@ -25,18 +25,18 @@
             AND filters = filters
         </if>
     </select>
-    <insert id="insertTracer" parameterType="com.hy.model.PurchaseTracer">
-        insert into purchase_tracer
+    <insert id="insertTracer" parameterType="com.hy.model.MaterialTracer">
+        insert into material_tracer
         (sid, tracernum, tracername, creater, modifier)
         values
             (#{sid}, #{tracernum}, #{tracername}, #{creater}, #{modifier})
     </insert>
     <delete id="deleteTracer" parameterType="java.lang.Integer">
-        delete from purchase_tracer
+        delete from material_tracer
         where id = #{id}
     </delete>
     <delete id="deleteTracerBySid"  parameterType="java.lang.Integer">
-        delete from purchase_tracer
+        delete from material_tracer
         where sid = #{sid}
     </delete>
 </mapper>

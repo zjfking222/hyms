@@ -1,6 +1,6 @@
 package com.hy.mapper.ms;
 
-import com.hy.model.PurchaseSalesman;
+import com.hy.model.MaterialSalesman;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,11 +12,11 @@ import java.util.List;
  * @Description:业务员表mapper
  */
 @Repository
-public interface PurchaseSalesmanMapper {
+public interface MaterialSalesmanMapper {
     //查询业务员信息
-    List<PurchaseSalesman> selectSalesman(@Param("value") String value);
+    List<MaterialSalesman> selectSalesman(@Param("value") String value);
     //新增业务员信息
-    Integer insertSalesman(PurchaseSalesman purchaseSalesman);
+    Integer insertSalesman(MaterialSalesman purchaseSalesman);
     //根据id删除对应业务员
     Integer deleteSalesman(@Param("id") int id);
 }

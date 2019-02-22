@@ -3,11 +3,10 @@ package com.hy.controller.purchase;
 import com.hy.common.ResultObj;
 import com.hy.common.SecurityUtil;
 import com.hy.dto.MaterialInfoDto;
-import com.hy.dto.PurchaseSalesmanDto;
-import com.hy.dto.PurchaseTracerDto;
+import com.hy.dto.MaterialSalesmanDto;
+import com.hy.dto.MaterialTracerDto;
 import com.hy.enums.ResultCode;
 import com.hy.service.purchase.MaterialPurchasingService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,7 @@ public class MaterialPurchasingController {
 
     @PostMapping("/salesman/addSalesman")
     //新增业务员
-    public ResultObj addSalesman(PurchaseSalesmanDto purchaseSalesmanDto){
+    public ResultObj addSalesman(MaterialSalesmanDto purchaseSalesmanDto){
         return materialPurchasingService.addSalesman(purchaseSalesmanDto) ?
                 ResultObj.success() :
                 ResultObj.error(ResultCode.ERROR_ADD_FAILED);
@@ -68,7 +67,7 @@ public class MaterialPurchasingController {
 
     @PostMapping("/tracer/addTracer")
     //新增跟单员
-    public ResultObj addTracer(PurchaseTracerDto purchaseTracerDto){
+    public ResultObj addTracer(MaterialTracerDto purchaseTracerDto){
         return materialPurchasingService.addTracer(purchaseTracerDto) ?
                 ResultObj.success() :
                 ResultObj.error(ResultCode.ERROR_ADD_FAILED);
