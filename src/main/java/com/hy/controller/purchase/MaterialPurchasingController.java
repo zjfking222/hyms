@@ -61,7 +61,7 @@ public class MaterialPurchasingController {
 
     @PostMapping("/tracer/getTracer")
     //查询跟单员
-    public ResultObj getTracer(@RequestParam(required = false) String filters, int sid, @RequestParam(required = false) String value){
+    public ResultObj getTracer(@RequestParam(required = false) String filters, Integer sid, @RequestParam(required = false) String value){
         return ResultObj.success(materialPurchasingService.getTracer(filters, sid, value));
     }
 

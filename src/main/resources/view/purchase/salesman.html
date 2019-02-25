@@ -11,7 +11,6 @@
         }
 
         #menus {
-            width: 80%;
             margin: 0 auto;
         }
 
@@ -20,6 +19,7 @@
         }
 
         .sidebar {
+            width:269px;
             position: fixed;
             top: 0;
             bottom: 0;
@@ -120,8 +120,10 @@
 
         #treeview {
             position: absolute;
-            left: 262px;
+            padding-left: 269px;
             border: 0;
+            width: 100%;
+            height: 97%;
         }
 
         li:hover {
@@ -171,7 +173,7 @@
             </li>
         </ul>
     </div>
-    <iframe id="treeview" height="100%" width="75%">
+    <iframe id="treeview">
     </iframe>
 </div>
 
@@ -205,7 +207,8 @@
     function dataSalesmanAll() {
         return FetchData(null, 'POST', '/purchase/material/getEmpnumAll', false).data;
     }
-
+    //适应火狐浏览器重载页面时会加载地址的问题，手动初始化清空
+    $('#treeview').attr('src', '');
     var vm = new Vue({
         el: '#left',
         data: {

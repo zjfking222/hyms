@@ -22,7 +22,8 @@ function dataSourceSearch(name) {
 function dataSourceList(rid) {
     return FetchData({rid: rid},'POST','/rolesPm/get',false).data;
 }
-
+//适应火狐浏览器重载页面时会加载地址的问题，手动初始化清空
+$('#treeview').attr('src', '');
 var vm = new Vue({
     el: '#left',
     data: {

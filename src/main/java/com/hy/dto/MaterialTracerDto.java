@@ -6,24 +6,24 @@ package com.hy.dto;
  * @Description:
  */
 public class MaterialTracerDto {
-    private int id;
-    private int sid;
+    private Integer id;
+    private Integer sid;
     private String tracernum;
     private String tracername;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getSid() {
+    public Integer getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(Integer sid) {
         this.sid = sid;
     }
 
