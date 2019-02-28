@@ -19,7 +19,13 @@
 <script>
     var pushData;
     var code = 'qzgz_news_figure';
-    var type = FetchData({code: code}, 'POST', '/qzgz/admin/getNewsType', false).data;
+    var typecode = FetchData({code: code}, 'POST', '/qzgz/admin/getNewsType', false).data;
+    var type = [];
+    if(typecode){
+        for (var i = 0; i < typecode.length; i++) {
+            type.push({text: typecode[i].name, value: typecode[i].id});
+        }
+    }
     var vm = new Vue({
         el: "",
         data: {
@@ -59,7 +65,7 @@
                     {field: "title", title: "标题", headerAttributes: {"class": "grid-algin-center"}, width: '250px'},
                     {field: "description", title: "描述", headerAttributes: {"class": "grid-algin-center"}, width: '140px'},
                     {field: "url", title: "文字路径", headerAttributes: {"class": "grid-algin-center"}, width: '260px'},
-                    {field: "type", title: "新闻类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px'},
+                    {field: "type", title: "新闻类型", headerAttributes: {"class": "grid-algin-center"}, width: '120px',values:type},
                     {
                         command: [{
                             name: "showitem", text: "编辑", iconClass: "k-icon k-i-edit",
@@ -110,13 +116,6 @@
                                 method: 'POST',
                                 success: function (result) {
                                     if (result.code === 0) {
-                                        for (var i = 0; i < result.data.data.length; i++){
-                                            for (var j = 0; j < type.length; j++){
-                                                if(result.data.data[i].type === type[j].id){
-                                                    result.data.data[i].type = type[j].name;
-                                                }
-                                            }
-                                        }
                                         options.success({data: result.data.data, total: result.data.total});
                                     }
                                     else
@@ -156,7 +155,7 @@
                                 title: {type: "string", nullable: false},
                                 description: {type: "string", nullable: false},
                                 url: {type: "string", nullable: false},
-                                type: {type: "string", nullable: false}
+                                type: {type: "number", nullable: false}
                             }
                         }
                     },
