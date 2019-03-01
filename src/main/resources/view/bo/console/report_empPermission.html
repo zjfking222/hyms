@@ -17,6 +17,7 @@
             text-align: center;
         }
         .sidebar {
+            width:269px;
             position: fixed;
             top: 0;
             bottom: 0;
@@ -106,7 +107,7 @@
             border: 0;
             width: 100%;
             height: 100%;
-            padding-left: 262px;
+            padding-left: 269px;
         }
         li:hover{
             background: #eee;
@@ -131,7 +132,7 @@
     </style>
 </head>
 <body>
-    <div id="left" class="sidebar" style="width: 262px;">
+    <div id="left" class="sidebar">
         <input v-model="data0" class="form-control" style="display: inline-block!important;" id="search" placeholder="输入搜索信息...">
         <button id="btn-add" @click="onAdd"></button>
         <ul class="nav nav-sidebar" id="rolenav">

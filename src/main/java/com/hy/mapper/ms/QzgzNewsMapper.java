@@ -15,9 +15,9 @@ import java.util.List;
 @Repository
 public interface QzgzNewsMapper {
     //根据新闻类型id查询新闻信息
-    List<QzgzNews> selectNews(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort, @Param("dir") String dir,@Param("list")  List<SysDict> list);
+    List<QzgzNews> selectNews(@Param("filters")String filters, @Param("value") String value, @Param("sort") String sort, @Param("dir") String dir,@Param("code") String code);
     //根据新闻类型id查询新闻信息总条数，用于分页
-    Integer selectNewsTotal(@Param("filters")String filters, @Param("value") String value, @Param("list") List<SysDict> list);
+    Integer selectNewsTotal(@Param("filters")String filters, @Param("value") String value, @Param("code") String code);
     //删除新闻类型时根据type查询是否有新闻
     Integer selectNewTypeDel(@Param("type") int type);
     //新增新闻

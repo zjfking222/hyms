@@ -93,11 +93,6 @@ var vm = new Vue({
                             success: function (result) {
                                 if (result.code === 0) {
                                     options.success({data: result.data.data, total: result.data.total});
-                                    if(allMap){//由于kendo自身设计原因，使用筛选功能后其总条数显示不正确，故另加语句改回来
-                                        var content = $(".k-pager-info.k-label")[0].innerHTML;
-                                        content = content.substring(0,content.indexOf("共")+1) + " " + result.data.total + " 条数据";
-                                        $(".k-pager-info.k-label")[0].innerHTML = content;
-                                    }
                                 }
                                 else
                                     options.error(result);
@@ -163,7 +158,7 @@ var vm = new Vue({
                 },
                 pageSize: 15,
                 serverPaging: true,
-                // serverFiltering: true,
+                serverFiltering: true,
                 serverSorting: true
             });
         },
