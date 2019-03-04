@@ -128,7 +128,7 @@
     <select id="selectChildByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
         select <include refid="Base_Column_List" />
         from sys_dict where deleteFlag = 0
-        and pid =(select id from sys_dict where code=#{code})
+        and pid =(select id from sys_dict where code=#{code} and deleteFlag = 0)
     </select>
     <select id="selectByCode" resultType="com.hy.model.SysDict" parameterType="java.lang.String">
         select <include refid="Base_Column_List" />

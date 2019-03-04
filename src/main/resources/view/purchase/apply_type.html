@@ -139,7 +139,7 @@
             },
             add: function () {
                 layer.close(vm.layItem);
-                if(parentDic || parentDic.id){
+                if(!parentDic.id){
                     //不存在父节点，则不允许添加子节点
                     layer.alert("尚未初始化申请类别，无法添加，请联系管理员");
                     return;
