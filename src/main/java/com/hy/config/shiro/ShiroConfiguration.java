@@ -192,8 +192,11 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/index/logout", " logout");
         //恒拓app接入验证
         filterChainDefinitionMap.put("/index/app/workPlusLogin", "anon");
-        //忘记密码
+        //忘记密码设置到恒拓登录页，故需要开放访问
         filterChainDefinitionMap.put("/m/identity/passwordForgot.html", "anon");
+        filterChainDefinitionMap.put("/app/identity/checkSendMdefVerCode", "anon");
+        filterChainDefinitionMap.put("/app/identity/resetForgotPassword", "anon");
+        filterChainDefinitionMap.put("/m/identity/passwordSuccess.html", "anon");
         //BO报表登录
         filterChainDefinitionMap.put("/bo/index/*", "anon");
 
