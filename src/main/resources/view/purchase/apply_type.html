@@ -139,6 +139,11 @@
             },
             add: function () {
                 layer.close(vm.layItem);
+                if(parentDic || parentDic.id){
+                    //不存在父节点，则不允许添加子节点
+                    layer.alert("尚未初始化申请类别，无法添加，请联系管理员");
+                    return;
+                }
                 pushData = {
                     id: 0
                 };
@@ -158,7 +163,7 @@
             edit:function () {
                 layer.close(vm.layItem);
                 this.layItem = layer.open({
-                    title: '编辑动态新闻类别',
+                    title: '编辑申请类别',
                     type: 2,
                     area: ['300px', '50%'],
                     fixed: false, //不固定
