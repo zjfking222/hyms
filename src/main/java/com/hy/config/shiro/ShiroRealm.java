@@ -93,9 +93,6 @@ public class ShiroRealm extends AuthorizingRealm {
         if(!LdapUtil.checkAuthentication(loginId, depassword)){//ad域中身份验证通过，则继续，否则抛出异常
             throw new IncorrectCredentialsException();
         }
-        //保存当前用户的登录密码到数据库中
-        user.setPassword(depassword);
-        sysUsersService.updateUser(user);
         //原为使用oa系统的账号，现已废弃
         //获取当前系统中的账号
         /*List<SysUsersDto> users = sysUsersService.getUsersByLoginid(loginId);
@@ -108,7 +105,7 @@ public class ShiroRealm extends AuthorizingRealm {
         if (hrmResource == null) {
             throw new UnknownAccountException();
         }*/
-        ShiroUserInfo userInfo = new ShiroUserInfo(aduser.getId(), aduser.getName(), password, aduser.getDepid(), aduser.getDepname(), aduser.getDuty(), null, aduser.getPhone());
+        ShiroUserInfo userInfo = new ShiroUserInfo(aduser.getId(), aduser.getName(), depassword, aduser.getDepid(), aduser.getDepname(), aduser.getDuty(), null, aduser.getPhone());
         return new SimpleAuthenticationInfo(userInfo, password, getName());
     }
 
