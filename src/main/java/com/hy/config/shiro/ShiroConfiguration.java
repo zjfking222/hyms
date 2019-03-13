@@ -199,6 +199,9 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/m/identity/passwordSuccess.html", "anon");
         //BO报表登录
         filterChainDefinitionMap.put("/bo/index/*", "anon");
+        //恒拓对接开放
+        filterChainDefinitionMap.put("/WPJoint/index/**", "anon");
+        filterChainDefinitionMap.put("/unauthorized/**", "anon");
 
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         //自定义加载权限资源关系
