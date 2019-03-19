@@ -213,6 +213,13 @@ public class SelfHelpServiceImpl implements SelfHelpService {
         if(codes.getNumRows() >0){
             dto = new SapBaseInfoDto();
             JcoUtil.getInfoFromTable(codes, dto);
+            //修改工龄显示格式
+            if(StringUtils.isNotEmpty(dto.getZsl())){
+                String[] zsl = dto.getZsl().split("\\.");
+                if(zsl != null && zsl.length >2){
+                    dto.setZsl(zsl[0] + "年" + zsl[1] + "月" + zsl[2] + "天");
+                }
+            }
         }
         return dto;
     }
