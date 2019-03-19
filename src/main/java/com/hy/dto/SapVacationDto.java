@@ -16,7 +16,7 @@ public class SapVacationDto {
     //已休时数
     private String zyxss;
     //剩余时数
-    private String zsysj;
+    private String zsyss;
 
     public String getPernr() {
         return pernr;
@@ -50,11 +50,11 @@ public class SapVacationDto {
         this.zyxss = zyxss;
     }
 
-    public String getZsysj() {
-        return zsysj;
+    public String getZsyss() {
+        return zsyss;
     }
 
-    public void setZsysj(String zsysj) {
-        this.zsysj = zsysj;
+    public void setZsyss(String zsyss) {
+        this.zsyss = zsyss;
     }
 }
