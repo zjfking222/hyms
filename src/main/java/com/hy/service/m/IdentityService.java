@@ -1,5 +1,7 @@
 package com.hy.service.m;
 
+import com.sap.conn.jco.JCoFunction;
+
 /**
  * @Auther: 钱敏杰
  * @Date: 2018/11/20 15:58
@@ -69,4 +71,6 @@ public interface IdentityService {
      * @return boolean
      **/
     boolean checkIdPhone(String uid, String phone);
+
+    boolean checkIdPhoneBySAP(JCoFunction function, String phone);
 }

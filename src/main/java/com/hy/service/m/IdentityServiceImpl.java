@@ -1,16 +1,24 @@
 package com.hy.service.m;
 
 import com.hy.common.SecurityUtil;
+import com.hy.config.jco.JcoUtil;
 import com.hy.config.ldap.LdapUtil;
+import com.hy.config.shiro.RedisCacheManager;
+import com.hy.config.shiro.ShiroCache;
 import com.hy.config.ums.UmsClient;
+import com.hy.dto.SapBaseInfoDto;
 import com.hy.model.LdapStaff;
 import com.hy.utils.RSAUtil;
+import com.sap.conn.jco.JCoFunction;
+import com.sap.conn.jco.JCoTable;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -27,6 +35,11 @@ public class IdentityServiceImpl implements IdentityService {
     //RSA加密私钥
     @Value("${rsa.private.key}")
     private String privateKey;
+    //redis缓存
+    @Autowired
+    private RedisCacheManager redisCacheManager;
+    //短信验证码保存key
+    private String smsKey = "IdentityServiceImpl:sendM:";
 
     /**
      * @Author 钱敏杰
@@ -45,7 +58,10 @@ public class IdentityServiceImpl implements IdentityService {
             throw new RuntimeException("短信发送失败！错误描述：" + result.get(UmsClient.UMS_DESCRIPTION));
         }
         //保存验证码到缓存
-        SecurityUtil.setAttribute(codeKey + phone, code);
+        String key = smsKey + phone;
+        ShiroCache<Serializable, Object> cache = (ShiroCache) redisCacheManager.getCache(key);
+        //只保存10分钟
+        cache.put(key, code, 600);
     }
 
     /**
@@ -57,13 +73,18 @@ public class IdentityServiceImpl implements IdentityService {
      **/
     @Override
     public boolean checkVerCode(String code, String phone){
-        //取出session中的验证码
-        String oldCode = (String)SecurityUtil.getAttribute(codeKey + phone);
-        if(StringUtils.isNotEmpty(code) && code.equals(oldCode)){
-            return true;
-        }else{
-            return false;
+        //取出redis中的验证码
+        String key = smsKey + phone;
+        ShiroCache<Serializable, Object> cache = (ShiroCache) redisCacheManager.getCache(key);
+        if(cache != null){
+            String oldCode = (String)cache.get(key);
+            if(StringUtils.isNotEmpty(code) && code.equals(oldCode)){
+                cache.remove(key);
+                return true;
+            }
+            cache.remove(key);
         }
+        return false;
     }
 
     /**
@@ -180,5 +201,21 @@ public class IdentityServiceImpl implements IdentityService {
         }else{
             return false;
         }
+    }
+
+    @Override
+    public boolean checkIdPhoneBySAP(JCoFunction function, String phone){
+        //取出数据表数据
+        JCoTable codes = JcoUtil.getTable(function, "ZHR_PSNDOC");
+        SapBaseInfoDto dto = null;
+        //存在数据，则返回
+        if(codes.getNumRows() >0) {
+            dto = new SapBaseInfoDto();
+            JcoUtil.getInfoFromTable(codes, dto);
+            if(StringUtils.isNotEmpty(phone) && phone.equals(dto.getZphone())){
+                return true;
+            }
+        }
+        return false;
     }
 }
