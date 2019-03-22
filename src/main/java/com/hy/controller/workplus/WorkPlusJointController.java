@@ -66,7 +66,7 @@ public class WorkPlusJointController {
                 data = WorkPlusUtils.getAccessToken();
                 status = (Integer) data.get("status");
                 if (status != 0) {
-                    throw new RuntimeException("无法获取AccessToken！");
+                    throw new RuntimeException("无法获取AccessToken！status:" + status + "；message:" + data.get("message"));
                 }
                 Map<String, Object> result = (Map<String, Object>) data.get("result");
                 accessToken = (String) result.get("access_token");
