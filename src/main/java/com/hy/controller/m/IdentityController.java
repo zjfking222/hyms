@@ -5,12 +5,12 @@ import com.hy.common.SecurityUtil;
 import com.hy.config.shiro.ShiroUserInfo;
 import com.hy.enums.ResultCode;
 import com.hy.service.m.IdentityService;
+import com.hy.service.m.SelfHelpService;
 import com.hy.utils.VerificationCodeUtil;
+import com.sap.conn.jco.JCoFunction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 /**
@@ -24,6 +24,8 @@ public class IdentityController {
 
     @Autowired
     private IdentityService identityService;
+    @Autowired
+    private SelfHelpService selfHelpService;
 
     /**
      * @Author 钱敏杰
@@ -58,11 +60,16 @@ public class IdentityController {
         return ResultObj.success();
     }
 
+    @CrossOrigin
     @PostMapping("/checkSendMdefVerCode")
     public ResultObj checkSendMdefVerCode(@RequestBody Map<String, String> data){
         String uid = data.get("uid");
         String phone = data.get("phone");
-        if(!identityService.checkIdPhone(uid, phone)){//身份验证
+        JCoFunction function = selfHelpService.getEmployeeFunction(uid);
+        int i = identityService.checkIdPhoneBySAP(function, phone);
+        if(i==2){
+            return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
+        }else if(i==1){
             return ResultObj.error(ResultCode.ERROR_USER_AND_PHONE);
         }else{
             //生成6位随机数字字符串
@@ -127,6 +134,7 @@ public class IdentityController {
      * @Param [data]
      * @return com.hy.common.ResultObj
      **/
+    @CrossOrigin
     @PostMapping("/resetForgotPassword")
     public ResultObj resetForgotPassword(@RequestBody Map<String, String> data){
         String uid = data.get("uid");
@@ -134,8 +142,12 @@ public class IdentityController {
         String code = data.get("code");
         String newPassword = data.get("newPassword");
         String newPassword2 = data.get("newPassword2");
-        if(!identityService.checkIdPhone(uid, phone)){//身份验证
+        JCoFunction function = selfHelpService.getEmployeeFunction(uid);
+        int i = identityService.checkIdPhoneBySAP(function, phone);
+        if(i==1){//身份验证
             return ResultObj.error(ResultCode.ERROR_USER_AND_PHONE);
+        }else if(i==2){
+            return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
         }else if(!identityService.checkVerCode(code, phone)){//检查短信验证码是否正确
             return ResultObj.error(ResultCode.ERROR_USER_VERIFICATIONCODE);
         }else if(!identityService.checkPasswords(newPassword, newPassword2)){//新密码输入验证

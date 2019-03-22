@@ -5,7 +5,7 @@ public enum ResultCode {
     ERROR_USER_UNMATCH(1002, "帐号密码不匹配"),
     ERROR_USER_VERIFICATIONCODE(1003, "验证码错误"),
     ERROR_USER_PASSWORD_AGREE(1004, "密码不一致"),
-    ERROR_USER_AND_PHONE(1005, "员工号与手机号不匹配"),
+    ERROR_USER_AND_PHONE(1005, "员工号与手机号不匹配，请联系人资修改"),
     ERROR_USER_VERCODE_CREATE(1006, "验证码生成失败"),
     ERROR_UNKNOWN(2001, "未知异常"),
     ERROR_INVALID_PARAMETER(2002, "方法参数错误"),
