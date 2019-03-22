@@ -79,8 +79,10 @@ public class IdentityServiceImpl implements IdentityService {
         if(cache != null){
             String oldCode = (String)cache.get(key);
             if(StringUtils.isNotEmpty(code) && code.equals(oldCode)){
+                cache.remove(key);
                 return true;
             }
+            cache.remove(key);
         }
         return false;
     }
