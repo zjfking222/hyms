@@ -202,7 +202,7 @@ public class IdentityServiceImpl implements IdentityService {
     }
 
     @Override
-    public int checkIdPhoneBySAP(JCoFunction function, String phone){
+    public boolean checkIdPhoneBySAP(JCoFunction function, String phone){
         //取出数据表数据
         JCoTable codes = JcoUtil.getTable(function, "ZHR_PSNDOC");
         SapBaseInfoDto dto = null;
@@ -211,15 +211,9 @@ public class IdentityServiceImpl implements IdentityService {
             dto = new SapBaseInfoDto();
             JcoUtil.getInfoFromTable(codes, dto);
             if(StringUtils.isNotEmpty(phone) && phone.equals(dto.getZphone())){
-                //一致
-                return 0;
-            }else{
-                //不一致
-                return 1;
+                return true;
             }
-        }else{
-            //不存在员工
-            return 2;
         }
+        return false;
     }
 }

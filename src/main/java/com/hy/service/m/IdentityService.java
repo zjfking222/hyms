@@ -72,5 +72,5 @@ public interface IdentityService {
      **/
     boolean checkIdPhone(String uid, String phone);
 
-    int checkIdPhoneBySAP(JCoFunction function, String phone);
+    boolean checkIdPhoneBySAP(JCoFunction function, String phone);
 }

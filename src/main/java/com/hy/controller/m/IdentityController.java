@@ -65,11 +65,13 @@ public class IdentityController {
     public ResultObj checkSendMdefVerCode(@RequestBody Map<String, String> data){
         String uid = data.get("uid");
         String phone = data.get("phone");
-        JCoFunction function = selfHelpService.getEmployeeFunction(uid);
-        int i = identityService.checkIdPhoneBySAP(function, phone);
-        if(i==2){
+        JCoFunction function = null;
+        try{
+            function = selfHelpService.getEmployeeFunction(uid);
+        }catch(RuntimeException e){
             return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
-        }else if(i==1){
+        }
+        if(!identityService.checkIdPhoneBySAP(function, phone)){//身份验证
             return ResultObj.error(ResultCode.ERROR_USER_AND_PHONE);
         }else{
             //生成6位随机数字字符串
@@ -142,12 +144,14 @@ public class IdentityController {
         String code = data.get("code");
         String newPassword = data.get("newPassword");
         String newPassword2 = data.get("newPassword2");
-        JCoFunction function = selfHelpService.getEmployeeFunction(uid);
-        int i = identityService.checkIdPhoneBySAP(function, phone);
-        if(i==1){//身份验证
-            return ResultObj.error(ResultCode.ERROR_USER_AND_PHONE);
-        }else if(i==2){
+        JCoFunction function = null;
+        try{
+            function = selfHelpService.getEmployeeFunction(uid);
+        }catch(RuntimeException e){
             return ResultObj.error(ResultCode.ERROR_USER_UNEXISTS);
+        }
+        if(!identityService.checkIdPhoneBySAP(function, phone)){//身份验证
+            return ResultObj.error(ResultCode.ERROR_USER_AND_PHONE);
         }else if(!identityService.checkVerCode(code, phone)){//检查短信验证码是否正确
             return ResultObj.error(ResultCode.ERROR_USER_VERIFICATIONCODE);
         }else if(!identityService.checkPasswords(newPassword, newPassword2)){//新密码输入验证
