@@ -119,16 +119,17 @@ public class SelfHelpController {
         SapBaseInfoDto base = selfHelpService.getBaseInfo(function);
         //取合同信息
         SapContractInfoDto ht = selfHelpService.getContractInfo(function);
+        /*职称与资格证书不再显示
         //取职称信息
         List<SapTechTitleDto> tt = selfHelpService.getTechTitleInfo(function);
         //取资格证书信息
-        List<SapQuaCertificateDto> qc = selfHelpService.getQuaCertificateInfo(function);
+        List<SapQuaCertificateDto> qc = selfHelpService.getQuaCertificateInfo(function);*/
         //整合数据
         Map<String, Object> result = new HashMap<>();
         result.put("base", base);
         result.put("ht", ht);
-        result.put("tt", tt);
-        result.put("qc", qc);
+        /*result.put("tt", tt);
+        result.put("qc", qc);*/
         return ResultObj.success(result);
     }
 
