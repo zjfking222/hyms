@@ -76,7 +76,14 @@ var vm = new Vue({
                 if(data && data[key]){
                     this.$data[key] = data[key];
                     if(data[key].recnum<2){//刷卡记录小于2条，则标红
-                        mui(".canChoose")[key-1].classList.add("error")
+                        var number = mui(".canChoose")[key-1].innerHTML;
+                        number = number.replace("blank-out", "circle-out");
+                        number = number.replace("blank-in", "circle-in");
+                        mui(".canChoose")[key-1].innerHTML = number;
+                    }else{//正常完成每天2次打卡则在数字下加蓝点
+                        var number = mui(".canChoose")[key-1].innerHTML;
+                        number = number.replace("blank-in", "normal");
+                        mui(".canChoose")[key-1].innerHTML = number;
                     }
                 }else{
                     this.$data[key] = "";

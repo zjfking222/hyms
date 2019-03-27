@@ -54,17 +54,27 @@
 		};
 		// 显示当前时间
 		content.addEventListener(evt.type,function (event) {
-		    if(event.target.tagName.toLowerCase()=="div" && event.target.nodeType=="1" && hasclass(event.target.className,"canChoose")){
-				var day = event.target.innerHTML;
-				dateObj = new Date(getYear(dateObj), getMonth(dateObj)-1, day);
-				var week = getWeek(dateObj);
-				opt.callback({
-					'year': getYear(dateObj),
-					'month':  getMonth(dateObj),
-					'day': day,
-					'week': week
-				});
-			}
+            if(event.target.tagName.toLowerCase()=="div" && event.target.nodeType=="1" && hasclass(event.target.className,"canChoose")){
+                var day = event.target.querySelector("span").firstChild.textContent;
+                dateObj = new Date(getYear(dateObj), getMonth(dateObj)-1, day);
+                var week = getWeek(dateObj);
+                opt.callback({
+                    'year': getYear(dateObj),
+                    'month':  getMonth(dateObj),
+                    'day': day,
+                    'week': week
+                });
+            }else if(event.target.tagName.toLowerCase()=="span"){
+                var day = event.target.innerText;
+                dateObj = new Date(getYear(dateObj), getMonth(dateObj)-1, day);
+                var week = getWeek(dateObj);
+                opt.callback({
+                    'year': getYear(dateObj),
+                    'month':  getMonth(dateObj),
+                    'day': day,
+                    'week': week
+                });
+            }
 		});
 
 		// 上一月
@@ -200,7 +210,7 @@
 			if(date.getMonth()+1 == month && date.getFullYear() == year && i==date.getDate()){//标记今天这个时间点
 				subContent.classList.add("today");
 			}
-			subContent.innerHTML = i;
+			subContent.innerHTML = '<span class="blank-out"><span class="blank-in">' + i + '</span></span>';
 			el.appendChild(subContent);
 		}
 	}

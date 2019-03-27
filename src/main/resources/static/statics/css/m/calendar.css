@@ -109,7 +109,38 @@ ul{
 .calendar-content div.today{
 	color:#09F;
 }
-.calendar-content div.error{
-	border-radius: 50%;
-	border:1px solid #F00
+.calendar-content span.blank-out{
+	/*内部空样式，只方便于样式的替换*/
 }
+.calendar-content span.blank-in{
+	/*内部空样式，只方便于样式的替换*/
+}
+.calendar-content span.circle-out{
+	border-radius:50%;
+	height:20px;
+	width:20px;
+	display:inline-block;
+	background:#f30303;
+}
+.calendar-content span.circle-in{
+	display: block;
+	color:#FFFFFF;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+}
+.calendar-content span.normal{
+	position: relative;
+}
+.calendar-content span.normal::before {
+	position: absolute;
+	content: '';
+	top: 1.25rem;
+	left: 50%;
+	margin-left: -0.125rem;
+	width: 0.25rem;
+	height: 0.25rem;
+	border-radius: 0.5rem;
+	background-color: #0062cc;
+}
+

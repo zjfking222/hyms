@@ -11,13 +11,6 @@
         <div class="mui-row">
             <div class="mui-col-sm-12 mui-col-xs-12">
                 <div class="mui-table-view-cell">
-                    <a class="mui-navigate-right scheduling-btn">
-                        工作排班表
-                    </a>
-                </div>
-            </div>
-            <div class="mui-col-sm-12 mui-col-xs-12">
-                <div class="mui-table-view-cell">
                     <a class="mui-navigate-right record-btn">
                         原始刷卡记录信息
                     </a>
@@ -38,19 +31,6 @@
     <script type="text/javascript">
         $(document).ready(function(){
             mui.init();
-            //跳转工作排班查询结果页面
-            mui(document.body).on('tap', '.scheduling-btn', function(e) {
-                if("hyms" == parent.parentFlag){//本系统
-                    //获取当前页面的title
-                    var title = mui(".scheduling-btn")[0].text;
-                    //调用父页面方法跳转当前子页面
-                    parent.loadIframe("/m/selfhelp/scheduling.html", null);
-                    //更改标题
-                    parent.updateTitle(title);
-                }else{//恒拓的app，直接跳转
-                    window.location.href="/m/selfhelp/scheduling.html";
-                }
-            });
             //跳转刷卡记录查询结果页面
             mui(document.body).on('tap', '.record-btn', function(e) {
                 if("hyms" == parent.parentFlag){//本系统
